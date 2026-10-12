@@ -57,6 +57,12 @@ export async function widgetPush(json) {
   try { await plugin('WidgetBridge').update({ json }); } catch { /* widgets not available in this build */ }
 }
 
+// What the home-screen widgets queued while the app was closed (ticked tasks, habits) and which tab was tapped.
+export async function widgetTake() {
+  if (!isNative()) return { ops: [], target: '' };
+  try { const r = await plugin('WidgetBridge').take(); return { ops: JSON.parse(r.ops || '[]'), target: r.target || '' }; } catch { return { ops: [], target: '' }; }
+}
+
 // Hardware back button: go to Today first, then leave the app.
 export function initBackButton(isHome, goHome) {
   if (!isNative()) return;

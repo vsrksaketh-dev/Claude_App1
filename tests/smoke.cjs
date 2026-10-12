@@ -155,7 +155,7 @@ const ok = (name, cond) => { console.log((cond ? 'PASS ' : 'FAIL ') + name); if 
       Filesystem: { writeFile: async o => ({ uri: 'file:///cache/' + o.path }) },
       Share: { share: async o => { window.__shared.push(o.url); } },
       App: { addListener: async () => ({ remove() {} }), exitApp: async () => {} },
-      WidgetBridge: { update: async o => { window.__widget = JSON.parse(o.json); } },
+      WidgetBridge: { update: async o => { window.__widget = JSON.parse(o.json); }, take: async () => { const r = window.__take || { ops: '[]', target: '' }; window.__take = null; return r; } },
       LocalNotifications: { checkPermissions: async () => ({ display: 'granted' }), requestPermissions: async () => ({ display: 'granted' }), getPending: async () => ({ notifications: [] }), cancel: async () => {}, schedule: async o => { window.__scheduled.push(...o.notifications); } },
     } };
   }, fakeIcs);
@@ -169,7 +169,18 @@ const ok = (name, cond) => { console.log((cond ? 'PASS ' : 'FAIL ') + name); if 
   await n.check('[data-form=reminders] [name=on]'); await n.click('[data-form=reminders] button.primary'); await n.waitForTimeout(400);
   await n.waitForTimeout(900);
   const snap = await n.evaluate(() => window.__widget);
-  ok('widget snapshot is pushed to the native side', !!snap && snap.v === 1 && Array.isArray(snap.events) && snap.events.some(e => /Native bridge event/.test(e.title)) && Array.isArray(snap.tasks) && !!snap.habits);
+  ok('widget snapshot is pushed to the native side', !!snap && snap.v === 2 && Array.isArray(snap.events) && snap.events.some(e => /Native bridge event/.test(e.title)) && Array.isArray(snap.tasks) && !!snap.habits);
+  ok('snapshot carries habits, tasks and news for the widgets', snap.v === 2 && Array.isArray(snap.habitList) && snap.habitList.length > 0 && Array.isArray(snap.news));
+  await n.evaluate(async () => { const c = await import('/js/core.js'); c.S.tasks.push({ id: 'wtask', title: 'Ticked from a widget', done: false, important: true, kind: 'Task' }); c.S.habits.length && (window.__hid = c.S.habits[0].id); c.commit(); });
+  await n.evaluate(() => { window.__take = { ops: JSON.stringify([{ t: 'task', id: 'wtask' }, { t: 'habit', id: window.__hid }]), target: 'learn:news' }; window.dispatchEvent(new Event('widgetOpen')); });
+  await n.waitForTimeout(500);
+  ok('a widget tap opens the tab it asked for', /Learn/.test(await n.textContent('h1')) && await n.locator('.tabs button.on:has-text("News")').count() === 1);
+  ok('things ticked on a widget are applied', await n.evaluate(async () => { const c = await import('/js/core.js'); return c.S.tasks.find(x => x.id === 'wtask').done && !!Object.values(c.S.habitLog)[0]?.[window.__hid]; }));
+  await n.evaluate(() => { window.__take = { ops: '[]', target: 'plan:tasks:add' }; window.dispatchEvent(new Event('widgetOpen')); });
+  await n.waitForTimeout(300);
+  ok('a widget can open the add task sheet', await n.locator('.sheet').count() === 1);
+  await n.evaluate(async () => { const c = await import('/js/core.js'); c.ui.sub.addTask = false; c.go('home'); });
+  await n.click('[data-nav=settings]');
   ok('native notifications get scheduled', (await n.evaluate(() => window.__scheduled.map(x => x.title))).includes('Plan your day'));
   await n.click('[data-act=export]'); await n.waitForTimeout(400);
   ok('native backup opens the share sheet', (await n.evaluate(() => window.__shared)).some(u => /daily-driver-.*\.json$/.test(u)));

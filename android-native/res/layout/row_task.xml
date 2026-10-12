@@ -1,25 +1,43 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/rowroot"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:gravity="center_vertical"
     android:orientation="horizontal"
-    android:paddingTop="6dp"
-    android:paddingBottom="6dp">
+    android:paddingTop="3dp"
+    android:paddingBottom="3dp">
     <ImageView
-        android:layout_width="18dp"
-        android:layout_height="18dp"
-        android:layout_marginEnd="12dp"
+        android:id="@+id/ring"
+        android:layout_width="40dp"
+        android:layout_height="34dp"
+        android:paddingStart="8dp"
+        android:paddingTop="8dp"
+        android:paddingEnd="14dp"
+        android:paddingBottom="8dp"
         android:src="@drawable/ring" />
-    <TextView
-        android:id="@+id/tk"
+    <LinearLayout
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:ellipsize="end"
-        android:maxLines="1"
-        android:textColor="@color/dd_text"
-        android:textSize="14sp" />
+        android:orientation="vertical">
+        <TextView
+            android:id="@+id/tk"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:textColor="@color/dd_text"
+            android:textSize="14sp" />
+        <TextView
+            android:id="@+id/tk2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:maxLines="1"
+            android:textColor="@color/dd_muted"
+            android:textSize="11sp"
+            android:visibility="gone" />
+    </LinearLayout>
     <TextView
         android:id="@+id/due"
         android:layout_width="wrap_content"

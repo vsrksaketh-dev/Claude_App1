@@ -3,3 +3,4 @@
         <receiver android:name=".TasksWidget" android:exported="false"><intent-filter><action android:name="android.appwidget.action.APPWIDGET_UPDATE" /></intent-filter><meta-data android:name="android.appwidget.provider" android:resource="@xml/tasks_info" /></receiver>
         <receiver android:name=".NewsWidget" android:exported="false"><intent-filter><action android:name="android.appwidget.action.APPWIDGET_UPDATE" /></intent-filter><meta-data android:name="android.appwidget.provider" android:resource="@xml/news_info" /></receiver>
         <receiver android:name=".EverythingWidget" android:exported="false"><intent-filter><action android:name="android.appwidget.action.APPWIDGET_UPDATE" /></intent-filter><meta-data android:name="android.appwidget.provider" android:resource="@xml/everything_info" /></receiver>
+        <receiver android:name=".WidgetActionReceiver" android:exported="false" />
