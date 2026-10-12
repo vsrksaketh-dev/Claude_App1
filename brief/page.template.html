@@ -1,0 +1,129 @@
+<title>Morning Brief</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@500&display=swap">
+<style>
+/* Layout: one narrow column. A "next up" countdown leads, then today's timeline, then actions sorted by deadline. */
+:root {
+  --bg: #eef2f5; --surface: #ffffff; --fg: #14202b; --muted: #5b6b7a; --line: #d9e1e8;
+  --accent: #0b6e6e; --accent-soft: #dcf0ee; --hot: #b42318; --hot-soft: #fde8e6; --warn: #9a5b00; --warn-soft: #fdf0d5;
+  --display: 'Bricolage Grotesque', 'Segoe UI', system-ui, sans-serif;
+  --body: 'IBM Plex Sans', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --mono: 'IBM Plex Mono', ui-monospace, Menlo, monospace;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --bg: #0e171f; --surface: #16232d; --fg: #e6edf3; --muted: #93a4b3; --line: #243441;
+  --accent: #4fd1c5; --accent-soft: #123a3a; --hot: #ff8a80; --hot-soft: #3b1a18; --warn: #f5b84a; --warn-soft: #3a2c10; color-scheme: dark; } }
+:root[data-theme="dark"] {
+  --bg: #0e171f; --surface: #16232d; --fg: #e6edf3; --muted: #93a4b3; --line: #243441;
+  --accent: #4fd1c5; --accent-soft: #123a3a; --hot: #ff8a80; --hot-soft: #3b1a18; --warn: #f5b84a; --warn-soft: #3a2c10; color-scheme: dark; }
+* { box-sizing: border-box; }
+body { background: var(--bg); color: var(--fg); font: 15px/1.5 var(--body); padding-block: 20px 40px; padding-inline: 16px; }
+.wrap { max-width: 680px; margin: 0 auto; display: grid; gap: 22px; }
+h1 { font: 800 1.9rem/1.1 var(--display); margin: 0; text-wrap: balance; }
+h2 { font: 600 .78rem/1 var(--body); letter-spacing: .12em; text-transform: uppercase; color: var(--muted); margin: 0 0 10px; }
+.sub { color: var(--muted); margin: 6px 0 0; }
+.mono { font-family: var(--mono); font-variant-numeric: tabular-nums; }
+.next { background: var(--accent); color: #fff; border-radius: 14px; padding: 16px; display: grid; gap: 4px; }
+:root[data-theme="dark"] .next, :root:not([data-theme="light"]) .next { color: #05201f; }
+.next .k { font-size: .75rem; letter-spacing: .1em; text-transform: uppercase; opacity: .85; }
+.next .t { font: 800 1.35rem/1.2 var(--display); }
+.next .c { font-family: var(--mono); font-size: 1.1rem; }
+.timeline, .acts, .week { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }
+.row { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 12px; display: grid; gap: 4px; min-width: 0; }
+.row.past { opacity: .55; }
+.ev { grid-template-columns: 92px 1fr; gap: 12px; align-items: baseline; }
+.ev .when { font-family: var(--mono); font-size: .85rem; color: var(--muted); }
+.ev .what { min-width: 0; overflow-wrap: anywhere; }
+.ev .where { color: var(--muted); font-size: .85rem; }
+.head { display: flex; gap: 8px; align-items: baseline; justify-content: space-between; flex-wrap: wrap; }
+.title { font-weight: 600; min-width: 0; overflow-wrap: anywhere; }
+.from { color: var(--muted); font-size: .82rem; }
+.act { margin: 0; }
+.chips { display: flex; gap: 6px; flex-wrap: wrap; }
+.chip { font-size: .72rem; font-weight: 600; padding: 2px 8px; border-radius: 99px; background: var(--accent-soft); color: var(--accent); }
+.chip.hot { background: var(--hot-soft); color: var(--hot); }
+.chip.warn { background: var(--warn-soft); color: var(--warn); }
+.chip.plain { background: transparent; border: 1px solid var(--line); color: var(--muted); }
+a { color: var(--accent); }
+.tabs { display: flex; gap: 6px; overflow-x: auto; margin-bottom: 8px; }
+.tabs button { font: 500 .85rem var(--body); background: var(--surface); color: var(--fg); border: 1px solid var(--line); border-radius: 99px; padding: 6px 12px; cursor: pointer; white-space: nowrap; }
+.tabs button[aria-pressed="true"] { background: var(--accent); border-color: var(--accent); color: #fff; }
+:root[data-theme="dark"] .tabs button[aria-pressed="true"], :root:not([data-theme="light"]) .tabs button[aria-pressed="true"] { color: #05201f; }
+:root[data-theme="light"] .tabs button[aria-pressed="true"] { color: #fff; }
+button:focus-visible, a:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.news p { margin: 4px 0; }
+.why { color: var(--muted); font-size: .88rem; }
+.filtered { background: transparent; border: 1px dashed var(--line); border-radius: 10px; padding: 12px; color: var(--muted); font-size: .88rem; }
+.filtered b { color: var(--fg); font-weight: 600; }
+.empty { color: var(--muted); }
+</style>
+<div class="wrap">
+  <header>
+    <h1 id="greet">Good morning</h1>
+    <p class="sub" id="meta"></p>
+  </header>
+  <section id="next" aria-label="Next up"></section>
+  <section><h2>Today</h2><ul class="timeline" id="timeline"></ul></section>
+  <section><h2>Needs action, soonest first</h2><ul class="acts" id="acts"></ul></section>
+  <section><h2>News</h2><div class="tabs" id="tabs"></div><div class="news" id="news"></div></section>
+  <section class="filtered" id="filtered"></section>
+</div>
+<script id="brief-data" type="application/json">__DATA__</script>
+<script>
+(function () {
+  var D = JSON.parse(document.getElementById('brief-data').textContent);
+  var $ = function (id) { return document.getElementById(id); };
+  var esc = function (s) { return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); };
+  var now = new Date();
+  var tf = function (iso) { return new Date(iso).toLocaleTimeString('en-IN', { hour: 'numeric', minute: '2-digit', hour12: true, timeZone: 'Asia/Kolkata' }); };
+  var df = function (iso) { return new Date(iso).toLocaleDateString('en-IN', { weekday: 'short', day: 'numeric', month: 'short', timeZone: 'Asia/Kolkata' }); };
+  var left = function (iso) {
+    var m = Math.round((new Date(iso) - now) / 60000);
+    if (m <= -1) return 'passed';
+    if (m < 60) return m + ' min';
+    if (m < 1440) return Math.floor(m / 60) + 'h ' + (m % 60) + 'm';
+    var d = Math.floor(m / 1440); return d + (d === 1 ? ' day' : ' days');
+  };
+  var link = function (a) { return 'https://mail.google.com/mail/?authuser=' + encodeURIComponent((D.accounts || {})[a.account] || '') + '#inbox/' + a.id; };
+
+  var hr = Number(new Date().toLocaleString('en-IN', { hour: 'numeric', hour12: false, timeZone: 'Asia/Kolkata' }));
+  $('greet').textContent = (hr < 12 ? 'Good morning' : hr < 17 ? 'Good afternoon' : 'Good evening') + (D.name ? ', ' + D.name : '');
+  $('meta').textContent = df(D.generated) + ' · brief built ' + tf(D.generated) + ' · GIM and main inbox';
+
+  var upcoming = D.inbox.filter(function (a) { return a.due && new Date(a.due) > now; }).sort(function (a, b) { return new Date(a.due) - new Date(b.due); });
+  $('next').innerHTML = upcoming.length
+    ? '<div class="next"><span class="k">Next deadline</span><span class="t">' + esc(upcoming[0].subject) + '</span><span class="c">' + left(upcoming[0].due) + ' left · ' + tf(upcoming[0].due) + ', ' + df(upcoming[0].due) + '</span></div>'
+    : '<div class="next"><span class="k">Next deadline</span><span class="t">Nothing due. Clear day.</span></div>';
+
+  $('timeline').innerHTML = D.events.length ? D.events.map(function (e) {
+    var past = new Date(e.end) < now;
+    return '<li class="row ev' + (past ? ' past' : '') + '"><span class="when">' + tf(e.start) + '</span><span class="what"><span class="title">' + esc(e.title) + '</span>' + (e.kind === 'placement' ? ' <span class="chip warn">Placement</span>' : '') + '<div class="where">' + esc(e.where) + '</div></span></li>';
+  }).join('') : '<li class="empty">No events scheduled for today.</li>';
+
+  var sorted = D.inbox.slice().sort(function (a, b) { return (a.due ? new Date(a.due).getTime() : 9e15) - (b.due ? new Date(b.due).getTime() : 9e15); });
+  $('acts').innerHTML = sorted.map(function (a) {
+    var hot = a.due && (new Date(a.due) - now) < 864e5 * 1;
+    return '<li class="row"><div class="head"><span class="title">' + esc(a.subject) + '</span><span class="chips">' +
+      (a.due ? '<span class="chip ' + (hot ? 'hot' : 'warn') + ' mono">' + left(a.due) + ' · ' + tf(a.due) + (new Date(a.due).toDateString() !== now.toDateString() ? ', ' + df(a.due) : '') + '</span>' : '') +
+      '<span class="chip">' + esc(a.tag) + '</span></span></div>' +
+      '<div class="from">' + esc(a.from) + ' · ' + esc(a.account) + '</div><p class="act">' + esc(a.action) + '</p><a href="' + link(a) + '" target="_blank" rel="noopener">Open email</a></li>';
+  }).join('');
+
+  var cats = ['International', 'Indian', 'Business', 'Tech'], cur = 'Business';
+  function drawNews() {
+    $('tabs').innerHTML = cats.map(function (c) { return '<button type="button" data-c="' + c + '" aria-pressed="' + (c === cur) + '">' + c + '</button>'; }).join('');
+    $('news').innerHTML = D.news.filter(function (n) { return n.cat === cur; }).map(function (n) {
+      return '<div class="row" style="margin-bottom:8px"><span class="title">' + (n.kind === 'fact' ? 'Fact: ' : '') + esc(n.title) + '</span><p>' + esc(n.summary) + '</p><p class="why"><b>Why it matters:</b> ' + esc(n.why) + ' (' + esc(n.src) + ')</p></div>';
+    }).join('');
+  }
+  $('tabs').addEventListener('click', function (e) { var b = e.target.closest('button'); if (b) { cur = b.dataset.c; drawNews(); } });
+  drawNews();
+
+  var f = D.filtered, parts = [];
+  Object.keys(f).forEach(function (acct) {
+    var bits = Object.keys(f[acct]).map(function (k) { return '<b>' + f[acct][k] + '</b> ' + esc(k.toLowerCase()); });
+    parts.push(esc(acct) + ': ' + bits.join(', '));
+  });
+  $('filtered').innerHTML = 'Filtered out, not shown. ' + parts.join(' · ') + '.';
+})();
+</script>
