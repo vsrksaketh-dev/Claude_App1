@@ -26,3 +26,6 @@ When unsure whether a sender is a club: if the sender name is not the Placement 
 
 ## Output
 Write the brief JSON in the shape documented in the README. Per inbox item include: `id`, `from`, `subject`, `action` (one concrete sentence), `tag` (Placement, Academic, Recruiter, Security), `due` (ISO local time if there is a deadline), `account` ("GIM" or "Main"), `link` (the Gmail thread URL). Sort by due time, soonest first. Never copy meeting passcodes, OTPs, applicant IDs or Zoom links into the brief. Keep summaries to one line.
+
+## News
+Only report stories you can source from a same-day result. If search returns nothing dated today (this happens when the environment cannot reach news sites), publish with `news: []`. The page then says news is unavailable. Never write stories from memory or fill gaps with older articles.

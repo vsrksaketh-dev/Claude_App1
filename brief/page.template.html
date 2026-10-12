@@ -112,6 +112,7 @@ button:focus-visible, a:focus-visible { outline: 2px solid var(--accent); outlin
   var cats = ['International', 'Indian', 'Business', 'Tech'], cur = 'Business';
   function drawNews() {
     $('tabs').innerHTML = cats.map(function (c) { return '<button type="button" data-c="' + c + '" aria-pressed="' + (c === cur) + '">' + c + '</button>'; }).join('');
+    if (!D.news || !D.news.length) { $('news').innerHTML = '<p class="empty">News is unavailable today. The brief could not reach any news source, so nothing is shown rather than guessing.</p>'; return; }
     $('news').innerHTML = D.news.filter(function (n) { return n.cat === cur; }).map(function (n) {
       return '<div class="row" style="margin-bottom:8px"><span class="title">' + (n.kind === 'fact' ? 'Fact: ' : '') + esc(n.title) + '</span><p>' + esc(n.summary) + '</p><p class="why"><b>Why it matters:</b> ' + esc(n.why) + ' (' + esc(n.src) + ')</p></div>';
     }).join('');
