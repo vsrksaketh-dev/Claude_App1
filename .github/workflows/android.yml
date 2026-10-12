@@ -11,6 +11,8 @@ on:
       - 'js/**'
       - 'icons/**'
       - 'assets/**'
+      - 'android-native/**'
+      - 'fonts/**'
       - 'scripts/**'
       - 'android-signing/**'
       - 'capacitor.config.json'
@@ -57,6 +59,18 @@ jobs:
           mkdir -p android/app/src/main/res/drawable
           cp assets/ic_stat_notify.xml android/app/src/main/res/drawable/ic_stat_notify.xml
           grep -q POST_NOTIFICATIONS android/app/src/main/AndroidManifest.xml || sed -i 's#<application#<uses-permission android:name="android.permission.POST_NOTIFICATIONS" />\n    <application#' android/app/src/main/AndroidManifest.xml
+
+      - name: Home-screen widgets
+        run: |
+          APP=android/app/src/main
+          cp -r android-native/java/. $APP/java/
+          cp -r android-native/res/. $APP/res/
+          sed -i '/<\/application>/{
+          r android-native/receivers.xml
+          N
+          }' $APP/AndroidManifest.xml
+          grep -c "Widget" $APP/AndroidManifest.xml
+          test -f $APP/java/app/dailydriver/personal/MainActivity.java
 
       - name: Set version from run number
         run: sed -i "s/versionCode 1/versionCode ${{ github.run_number }}/; s/versionName \"1.0\"/versionName \"1.0.${{ github.run_number }}\"/" android/app/build.gradle

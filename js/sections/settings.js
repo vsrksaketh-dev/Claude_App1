@@ -5,6 +5,7 @@ import { field, chip, head } from '../ui.js';
 import { exportJSON, importJSON, reset, SCHEMA } from '../store.js';
 import { saveBackup, isNative, notifyPermission } from '../native.js';
 import { refreshReminders } from '../reminders-run.js';
+import { pushNow } from '../widgets.js';
 import { getSources, addSource, removeSource, syncAll, getHidden, setHidden } from '../calendar.js';
 
 const MODULES = [['career', 'Career and placement', 'Applications, network and interview stories. Switch off once you are placed.'], ['money', 'Money', 'Budget, spending and subscription renewals.']];
@@ -34,6 +35,11 @@ function render() {
       <label class="check"><input type="checkbox" name="cards" ${S.reminders.cards ? 'checked' : ''}> Flashcards due, at 6 PM</label>
       <div class="row"><button class="primary">Save reminders</button></div></form></div>
 
+  <div class="card"><h2>Home screen widgets</h2>${isNative() ? '' : '<p class="muted">Widgets are part of the Android app. This is the browser version.</p>'}
+    <p>Touch and hold an empty spot on your home screen, tap Widgets, then find Daily Driver. There are five: Overview, Schedule, Tasks, News and Everything (the large one).</p>
+    <p class="muted">They update whenever something changes in the app and about every half hour on their own. Tap any widget to open the app.</p>
+    <div class="row" style="margin-top:10px"><button data-act="widgetsNow">Update widgets now</button></div></div>
+
   <div class="card"><h2>Modules</h2><ul class="list">${MODULES.map(([k, l, d]) => `<li><label class="check"><input type="checkbox" data-act="module" data-id="${k}" ${S.modules[k] ? 'checked' : ''}> <span><b>${l}</b><div class="muted">${d}</div></span></label></li>`).join('')}</ul>
     <p class="muted">Turning a module off hides it and its reminders. Your data stays and returns if you turn it back on.</p></div>
 
@@ -46,6 +52,7 @@ register({
   id: 'settings', label: 'Settings', render,
   actions: {
     theme: d => { S.theme = d.id; },
+    widgetsNow: () => { pushNow(); },
     module: d => { S.modules[d.id] = !S.modules[d.id]; },
     calSync: () => { syncAll(true).then(() => commit()); },
     calRemove: d => { removeSource(d.id); refreshReminders(); },

@@ -19,6 +19,7 @@ Run the smoke test after any change to `js/`. It covers every screen, persistenc
 - `js/views/*`: screens in the bottom bar: Home, Learn, Plan, Track. `js/sections/*`: feature modules: Money (own tab), Settings (opened from the button on Home, no tab), Focus (shown as a tab inside Track) and Career (shown as tabs inside Plan).
 - `js/ics.js`: iCalendar reader (time zones, all-day, recurrence). `js/calendar.js`: calendar sync, secret addresses kept in their own storage keys (never in `S` or backups). `js/native.js`: Android bridge (uses `window.Capacitor.Plugins`; there is no bundler, so never call `registerPlugin` or import `@capacitor/*` in `js/`). The smoke test simulates the bridge. `js/reminders*.js`: local notifications.
 - `js/main.js`: event delegation and boot. `sw.js`: service worker (network first). Bump its cache name when adding files to `ASSETS`.
+- `js/schedule.js`: the day's items from all sources. `js/widgets.js`: builds a JSON snapshot after each change and hands it to `WidgetBridge.update` (`js/native.js`). `android-native/`: Java widget providers, layouts and manifest receivers that CI copies into the generated Android project. Widgets read the snapshot, never the web app. Any snapshot field change needs the Java side updated too.
 - `brief/`: rules and template for the daily brief routine (see Privacy).
 
 ## How things work

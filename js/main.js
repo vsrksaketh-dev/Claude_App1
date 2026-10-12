@@ -4,6 +4,7 @@ import { save } from './store.js';
 import { isNative, initBackButton } from './native.js';
 import { refreshReminders } from './reminders-run.js';
 import { syncAll, onCalendarChange } from './calendar.js';
+import { pushSoon, pushNow } from './widgets.js';
 import './views/home.js';
 import './views/learn.js';
 import './views/plan.js';
@@ -57,11 +58,13 @@ async function loadNews() {
   // Calendar: sync now, whenever the app comes back to the front, and every 10 minutes while it is open.
   // Never re-render while the user is typing, or the form would be wiped.
   const typing = () => ['INPUT', 'TEXTAREA', 'SELECT'].includes(document.activeElement?.tagName);
-  onCalendarChange(() => { if (!typing()) render(); refreshReminders(); });
+  onCalendarChange(() => { if (!typing()) render(); refreshReminders(); pushSoon(); });
   syncAll();
   document.addEventListener('visibilitychange', () => { if (!document.hidden) syncAll(); });
   setInterval(() => { if (!document.hidden) syncAll(true); }, 10 * 60e3);
-  document.addEventListener('visibilitychange', () => { if (document.hidden) refreshReminders(); });
+  document.addEventListener('visibilitychange', () => { if (document.hidden) { refreshReminders(); pushNow(); } });
+  app.afterCommit = pushSoon;
+  pushSoon();
   initBackButton(() => ui.view === 'home', () => go('home'));
   if ('serviceWorker' in navigator && !isNative()) navigator.serviceWorker.register('sw.js').catch(() => {});
 })();

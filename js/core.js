@@ -16,7 +16,8 @@ export const app = {
   inputs: {},       // data-bind handlers:  (element) => void   (no re-render)
   nudgeSources: [], // () => string[]            lines for "Needs attention"
   taskSources: [],  // () => task[]              derived tasks shown in the matrix
-  todayCards: [],   // () => html string         extra cards on Today
+  todayCards: [],   // () => html string         extra cards on Home
+  afterCommit: null, // () => void               called after every saved change (used to refresh widgets)
 };
 export const $ = s => document.querySelector(s);
 
@@ -44,7 +45,7 @@ export function render() {
   renderNav();
   document.body.classList.toggle('deep', S.timer.running && S.timer.mode === 'focus');
 }
-export const commit = () => { save(); render(); };
+export const commit = () => { save(); render(); if (app.afterCommit) app.afterCommit(); };
 export const go = (view, sub) => { ui.view = view; if (sub) Object.assign(ui.sub, sub); render(); window.scrollTo(0, 0); };
 export const byId = (arr, id) => arr.find(x => x.id === id);
 export const remove = (key, id) => { S[key] = S[key].filter(x => x.id !== id); };

@@ -138,6 +138,7 @@ const ok = (name, cond) => { console.log((cond ? 'PASS ' : 'FAIL ') + name); if 
       Filesystem: { writeFile: async o => ({ uri: 'file:///cache/' + o.path }) },
       Share: { share: async o => { window.__shared.push(o.url); } },
       App: { addListener: async () => ({ remove() {} }), exitApp: async () => {} },
+      WidgetBridge: { update: async o => { window.__widget = JSON.parse(o.json); } },
       LocalNotifications: { checkPermissions: async () => ({ display: 'granted' }), requestPermissions: async () => ({ display: 'granted' }), getPending: async () => ({ notifications: [] }), cancel: async () => {}, schedule: async o => { window.__scheduled.push(...o.notifications); } },
     } };
   }, fakeIcs);
@@ -149,6 +150,9 @@ const ok = (name, cond) => { console.log((cond ? 'PASS ' : 'FAIL ') + name); if 
   await n.click('#nav [data-nav=home]'); ok('native HTTP bridge syncs the calendar', /Native bridge event/.test(await n.textContent('#view')));
   await n.click('#nav [data-nav=home]'); await n.click('[data-nav=settings]');
   await n.check('[data-form=reminders] [name=on]'); await n.click('[data-form=reminders] button.primary'); await n.waitForTimeout(400);
+  await n.waitForTimeout(900);
+  const snap = await n.evaluate(() => window.__widget);
+  ok('widget snapshot is pushed to the native side', !!snap && snap.v === 1 && Array.isArray(snap.events) && snap.events.some(e => /Native bridge event/.test(e.title)) && Array.isArray(snap.tasks) && !!snap.habits);
   ok('native notifications get scheduled', (await n.evaluate(() => window.__scheduled.map(x => x.title))).includes('Plan your day'));
   await n.click('[data-act=export]'); await n.waitForTimeout(400);
   ok('native backup opens the share sheet', (await n.evaluate(() => window.__shared)).some(u => /daily-driver-.*\.json$/.test(u)));

@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="dd_bg">#1B2428</color>
+    <color name="dd_text">#E8EEF0</color>
+    <color name="dd_muted">#93A3AB</color>
+    <color name="dd_accent">#5EC4B8</color>
+</resources>

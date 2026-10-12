@@ -2,19 +2,13 @@
 import { S, ui, app, register, byId, remove, render as rerender } from '../core.js';
 import { today, addDays, daysFromToday, esc, fmtDay, uid } from '../util.js';
 import { field, empty, chip, check, head } from '../ui.js';
-import { calEventsOn, actionEvents, getSources, hasCalendars, lastSync, syncAll } from '../calendar.js';
+import { actionEvents, getSources, hasCalendars, lastSync, syncAll } from '../calendar.js';
+import { dayItems } from '../schedule.js';
 import { habitsOn, habitDone, habitStreak, openTasks, completeTask, dayStreak, dueCards } from '../logic.js';
 
-const clock = ms => new Date(ms).toLocaleTimeString('en-IN', { hour: 'numeric', minute: '2-digit', hour12: true });
 const when = ms => new Date(ms).toLocaleString('en-IN', { weekday: 'short', hour: 'numeric', minute: '2-digit', hour12: true });
 const mits = () => (S.mits[today()] ||= []);
 
-// One list for a day: synced calendars, then the brief's events, then events typed in by hand.
-function dayItems(k) {
-  const fromCal = calEventsOn(k).map(e => ({ sort: e.allDay ? 0 : e.start, time: e.allDay ? 'All day' : clock(e.start), until: e.allDay ? '' : clock(e.end), title: e.title, where: e.where, src: e.cal, past: !e.allDay && e.end < Date.now() }));
-  const local = [...(app.brief.events || []), ...S.events].filter(e => e.date === k).map(e => ({ sort: e.time ? new Date(k + 'T' + e.time).getTime() : 0, time: e.time || 'All day', title: e.title, where: e.where, id: e.id, interview: e.interview }));
-  return [...fromCal, ...local].sort((a, b) => a.sort - b.sort);
-}
 const ago = ms => { const m = Math.round((Date.now() - ms) / 6e4); return m < 1 ? 'just now' : m < 60 ? m + ' min ago' : Math.round(m / 60) + ' h ago'; };
 
 function nudges() {

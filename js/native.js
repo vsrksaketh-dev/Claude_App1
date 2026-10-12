@@ -51,6 +51,12 @@ export async function scheduleAll(list) {
   if (list.length) await n.schedule({ notifications: list });
 }
 
+// Hands the widget snapshot to the native side, which stores it and redraws the home-screen widgets.
+export async function widgetPush(json) {
+  if (!isNative()) return;
+  try { await plugin('WidgetBridge').update({ json }); } catch { /* widgets not available in this build */ }
+}
+
 // Hardware back button: go to Today first, then leave the app.
 export function initBackButton(isHome, goHome) {
   if (!isNative()) return;
