@@ -1,7 +1,7 @@
 // Money: monthly budget, spending log and subscription renewals. Optional module, switch it off in Settings.
 import { S, app, register, remove } from '../core.js';
 import { today, inr, esc, uid } from '../util.js';
-import { field, empty, chip, bar, head, tabs, subOf } from '../ui.js';
+import { field, empty, chip, bar, subOf } from '../ui.js';
 import { EXPENSE_CATS } from '../data.js';
 
 const TABS = [['spending', 'Spending'], ['subs', 'Subscriptions']];
@@ -39,12 +39,13 @@ function subs() {
     <form data-form="sub" class="inline">${field('Name', 'name', 'required')}${field('Amount (₹)', 'amount', 'type="number" min="0" step="any" required')}${field('Billing day (1-31)', 'day', 'type="number" min="1" max="31" required')}<button class="primary">Add</button></form></div>`;
 }
 
-function render() {
-  return `${head('Money', 'Budget and subscriptions.')}${tabs('money', TABS)}${subOf('money', TABS) === 'subs' ? subs() : spending()}`;
+export function moneyView() {
+  const cur = subOf('money', TABS);
+  return `<div class="seg" role="tablist">${TABS.map(([id, l]) => `<button class="${cur === id ? 'on' : ''}" data-act="sub" data-group="money" data-id="${id}">${l}</button>`).join('')}</div>${cur === 'subs' ? subs() : spending()}`;
 }
 
 register({
-  id: 'money', label: 'Money', nav: 5, enabled: on, render,
+  id: 'money', label: 'Money', section: true, enabled: on,
   actions: { delSub: d => remove('subs', d.id), delExpense: d => remove('expenses', d.id) },
   forms: {
     sub: f => S.subs.push({ id: uid(), name: f.name, amount: Number(f.amount), day: Number(f.day) }),

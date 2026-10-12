@@ -3,8 +3,8 @@
     android:id="@+id/st"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:paddingTop="10dp"
+    android:paddingTop="8dp"
     android:paddingBottom="2dp"
-    android:textColor="@color/dd_accent"
-    android:textSize="13sp"
+    android:textColor="@color/dd_muted"
+    android:textSize="12sp"
     android:textStyle="bold" />

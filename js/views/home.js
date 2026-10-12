@@ -38,13 +38,14 @@ function render() {
   const j = S.journal[t];
   const todos = openTasks().filter(x => !x.derived).sort((a, b) => (a.due || '9').localeCompare(b.due || '9'));
   const hasAttention = acts.length || briefMail.length || nd.length;
+  const outstanding = acts.some(e => !e.done) || briefMail.length || nd.length;
   return `
   ${head(`${hello}${S.profile.name ? ', ' + esc(S.profile.name) : ''}`, fmtDay(t), '<button class="pill" data-nav="settings">Settings</button>')}
   <form data-form="quick" class="capture"><input name="text" placeholder="Capture a task or idea" aria-label="Quick capture" required><button class="primary">Add</button></form>
 
-  <section class="card ${hasAttention ? 'alert' : ''}"><h2>Needs your attention</h2>
+  <section class="card ${outstanding ? 'alert' : ''}"><h2>Needs your attention</h2>
     ${hasAttention ? `<ul class="list">
-      ${acts.map(e => `<li class="${e.dueToday ? 'due-today' : ''}">${check('actDone', e.key, false)}<div class="grow"><span class="title">${esc(e.label)}</span><div class="muted">${esc(when(e.start))}${e.cal ? ' · ' + esc(e.cal) : ''}</div></div>${chip(e.dueToday ? 'Today' : esc(when(e.start)), e.dueToday ? 'bad' : 'warn')}</li>`).join('')}
+      ${acts.map(e => `<li class="${e.done ? 'done' : e.dueToday ? 'due-today' : ''}">${check('actToggle', e.key, e.done)}<div class="grow"><span class="title">${esc(e.label)}</span><div class="muted">${esc(when(e.start))}${e.cal ? ' · ' + esc(e.cal) : ''}</div></div>${e.done ? chip('Done', 'ok') : chip(e.dueToday ? 'Today' : esc(when(e.start)), e.dueToday ? 'bad' : 'warn')}</li>`).join('')}
       ${briefMail.map(x => `<li class="${S.inboxDone[x.id] ? 'done' : ''}">${check('inbox', x.id, S.inboxDone[x.id])}<div class="grow"><span class="title">${esc(x.from)}: ${esc(x.subject)}</span><div class="muted">${esc(x.action)}</div></div>${x.due ? `<button class="ghost" data-act="inboxTask" data-id="${x.id}">Add to tasks</button>` : ''}</li>`).join('')}
       ${nd.map(n => `<li><span class="grow">${n}</span></li>`).join('')}</ul>` : empty('All clear. Nothing needs you right now.')}
   </section>
@@ -68,7 +69,7 @@ function render() {
     <div style="margin-top:12px">${hs.length ? `<ul class="list">${[...hs].sort((a, b) => order[a.when] - order[b.when]).map(x => `<li class="${habitDone(x, t) ? 'done' : ''}">${check('habit', x.id, habitDone(x, t))}<span class="grow title">${esc(x.name)}</span>${chip(x.when, 'plain')}${habitStreak(x) > 1 ? chip(habitStreak(x) + 'd') : ''}</li>`).join('')}</ul>` : empty('No habits scheduled today.')}</div>
   </section>
 
-  <section class="card"><h2>Close the day</h2>${j ? `<p>You reflected today. Mood ${j.mood || '-'}/5, energy ${j.energy || '-'}/5.</p>` : '<p class="muted">Two minutes: what went well, what to fix, and tomorrow\'s top three.</p>'}
+  <section class="card"><h2>Close the day</h2>${j ? `<p>You reflected today. Mood ${j.mood || '-'}/5, energy ${j.energy || '-'}/5.</p>` : '<p class="muted">Two minutes: what went well, what to fix, and what to do tomorrow.</p>'}
     <div class="row" style="margin-top:10px"><button class="${j ? '' : 'primary'}" data-nav="track" data-sub="journal">${j ? 'Edit reflection' : 'Reflect now'}</button></div></section>`;
 }
 
@@ -77,7 +78,7 @@ register({
   actions: {
     habit: d => { const l = (S.habitLog[today()] ||= {}); l[d.id] = !l[d.id]; },
     inbox: d => { S.inboxDone[d.id] = !S.inboxDone[d.id]; },
-    actDone: d => { S.inboxDone[d.id] = true; },
+    actToggle: d => { S.inboxDone[d.id] = !S.inboxDone[d.id]; },
     delEvent: d => remove('events', d.id),
     calSync: () => { syncAll(true).then(() => rerender()); },
     learnTick: d => { const k = d.key || d.id; const l = (S.learnDone[today()] ||= {}); l[k] = !l[k]; },

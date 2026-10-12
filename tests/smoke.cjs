@@ -13,7 +13,7 @@ const ok = (name, cond) => { console.log((cond ? 'PASS ' : 'FAIL ') + name); if 
   const nav = n => p.click(`#nav [data-nav=${n}]`);
 
   ok('home leads with attention and schedule, not news', /Needs your attention/.test(await view()) && /Today's schedule/.test(await view()) && !/Riyadh/.test(await view()));
-  ok('bottom bar has five tabs', (await p.locator('#nav button').count()) === 5);
+  ok('bottom bar has four tabs', (await p.locator('#nav button').count()) === 4);
   await nav('learn'); await p.click('[data-act=sub][data-id=news]'); ok('news shows in Learn', /Riyadh airport/.test(await view())); await nav('home');
 
   // Today: capture, triage, top 3, habits, daily five
@@ -58,15 +58,22 @@ const ok = (name, cond) => { console.log((cond ? 'PASS ' : 'FAIL ') + name); if 
   await nav('track');
   await p.fill('[data-form=habit] [name=name]', 'Workout'); await p.click('[data-form=habit] button.primary');
   ok('habit added', /Workout/.test(await view()));
-  await p.click('[data-act=sub][data-id=journal]'); await p.click('[data-act=jScale][data-field=mood][data-v="4"]');
+  await p.click('[data-act=sub][data-group=track][data-id=mind]'); await p.click('[data-act=sub][data-id=journal]'); await p.click('[data-act=jScale][data-field=mood][data-v="4"]');
   await p.fill('[data-bind=journal][data-field=tomorrow]', 'Write cover letter\nGym'); await p.click('[data-act=setTomorrow]');
-  await p.click('[data-act=sub][data-id=review]'); ok('weekly stats render', /Tasks done/.test(await view()));
+  await p.click('[data-act=sub][data-group=track][data-id=review]'); ok('weekly stats render', /Tasks done/.test(await view()));
   await p.fill('[data-bind=review][data-field=focus]', 'Ship the CV');
-  await p.click('[data-act=sub][data-id=insights]'); ok('insights render', /Deep work/.test(await view()));
+  ok('review also holds the insights', /Deep work/.test(await view()) && /Mood/.test(await view()));
+
+  // Body trackers
+  await nav('track'); await p.click('[data-act=sub][data-group=track][data-id=trackers]');
+  await p.click('[data-act=sub][data-group=trk][data-id=workout]'); await p.fill('[data-form=workout] [name=min]', '40'); await p.fill('[data-form=workout] [name=note]', 'Chest day'); await p.click('[data-form=workout] button.primary');
+  ok('workout logged', /Chest day/.test(await view()) && /40 min/.test(await view()));
+  await p.click('[data-act=sub][data-group=trk][data-id=food]'); await p.fill('[data-form=meal] [name=name]', 'Poha'); await p.fill('[data-form=meal] [name=kcal]', '350'); await p.click('[data-form=meal] button.primary');
+  ok('calories add up against the goal', /350/.test(await view()) && /1850 left/.test(await view().then(x => x.replace(/\s+/g, ' ')).catch(() => '')));
 
   // Focus timer (Track), Money, Career (Plan), module switches and theme (Settings)
-  await nav('track'); await p.click('[data-act=sub][data-id=focus]'); await p.click('[data-act=timerStart]'); await p.waitForTimeout(700); await p.click('[data-act=timerPause]');
-  await nav('money'); await p.fill('[data-form=expense] [name=amount]', '250'); await p.click('[data-form=expense] button.primary');
+  await nav('track'); await p.click('[data-act=sub][data-group=track][data-id=mind]'); await p.click('[data-act=sub][data-id=focus]'); await p.click('[data-act=timerStart]'); await p.waitForTimeout(700); await p.click('[data-act=timerPause]');
+  await nav('track'); await p.click('[data-act=sub][data-group=track][data-id=trackers]'); await p.click('[data-act=sub][data-group=trk][data-id=money]'); await p.fill('[data-form=expense] [name=amount]', '250'); await p.click('[data-form=expense] button.primary');
   ok('expense logged', /₹250/.test(await view()));
   await p.click('[data-act=sub][data-id=subs]'); ok('subscriptions tab', /Subscriptions/.test(await view()));
   await nav('plan'); await p.click('[data-act=sub][data-id=board]'); await p.fill('[data-form=app] [name=company]', 'Acme'); await p.click('[data-form=app] button.primary');
@@ -78,8 +85,9 @@ const ok = (name, cond) => { console.log((cond ? 'PASS ' : 'FAIL ') + name); if 
   await p.click('[data-act=module][data-id=career]'); await p.click('[data-nav=home]'); await nav('plan');
   ok('career module hides its tabs', await p.locator('[data-act=sub][data-id=board]').count() === 0);
   await nav('home'); await p.click('[data-nav=settings]'); await p.click('[data-act=module][data-id=money]');
-  ok('money module hides its tab', await p.locator('#nav [data-nav=money]').count() === 0);
-  await p.click('[data-act=module][data-id=money]'); await p.click('[data-act=module][data-id=career]');
+  await nav('track'); await p.click('[data-act=sub][data-group=track][data-id=trackers]');
+  ok('money module hides its pill', await p.locator('[data-act=sub][data-group=trk][data-id=money]').count() === 0);
+  await nav('home'); await p.click('[data-nav=settings]'); await p.click('[data-act=module][data-id=money]'); await p.click('[data-act=module][data-id=career]');
 
   // Reminders: settings form saves, and the built list has the daily pair plus deadline and flashcard items
   await nav('plan'); await p.click('[data-act=sub][data-id=tasks]');
@@ -116,8 +124,10 @@ const ok = (name, cond) => { console.log((cond ? 'PASS ' : 'FAIL ') + name); if 
   const attn = () => p.textContent('.card.alert');
   ok('upcoming deadline is in Needs attention, red today', /Form submission/.test(await attn()) && await p.locator('.card.alert li.due-today').count() >= 1);
   ok('deadline 40 minutes past is gone automatically', !/Already late/.test(await attn()));
-  await p.click('.card.alert [data-act=actDone] >> nth=0');
-  ok('ticking a deadline removes it', !/Form submission/.test(await attn().catch(() => '')));
+  await p.click('.card [data-act=actToggle] >> nth=0');
+  ok('ticked deadline stays, struck through', await p.locator('li.done:has-text("Form submission")').count() === 1);
+  await p.click('li.done:has-text("Form submission") [data-act=actToggle]');
+  ok('unticking restores it', await p.locator('li.done:has-text("Form submission")').count() === 0 && /Form submission/.test(await view()));
   await nav('home'); await p.click('[data-nav=settings]');
   await p.check('[data-form=reminders] [name=on]'); await p.click('[data-form=reminders] button.primary');
   const rem = await p.evaluate(async () => (await import('/js/reminders.js')).buildReminders().map(n => n.title));

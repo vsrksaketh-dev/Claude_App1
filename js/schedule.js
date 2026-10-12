@@ -15,10 +15,12 @@ export function dayItems(k) {
   return [...fromCal, ...local].sort((a, b) => a.sort - b.sort);
 }
 
-// "Needs your attention" calendar items: ticked ones are gone, and timed ones leave 15 minutes after their time passes.
+// "Needs your attention" calendar items. Unticked ones leave 15 minutes after their time passes. Ticked ones stay for the
+// rest of that day, struck through, so a mistaken tick can be undone.
 export const actionKey = e => 'cal|' + e.title + '|' + e.start;
+const sameDay = (ms, now) => new Date(ms).toDateString() === new Date(now).toDateString();
 export function pendingActions(days) {
   const now = Date.now();
-  return actionEvents(days).filter(e => !S.inboxDone[actionKey(e)] && (e.allDay ? e.end > now : now < e.start + 15 * 6e4))
-    .map(e => ({ ...e, key: actionKey(e), dueToday: new Date(e.start).toDateString() === new Date().toDateString() }));
+  return actionEvents(days).map(e => ({ ...e, key: actionKey(e), done: !!S.inboxDone[actionKey(e)], dueToday: sameDay(e.start, now) }))
+    .filter(e => e.done ? (e.dueToday || e.start < now && sameDay(e.end - 1, now)) : (e.allDay ? e.end > now : now < e.start + 15 * 6e4));
 }

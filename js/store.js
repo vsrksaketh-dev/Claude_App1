@@ -32,6 +32,8 @@ export const blank = () => ({
   events: [], inboxDone: {},
   apps: [], contacts: [], stars: [],                  // career module
   subs: [], expenses: [], budget: 0,                  // money module
+  workouts: [],                // { id, date, type, min, note }
+  meals: [], calGoal: 2200,    // meals: { id, date, meal, name, kcal }
 });
 
 function migrate(o) {

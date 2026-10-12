@@ -12,7 +12,7 @@ const dueLabel = d => { if (!d) return ''; const n = daysFromToday(d); return n 
 export function buildSnapshot() {
   const t = today();
   const events = [];
-  [0, 1, 2, 3].forEach(i => dayItems(addDays(t, i)).forEach(e => events.push({ s: e.start, e: e.end, title: e.title, where: e.where || '', allDay: !!e.allDay, src: e.src || '' })));
+  [0, 1, 2, 3].forEach(i => { const k = addDays(t, i); dayItems(k).forEach(e => events.push({ d: k, s: e.start, e: e.end, title: e.title, where: e.where || '', allDay: !!e.allDay, src: e.src || '' })); });
   events.sort((a, b) => a.s - b.s);
   const open = openTasks().sort((a, b) => (RANK[taskQuadrant(a)] - RANK[taskQuadrant(b)]) || (a.due || '9').localeCompare(b.due || '9'));
   const hs = habitsOn(t);
@@ -24,7 +24,7 @@ export function buildSnapshot() {
   return {
     v: 1, at: Date.now(), name: S.profile.name || '',
     events: events.slice(0, 40),
-    actions: pendingActions(7).slice(0, 6).map(e => ({ title: e.label, s: e.start })),
+    actions: pendingActions(7).filter(e => !e.done).slice(0, 6).map(e => ({ title: e.label, s: e.start })),
     tasks: open.slice(0, 10).map(x => ({ title: x.title, due: dueLabel(x.due), q: taskQuadrant(x) })),
     taskCount: open.length,
     dueSoon: open.filter(x => x.due && daysFromToday(x.due) <= 2).length,

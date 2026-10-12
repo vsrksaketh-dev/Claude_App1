@@ -2,11 +2,17 @@ import { S, ui, register, byId, remove } from '../core.js';
 import { today, addDays, lastDays, dow, esc, uid, fmtDay, weekStart, avg, parse } from '../util.js';
 import { field, empty, chip, bar, tabs, subOf, barChart, heatmap, head } from '../ui.js';
 import { focusView } from '../sections/focus.js';
+import { moneyView } from '../sections/money.js';
+import { workoutView, foodView } from '../sections/body.js';
 import { REFLECTION_PROMPTS } from '../data.js';
 import { habitsOn, learnCount, habitRate, habitDone, habitStreak, habitRateOver, habitScheduled, weekSummary, focusOn } from '../logic.js';
 import { pick } from '../util.js';
 
-const TABS = [['habits', 'Habits'], ['focus', 'Focus'], ['journal', 'Journal'], ['review', 'Review'], ['insights', 'Insights']];
+const TABS = [['trackers', 'Trackers'], ['mind', 'Focus and journal'], ['review', 'Review']];
+const trackerTabs = () => [['habits', 'Habits'], ...(S.modules.money ? [['money', 'Money']] : []), ['workout', 'Workouts'], ['food', 'Food']];
+const MIND = [['focus', 'Focus'], ['journal', 'Journal']];
+// A second row of pills inside a tab.
+const pills = (group, items) => { const cur = subOf(group, items); return `<div class="seg pills" role="tablist">${items.map(([id, l]) => `<button role="tab" aria-selected="${cur === id}" class="${cur === id ? 'on' : ''}" data-act="sub" data-group="${group}" data-id="${id}">${l}</button>`).join('')}</div>`; };
 const DAYS = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 const MOODS = ['1', '2', '3', '4', '5'];
 const pct = r => r === null ? '–' : Math.round(r * 100) + '%';
@@ -89,9 +95,17 @@ function insightsTab() {
   <div class="card"><h2>Mood</h2>${barChart(moodPts, { max: 5, summary: 'Daily mood from your journal over 30 days' })}<p class="muted">Empty bars are days you did not log.</p></div>`;
 }
 
+function trackersTab() {
+  const items = trackerTabs(), cur = subOf('trk', items);
+  const page = { habits: habitsTab, money: moneyView, workout: workoutView, food: foodView }[items.some(i => i[0] === cur) ? cur : 'habits']();
+  return `${pills('trk', items)}${page}`;
+}
+function mindTab() { return `${pills('mind', MIND)}${subOf('mind', MIND) === 'journal' ? journalTab() : focusView()}`; }
+function reviewAll() { return `${reviewTab()}<h2 class="section-h">Your trends</h2>${insightsTab()}`; }
+
 function render() {
   const sub = subOf('track', TABS);
-  return `${head('Track', 'Habits, focus and how you are doing.')}${tabs('track', TABS)}${{ habits: habitsTab, focus: focusView, journal: journalTab, review: reviewTab, insights: insightsTab }[sub]()}`;
+  return `${head('Track', 'Habits, body, focus and how you are doing.')}${tabs('track', TABS)}<div class="stack">${{ trackers: trackersTab, mind: mindTab, review: reviewAll }[sub]()}</div>`;
 }
 
 const entry = k => (S.journal[k] ||= {});

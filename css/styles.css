@@ -73,7 +73,7 @@ details.card > summary { margin: 0; }
 
 /* ---- controls ---- */
 button, input, select, textarea { font: inherit; color: inherit; }
-button { cursor: pointer; background: var(--inset); border: 0; border-radius: var(--r-pill); padding: 10px 18px; min-height: 42px; font-weight: 650; font-size: .9rem; transition: background .15s, transform .1s; }
+button { white-space: nowrap; flex: none; cursor: pointer; background: var(--inset); border: 0; border-radius: var(--r-pill); padding: 10px 18px; min-height: 42px; font-weight: 650; font-size: .9rem; transition: background .15s, transform .1s; }
 button:hover { background: color-mix(in srgb, var(--ink) 9%, var(--inset)); }
 button:active { transform: scale(.98); }
 button.primary { background: var(--accent); color: var(--accent-ink); }
@@ -206,3 +206,23 @@ details.ref > * + * { margin-top: 10px; }
 .sheet-back { position: fixed; inset: 0; background: rgba(0, 0, 0, .4); z-index: 20; }
 .sheet { position: fixed; left: 50%; transform: translateX(-50%); bottom: 0; width: min(100%, 640px); z-index: 21; background: var(--card); border-radius: var(--r-card) var(--r-card) 0 0; padding: 20px 18px calc(20px + env(safe-area-inset-bottom)); display: grid; gap: 14px; max-height: 88vh; overflow-y: auto; box-shadow: 0 -10px 40px rgba(0, 0, 0, .25); }
 .capture.inline-add { margin: 0; }
+
+/* ---- fixes: buttons never wrap or shrink, forms and labels breathe ---- */
+.capture button { flex: none; white-space: nowrap; min-width: 64px; padding: 0 20px; min-height: 42px; }
+.capture.inline-add { padding-right: 6px; }
+.card > label, .card > .row + label, .card > textarea + label { margin-top: 16px; }
+.card > h3 { margin-top: 20px; }
+.card > .row { margin-top: 10px; }
+.card > button.primary { margin-top: 16px; }
+.card > p.muted { margin-top: 10px; }
+form.stackform { gap: 14px; margin-top: 14px; }
+form.stackform .inline { display: grid; gap: 12px; grid-template-columns: 1fr 1fr; align-items: end; }
+.tiles.three { grid-template-columns: repeat(3, 1fr); }
+.section-h { margin: 14px 4px 0; font: 800 1.25rem/1.2 var(--font); letter-spacing: -.02em; }
+.seg.pills { display: flex; background: var(--card); border: 1px solid var(--line); box-shadow: var(--shadow); overflow-x: auto; scrollbar-width: none; }
+.seg.pills button { flex: 1 0 auto; padding: 9px 14px; font-size: .85rem; }
+.seg { max-width: 100%; }
+.seg button { white-space: nowrap; }
+.list li { min-width: 0; }
+main { padding-bottom: 40px; }
+.dots { gap: 5px; }

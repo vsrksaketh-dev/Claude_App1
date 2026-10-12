@@ -11,6 +11,7 @@ import './views/plan.js';
 import './views/track.js';
 import './sections/focus.js';
 import './sections/money.js';
+import './sections/body.js';
 import './sections/career.js';
 import './sections/settings.js';
 
