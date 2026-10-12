@@ -23,6 +23,18 @@ A daily driver for staying on target and getting better over time. Five areas in
 | Growth | Habits with a 12-week heatmap, daily journal with mood and energy, weekly review with auto stats, 30-day insights |
 | More | Focus timer tagged by goal or skill, Money (budget and subscriptions), Career and placement (optional, switch off after you are placed), Settings and backup |
 
+## Android app (APK)
+
+Download: https://github.com/vsrksaketh-dev/Claude_App1/releases/latest/download/daily-driver.apk
+
+1. Open the link on your phone and download the file.
+2. Open it and allow "Install unknown apps" for your browser or file manager when Android asks.
+3. If Play Protect warns that the app is unrecognised, choose Install anyway. It is signed with a fixed debug key, not a Play Store key.
+
+Updates: every push to the branch that changes the app rebuilds the APK in GitHub Actions and replaces the file at the same link. Install the new file over the old app and your data stays, because the signing key never changes. Do not uninstall first, since that erases local data. Export a backup from More, then Settings before any big change; in the app it opens the Android share sheet so you can save it to Drive.
+
+The build lives in `.github/workflows/android.yml` (Capacitor wraps the web app, no code changes needed to ship the same app on the web and on Android). To rebuild by hand: Actions, Build Android APK, Run workflow.
+
 ## Live data (Gmail, Calendar, news)
 
 A browser-only app cannot read your Gmail or Calendar without OAuth and a backend. The Home tab reads `data/brief.json` (currently sample data) with this shape:
