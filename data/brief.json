@@ -1,0 +1,26 @@
+{
+  "date": "2026-10-12",
+  "source": "sample",
+  "events": [],
+  "inbox": [
+    {
+      "id": "gh-signin-alert",
+      "from": "GitHub",
+      "subject": "Security alert: new sign-in with Google",
+      "action": "Verify this login was you. No phishing detected.",
+      "tag": "Security"
+    }
+  ],
+  "news": [
+    {"cat": "International", "title": "Houthi missile hits Riyadh Airport", "summary": "Houthi rebels fired a missile at Riyadh Airport in Saudi Arabia, killing 14 people including one Indian national. Several airlines have suspended flights in the region.", "why": "Aviation and oil-route risk feeds straight into fuel costs, insurance premiums and Gulf-linked hiring and remittances.", "src": "NDTV"},
+    {"cat": "International", "title": "Ceasefire claim on energy strikes disputed", "summary": "US President Donald Trump said Russia and Ukraine agreed to a ceasefire on energy infrastructure strikes. Ukrainian President Zelensky immediately called the announcement fabricated.", "why": "Energy-supply headlines move crude and gas prices, which ripple into input costs and inflation.", "src": "NDTV"},
+    {"cat": "International", "title": "Pope Leo to undergo lung surgery", "summary": "Pope Leo, 71, will have a small lung nodule removed in the coming days. He said the growth was well contained and caught early.", "why": "A reminder of how institutions plan leadership continuity, a classic succession-planning case.", "src": "Reuters"},
+    {"cat": "Indian", "title": "CJI declines meeting with INDIA bloc", "summary": "Chief Justice of India Surya Kant declined a meeting request from Rahul Gandhi and INDIA bloc leaders over electoral roll revisions. The bloc is protesting against Chief Election Commissioner Gyanesh Kumar.", "why": "Political uncertainty affects investor sentiment and policy predictability for employers and brands.", "src": "The Hindu"},
+    {"cat": "Indian", "title": "Delhi locked down ahead of opposition march", "summary": "Heavy security and barricades are in place across central Delhi as the INDIA bloc prepares to march to the Supreme Court. Delhi Police earlier detained over 500 people after related flash protests.", "why": "Large public events disrupt logistics and footfall; a live example of crisis communication and risk planning.", "src": "Indian Express"},
+    {"cat": "Business", "title": "Sensex, Nifty open higher; rupee jumps", "summary": "The Sensex opened up over 350 points and the Nifty 50 traded above 22,648. The rupee strengthened 98 paise to 95.75 per US dollar.", "why": "A stronger rupee lowers import costs and helps firms with dollar debt, but squeezes exporters like IT services.", "src": "Kotak Neo"},
+    {"cat": "Business", "title": "Tech job openings hit 1.23 lakh, skewed senior", "summary": "Active tech openings in India peaked at 1.23 lakh for October 2026. Demand favours experienced mid and senior talent over fresh graduates.", "why": "Directly relevant to placements: entry-level tech-adjacent roles are scarce, so differentiate with projects and domain depth.", "src": "India Today"},
+    {"cat": "Business", "kind": "fact", "title": "Mid-senior roles are 55% of tech openings", "summary": "That points to a sharp contraction in entry-level hiring within IT.", "why": "Pitch yourself on business impact, not only potential.", "src": "India Today"},
+    {"cat": "Business", "kind": "fact", "title": "GCC tech openings up 64% year on year", "summary": "Global Capability Centres show strong resilience and continued reliance on Indian talent hubs despite global volatility.", "why": "GCCs are a growing source of HR and marketing roles; add them to your target list.", "src": "India Today"},
+    {"cat": "Tech", "title": "Work-from-office takes over Indian tech", "summary": "In-office roles are now 81% of active tech demand. Remote roles fell 23% and hybrid openings dropped 19% year over year, reversing pandemic-era policy.", "why": "A big HR and OB theme (flexibility vs control) that also hits commercial real estate demand.", "src": "India Today"}
+  ]
+}
