@@ -1,6 +1,6 @@
 // The day's items from every source: synced calendars, the brief's events and events typed in by hand.
 import { S, app } from './core.js';
-import { calEventsOn } from './calendar.js';
+import { calEventsOn, actionEvents } from './calendar.js';
 
 const clock = ms => new Date(ms).toLocaleTimeString('en-IN', { hour: 'numeric', minute: '2-digit', hour12: true });
 const dayStart = k => { const [y, m, d] = k.split('-').map(Number); return new Date(y, m - 1, d).getTime(); };
@@ -13,4 +13,12 @@ export function dayItems(k) {
     return { sort: e.time ? s : 0, time: e.time || 'All day', title: e.title, where: e.where, id: e.id, interview: e.interview, start: s, end: e.time ? s + 36e5 : s + 864e5, allDay: !e.time };
   });
   return [...fromCal, ...local].sort((a, b) => a.sort - b.sort);
+}
+
+// "Needs your attention" calendar items: ticked ones are gone, and timed ones leave 15 minutes after their time passes.
+export const actionKey = e => 'cal|' + e.title + '|' + e.start;
+export function pendingActions(days) {
+  const now = Date.now();
+  return actionEvents(days).filter(e => !S.inboxDone[actionKey(e)] && (e.allDay ? e.end > now : now < e.start + 15 * 6e4))
+    .map(e => ({ ...e, key: actionKey(e), dueToday: new Date(e.start).toDateString() === new Date().toDateString() }));
 }

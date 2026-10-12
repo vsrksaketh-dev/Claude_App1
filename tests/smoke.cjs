@@ -24,12 +24,15 @@ const ok = (name, cond) => { console.log((cond ? 'PASS ' : 'FAIL ') + name); if 
   await p.fill('[data-form=triage] [name=due]', new Date().toISOString().slice(0, 10)); await p.check('[data-form=triage] [name=important]'); await p.click('[data-form=triage] button.primary');
   ok('sorted task lands in Do first', /Prepare marketing case/.test(await p.textContent('.matrix > div:first-child')));
   await nav('home');
-  await p.selectOption('[data-form=mit] [name=task]', { index: 1 }); await p.click('[data-form=mit] button');
-  await p.click('[data-act=mitDone]');
-  await nav('track'); await p.click('[data-act=sub][data-id=habits]');
-  ok('top 3 done shows in Track tiles', /1\/1/.test(await p.textContent('.tiles')));
+  await nav('home');
+  await p.fill('[data-form=todo] [name=text]', 'Call the placement cell'); await p.click('[data-form=todo] button');
+  ok('quick to-do appears on Home', /Call the placement cell/.test(await view()));
+  await p.click('.card:has(h2:has-text("To-do")) li:has-text("Call the placement cell") [data-act=taskDone]');
+  ok('ticking a to-do clears it', !/Call the placement cell/.test(await view()));
+  ok('top 3 card is gone', !/Top 3 for today/.test(await view()));
   await nav('plan');
-  ok('completing a top-3 task completes the task', await p.locator('.matrix li', { hasText: 'Prepare marketing case' }).count() === 0);
+  await p.click('[data-act=openAdd]'); await p.fill('[data-form=task] [name=title]', 'Sheet task'); await p.click('[data-form=task] button.primary');
+  ok('floating add button adds a task', /Sheet task/.test(await view()) && await p.locator('.sheet').count() === 0);
   await nav('home');
   await p.click('.card:has(h2:has-text("Habits")) [data-act=habit] >> nth=0');
   await nav('learn'); await p.click('[data-act=sub][data-id=daily]');
@@ -43,16 +46,13 @@ const ok = (name, cond) => { console.log((cond ? 'PASS ' : 'FAIL ') + name); if 
   await p.click('[data-act=msDone]');
   ok('goal progress 100%', /100%/.test(await view()));
 
-  // Learn: flashcard from framework, review
-  await nav('learn'); await p.click('[data-act=addCard][data-kind=framework]');
-  await p.click('[data-act=sub][data-id=review]'); ok('card due', /1 due/.test(await view()));
-  await p.click('[data-act=flip]'); await p.click('[data-act=rate][data-q="2"]');
-  ok('card scheduled out', /0 due/.test(await view()));
-  await p.click('[data-act=sub][data-id=library]'); await p.fill('[data-form=lib] [name=title]', 'Thinking, Fast and Slow'); await p.selectOption('[data-form=lib] [name=status]', 'Reading'); await p.click('[data-form=lib] button.primary');
-  await p.fill('[data-form=libNote] [name=text]', 'System 1 vs 2'); await p.click('[data-form=libNote] button');
-  ok('library note saved', /System 1 vs 2/.test(await view()));
-  await p.click('[data-act=sub][data-id=log]'); await p.fill('[data-form=til] [name=text]', 'Inversion helps planning'); await p.click('[data-form=til] button');
-  ok('til logged', /Inversion helps planning/.test(await view()));
+  // Learn: three tabs only, reference opens
+  await nav('learn');
+  ok('learn has Daily, News, Reference only', await p.locator('.tabs button').count() === 3);
+  await p.click('[data-act=sub][data-id=reference]'); ok('reference lists frameworks', /Frameworks/.test(await view()) && /Jargon/.test(await view()));
+  await p.click('[data-act=sub][data-id=news]');
+  await p.evaluate(async () => { const c = await import('/js/core.js'); c.app.news.items[0].url = 'https://example.com/a'; c.render(); });
+  ok('news with a link opens in a browser', await p.locator('a.story[target=_blank]').count() >= 1);
 
   // Growth: new habit, journal, review, insights
   await nav('track');
@@ -84,7 +84,7 @@ const ok = (name, cond) => { console.log((cond ? 'PASS ' : 'FAIL ') + name); if 
   // Reminders: settings form saves, and the built list has the daily pair plus deadline and flashcard items
   await nav('plan'); await p.click('[data-act=sub][data-id=tasks]');
   const tomorrow = new Date(Date.now() + 36 * 36e5).toISOString().slice(0, 10);
-  await p.fill('[data-form=task] [name=title]', 'Marketing exam'); await p.fill('[data-form=task] [name=due]', tomorrow); await p.click('[data-form=task] button.primary');
+  await p.click('[data-act=openAdd]'); await p.fill('[data-form=task] [name=title]', 'Marketing exam'); await p.fill('[data-form=task] [name=due]', tomorrow); await p.click('[data-form=task] button.primary');
   await nav('home'); await p.click('[data-nav=settings]');
   await p.check('[data-form=reminders] [name=on]'); await p.click('[data-form=reminders] button.primary');
   const list = await p.evaluate(async () => (await import('/js/reminders.js')).buildReminders().map(n => n.title));
@@ -99,18 +99,25 @@ const ok = (name, cond) => { console.log((cond ? 'PASS ' : 'FAIL ') + name); if 
   const stamp = ms => new Date(ms).toISOString().replace(/[-:]/g, '').replace(/\.\d+/, '');
   const ics = title => ['BEGIN:VCALENDAR', 'VERSION:2.0', 'X-WR-CALNAME:Test cal',
     'BEGIN:VEVENT', 'UID:t1', 'DTSTART:' + stamp(Date.now() + 3 * 36e5), 'DTEND:' + stamp(Date.now() + 4 * 36e5), 'SUMMARY:' + title, 'LOCATION:Room 7', 'END:VEVENT',
+    'BEGIN:VEVENT', 'UID:a1', 'DTSTART:' + stamp(Date.now() + 2 * 36e5), 'DTEND:' + stamp(Date.now() + 3 * 36e5), 'SUMMARY:Due: Form submission', 'END:VEVENT',
+    'BEGIN:VEVENT', 'UID:a2', 'DTSTART:' + stamp(Date.now() - 40 * 6e4), 'DTEND:' + stamp(Date.now() + 36e5), 'SUMMARY:Due: Already late', 'END:VEVENT',
     'BEGIN:VEVENT', 'UID:t3', 'DTSTART:' + stamp(Date.now() + 5 * 36e5), 'DTEND:' + stamp(Date.now() + 6 * 36e5), 'SUMMARY:Friend class', 'DESCRIPTION:Not mine - friend', 'END:VEVENT',
     'BEGIN:VEVENT', 'UID:t2', 'DTSTART;VALUE=DATE:' + new Date().toLocaleDateString('en-CA').replace(/-/g, ''), 'SUMMARY:Fest day', 'END:VEVENT', 'END:VCALENDAR', ''].join('\r\n');
   fs.writeFileSync(path.join(tmp, 'cal.ics'), ics('Calendar sync works'));
   await nav('home'); await p.click('[data-nav=settings]');
   await p.fill('[data-form=calAdd] [name=name]', 'Test cal'); await p.fill('[data-form=calAdd] [name=url]', `http://localhost:${port}/tests/.tmp/cal.ics`); await p.click('[data-form=calAdd] button.primary');
-  await p.waitForSelector('text=3 events synced');
+  await p.waitForSelector('text=5 events synced');
   await nav('home');
   ok('calendar event shows on Today', /Calendar sync works/.test(await view()) && /Room 7/.test(await view()) && /Fest day/.test(await view()));
   ok('events marked not mine are hidden', !/Friend class/.test(await view()));
   fs.writeFileSync(path.join(tmp, 'cal.ics'), ics('Calendar sync updated'));
   await p.click('[data-act=calSync]'); await p.waitForSelector('text=Calendar sync updated');
   ok('edit in the calendar reflects after sync', !/Calendar sync works/.test(await view()));
+  const attn = () => p.textContent('.card.alert');
+  ok('upcoming deadline is in Needs attention, red today', /Form submission/.test(await attn()) && await p.locator('.card.alert li.due-today').count() >= 1);
+  ok('deadline 40 minutes past is gone automatically', !/Already late/.test(await attn()));
+  await p.click('.card.alert [data-act=actDone] >> nth=0');
+  ok('ticking a deadline removes it', !/Form submission/.test(await attn().catch(() => '')));
   await nav('home'); await p.click('[data-nav=settings]');
   await p.check('[data-form=reminders] [name=on]'); await p.click('[data-form=reminders] button.primary');
   const rem = await p.evaluate(async () => (await import('/js/reminders.js')).buildReminders().map(n => n.title));

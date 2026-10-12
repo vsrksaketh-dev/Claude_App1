@@ -2,9 +2,8 @@
 // handed to the native side, which stores it and redraws the widgets. Nothing here runs in a browser.
 import { S, app } from './core.js';
 import { today, addDays, daysFromToday, fmtDay } from './util.js';
-import { dayItems } from './schedule.js';
+import { dayItems, pendingActions } from './schedule.js';
 import { openTasks, taskQuadrant, habitsOn, habitDone, dayStreak } from './logic.js';
-import { actionEvents } from './calendar.js';
 import { widgetPush } from './native.js';
 
 const RANK = { UI: 0, I: 1, U: 2, '': 3 };
@@ -25,11 +24,10 @@ export function buildSnapshot() {
   return {
     v: 1, at: Date.now(), name: S.profile.name || '',
     events: events.slice(0, 40),
-    actions: actionEvents(7).slice(0, 6).map(e => ({ title: e.label, s: e.start })),
+    actions: pendingActions(7).slice(0, 6).map(e => ({ title: e.label, s: e.start })),
     tasks: open.slice(0, 10).map(x => ({ title: x.title, due: dueLabel(x.due), q: taskQuadrant(x) })),
     taskCount: open.length,
     dueSoon: open.filter(x => x.due && daysFromToday(x.due) <= 2).length,
-    top3: (S.mits[t] || []).map(m => ({ text: m.text, done: !!m.done })),
     habits: { done: hs.filter(h => habitDone(h, t)).length, total: hs.length, streak: dayStreak() },
     news,
     newsDate: app.news.date || '',

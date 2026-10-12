@@ -133,10 +133,12 @@ public class Widgets {
         row(c, v, s.optInt("taskCount") + " open tasks" + (due > 0 ? ", " + due + " due soon" : ""), "", 1, false);
         JSONObject h = s.optJSONObject("habits");
         if (h != null && h.optInt("total") > 0) row(c, v, "Habits " + h.optInt("done") + " of " + h.optInt("total"), h.optInt("streak") > 0 ? h.optInt("streak") + " day streak" : "", 1, false);
-        JSONArray t3 = s.optJSONArray("top3");
-        for (int i = 0; t3 != null && i < t3.length() && i < 3; i++) {
-            JSONObject m = t3.optJSONObject(i);
-            if (m != null) row(c, v, (m.optBoolean("done") ? "Done: " : "") + m.optString("text"), "", 1, false);
+        JSONArray ac = s.optJSONArray("actions");
+        for (int i = 0, shown = 0; ac != null && i < ac.length() && shown < 3; i++) {
+            JSONObject m = ac.optJSONObject(i);
+            if (m == null) continue;
+            row(c, v, m.optString("title"), clock(m.optLong("s")), 1, false);
+            shown++;
         }
     }
 

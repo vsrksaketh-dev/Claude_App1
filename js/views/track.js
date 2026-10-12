@@ -14,9 +14,8 @@ const level = r => r === null || r === 0 ? 0 : Math.ceil(r * 4);
 
 function dayTiles() {
   const hs = habitsOn(today()), hd = hs.filter(h => habitDone(h, today())).length;
-  const m = S.mits[today()] || [];
   const tile = (n, l) => `<div class="tile"><b>${n}</b><span>${l}</span></div>`;
-  return `<div class="card"><h2>Today so far</h2><div class="tiles">${tile(`${hd}/${hs.length}`, 'Habits')}${tile(`${m.filter(x => x.done).length}/${m.length}`, 'Top 3')}${tile(`${focusOn(today())}m`, 'Focus')}${tile(`${learnCount(today())}/5`, 'Learn')}</div></div>`;
+  return `<div class="card"><h2>Today so far</h2><div class="tiles">${tile(`${hd}/${hs.length}`, 'Habits')}${tile(`${S.tasks.filter(x => x.doneAt === today()).length}`, 'Tasks done')}${tile(`${focusOn(today())}m`, 'Focus')}${tile(`${learnCount(today())}/5`, 'Learn')}</div></div>`;
 }
 
 function habitsTab() {
@@ -45,8 +44,8 @@ function journalTab() {
   return `<div class="card"><div class="row between"><button class="ghost" data-act="jDate" data-d="-1" aria-label="Previous day">←</button><h2 style="margin:0">${k === today() ? 'Today' : fmtDay(k)}</h2><button class="ghost" data-act="jDate" data-d="1" ${k >= today() ? 'disabled' : ''} aria-label="Next day">→</button></div>
     <p class="quote">${esc(pick(REFLECTION_PROMPTS, parse(k).getDate()))}</p>
     <h3>Mood</h3>${scale('mood', MOODS)}<h3>Energy</h3>${scale('energy', ['1', '2', '3', '4', '5'])}
-    ${area('wins', 'What went well', 'Small wins count')}${area('lessons', 'What I would do differently', 'One honest line')}${area('grateful', 'Grateful for', '')}${area('tomorrow', 'Top three for tomorrow (one per line)', 'Write up to three')}
-    <button class="primary" data-act="setTomorrow" data-date="${k}">Send these to ${k === today() ? "tomorrow's" : 'the next day\'s'} top 3</button><p class="muted">Saved as you type.</p></div>
+    ${area('wins', 'What went well', 'Small wins count')}${area('lessons', 'What I would do differently', 'One honest line')}${area('grateful', 'Grateful for', '')}${area('tomorrow', 'To do tomorrow (one per line)', 'Each line becomes a task')}
+    <button class="primary" data-act="setTomorrow" data-date="${k}">Add these to my tasks</button><p class="muted">Saved as you type.</p></div>
   ${past.length ? `<details class="card"><summary>Recent entries (${past.length})</summary><ul class="list">${past.map(d => `<li><div class="grow"><span class="title">${fmtDay(d)}</span> ${S.journal[d].mood ? 'mood ' + S.journal[d].mood : ''}<div class="muted">${esc((S.journal[d].wins || S.journal[d].lessons || '').slice(0, 140))}</div></div><button class="ghost" data-act="jOpen" data-date="${d}">Open</button></li>`).join('')}</ul></details>` : ''}`;
 }
 
@@ -107,8 +106,7 @@ register({
     jOpen: d => { ui.sub.jDate = d.date; },
     setTomorrow: d => {
       const next = addDays(d.date, 1), lines = (S.journal[d.date]?.tomorrow || '').split('\n').map(x => x.trim()).filter(Boolean);
-      const list = (S.mits[next] ||= []);
-      lines.forEach(text => { if (list.length < 3 && !list.some(m => m.text === text)) list.push({ id: uid(), text, done: false, taskId: null }); });
+      lines.forEach(text => { if (!S.tasks.some(t => !t.done && t.title === text)) S.tasks.push({ id: uid(), title: text, due: next, important: true, done: false, kind: 'Task' }); });
     },
     rWeek: d => { const w = addDays(ui.sub.rWeek || weekStart(), Number(d.d)); ui.sub.rWeek = w > weekStart() ? weekStart() : w; },
     rOpen: d => { ui.sub.rWeek = d.week; },
