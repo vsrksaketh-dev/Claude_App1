@@ -1,0 +1,21 @@
+{
+  "name": "daily-driver",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Personal self-monitoring and self-development app. The web app has no build step; this package only wraps it as an Android app with Capacitor.",
+  "scripts": {
+    "build:www": "node scripts/build-www.mjs",
+    "android:sync": "node scripts/build-www.mjs && cap sync android"
+  },
+  "dependencies": {
+    "@capacitor/android": "6.2.2",
+    "@capacitor/app": "6.0.3",
+    "@capacitor/core": "6.2.2",
+    "@capacitor/filesystem": "6.0.4",
+    "@capacitor/share": "6.0.4"
+  },
+  "devDependencies": {
+    "@capacitor/assets": "3.0.5",
+    "@capacitor/cli": "6.2.2"
+  }
+}

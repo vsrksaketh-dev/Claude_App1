@@ -1,4 +1,5 @@
-import { S, register } from '../core.js';
+import { S, register, commit } from '../core.js';
+import { saveBackup } from '../native.js';
 import { today, esc } from '../util.js';
 import { field } from '../ui.js';
 import { exportJSON, importJSON, reset, flush, SCHEMA } from '../store.js';
@@ -20,10 +21,9 @@ register({
   actions: {
     module: d => { S.modules[d.id] = !S.modules[d.id]; },
     export: () => {
-      const a = document.createElement('a');
-      a.href = URL.createObjectURL(new Blob([exportJSON()], { type: 'application/json' }));
-      a.download = `daily-driver-${today()}.json`; a.click();
-      S.meta.lastBackup = today();
+      saveBackup(`daily-driver-${today()}.json`, exportJSON())
+        .then(() => { S.meta.lastBackup = today(); commit(); })
+        .catch(() => alert('Could not export the backup.'));
     },
     import: () => {
       const i = document.createElement('input'); i.type = 'file'; i.accept = 'application/json';

@@ -1,6 +1,7 @@
 // Entry point: loads modules, wires events, boots the app.
 import { ui, app, render, commit, go } from './core.js';
 import { save } from './store.js';
+import { isNative, initBackButton } from './native.js';
 import './views/today.js';
 import './views/plan.js';
 import './views/learn.js';
@@ -39,5 +40,6 @@ document.addEventListener('input', e => {
 (async function boot() {
   try { app.brief = await (await fetch('data/brief.json', { cache: 'no-cache' })).json(); } catch { /* offline: render without brief */ }
   render();
-  if ('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js').catch(() => {});
+  initBackButton(() => ui.view === 'today', () => go('today'));
+  if ('serviceWorker' in navigator && !isNative()) navigator.serviceWorker.register('sw.js').catch(() => {});
 })();

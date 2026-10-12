@@ -1,5 +1,5 @@
 const CACHE = 'daily-driver-v3';
-const ASSETS = ['./', 'index.html', 'css/styles.css', 'js/main.js', 'js/core.js', 'js/ui.js', 'js/util.js', 'js/logic.js', 'js/data.js', 'js/store.js', 'js/views/today.js', 'js/views/plan.js', 'js/views/learn.js', 'js/views/growth.js', 'js/views/more.js', 'js/sections/focus.js', 'js/sections/money.js', 'js/sections/career.js', 'js/sections/settings.js', 'data/brief.json', 'manifest.webmanifest', 'icons/icon.svg'];
+const ASSETS = ['./', 'index.html', 'css/styles.css', 'js/main.js', 'js/native.js', 'js/core.js', 'js/ui.js', 'js/util.js', 'js/logic.js', 'js/data.js', 'js/store.js', 'js/views/today.js', 'js/views/plan.js', 'js/views/learn.js', 'js/views/growth.js', 'js/views/more.js', 'js/sections/focus.js', 'js/sections/money.js', 'js/sections/career.js', 'js/sections/settings.js', 'data/brief.json', 'manifest.webmanifest', 'icons/icon.svg'];
 
 self.addEventListener('install', e => e.waitUntil(caches.open(CACHE).then(c => c.addAll(ASSETS)).then(() => self.skipWaiting())));
 self.addEventListener('activate', e => e.waitUntil(
