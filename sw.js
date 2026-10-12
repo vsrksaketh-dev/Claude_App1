@@ -1,4 +1,4 @@
-const CACHE = 'daily-driver-v1';
+const CACHE = 'daily-driver-v2';
 const ASSETS = ['./', 'index.html', 'css/styles.css', 'js/app.js', 'js/data.js', 'js/store.js', 'data/brief.json', 'manifest.webmanifest', 'icons/icon.svg'];
 
 self.addEventListener('install', e => e.waitUntil(caches.open(CACHE).then(c => c.addAll(ASSETS)).then(() => self.skipWaiting())));

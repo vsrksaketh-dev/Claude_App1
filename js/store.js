@@ -16,6 +16,7 @@ const blank = () => ({
   subs: [],                // { id, name, amount, day }
   expenses: [],            // { id, date, amount, cat, note }
   budget: 0,
+  profile: { roll: '', name: '' },   // used for CV file names
   focus: {},               // { date: minutes }
   timer: { mode: 'focus', len: 25, remaining: 25 * 60, endsAt: null, running: false },
 });

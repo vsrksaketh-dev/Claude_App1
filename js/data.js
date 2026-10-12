@@ -172,6 +172,7 @@ export const HR_TRENDS = [
 ];
 
 export const STAR_TRAITS = ['Leadership', 'Conflict', 'Innovation', 'Teamwork', 'Failure', 'Initiative'];
-export const KANBAN_COLUMNS = ['Applied', 'Assessment', 'Interview', 'Offer'];
-export const DEFAULT_ROUTINE = ['Skin care', 'Take medication', 'Read news', 'Read 10 pages'];
+export const KANBAN_COLUMNS = ['To apply', 'Applied', 'Assessment', 'Interview', 'Offer'];
+export const APPLY_STEPS = [['superset', 'Superset'], ['portal', 'Company portal'], ['form', 'Google Form'], ['cv', 'CV named and uploaded']];
+export const DEFAULT_ROUTINE = ['Skin care', 'Take medication', 'Read 10 pages'];
 export const EXPENSE_CATS = ['Food', 'Travel', 'Rent', 'Fun', 'Study', 'Other'];

@@ -1,5 +1,5 @@
 import { get, save, reset, exportJSON, importJSON, uid, today, daysFromToday, dayOfYear, esc, inr } from './store.js';
-import { GUESSTIMATES, FRAMEWORKS, JARGON, TEARDOWNS, HR_TRENDS, STAR_TRAITS, KANBAN_COLUMNS, EXPENSE_CATS } from './data.js';
+import { GUESSTIMATES, FRAMEWORKS, JARGON, TEARDOWNS, HR_TRENDS, STAR_TRAITS, KANBAN_COLUMNS, APPLY_STEPS, EXPENSE_CATS } from './data.js';
 
 const S = get();
 let brief = { events: [], inbox: [], news: [] };
@@ -10,6 +10,21 @@ const CAL_FLAG = (e) => e.interview ? '<span class="chip warn">Interview</span>'
 // ---------- derived data ----------
 const pick = arr => arr[dayOfYear() % arr.length];
 const allEvents = () => [...(brief.events || []), ...S.events].sort((a, b) => (a.date + (a.time || '')).localeCompare(b.date + (b.time || '')));
+
+const until = iso => {
+  const ms = new Date(iso) - Date.now();
+  if (ms < 0) return 'passed';
+  const h = Math.floor(ms / 36e5);
+  return h < 1 ? Math.max(1, Math.round(ms / 6e4)) + 'm' : h < 48 ? h + 'h' : Math.floor(h / 24) + 'd';
+};
+const missingSteps = a => APPLY_STEPS.filter(([k]) => !(a.steps || {})[k]).map(([, l]) => l);
+const cvName = a => `${S.profile.roll || 'Roll Number'}_${S.profile.name || 'Full Name'}_${a.company}`;
+// Applications still in "To apply" with a deadline show up as important tasks automatically.
+const derivedTasks = () => S.apps.filter(a => a.stage === 'To apply' && a.deadline).map(a => ({
+  id: 'app-' + a.id, appId: a.id, derived: true, important: true, due: a.deadline.slice(0, 10), kind: 'Apply',
+  title: `Apply: ${a.company}`, left: missingSteps(a).join(', ') || 'all steps ticked', at: a.deadline,
+}));
+const openTasks = () => [...S.tasks.filter(t => !t.done), ...derivedTasks()];
 
 const taskQuadrant = t => {
   const urgent = t.due && daysFromToday(t.due) <= 2;
@@ -55,23 +70,31 @@ function nudges() {
   const out = [];
   S.subs.forEach(s => { const d = daysToBilling(s.day); if (d <= 3) out.push(`💳 ${esc(s.name)} renews ${d === 0 ? 'today' : `in ${d} day${d > 1 ? 's' : ''}`} (${inr(s.amount)})`); });
   S.contacts.filter(contactDue).forEach(c => out.push(`🤝 Follow up with ${esc(c.name)}${c.org ? ' (' + esc(c.org) + ')' : ''}`));
-  S.deadlines.filter(d => { const n = daysFromToday(d.date); return n >= 0 && n <= 7; }).forEach(d => out.push(`🎓 ${esc(d.title)} in ${daysFromToday(d.date)} day(s)`));
-  const doFirst = S.tasks.filter(t => !t.done && taskQuadrant(t) === 'UI').length;
+  S.apps.filter(a => a.stage === 'To apply' && a.deadline && new Date(a.deadline) > new Date() && new Date(a.deadline) - Date.now() < 48 * 36e5).forEach(a => out.push(`📝 ${esc(a.company)}: ${esc(missingSteps(a).join(', ') || 'submit')} left, closes in ${until(a.deadline)}`));
+  S.tasks.filter(t => !t.done && t.due && daysFromToday(t.due) >= 0 && daysFromToday(t.due) <= 3).forEach(t => out.push(`🎓 ${esc(t.title)} ${daysFromToday(t.due) === 0 ? 'today' : 'in ' + daysFromToday(t.due) + ' day(s)'}`));
+  const doFirst = openTasks().filter(t => taskQuadrant(t) === 'UI').length;
   if (doFirst) out.push(`🔥 ${doFirst} urgent + important task${doFirst > 1 ? 's' : ''}`);
   return out;
 }
 
+const starLine = () => `<p class="muted">${S.stars.length} STAR stories ready${S.stars.length ? ': ' + [...new Set(S.stars.map(x => x.trait))].join(', ') : ''}.</p>`;
 function prepCards() {
-  return allEvents().filter(e => e.interview && e.company).filter(e => {
-    const hrs = (new Date(e.date + 'T' + (e.time || '09:00')) - new Date()) / 36e5;
-    return hrs > -2 && hrs <= 24;
-  }).map(e => {
-    const app = S.apps.find(a => a.company.toLowerCase() === e.company.toLowerCase());
-    return `<div class="card alert"><h2>📝 Prep: ${esc(e.company)}</h2>
-      <p class="muted">${esc(e.title)} · ${esc(e.date)} ${esc(e.time || '')}</p>
-      ${app ? `<p><b>${esc(app.role || 'Role')}</b>${app.notes ? ': ' + esc(app.notes) : ''}</p>` : empty('No application notes saved. Add them on the Career board.')}
-      <p class="muted">${S.stars.length} STAR stories ready${S.stars.length ? ': ' + [...new Set(S.stars.map(s => s.trait))].join(', ') : ''}.</p></div>`;
-  }).join('');
+  const soon = iso => { const h = (new Date(iso) - Date.now()) / 36e5; return h > -2 && h <= 24; };
+  const fromApps = S.apps.filter(a => a.talk && soon(a.talk));
+  const talkCards = fromApps.map(a => `<div class="card alert"><h2>📝 Prep: ${esc(a.company)} <span class="chip warn">in ${until(a.talk)}</span></h2>
+      <p class="muted">${esc(a.role || 'Pre-placement talk')} · ${new Date(a.talk).toLocaleString('en-IN', { weekday: 'short', hour: 'numeric', minute: '2-digit' })}</p>
+      ${a.about ? `<p>${esc(a.about)}</p>` : ''}
+      ${a.questions ? `<h3>Questions to ask</h3><p style="white-space:pre-wrap">${esc(a.questions)}</p>` : empty('No questions drafted yet. Talks expect relevant questions; add three on the Career tab.')}
+      ${a.stage === 'To apply' ? `<p class="chip warn">Still to do: ${esc(missingSteps(a).join(', ') || 'submit')}</p>` : ''}
+      ${starLine()}</div>`);
+  const eventCards = allEvents().filter(e => e.interview && e.company && soon(e.date + 'T' + (e.time || '09:00')))
+    .filter(e => !fromApps.some(a => a.company.toLowerCase() === e.company.toLowerCase()))
+    .map(e => {
+      const app = S.apps.find(x => x.company.toLowerCase() === e.company.toLowerCase());
+      return `<div class="card alert"><h2>📝 Prep: ${esc(e.company)}</h2><p class="muted">${esc(e.title)} · ${esc(e.date)} ${esc(e.time || '')}</p>
+      ${app ? `<p><b>${esc(app.role || 'Role')}</b>${app.notes ? ': ' + esc(app.notes) : ''}</p>` : empty('No application notes saved. Add them on the Career board.')}${starLine()}</div>`;
+    });
+  return [...talkCards, ...eventCards].join('');
 }
 
 function homeView() {
@@ -95,7 +118,7 @@ function homeView() {
       <form data-form="event" class="inline">${field('Title', 'title', 'required')}${field('Date', 'date', `type="date" required value="${t}"`)}${field('Time', 'time', 'type="time"')}${field('Company (interviews)', 'company')}
       <label class="check"><input type="checkbox" name="interview"> Interview</label><button class="primary">Add</button></form></details></div>
   <div class="card"><h2>📬 Important email & actions</h2>
-    ${(brief.inbox || []).length ? `<ul class="list">${brief.inbox.map(m => `<li class="${S.inboxDone[m.id] ? 'done' : ''}"><input type="checkbox" style="width:auto;margin-top:5px" data-act="inbox" data-id="${m.id}" ${S.inboxDone[m.id] ? 'checked' : ''}><div class="grow"><span class="title">${esc(m.from)}: ${esc(m.subject)}</span> ${m.tag ? `<span class="chip">${esc(m.tag)}</span>` : ''}<div class="muted">Action: ${esc(m.action)}</div></div></li>`).join('')}</ul>` : empty('Nothing urgent.')}
+    ${(brief.inbox || []).length ? `<ul class="list">${brief.inbox.map(m => `<li class="${S.inboxDone[m.id] ? 'done' : ''}"><input type="checkbox" style="width:auto;margin-top:5px" data-act="inbox" data-id="${m.id}" ${S.inboxDone[m.id] ? 'checked' : ''}><div class="grow"><span class="title">${esc(m.from)}: ${esc(m.subject)}</span> ${m.tag ? `<span class="chip">${esc(m.tag)}</span>` : ''}<div class="muted">Action: ${esc(m.action)}</div>${m.due ? `<div class="row"><span class="chip warn">due ${new Date(m.due).toLocaleString('en-IN', { day: 'numeric', month: 'short', hour: 'numeric', minute: '2-digit' })}</span><button class="ghost" data-act="inboxTask" data-id="${m.id}">+ Add to tasks</button></div>` : ''}</div></li>`).join('')}</ul>` : empty('Nothing urgent.')}
     <p class="muted">Feed comes from data/brief.json. See README to wire Gmail.</p></div>
   <div class="card"><h2>✅ Morning routine <span class="chip">${doneN}/${S.routineItems.length}</span> <span class="chip ok">🔥 ${streak()} day streak</span></h2>
     <div class="bar"><i style="width:${S.routineItems.length ? doneN / S.routineItems.length * 100 : 0}%"></i></div>
@@ -125,10 +148,10 @@ function learnView() {
     <ul class="list">${f.parts.map(([a, b]) => `<li><div><b>${esc(a)}</b><div class="muted">${esc(b)}</div></div></li>`).join('')}</ul>
     <p><b>Use it for:</b> ${esc(f.use)}</p><p class="muted"><b>Example:</b> ${esc(f.example)}</p></div>
   <div class="card"><h2>📖 Jargon buster</h2><p class="title">${esc(j.term)}</p><p>${esc(j.meaning)}</p></div>
-  <div class="card"><h2>🎬 Campaign teardown <span class="chip">${esc(td.verdict)}</span></h2><p class="title">${esc(td.name)}</p><p class="muted">${esc(td.brand)} · ${esc(td.year)} · weekly pick</p>
+  <details class="card"><summary>Weekly reading: campaign teardown and HR trend</summary><div><h2>🎬 Campaign teardown <span class="chip">${esc(td.verdict)}</span></h2><p class="title">${esc(td.name)}</p><p class="muted">${esc(td.brand)} · ${esc(td.year)} · weekly pick</p>
     <ul class="list">${[['Audience', td.audience], ['Positioning', td.positioning], ['Tactics', td.tactics], ['Result / ROI', td.result]].map(([a, b]) => `<li><div><b>${a}</b><div>${esc(b)}</div></div></li>`).join('')}</ul>
     <p class="quote">${esc(td.lesson)}</p></div>
-  <div class="card"><h2>🏢 HR & OB trend</h2><p class="title">${esc(tr.title)}</p><p>${esc(tr.body)}</p><p class="muted">${esc(tr.lens)}</p></div>`;
+  <div><h2>🏢 HR & OB trend</h2><p class="title">${esc(tr.title)}</p><p>${esc(tr.body)}</p><p class="muted">${esc(tr.lens)}</p></div></details>`;
 }
 
 // ---------- CAREER ----------
@@ -136,10 +159,22 @@ function careerView() {
   const sub = ui.sub.career;
   let body = '';
   if (sub === 'board') {
-    body = `<div class="kanban">${KANBAN_COLUMNS.map((col, ci) => `<div class="col"><h3>${col} <span class="chip">${S.apps.filter(a => a.stage === col).length}</span></h3>
-      ${S.apps.filter(a => a.stage === col).map(a => `<div class="card"><div class="title">${esc(a.company)}</div><div class="muted">${esc(a.role)}</div>${a.notes ? `<p class="muted">${esc(a.notes)}</p>` : ''}
-        <div class="row">${ci > 0 ? `<button data-act="moveApp" data-id="${a.id}" data-dir="-1">←</button>` : ''}${ci < KANBAN_COLUMNS.length - 1 ? `<button data-act="moveApp" data-id="${a.id}" data-dir="1">→</button>` : ''}<button class="ghost danger" data-act="delApp" data-id="${a.id}">Delete</button></div></div>`).join('')}</div>`).join('')}</div>
-      <div class="card"><h2>Add application</h2><form data-form="app" class="inline">${field('Company', 'company', 'required')}${field('Role', 'role')}${field('Notes for prep', 'notes')}<button class="primary">Add</button></form></div>`;
+    const appCard = (x, ci) => `<div class="card"><div class="row between"><span class="title">${esc(x.company)}</span>${x.stage === 'To apply' && x.deadline ? `<span class="chip ${new Date(x.deadline) - Date.now() < 864e5 ? 'bad' : 'warn'}">closes in ${until(x.deadline)}</span>` : ''}</div>
+      <div class="muted">${esc(x.role)}</div>
+      ${x.stage === 'To apply' ? `<ul class="list">${APPLY_STEPS.map(([k, l]) => `<li style="padding:5px 0"><label class="check"><input type="checkbox" data-act="step" data-id="${x.id}" data-step="${k}" ${(x.steps || {})[k] ? 'checked' : ''}> ${l}</label></li>`).join('')}</ul>
+        <input data-bind="app" data-id="${x.id}" data-field="applicantId" placeholder="Applicant ID from company portal" value="${esc(x.applicantId)}">
+        <div class="row" style="margin-top:6px"><code class="grow muted" style="overflow-wrap:anywhere">${esc(cvName(x))}</code><button data-act="copy" data-text="${esc(cvName(x))}">Copy name</button></div>` : ''}
+      <details><summary>Prep and notes</summary>
+        <label>Pre-placement talk / interview<input type="datetime-local" data-bind="app" data-id="${x.id}" data-field="talk" value="${esc(x.talk)}"></label>
+        <label>What they do, roles on offer<textarea data-bind="app" data-id="${x.id}" data-field="about">${esc(x.about)}</textarea></label>
+        <label>Questions to ask (one per line)<textarea data-bind="app" data-id="${x.id}" data-field="questions">${esc(x.questions)}</textarea></label>
+        <label>Notes<textarea data-bind="app" data-id="${x.id}" data-field="notes">${esc(x.notes)}</textarea></label></details>
+      <div class="row">${ci > 0 ? `<button data-act="moveApp" data-id="${x.id}" data-dir="-1">←</button>` : ''}${ci < KANBAN_COLUMNS.length - 1 ? `<button data-act="moveApp" data-id="${x.id}" data-dir="1">→</button>` : ''}<button class="ghost danger" data-act="delApp" data-id="${x.id}">Delete</button></div></div>`;
+    body = `<details class="card" ${S.profile.roll && S.profile.name ? '' : 'open'}><summary>CV file name</summary><p class="muted">Used to build the name each company asks for: Roll Number_Full Name_Company.</p>
+      <form data-form="profile" class="inline">${field('Roll number', 'roll', `value="${esc(S.profile.roll)}"`)}${field('Full name', 'name', `value="${esc(S.profile.name)}"`)}<button>Save</button></form></details>
+      <div class="kanban">${KANBAN_COLUMNS.map((col, ci) => `<div class="col"><h3>${col} <span class="chip">${S.apps.filter(x => x.stage === col).length}</span></h3>${S.apps.filter(x => x.stage === col).sort((p, q) => (p.deadline || '9').localeCompare(q.deadline || '9')).map(x => appCard(x, ci)).join('')}</div>`).join('')}</div>
+      <div class="card"><h2>Add application</h2><form data-form="app" class="inline">${field('Company', 'company', 'required')}${field('Role', 'role')}${field('Apply by', 'deadline', 'type="datetime-local"')}<button class="primary">Add</button></form>
+      <p class="muted">Tick the four steps and the card moves to Applied. Anything still in To apply with a deadline shows in Tasks and on Home.</p></div>`;
   } else if (sub === 'people') {
     const sorted = [...S.contacts].sort((a, b) => (contactDue(b) - contactDue(a)) || (a.last || '').localeCompare(b.last || ''));
     body = `<div class="card"><h2>🤝 Networking rolodex</h2>${sorted.length ? `<ul class="list">${sorted.map(c => {
@@ -167,16 +202,13 @@ function focusView() {
   const sub = ui.sub.focus;
   let body = '';
   if (sub === 'tasks') {
-    const open = S.tasks.filter(t => !t.done);
+    const open = openTasks();
     const q = { UI: ['🔥 Do first', 'Urgent + important'], I: ['📆 Schedule', 'Important, not urgent'], U: ['🤝 Delegate / quick', 'Urgent, not important'], '': ['🗑 Eliminate', 'Neither'] };
-    body = `<div class="matrix">${Object.entries(q).map(([k, [name, desc]]) => `<div><h3>${name}</h3><p class="muted">${desc}</p><ul class="list">${open.filter(t => taskQuadrant(t) === k).map(t => `<li><input type="checkbox" style="width:auto" data-act="taskDone" data-id="${t.id}"><div class="grow">${esc(t.title)}${t.due ? `<div class="muted">due ${esc(t.due)}</div>` : ''}</div><button class="ghost danger" data-act="delTask" data-id="${t.id}">✕</button></li>`).join('')}</ul></div>`).join('')}</div>
-      <div class="card"><form data-form="task" class="inline">${field('Task', 'title', 'required')}${field('Due', 'due', 'type="date"')}<label class="check"><input type="checkbox" name="important"> Important</label><button class="primary">Add</button></form>
-      <p class="muted">Urgent means due within 2 days or overdue. Quadrants update by themselves as deadlines approach.</p></div>
+    const chip = t => { if (!t.due) return ''; const n = daysFromToday(t.due); return `<span class="chip ${n <= 1 ? 'warn' : ''}">${n < 0 ? 'overdue' : n === 0 ? 'today' : n + 'd'}</span>`; };
+    body = `<div class="matrix">${Object.entries(q).map(([k, [name, desc]]) => `<div><h3>${name}</h3><p class="muted">${desc}</p><ul class="list">${open.filter(t => taskQuadrant(t) === k).sort((p, q2) => (p.due || '9').localeCompare(q2.due || '9')).map(t => `<li>${t.derived ? `<button data-act="goApp" data-id="${t.appId}">Open</button>` : `<input type="checkbox" style="width:auto" data-act="taskDone" data-id="${t.id}">`}<div class="grow">${esc(t.title)} ${chip(t)} ${t.kind && t.kind !== 'Task' ? `<span class="chip plain">${esc(t.kind)}</span>` : ''}${t.left ? `<div class="muted">left: ${esc(t.left)}</div>` : t.due ? `<div class="muted">due ${esc(t.due)}</div>` : ''}</div>${t.derived ? '' : `<button class="ghost danger" data-act="delTask" data-id="${t.id}">✕</button>`}</li>`).join('')}</ul></div>`).join('')}</div>
+      <div class="card"><form data-form="task" class="inline">${field('Task or deadline', 'title', 'required')}${field('Due', 'due', 'type="date"')}<label>Type<select name="kind"><option>Task</option><option>Submission</option><option>Exam</option><option>Presentation</option><option>Placement</option></select></label><label class="check"><input type="checkbox" name="important" checked> Important</label><button class="primary">Add</button></form>
+      <p class="muted">Urgent means due within 2 days or overdue. Quadrants update by themselves as deadlines approach. Open applications with a deadline appear here automatically.</p></div>
       ${S.tasks.some(t => t.done) ? `<p class="muted">${S.tasks.filter(t => t.done).length} completed <button class="ghost" data-act="clearDone">Clear</button></p>` : ''}`;
-  } else if (sub === 'deadlines') {
-    const sorted = [...S.deadlines].sort((a, b) => a.date.localeCompare(b.date));
-    body = `<div class="card"><h2>🎓 Academic countdown</h2>${sorted.length ? `<ul class="list">${sorted.map(d => { const n = daysFromToday(d.date); return `<li><div class="grow"><span class="title">${esc(d.title)}</span> <span class="chip">${esc(d.kind)}</span><div class="muted">${esc(d.date)}</div></div><div class="big ${n < 0 ? 'chip bad' : n <= 3 ? 'chip warn' : ''}">${n < 0 ? 'past' : n === 0 ? 'today' : n + 'd'}</div><button class="ghost danger" data-act="delDeadline" data-id="${d.id}">✕</button></li>`; }).join('')}</ul>` : empty('Add exams, submissions and presentations.')}
-      <form data-form="deadline" class="inline">${field('Title', 'title', 'required')}${field('Date', 'date', 'type="date" required')}<label>Type<select name="kind"><option>Submission</option><option>Exam</option><option>Presentation</option></select></label><button class="primary">Add</button></form></div>`;
   } else {
     const r = timerRemaining(), tm = S.timer, total = tm.len * 60;
     body = `<div class="card"><h2>⏱ ${tm.mode === 'focus' ? 'Deep work' : 'Break'}</h2><div class="timer" id="timer">${fmt(r)}</div>
@@ -186,7 +218,7 @@ function focusView() {
       <p class="muted">While a focus session runs, the app dims navigation and holds back its own nudges. Phones need Do Not Disturb turned on separately; a web app cannot silence other apps.</p></div>
       <div class="card"><h2>📈 Focus hours</h2><p>Today: <b>${S.focus[today()] || 0} min</b> · Last 7 days: <b>${(focusMinutesThisWeek() / 60).toFixed(1)} h</b></p></div>`;
   }
-  return `<h1>Productivity</h1>${tabs('focus', [['tasks', 'Tasks'], ['deadlines', 'Countdown'], ['timer', 'Deep work']])}${body}`;
+  return `<h1>Productivity</h1>${tabs('focus', [['tasks', 'Tasks and deadlines'], ['timer', 'Deep work']])}${body}`;
 }
 
 // ---------- MONEY ----------
@@ -240,6 +272,17 @@ const actions = {
   contacted: d => { byId(S.contacts, d.id).last = today(); },
   delContact: d => del('contacts', d.id),
   delStar: d => del('stars', d.id),
+  step: d => {
+    const x = byId(S.apps, d.id); x.steps = x.steps || {}; x.steps[d.step] = !x.steps[d.step];
+    if (x.stage === 'To apply' && APPLY_STEPS.every(([k]) => x.steps[k])) x.stage = 'Applied';
+  },
+  copy: d => { try { navigator.clipboard.writeText(d.text).catch(() => {}); } catch { /* clipboard unavailable */ } },
+  goApp: () => { ui.view = 'career'; ui.sub.career = 'board'; },
+  inboxTask: d => {
+    const m = (brief.inbox || []).find(i => i.id === d.id); if (!m) return;
+    const title = `${m.from}: ${m.subject}`;
+    if (!S.tasks.some(t => t.title === title)) S.tasks.push({ id: uid(), title, due: m.due.slice(0, 10), important: true, done: false, kind: m.tag === 'Placement' ? 'Placement' : 'Task' });
+  },
   taskDone: d => { byId(S.tasks, d.id).done = true; },
   delTask: d => del('tasks', d.id),
   clearDone: () => { S.tasks = S.tasks.filter(t => !t.done); },
@@ -266,10 +309,11 @@ const actions = {
 const forms = {
   event: f => S.events.push({ id: uid(), title: f.title, date: f.date, time: f.time, interview: !!f.interview, company: f.company }),
   routine: f => S.routineItems.push({ id: uid(), label: f.label }),
-  app: f => S.apps.push({ id: uid(), company: f.company, role: f.role, notes: f.notes, stage: KANBAN_COLUMNS[0] }),
+  app: f => S.apps.push({ id: uid(), company: f.company, role: f.role, deadline: f.deadline, stage: KANBAN_COLUMNS[0], steps: {} }),
+  profile: f => { S.profile = { roll: f.roll, name: f.name }; },
   contact: f => S.contacts.push({ id: uid(), name: f.name, org: f.org, kind: f.kind, cadence: Number(f.cadence), note: f.note, last: '' }),
   star: f => S.stars.push({ id: uid(), title: f.title, trait: f.trait, s: f.s, t: f.t, a: f.a, r: f.r }),
-  task: f => S.tasks.push({ id: uid(), title: f.title, due: f.due, important: !!f.important, done: false }),
+  task: f => S.tasks.push({ id: uid(), title: f.title, due: f.due, important: !!f.important, done: false, kind: f.kind }),
   deadline: f => S.deadlines.push({ id: uid(), title: f.title, date: f.date, kind: f.kind }),
   sub: f => S.subs.push({ id: uid(), name: f.name, amount: Number(f.amount), day: Number(f.day) }),
   expense: f => S.expenses.push({ id: uid(), amount: Number(f.amount), cat: f.cat, note: f.note, date: f.date }),
@@ -292,6 +336,7 @@ document.addEventListener('submit', e => {
   forms[form.dataset.form](fd); save(); render();
 });
 document.addEventListener('input', e => {
+  if (e.target.dataset.bind === 'app') { const x = byId(S.apps, e.target.dataset.id); if (x) { x[e.target.dataset.field] = e.target.value; save(); } return; }
   if (e.target.dataset.bind === 'guess') { (S.guess[today()] ||= { revealed: false }).text = e.target.value; save(); }
 });
 
@@ -316,6 +361,7 @@ setInterval(() => {
 // ---------- boot ----------
 (async function boot() {
   try { brief = await (await fetch('data/brief.json', { cache: 'no-cache' })).json(); } catch { /* offline: render without brief */ }
+  if (S.deadlines.length) { S.deadlines.forEach(d => S.tasks.push({ id: d.id, title: d.title, due: d.date, important: true, done: false, kind: d.kind })); S.deadlines = []; save(); }
   render();
   if ('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js').catch(() => {});
 })();

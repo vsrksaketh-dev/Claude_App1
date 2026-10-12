@@ -15,10 +15,10 @@ Host the folder on GitHub Pages, Netlify or Cloudflare Pages to use it from your
 
 | Tab | Features |
 | --- | --- |
-| Home | Needs-attention nudges, interview prep cards (surface 24h before), today's calendar, action inbox, morning routine with streak, categorised news with "why it matters", daily learning preview |
+| Home | Needs-attention nudges, interview prep cards (surface 24h before), today's calendar, action inbox, morning routine with streak, categorised news with "why it matters", daily learning preview, one-tap "Add to tasks" on any email with a deadline |
 | Learn | Guesstimate with reveal-after-you-try, framework, jargon, weekly campaign teardown, HR/OB trend |
-| Career | Application kanban, networking rolodex with 30/45/60-day nudges, STAR story bank by trait |
-| Focus | Eisenhower matrix that re-sorts as due dates approach, academic countdown, Pomodoro with focus-hours log |
+| Career | Application board starting at To apply, with a per-company checklist (Superset, company portal, Google Form, CV) and a CV file-name generator; prep notes and questions per company; networking rolodex with 30/45/60-day nudges; STAR story bank |
+| Focus | Eisenhower matrix that re-sorts as due dates approach (exams, submissions and open applications all land here), Pomodoro with focus-hours log |
 | Money | Subscription tracker with 3-day renewal alerts, monthly budget ledger |
 
 ## Live data (Gmail, Calendar, news)
@@ -38,3 +38,7 @@ Generate this file each morning (a scheduled script or Claude routine that reads
 - The deep-work timer dims the app and holds back its own nudges. A web app cannot mute other apps; turn on Do Not Disturb on your phone.
 - Timer notifications only fire while the page is open.
 - Knowledge content rotates by day from `js/data.js`. Campaign ROI figures are widely reported, not audited; verify before quoting in interviews.
+
+## Daily brief routine
+
+The live brief is published to a private Claude page, not this public repo, because it contains real email content. `brief/RULES.md` holds the filtering rules and `brief/page.template.html` the page template. Edit the rules file to change what gets surfaced.
