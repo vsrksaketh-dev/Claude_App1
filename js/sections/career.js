@@ -15,8 +15,8 @@ app.nudgeSources.push(() => {
   if (!on()) return [];
   const out = [];
   S.apps.filter(a => a.stage === 'To apply' && a.deadline && new Date(a.deadline) > new Date() && new Date(a.deadline) - Date.now() < 48 * 36e5)
-    .forEach(a => out.push(`📝 ${esc(a.company)}: ${esc(missing(a).join(', ') || 'submit')} left, closes in ${until(a.deadline)}`));
-  S.contacts.filter(contactDue).forEach(c => out.push(`🤝 Follow up with ${esc(c.name)}${c.org ? ' (' + esc(c.org) + ')' : ''}`));
+    .forEach(a => out.push(`${esc(a.company)}: ${esc(missing(a).join(', ') || 'submit')} left, closes in ${until(a.deadline)}`));
+  S.contacts.filter(contactDue).forEach(c => out.push(`Follow up with ${esc(c.name)}${c.org ? ' (' + esc(c.org) + ')' : ''}`));
   return out;
 });
 app.taskSources.push(() => !on() ? [] : S.apps.filter(a => a.stage === 'To apply' && a.deadline).map(a => ({
@@ -27,7 +27,7 @@ app.todayCards.push(() => {
   if (!on()) return '';
   const soon = iso => { const h = (new Date(iso) - Date.now()) / 36e5; return h > -2 && h <= 24; };
   const stars = `<p class="muted">${S.stars.length} STAR stories ready.</p>`;
-  return S.apps.filter(a => a.talk && soon(a.talk)).map(a => `<div class="card alert"><h2>📝 Prep: ${esc(a.company)} ${chip('in ' + until(a.talk), 'warn')}</h2>
+  return S.apps.filter(a => a.talk && soon(a.talk)).map(a => `<div class="card alert"><h2>Prep: ${esc(a.company)} ${chip('in ' + until(a.talk), 'warn')}</h2>
     <p class="muted">${esc(a.role || 'Talk or interview')}</p>${a.about ? `<p>${esc(a.about)}</p>` : ''}
     ${a.questions ? `<h3>Questions to ask</h3><p style="white-space:pre-wrap">${esc(a.questions)}</p>` : empty('No questions drafted yet.')}
     ${a.stage === 'To apply' ? chip('Still to do: ' + esc(missing(a).join(', ') || 'submit'), 'warn') : ''}${stars}</div>`).join('');
@@ -52,13 +52,13 @@ function board() {
 }
 function people() {
   const sorted = [...S.contacts].sort((a, b) => (contactDue(b) - contactDue(a)) || (a.last || '').localeCompare(b.last || ''));
-  return `<div class="card"><h2>🤝 Network</h2>${sorted.length ? `<ul class="list">${sorted.map(c => { const ago = c.last ? -daysFromToday(c.last) : null; return `<li><div class="grow"><span class="title">${esc(c.name)}</span> ${chip(esc(c.kind), 'plain')} ${contactDue(c) ? chip('Follow up', 'warn') : ''}<div class="muted">${esc(c.org)} · ${ago === null ? 'never contacted' : ago + ' days ago'} · every ${c.cadence}d</div>${c.note ? `<div class="muted">${esc(c.note)}</div>` : ''}</div><button data-act="contacted" data-id="${c.id}">Done today</button><button class="ghost danger" data-act="delContact" data-id="${c.id}" aria-label="Delete">✕</button></li>`; }).join('')}</ul>` : empty('Add alumni, faculty, mentors and recruiters. People outlast any job search.')}
+  return `<div class="card"><h2>Network</h2>${sorted.length ? `<ul class="list">${sorted.map(c => { const ago = c.last ? -daysFromToday(c.last) : null; return `<li><div class="grow"><span class="title">${esc(c.name)}</span> ${chip(esc(c.kind), 'plain')} ${contactDue(c) ? chip('Follow up', 'warn') : ''}<div class="muted">${esc(c.org)} · ${ago === null ? 'never contacted' : ago + ' days ago'} · every ${c.cadence}d</div>${c.note ? `<div class="muted">${esc(c.note)}</div>` : ''}</div><button data-act="contacted" data-id="${c.id}">Done today</button><button class="ghost danger" data-act="delContact" data-id="${c.id}" aria-label="Delete">×</button></li>`; }).join('')}</ul>` : empty('Add alumni, faculty, mentors and recruiters. People outlast any job search.')}
     <form data-form="contact" class="inline">${field('Name', 'name', 'required')}${field('Organisation', 'org')}<label>Type<select name="kind"><option>Alumni</option><option>Faculty</option><option>Recruiter</option><option>Mentor</option><option>Other</option></select></label><label>Nudge every<select name="cadence"><option value="30">30 days</option><option value="45">45 days</option><option value="60">60 days</option></select></label>${field('Note', 'note')}<button class="primary">Add</button></form></div>`;
 }
 function stories() {
   const f = ui.sub.starFilter || 'All';
   const list = S.stars.filter(s => f === 'All' || s.trait === f);
-  return `<div class="card"><h2>⭐ STAR story bank</h2><div class="tabs">${['All', ...STAR_TRAITS].map(t => `<button class="${f === t ? 'on' : ''}" data-act="starFilter" data-id="${t}">${t}</button>`).join('')}</div>
+  return `<div class="card"><h2>STAR story bank</h2><div class="tabs">${['All', ...STAR_TRAITS].map(t => `<button class="${f === t ? 'on' : ''}" data-act="starFilter" data-id="${t}">${t}</button>`).join('')}</div>
     ${list.length ? list.map(s => `<details class="card"><summary>${esc(s.title)} ${chip(esc(s.trait), 'plain')}</summary>${[['Situation', s.s], ['Task', s.t], ['Action', s.a], ['Result', s.r]].map(([k, v]) => `<p><b>${k}:</b> ${esc(v)}</p>`).join('')}<button class="ghost danger" data-act="delStar" data-id="${s.id}">Delete</button></details>`).join('') : empty('No stories yet.')}
     <details><summary>Add story</summary><form data-form="star">${field('Title', 'title', 'required')}<label>Trait<select name="trait">${STAR_TRAITS.map(t => `<option>${t}</option>`).join('')}</select></label><label>Situation<textarea name="s" required></textarea></label><label>Task<textarea name="t" required></textarea></label><label>Action<textarea name="a" required></textarea></label><label>Result (use numbers)<textarea name="r" required></textarea></label><button class="primary">Save story</button></form></details></div>`;
 }

@@ -7,7 +7,7 @@ import { pick } from '../util.js';
 
 const TABS = [['habits', 'Habits'], ['journal', 'Journal'], ['review', 'Weekly review'], ['insights', 'Insights']];
 const DAYS = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
-const MOODS = ['😞', '😕', '😐', '🙂', '😄'];
+const MOODS = ['1', '2', '3', '4', '5'];
 const pct = r => r === null ? '–' : Math.round(r * 100) + '%';
 const level = r => r === null || r === 0 ? 0 : Math.ceil(r * 4);
 
@@ -19,7 +19,7 @@ function habitsTab() {
   <div class="card"><h2>Last 12 weeks</h2>${heatmap(days.map(k => ({ date: k, level: level(habitRate(k)) })), startPad)}<p class="muted">Darker means more of that day's habits done. Columns are weeks, Monday at top.</p></div>
   <div class="card"><h2>Your habits</h2>${active.length ? `<ul class="list">${active.map(h => {
     const dots = lastDays(14).map(k => `<i class="h${!habitScheduled(h, k) ? '-1' : habitDone(h, k) ? 4 : 0}" title="${k}"></i>`).join('');
-    return `<li style="flex-wrap:wrap"><div class="grow"><span class="title">${esc(h.name)}</span> ${chip(esc(h.when), 'plain')} ${habitStreak(h) ? chip('🔥 ' + habitStreak(h)) : ''}
+    return `<li style="flex-wrap:wrap"><div class="grow"><span class="title">${esc(h.name)}</span> ${chip(esc(h.when), 'plain')} ${habitStreak(h) ? chip(habitStreak(h) + 'd') : ''}
       <div class="muted">${h.days.length === 7 ? 'Every day' : h.days.map(d => DAYS[d]).join(', ')} · 30 days ${pct(habitRateOver(h, 30))}</div><div class="dots">${dots}</div></div>
       <button class="ghost" data-act="habitArchive" data-id="${h.id}">Archive</button></li>`; }).join('')}</ul>` : empty('No habits yet. Add the few things you want to be true every day.')}</div>
   <div class="card"><h2>New habit</h2><form data-form="habit">${field('Habit', 'name', 'required placeholder="e.g. 20 minutes of reading"')}
@@ -39,7 +39,7 @@ function journalTab() {
     <h3>Mood</h3>${scale('mood', MOODS)}<h3>Energy</h3>${scale('energy', ['1', '2', '3', '4', '5'])}
     ${area('wins', 'What went well', 'Small wins count')}${area('lessons', 'What I would do differently', 'One honest line')}${area('grateful', 'Grateful for', '')}${area('tomorrow', 'Top three for tomorrow (one per line)', 'Write up to three')}
     <button class="primary" data-act="setTomorrow" data-date="${k}">Send these to ${k === today() ? "tomorrow's" : 'the next day\'s'} top 3</button><p class="muted">Saved as you type.</p></div>
-  ${past.length ? `<details class="card"><summary>Recent entries (${past.length})</summary><ul class="list">${past.map(d => `<li><div class="grow"><span class="title">${fmtDay(d)}</span> ${S.journal[d].mood ? MOODS[S.journal[d].mood - 1] : ''}<div class="muted">${esc((S.journal[d].wins || S.journal[d].lessons || '').slice(0, 140))}</div></div><button class="ghost" data-act="jOpen" data-date="${d}">Open</button></li>`).join('')}</ul></details>` : ''}`;
+  ${past.length ? `<details class="card"><summary>Recent entries (${past.length})</summary><ul class="list">${past.map(d => `<li><div class="grow"><span class="title">${fmtDay(d)}</span> ${S.journal[d].mood ? 'mood ' + S.journal[d].mood : ''}<div class="muted">${esc((S.journal[d].wins || S.journal[d].lessons || '').slice(0, 140))}</div></div><button class="ghost" data-act="jOpen" data-date="${d}">Open</button></li>`).join('')}</ul></details>` : ''}`;
 }
 
 function reviewTab() {

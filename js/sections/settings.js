@@ -1,7 +1,7 @@
 import { S, register, commit } from '../core.js';
 import { saveBackup, isNative, notifyPermission } from '../native.js';
 import { refreshReminders } from '../reminders-run.js';
-import { getSources, addSource, removeSource, syncAll } from '../calendar.js';
+import { getSources, addSource, removeSource, syncAll, getHidden, setHidden } from '../calendar.js';
 import { today, esc } from '../util.js';
 import { field } from '../ui.js';
 import { exportJSON, importJSON, reset, flush, SCHEMA } from '../store.js';
@@ -13,9 +13,11 @@ function view() {
     <p class="muted">Name appears in the greeting. Name and roll number are used for CV file names.</p></div>
   <div class="card"><h2>Modules</h2><ul class="list">${MODULES.map(([k, l, d]) => `<li><label class="check"><input type="checkbox" data-act="module" data-id="${k}" ${S.modules[k] ? 'checked' : ''}> <span><b>${l}</b><div class="muted">${d}</div></span></label></li>`).join('')}</ul>
     <p class="muted">Turning a module off hides it and its reminders. Your data stays and comes back if you turn it on again.</p></div>
-  <div class="card"><h2>📅 Google Calendar</h2>
+  <div class="card"><h2>Google Calendar</h2>
     ${getSources().length ? `<ul class="list">${getSources().map(s => `<li><div class="grow"><span class="title">${esc(s.name)}</span><div class="muted">${s.error ? esc(s.error) : s.at ? `${s.count} events synced ${Math.max(0, Math.round((Date.now() - s.at) / 6e4))} min ago` : 'Not synced yet'}</div></div><button class="ghost danger" data-act="calRemove" data-id="${s.id}">Remove</button></li>`).join('')}</ul><div class="row"><button data-act="calSync">Sync now</button></div>` : '<p class="muted">Not connected yet.</p>'}
     <form data-form="calAdd" class="inline">${field('Name', 'name', 'placeholder="Personal, College..."')}${field('Secret iCal address', 'url', 'type="url" required placeholder="https://calendar.google.com/calendar/ical/..."')}<button class="primary">Connect</button></form>
+    <form data-form="calHide" class="inline">${field('Hide events containing', 'words', `value="${esc(getHidden())}" placeholder="not mine, optional"`)}<button>Save</button></form>
+    <p class="muted">Comma separated. Matches the title, description or location, so shared or copied entries stay out of your day.</p>
     <details><summary>How to find the address</summary><ol><li>Open Google Calendar in a browser (calendar.google.com).</li><li>Settings (gear), then under "Settings for my calendars" pick the calendar.</li><li>Choose "Integrate calendar" and copy "Secret address in iCal format".</li></ol>
       <p class="muted">Repeat for each calendar, for example your college account. Anyone with this address can read that calendar, so keep it private. The address stays on this phone only and is left out of backups. You can reset it in the same Google Calendar screen.</p>
       <p class="muted">The app re-reads it when you open it and every few minutes while open. Google can take a little while to publish a change to this address.</p></details></div>
@@ -50,6 +52,7 @@ register({
     wipe: () => { if (confirm('Erase all data on this device? Export a backup first.')) { reset(); location.reload(); } },
   },
   forms: {
+    calHide: f => { setHidden(f.words); },
     calAdd: f => {
       try { addSource(f.name, f.url); } catch (e) { alert(e.message); return; }
       syncAll(true).then(() => commit());

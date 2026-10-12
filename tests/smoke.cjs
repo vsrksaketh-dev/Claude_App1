@@ -87,13 +87,15 @@ const ok = (name, cond) => { console.log((cond ? 'PASS ' : 'FAIL ') + name); if 
   const stamp = ms => new Date(ms).toISOString().replace(/[-:]/g, '').replace(/\.\d+/, '');
   const ics = title => ['BEGIN:VCALENDAR', 'VERSION:2.0', 'X-WR-CALNAME:Test cal',
     'BEGIN:VEVENT', 'UID:t1', 'DTSTART:' + stamp(Date.now() + 3 * 36e5), 'DTEND:' + stamp(Date.now() + 4 * 36e5), 'SUMMARY:' + title, 'LOCATION:Room 7', 'END:VEVENT',
+    'BEGIN:VEVENT', 'UID:t3', 'DTSTART:' + stamp(Date.now() + 5 * 36e5), 'DTEND:' + stamp(Date.now() + 6 * 36e5), 'SUMMARY:Friend class', 'DESCRIPTION:Not mine - friend', 'END:VEVENT',
     'BEGIN:VEVENT', 'UID:t2', 'DTSTART;VALUE=DATE:' + new Date().toLocaleDateString('en-CA').replace(/-/g, ''), 'SUMMARY:Fest day', 'END:VEVENT', 'END:VCALENDAR', ''].join('\r\n');
   fs.writeFileSync(path.join(tmp, 'cal.ics'), ics('Calendar sync works'));
   await nav('more'); await p.click('[data-act=sub][data-id=settings]');
   await p.fill('[data-form=calAdd] [name=name]', 'Test cal'); await p.fill('[data-form=calAdd] [name=url]', `http://localhost:${port}/tests/.tmp/cal.ics`); await p.click('[data-form=calAdd] button.primary');
-  await p.waitForSelector('text=2 events synced');
+  await p.waitForSelector('text=3 events synced');
   await nav('today');
   ok('calendar event shows on Today', /Calendar sync works/.test(await view()) && /Room 7/.test(await view()) && /Fest day/.test(await view()));
+  ok('events marked not mine are hidden', !/Friend class/.test(await view()));
   fs.writeFileSync(path.join(tmp, 'cal.ics'), ics('Calendar sync updated'));
   await p.click('[data-act=calSync]'); await p.waitForSelector('text=Calendar sync updated');
   ok('edit in the calendar reflects after sync', !/Calendar sync works/.test(await view()));

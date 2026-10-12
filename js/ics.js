@@ -108,6 +108,7 @@ function readEvents(text) {
       case 'UID': cur.uid = l.value; break;
       case 'SUMMARY': cur.title = unescapeText(l.value); break;
       case 'LOCATION': cur.where = unescapeText(l.value); break;
+      case 'DESCRIPTION': cur.desc = unescapeText(l.value).slice(0, 300); break;
       case 'STATUS': cur.cancelled = l.value.toUpperCase() === 'CANCELLED'; break;
       case 'DTSTART': cur.start = parseValue(l.value, l.params); break;
       case 'DTEND': cur.end = parseValue(l.value, l.params); break;
@@ -129,7 +130,7 @@ export function parseICS(text, winStart, winEnd) {
   const push = (e, startMs, endMs) => {
     if (endMs <= winStart && !(endMs === startMs && startMs >= winStart)) return;
     if (startMs >= winEnd) return;
-    instances.push({ uid: e.uid || '', title: e.title || '(No title)', where: e.where || '', allDay: e.start.allDay, start: startMs, end: endMs });
+    instances.push({ uid: e.uid || '', title: e.title || '(No title)', where: e.where || '', desc: e.desc || '', allDay: e.start.allDay, start: startMs, end: endMs });
   };
   const span = e => {   // [startMs, durationMs] for the first occurrence
     const s = toMs(e.start);

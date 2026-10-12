@@ -62,6 +62,12 @@ export function syncAll(force = false) {
 }
 
 // ---- reading ----
-const all = () => sources.flatMap(s => (cache[s.id]?.events || []).map(e => ({ ...e, cal: s.name })));
+// Events whose title, description or location contain any hidden word are left out (default: "not mine", for shared or copied entries).
+const FILTER_KEY = 'daily-driver-cal-filter';
+export const getHidden = () => load(FILTER_KEY, 'not mine');
+export const setHidden = text => { store(FILTER_KEY, (text || '').trim()); listeners.forEach(f => f()); };
+const hiddenWords = () => getHidden().split(',').map(w => w.trim().toLowerCase()).filter(Boolean);
+const visible = e => { const w = hiddenWords(); if (!w.length) return true; const hay = `${e.title} ${e.desc || ''} ${e.where || ''}`.toLowerCase(); return !w.some(x => hay.includes(x)); };
+const all = () => sources.flatMap(s => (cache[s.id]?.events || []).filter(visible).map(e => ({ ...e, cal: s.name })));
 export const calEventsOn = dateKey => eventsOnDay(all(), dateKey).sort((a, b) => (b.allDay - a.allDay) || a.start - b.start);
 export const upcomingTimed = hours => { const now = Date.now(); return all().filter(e => !e.allDay && e.start > now && e.start < now + hours * 36e5).sort((a, b) => a.start - b.start); };

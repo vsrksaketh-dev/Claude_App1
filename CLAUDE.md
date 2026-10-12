@@ -40,3 +40,9 @@ Run the smoke test after any change to `js/`. It covers every screen, persistenc
 - Daily use should take minutes. Capture is one field; sorting happens later.
 - Show progress honestly (streaks skip unscheduled days, short history shows a dash, not 0%).
 - Placement is an optional module that the user will switch off after being placed. Keep the core independent of it.
+
+## Visual design rules
+- Quiet editorial look: hairline dividers instead of boxed cards, Newsreader (serif) for headings and big numbers, Hanken Grotesk for the interface, one deep-navy accent (light blue in dark mode), muted green/amber/red for state only.
+- No emoji, no icon sets, no gradients, no drop shadows. Navigation is words only. Section labels are small uppercase text.
+- Colours and fonts are tokens at the top of `css/styles.css`. Fonts are bundled in `fonts/` (open licence files alongside) so the Android app works offline.
+- Keep `.card` as a divided section. Only nested panels (flashcards, kanban cards, form panels) get a border.

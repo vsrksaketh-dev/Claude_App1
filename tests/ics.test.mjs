@@ -61,4 +61,8 @@ t('VALARM inside an event does not leak fields', () => {
   const r = parseICS(cal(ev(['UID:m', 'DTSTART:20261012T090000Z', 'DTEND:20261012T100000Z', 'SUMMARY:Real', 'BEGIN:VALARM', 'SUMMARY:Alarm', 'TRIGGER:-PT15M', 'END:VALARM'])), W0, W1);
   assert.equal(r.events[0].title, 'Real');
 });
+t('DESCRIPTION is kept for filtering', () => {
+  const r = parseICS(cal(ev(['UID:n', 'DTSTART:20261012T090000Z', 'DTEND:20261012T100000Z', 'SUMMARY:Friend class', 'DESCRIPTION:Hrithika\'s class (not mine) \\, Sec C'])), W0, W1);
+  assert.match(r.events[0].desc, /not mine/);
+});
 console.log(`${pass} passed`);

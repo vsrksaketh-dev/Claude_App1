@@ -35,13 +35,13 @@ function view() {
   const tagList = Object.entries(tags).sort((a, b) => b[1] - a[1]);
   const known = [...new Set([...S.goals.filter(g => g.status === 'active').map(g => g.title), ...tagList.map(x => x[0])])].filter(x => x !== 'Untagged');
   const pts = lastDays(14).map(k => ({ label: fmtDay(k), value: focusOn(k), title: `${fmtDay(k)}: ${focusOn(k)} min` }));
-  return `<div class="card"><h2>⏱ ${tm.mode === 'focus' ? 'Deep work' : 'Break'}</h2><div class="timer" id="timer">${fmtClock(r)}</div>
+  return `<div class="card"><h2>${tm.mode === 'focus' ? 'Deep work' : 'Break'}</h2><div class="timer" id="timer">${fmtClock(r)}</div>
     <div class="bar"><i id="timerbar" style="width:${tm.mode === 'focus' ? (1 - r / total) * 100 : 0}%"></i></div>
     <label style="margin-top:10px">What are you working on?<input data-bind="timerTag" list="focus-tags" value="${esc(tm.tag)}" placeholder="A goal, subject or skill"><datalist id="focus-tags">${known.map(x => `<option value="${esc(x)}">`).join('')}</datalist></label>
     <div class="row" style="margin-top:12px;justify-content:center">${tm.running ? '<button class="primary" data-act="timerPause">Pause</button>' : '<button class="primary" data-act="timerStart">Start</button>'}<button data-act="timerReset">Reset</button></div>
     <div class="row" style="justify-content:center;margin-top:8px">${[25, 50, 90].map(m => `<button class="${tm.len === m ? 'primary' : 'ghost'}" data-act="timerLen" data-id="${m}">${m} min</button>`).join('')}</div>
     <p class="muted">While a focus session runs, the app dims navigation. A web app cannot silence other apps, so turn on Do Not Disturb on your phone.</p></div>
-  <div class="card"><h2>📈 Focus hours</h2><p>Today <b>${focusOn(today())} min</b> · last 7 days <b>${(focusOver(7) / 60).toFixed(1)} h</b> · last 30 days <b>${(focusOver(30) / 60).toFixed(1)} h</b></p>${barChart(pts, { unit: ' min', summary: 'Focus minutes per day, last 14 days' })}</div>
+  <div class="card"><h2>Focus hours</h2><p>Today <b>${focusOn(today())} min</b> · last 7 days <b>${(focusOver(7) / 60).toFixed(1)} h</b> · last 30 days <b>${(focusOver(30) / 60).toFixed(1)} h</b></p>${barChart(pts, { unit: ' min', summary: 'Focus minutes per day, last 14 days' })}</div>
   ${tagList.length ? `<div class="card"><h2>Where the time went (30 days)</h2><ul class="list">${tagList.map(([g, m]) => `<li><span class="grow">${esc(g)}</span>${chip((m / 60).toFixed(1) + ' h')}</li>`).join('')}</ul></div>` : ''}`;
 }
 
