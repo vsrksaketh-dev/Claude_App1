@@ -38,8 +38,20 @@ document.addEventListener('input', e => {
   if (h) { h(e.target); save(); }
 });
 
+// News is public, so the daily routine commits data/news.json to the repo and the app reads the newest copy from there.
+// Order: live copy from GitHub, then the last copy cached on the device, then the file bundled with the app.
+const NEWS_URL = 'https://raw.githubusercontent.com/vsrksaketh-dev/Claude_App1/refs/heads/claude/zealous-cerf-fnwxob/data/news.json';
+const NEWS_KEY = 'daily-driver-news';
+async function loadNews() {
+  const pick = j => (j && Array.isArray(j.items) && (app.news = j, true));
+  try { const r = await fetch(NEWS_URL, { cache: 'no-cache' }); if (r.ok && pick(await r.json())) { try { localStorage.setItem(NEWS_KEY, JSON.stringify(app.news)); } catch { /* storage full */ } return; } } catch { /* offline */ }
+  try { if (pick(JSON.parse(localStorage.getItem(NEWS_KEY)))) return; } catch { /* nothing cached */ }
+  try { pick(await (await fetch('data/news.json')).json()); } catch { /* no news */ }
+}
+
 (async function boot() {
   try { app.brief = await (await fetch('data/brief.json', { cache: 'no-cache' })).json(); } catch { /* offline: render without brief */ }
+  await loadNews();
   render();
   refreshReminders();
   document.addEventListener('visibilitychange', () => { if (document.hidden) refreshReminders(); });

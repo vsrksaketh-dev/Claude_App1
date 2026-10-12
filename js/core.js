@@ -6,7 +6,8 @@ import { get, save } from './store.js';
 export const S = get();
 export const ui = { view: 'today', sub: {} };
 export const app = {
-  brief: { events: [], inbox: [], news: [] },
+  brief: { events: [], inbox: [] },
+  news: { date: '', items: [] },   // public daily news, refreshed by the brief routine (data/news.json)
   views: {},        // top-level screens shown in the bottom nav
   sections: {},     // sub-screens inside "More"
   actions: {},      // data-act handlers:   (dataset, element) => void

@@ -9,7 +9,6 @@ on:
       - 'manifest.webmanifest'
       - 'css/**'
       - 'js/**'
-      - 'data/**'
       - 'icons/**'
       - 'assets/**'
       - 'scripts/**'

@@ -40,7 +40,8 @@ function render() {
   const order = { morning: 0, anytime: 1, evening: 2 };
   const cats = ['International', 'Indian', 'Business', 'Tech'];
   const cat = ui.sub.newsCat || cats[0];
-  const news = (app.brief.news || []).filter(n => n.cat === cat);
+  const news = (app.news.items || []).filter(n => n.cat === cat);
+  const stale = app.news.date && app.news.date !== t;
   const ld = S.learnDone[t] || {};
   const j = S.journal[t];
   const open = openTasks().filter(x => !x.derived && !m.some(y => y.taskId === x.id));
@@ -61,9 +62,10 @@ function render() {
     ${hs.length ? `<ul class="list">${[...hs].sort((a, b) => order[a.when] - order[b.when]).map(x => `<li class="${habitDone(x, t) ? 'done' : ''}">${check('habit', x.id, habitDone(x, t))}<span class="grow title">${esc(x.name)}</span>${chip(x.when, 'plain')}${habitStreak(x) > 1 ? chip('🔥 ' + habitStreak(x)) : ''}</li>`).join('')}</ul>` : empty('No habits scheduled today.')}
     <button class="ghost" data-nav="growth" data-sub="habits">Manage habits</button></div>
   ${(app.brief.inbox || []).length ? `<div class="card"><h2>📬 Important email and actions</h2><ul class="list">${app.brief.inbox.map(x => `<li class="${S.inboxDone[x.id] ? 'done' : ''}">${check('inbox', x.id, S.inboxDone[x.id])}<div class="grow"><span class="title">${esc(x.from)}: ${esc(x.subject)}</span> ${x.tag ? chip(esc(x.tag)) : ''}<div class="muted">Action: ${esc(x.action)}</div>${x.due ? `<div class="row">${chip('due ' + esc(new Date(x.due).toLocaleString('en-IN', { day: 'numeric', month: 'short', hour: 'numeric', minute: '2-digit' })), 'warn')}<button class="ghost" data-act="inboxTask" data-id="${x.id}">+ Add to tasks</button></div>` : ''}</div></li>`).join('')}</ul></div>` : ''}
-  <div class="card"><h2>📰 News</h2>
+  <div class="card"><h2>📰 News ${app.news.date ? chip(stale ? 'last updated ' + fmtDay(app.news.date) : 'today', stale ? 'warn' : 'ok') : ''}</h2>
     <div class="tabs">${cats.map(c => `<button class="${cat === c ? 'on' : ''}" data-act="newsCat" data-id="${c}">${c}</button>`).join('')}</div>
-    ${news.length ? `<ul class="list">${news.map(n => `<li><div class="grow"><span class="title">${n.kind === 'fact' ? '💡 ' : ''}${esc(n.title)}</span><p>${esc(n.summary)}</p><p class="muted"><b>Why it matters:</b> ${esc(n.why)} · ${esc(n.src)}</p></div></li>`).join('')}</ul>` : empty('No stories in this category.')}
+    ${(app.news.items || []).length ? '' : empty('News is unavailable right now. It refreshes every morning.')}
+    ${news.length ? `<ul class="list">${news.map(n => `<li><div class="grow"><span class="title">${n.kind === 'fact' ? '💡 ' : ''}${esc(n.title)}</span><p>${esc(n.summary)}</p><p class="muted"><b>Why it matters:</b> ${esc(n.why)} · ${esc(n.src)}</p></div></li>`).join('')}</ul>` : (app.news.items || []).length ? empty('No stories in this category.') : ''}
     <label class="check"><input type="checkbox" data-act="learnTick" data-key="news" ${ld.news ? 'checked' : ''}> I read today's news</label></div>
   <div class="card"><h2>🧠 Daily five ${chip(`${learnStreak()} day streak`, 'ok')}</h2>
     ${bar(learnCount(t) * 20)}

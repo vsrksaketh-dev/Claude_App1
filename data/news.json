@@ -1,0 +1,92 @@
+{
+ "date": "2026-10-12",
+ "generated": "2026-10-12T14:45:00+05:30",
+ "items": [
+  {
+   "cat": "International",
+   "title": "Riyadh airport attacked for a second day",
+   "summary": "Riyadh's international airport was attacked for a second straight day. The United States, which had limited itself to indirect support, hinted at possible military intervention, and the war with Iran remains at a standstill. NDTV earlier reported 14 deaths in the first attack, including one Indian national.",
+   "why": "Gulf airspace and oil-route risk feed straight into fuel prices, airline costs and Gulf-linked remittances and hiring.",
+   "src": "WORLD Radio, NDTV"
+  },
+  {
+   "cat": "International",
+   "title": "Energy ceasefire claim keeps unravelling",
+   "summary": "President Trump said Russia and Ukraine agreed to stop attacking energy sites. A White House official later told Axios he was referring to a possible deal on oil refineries, and Zelenskyy said it was the first he had heard of it. Ukrainian officials then reported a Russian strike on a power plant in Kharkiv.",
+   "why": "Energy headlines move oil and gas prices and inflation, and the gap between announcement and reality is a live case in credibility and crisis communication.",
+   "src": "WORLD Radio, Axios"
+  },
+  {
+   "cat": "International",
+   "title": "North Korea fires ballistic missiles",
+   "summary": "North Korea fired multiple ballistic missiles toward the East Sea on the morning of 12 October, according to Korean media.",
+   "why": "Regional security shocks raise the risk premium on Asian markets and shipping, which matters for any firm with East Asian supply chains.",
+   "src": "SBS News"
+  },
+  {
+   "cat": "Indian",
+   "title": "INDIA bloc marches to the Supreme Court",
+   "summary": "The opposition bloc planned a march to the Supreme Court at 1:30 PM against the Election Commission and the Special Intensive Revision of electoral rolls. Rahul Gandhi said they will submit a memorandum to the Chief Justice demanding an end to what they call 'vote chori', a halt to the revision and the resignation of Chief Election Commissioner Gyanesh Kumar. Reports differ on whether the CJI declined a meeting; ANI's headline says the march goes ahead despite a refusal.",
+   "why": "Political uncertainty around elections affects investor sentiment and policy predictability for employers and brands.",
+   "src": "Free Press Journal, ANI"
+  },
+  {
+   "cat": "Indian",
+   "title": "Central Delhi under heavy security",
+   "summary": "Police tightened security across central Delhi ahead of the march, and entry and exit at several metro stations stay closed until 4 PM.",
+   "why": "Large public events disrupt commuting, logistics and footfall, a practical reason to plan travel and a case study in risk planning.",
+   "src": "ANI"
+  },
+  {
+   "cat": "Business",
+   "title": "Sensex and Nifty start the week higher as the rupee gains",
+   "summary": "Early reports differ and are provisional. India TV has the Sensex up about 0.4% near 72,771 and the rupee opening at about 95.77 per dollar against 96.73 on Friday. A less established source puts the Sensex down about 59 points near 72,413 at 9:26 AM, citing RBI measures to defend the rupee. Friday's close was about 72,472 on the Sensex and 22,520 on the Nifty.",
+   "why": "A stronger rupee lowers import costs and helps firms with dollar debt, but squeezes exporters such as IT services. Oil and Gulf news are driving the swings.",
+   "src": "India TV News, HDFC Sky"
+  },
+  {
+   "cat": "Business",
+   "title": "Tech job openings hit 1.23 lakh, skewed to experienced hires",
+   "summary": "Active tech openings in India reached a peak of 1.23 lakh for October 2026, with demand favouring mid and senior talent over fresh graduates.",
+   "why": "Directly relevant to placements: entry-level tech-adjacent roles are scarce, so differentiate with projects and domain depth.",
+   "src": "India Today"
+  },
+  {
+   "cat": "Business",
+   "kind": "fact",
+   "title": "Mid-senior roles are 55% of tech openings",
+   "summary": "That points to a sharp contraction in entry-level hiring within IT.",
+   "why": "Pitch yourself on business impact, not only potential.",
+   "src": "India Today"
+  },
+  {
+   "cat": "Business",
+   "kind": "fact",
+   "title": "GCC tech openings up 64% year on year",
+   "summary": "Global Capability Centres show strong resilience and continued reliance on Indian talent hubs despite global volatility.",
+   "why": "GCCs are a growing source of HR and marketing roles. Add them to your target list.",
+   "src": "India Today"
+  },
+  {
+   "cat": "Tech",
+   "title": "AI is eating the bottom rung of India's tech jobs",
+   "summary": "Banks such as JPMorgan and Goldman Sachs are automating much of the work that formed the entry level in India's Global Capability Centres. Nomura analysts call India 'ground zero' for the effect of AI on jobs, and a McKinsey estimate cited by the report puts 30% of job hours in India as automatable by 2030. The report is from 8 October.",
+   "why": "It explains why fresher hiring is thin and why skills that work alongside AI, such as judgement, people and domain depth, hold their value.",
+   "src": "Business Standard"
+  },
+  {
+   "cat": "Tech",
+   "title": "India's 'Techade' push: chips, electronics, AI",
+   "summary": "A Malay Mail report lists five key moves in chips, electronics, AI and global competition. The government expects AI-linked jobs to nearly double to 1.25 million by 2027, while experts question whether India can turn the plans into a competitive tech ecosystem.",
+   "why": "Policy-backed sectors create hiring waves and brand opportunities, but ambitious targets often lag delivery.",
+   "src": "Malay Mail"
+  },
+  {
+   "cat": "Tech",
+   "title": "Work-from-office takes over Indian tech hiring",
+   "summary": "In-office roles are now 81% of active tech demand. Remote roles fell 23% and hybrid openings dropped 19% year over year, reversing pandemic-era policy.",
+   "why": "A major HR and organisational behaviour theme: flexibility versus control. It also affects commercial real estate demand.",
+   "src": "India Today"
+  }
+ ]
+}

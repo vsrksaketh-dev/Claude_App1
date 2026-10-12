@@ -11,6 +11,8 @@ const ok = (name, cond) => { console.log((cond ? 'PASS ' : 'FAIL ') + name); if 
   const view = () => p.textContent('#view');
   const nav = n => p.click(`#nav [data-nav=${n}]`);
 
+  ok('news shows on Today', /Riyadh airport/.test(await view()));
+
   // Today: capture, triage, top 3, habits, daily five
   await p.fill('[data-form=quick] [name=text]', 'Prepare marketing case'); await p.click('[data-form=quick] button');
   ok('captured item shows nudge', /1 captured item/.test(await view()));
