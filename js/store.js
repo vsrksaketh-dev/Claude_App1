@@ -11,7 +11,7 @@ export const blank = () => ({
   profile: { name: '', roll: '' },
   modules: { career: true, money: true },     // optional areas, switch off in Settings
   meta: { lastBackup: '' },
-  reminders: { on: false, morning: '07:30', evening: '21:00', deadlines: true, cards: true },   // Android app only
+  reminders: { on: false, morning: '07:30', evening: '21:00', deadlines: true, cards: true, events: true },   // Android app only
   habits: DEFAULT_HABITS.map(([name, when]) => ({ id: uid(), name, when, days: [0, 1, 2, 3, 4, 5, 6], created: today() })),
   habitLog: {},                // { date: { habitId: true } }
   mits: {},                    // { date: [{ id, text, done, taskId }] }  top three for the day

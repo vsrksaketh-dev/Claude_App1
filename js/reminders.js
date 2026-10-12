@@ -2,8 +2,9 @@
 import { S } from './core.js';
 import { addDays, today, parse } from './util.js';
 import { openTasks, dueCards } from './logic.js';
+import { upcomingTimed } from './calendar.js';
 
-const MAX = 40;   // Android keeps notification alarms cheap; the list is rebuilt every time the app is used
+const MAX = 60;   // Android keeps notification alarms cheap; the list is rebuilt every time the app is used
 
 export function buildReminders(now = new Date()) {
   const R = S.reminders;
@@ -23,6 +24,7 @@ export function buildReminders(now = new Date()) {
       timed.push([at(t.due), 'Due today', t.title]);
     });
   }
+  if (R.events) upcomingTimed(48).forEach(e => timed.push([new Date(e.start - 15 * 6e4), e.title, 'Starts in 15 minutes' + (e.where ? ' · ' + e.where : '')]));
   if (R.cards && dueCards().length) {
     const d = at(today(), 18);
     timed.push([d > now ? d : at(addDays(today(), 1), 18), 'Flashcards due', `${dueCards().length} waiting for review.`]);

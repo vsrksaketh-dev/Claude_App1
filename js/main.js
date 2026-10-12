@@ -3,6 +3,7 @@ import { ui, app, render, commit, go } from './core.js';
 import { save } from './store.js';
 import { isNative, initBackButton } from './native.js';
 import { refreshReminders } from './reminders-run.js';
+import { syncAll, onCalendarChange } from './calendar.js';
 import './views/today.js';
 import './views/plan.js';
 import './views/learn.js';
@@ -54,6 +55,13 @@ async function loadNews() {
   await loadNews();
   render();
   refreshReminders();
+  // Calendar: sync now, whenever the app comes back to the front, and every 10 minutes while it is open.
+  // Never re-render while the user is typing, or the form would be wiped.
+  const typing = () => ['INPUT', 'TEXTAREA', 'SELECT'].includes(document.activeElement?.tagName);
+  onCalendarChange(() => { if (!typing()) render(); refreshReminders(); });
+  syncAll();
+  document.addEventListener('visibilitychange', () => { if (!document.hidden) syncAll(); });
+  setInterval(() => { if (!document.hidden) syncAll(true); }, 10 * 60e3);
   document.addEventListener('visibilitychange', () => { if (document.hidden) refreshReminders(); });
   initBackButton(() => ui.view === 'today', () => go('today'));
   if ('serviceWorker' in navigator && !isNative()) navigator.serviceWorker.register('sw.js').catch(() => {});

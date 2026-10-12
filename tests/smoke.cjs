@@ -1,6 +1,7 @@
 // End-to-end smoke test. Usage: node tests/smoke.cjs <path-to-playwright> [port]
 // Serves nothing itself: start `python3 -m http.server <port>` in the repo root first.
 const { chromium } = require(process.argv[2]);
+const fs = require('fs'), path = require('path');
 const port = process.argv[3] || 8123;
 const ok = (name, cond) => { console.log((cond ? 'PASS ' : 'FAIL ') + name); if (!cond) process.exitCode = 1; };
 (async () => {
@@ -80,6 +81,30 @@ const ok = (name, cond) => { console.log((cond ? 'PASS ' : 'FAIL ') + name); if 
   await p.evaluate(() => { const S = JSON.parse(localStorage.getItem('daily-driver-v2')); });
   await p.click('[data-form=reminders] [name=on]'); await p.click('[data-form=reminders] button.primary');
   ok('reminders off builds nothing', (await p.evaluate(async () => (await import('/js/reminders.js')).buildReminders().length)) === 0);
+
+  // Calendar sync: connect an ICS feed, see its events, change the feed, sync, and see the change
+  const tmp = path.join(__dirname, '.tmp'); fs.mkdirSync(tmp, { recursive: true });
+  const stamp = ms => new Date(ms).toISOString().replace(/[-:]/g, '').replace(/\.\d+/, '');
+  const ics = title => ['BEGIN:VCALENDAR', 'VERSION:2.0', 'X-WR-CALNAME:Test cal',
+    'BEGIN:VEVENT', 'UID:t1', 'DTSTART:' + stamp(Date.now() + 3 * 36e5), 'DTEND:' + stamp(Date.now() + 4 * 36e5), 'SUMMARY:' + title, 'LOCATION:Room 7', 'END:VEVENT',
+    'BEGIN:VEVENT', 'UID:t2', 'DTSTART;VALUE=DATE:' + new Date().toLocaleDateString('en-CA').replace(/-/g, ''), 'SUMMARY:Fest day', 'END:VEVENT', 'END:VCALENDAR', ''].join('\r\n');
+  fs.writeFileSync(path.join(tmp, 'cal.ics'), ics('Calendar sync works'));
+  await nav('more'); await p.click('[data-act=sub][data-id=settings]');
+  await p.fill('[data-form=calAdd] [name=name]', 'Test cal'); await p.fill('[data-form=calAdd] [name=url]', `http://localhost:${port}/tests/.tmp/cal.ics`); await p.click('[data-form=calAdd] button.primary');
+  await p.waitForSelector('text=2 events synced');
+  await nav('today');
+  ok('calendar event shows on Today', /Calendar sync works/.test(await view()) && /Room 7/.test(await view()) && /Fest day/.test(await view()));
+  fs.writeFileSync(path.join(tmp, 'cal.ics'), ics('Calendar sync updated'));
+  await p.click('[data-act=calSync]'); await p.waitForSelector('text=Calendar sync updated');
+  ok('edit in the calendar reflects after sync', !/Calendar sync works/.test(await view()));
+  await nav('more'); await p.click('[data-act=sub][data-id=settings]');
+  await p.check('[data-form=reminders] [name=on]'); await p.click('[data-form=reminders] button.primary');
+  const rem = await p.evaluate(async () => (await import('/js/reminders.js')).buildReminders().map(n => n.title));
+  ok('calendar event gets a reminder', rem.includes('Calendar sync updated'));
+  await p.click('[data-form=reminders] [name=on]'); await p.click('[data-form=reminders] button.primary');
+  ok('calendar link is not in the backup data', !(await p.evaluate(() => localStorage.getItem('daily-driver-v2'))).includes('tests/.tmp'));
+  await p.click('[data-act=calRemove]'); await nav('today');
+  ok('removing the calendar removes its events', !/Calendar sync updated/.test(await view()));
 
   // Persistence and migration from v1
   await p.reload(); await p.waitForSelector('h1'); await nav('growth');

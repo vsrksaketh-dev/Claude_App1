@@ -35,6 +35,12 @@ Updates: every push to the branch that changes the app rebuilds the APK in GitHu
 
 The build lives in `.github/workflows/android.yml` (Capacitor wraps the web app, no code changes needed to ship the same app on the web and on Android). To rebuild by hand: Actions, Build Android APK, Run workflow.
 
+### Google Calendar sync
+
+More, then Settings, then Google Calendar. Paste a calendar's "Secret address in iCal format" (Google Calendar on the web, Settings, pick the calendar, Integrate calendar). Add one per calendar, for example personal and college. Events appear on Today (plus the next 3 days), refresh when you open the app, when you return to it and every 10 minutes while it is open, and get a reminder 15 minutes before. Edits you make in Google Calendar, including moved, cancelled and recurring events, show up after the next sync.
+
+The address is private to anyone holding it, so the app keeps it only on the phone and leaves it out of backups. Reading it only works in the Android app (browsers block it). Google can take a little while to publish a change to that address.
+
 ### Reminders (Android app)
 
 More, then Settings, then Reminders. A morning plan prompt, an evening reflection prompt, deadline alerts (the day before, the day of, and 3 hours before an application closes) and a 6 PM flashcard nudge. They are scheduled on the phone itself, rebuilt whenever you leave the app, so no server is involved. Open the app now and then so the list stays current.

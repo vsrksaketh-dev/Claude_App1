@@ -6,6 +6,7 @@ A personal, long-lived self-monitoring and self-development app. Plain ES module
 ```sh
 python3 -m http.server 8000            # serve the repo root
 node tests/smoke.cjs <path-to-playwright> 8000   # end-to-end smoke test (needs Chromium)
+node tests/ics.test.mjs                          # calendar reader unit tests
 ```
 Run the smoke test after any change to `js/`. It covers every screen, persistence and the v1 to v2 data migration.
 
@@ -17,6 +18,7 @@ Run the smoke test after any change to `js/`. It covers every screen, persistenc
 - `js/data.js`: static learning content (frameworks, guesstimates, jargon, mental models, prompts).
 - `js/views/*`: bottom-nav screens: Today, Plan, Learn, Growth, More.
 - `js/sections/*`: sub-screens inside More: Focus, Money, Career, Settings.
+- `js/ics.js`: iCalendar reader (time zones, all-day, recurrence). `js/calendar.js`: calendar sync, secret addresses kept in their own storage keys (never in `S` or backups). `js/native.js`: Android bridge. `js/reminders*.js`: local notifications.
 - `js/main.js`: event delegation and boot. `sw.js`: service worker (network first). Bump its cache name when adding files to `ASSETS`.
 - `brief/`: rules and template for the daily brief routine (see Privacy).
 
@@ -31,7 +33,7 @@ Run the smoke test after any change to `js/`. It covers every screen, persistenc
 - **Changing stored data:** add the new field with a default in `blank()`. If an old shape must change, bump `SCHEMA` and add a step in `migrate()`. Never drop user data silently, and add a migration test to `tests/smoke.cjs`.
 
 ## Privacy rules (the GitHub repo is public)
-- Never commit real personal data: email content, deadlines, names, class schedules, addresses, tokens.
+- Never commit real personal data: email content, deadlines, names, class schedules, addresses, tokens, calendar addresses.
 - `data/brief.json` is sample data only. The live daily brief is published to a private Claude page by a scheduled routine that follows `brief/RULES.md` and fills `brief/page.template.html`.
 
 ## Product principles

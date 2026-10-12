@@ -17,6 +17,18 @@ export async function saveBackup(name, text) {
   return true;
 }
 
+// Plain GET that works for calendar links. Browsers block these (no CORS), the Android app's native HTTP does not.
+export async function httpGetText(url) {
+  if (isNative()) {
+    const r = await plugin('CapacitorHttp').get({ url, responseType: 'text', headers: { Accept: 'text/calendar, text/plain, */*' } });
+    if (r.status >= 400) throw new Error(`The calendar link answered HTTP ${r.status}. Check the address.`);
+    return typeof r.data === 'string' ? r.data : String(r.data);
+  }
+  const r = await fetch(url, { cache: 'no-store' });
+  if (!r.ok) throw new Error(`The calendar link answered HTTP ${r.status}. Check the address.`);
+  return r.text();
+}
+
 // Local notifications (Android app only). Pending ones are replaced wholesale on every schedule call.
 export async function notifyPermission() {
   if (!isNative()) return false;

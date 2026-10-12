@@ -1,10 +1,18 @@
-import { S, ui, app, register, byId, remove } from '../core.js';
-import { today, daysFromToday, esc, fmtDay, uid } from '../util.js';
+import { S, ui, app, register, byId, remove, render as rerender } from '../core.js';
+import { today, addDays, daysFromToday, esc, fmtDay, uid } from '../util.js';
 import { field, empty, chip, bar, check } from '../ui.js';
 import { DAILY_FIVE } from '../data.js';
+import { calEventsOn, getSources, hasCalendars, lastSync, syncAll } from '../calendar.js';
 import { habitsOn, habitDone, habitStreak, openTasks, completeTask, learnCount, learnStreak, dayStreak, dueCards, focusOn } from '../logic.js';
 
-const allEvents = () => [...(app.brief.events || []), ...S.events].sort((a, b) => (a.date || '').localeCompare(b.date || '') || (a.time || '').localeCompare(b.time || ''));
+const clock = ms => new Date(ms).toLocaleTimeString('en-IN', { hour: 'numeric', minute: '2-digit', hour12: true });
+// One list for the day: synced calendars, then the brief's events, then events typed in by hand.
+function dayItems(k) {
+  const fromCal = calEventsOn(k).map(e => ({ sort: e.allDay ? 0 : e.start, time: e.allDay ? 'All day' : clock(e.start), until: e.allDay ? '' : clock(e.end), title: e.title, where: e.where, src: e.cal, past: !e.allDay && e.end < Date.now() }));
+  const local = [...(app.brief.events || []), ...S.events].filter(e => e.date === k).map(e => ({ sort: e.time ? new Date(k + 'T' + e.time).getTime() : 0, time: e.time || 'All day', title: e.title, where: e.where, id: e.id, interview: e.interview }));
+  return [...fromCal, ...local].sort((a, b) => a.sort - b.sort);
+}
+const ago = ms => { const m = Math.round((Date.now() - ms) / 6e4); return m < 1 ? 'just now' : m < 60 ? m + ' min ago' : Math.round(m / 60) + ' h ago'; };
 const mits = () => (S.mits[today()] ||= []);
 
 function nudges() {
@@ -33,7 +41,9 @@ function render() {
   const h = new Date().getHours();
   const hello = h < 12 ? 'Good morning' : h < 17 ? 'Good afternoon' : 'Good evening';
   const t = today();
-  const evs = allEvents().filter(e => e.date === t);
+  const evs = dayItems(t);
+  const soon = [1, 2, 3].map(i => [addDays(t, i), dayItems(addDays(t, i))]).filter(x => x[1].length);
+  const syncedAt = lastSync();
   const nd = nudges();
   const m = mits();
   const hs = habitsOn(t);
@@ -55,8 +65,11 @@ function render() {
   <div class="card"><h2>🎯 Top 3 for today</h2>
     ${m.length ? `<ul class="list">${m.map(x => `<li class="${x.done ? 'done' : ''}">${check('mitDone', x.id, x.done)}<span class="grow title">${esc(x.text)}</span><button class="ghost danger" data-act="mitDel" data-id="${x.id}" aria-label="Remove">✕</button></li>`).join('')}</ul>` : empty('Pick up to three things that would make today a win.')}
     ${m.length < 3 ? `<form data-form="mit" class="inline">${field('What must happen today?', 'text', 'maxlength="120"')}${open.length ? `<label>or pick a task<select name="task"><option value=""></option>${open.slice(0, 30).map(x => `<option value="${x.id}">${esc(x.title)}</option>`).join('')}</select></label>` : ''}<button class="primary">Add</button></form>` : ''}</div>
-  <div class="card"><h2>📅 Today's calendar</h2>
-    ${evs.length ? `<ul class="list">${evs.map(e => `<li><span class="chip">${esc(e.time || e.start?.slice(11, 16) || 'All day')}</span><div class="grow"><span class="title">${esc(e.title)}</span>${e.interview ? ' ' + chip('Interview', 'warn') : ''}${e.where ? `<div class="muted">${esc(e.where)}</div>` : ''}</div>${e.id ? `<button class="ghost danger" data-act="delEvent" data-id="${e.id}" aria-label="Remove">✕</button>` : ''}</li>`).join('')}</ul>` : empty('No events scheduled for today.')}
+  <div class="card"><div class="row between"><h2 style="margin:0">📅 Today's calendar</h2>${hasCalendars() ? `<button class="ghost" data-act="calSync" aria-label="Sync calendar now">↻ ${syncedAt ? ago(syncedAt) : 'sync'}</button>` : ''}</div>
+    ${getSources().filter(s => s.error).map(s => `<p class="chip warn" style="display:block;margin-top:8px">${esc(s.name)}: ${esc(s.error)}</p>`).join('')}
+    ${evs.length ? `<ul class="list">${evs.map(e => `<li class="${e.past ? 'done' : ''}"><span class="chip">${esc(e.time)}</span><div class="grow"><span class="title">${esc(e.title)}</span>${e.interview ? ' ' + chip('Interview', 'warn') : ''}${e.src ? ' ' + chip(esc(e.src), 'plain') : ''}<div class="muted">${[e.until ? 'until ' + e.until : '', e.where].filter(Boolean).map(esc).join(' · ')}</div></div>${e.id ? `<button class="ghost danger" data-act="delEvent" data-id="${e.id}" aria-label="Remove">✕</button>` : ''}</li>`).join('')}</ul>` : empty(hasCalendars() ? 'No events scheduled for today.' : 'No events yet.')}
+    ${hasCalendars() ? '' : '<button data-nav="more" data-sub="settings">Connect Google Calendar</button>'}
+    ${soon.length ? `<details><summary>Next 3 days</summary>${soon.map(([k, list]) => `<h3>${fmtDay(k)}</h3><ul class="list">${list.map(e => `<li><span class="chip">${esc(e.time)}</span><div class="grow"><span class="title">${esc(e.title)}</span>${e.src ? ' ' + chip(esc(e.src), 'plain') : ''}${e.where ? `<div class="muted">${esc(e.where)}</div>` : ''}</div></li>`).join('')}</ul>`).join('')}</details>` : ''}
     <details><summary>Add event</summary><form data-form="event" class="inline">${field('Title', 'title', 'required')}${field('Date', 'date', `type="date" required value="${t}"`)}${field('Time', 'time', 'type="time"')}<button class="primary">Add</button></form></details></div>
   <div class="card"><h2>✅ Habits ${chip(`🔥 ${dayStreak()} day streak`, 'ok')}</h2>
     ${hs.length ? `<ul class="list">${[...hs].sort((a, b) => order[a.when] - order[b.when]).map(x => `<li class="${habitDone(x, t) ? 'done' : ''}">${check('habit', x.id, habitDone(x, t))}<span class="grow title">${esc(x.name)}</span>${chip(x.when, 'plain')}${habitStreak(x) > 1 ? chip('🔥 ' + habitStreak(x)) : ''}</li>`).join('')}</ul>` : empty('No habits scheduled today.')}
@@ -86,6 +99,7 @@ register({
     },
     mitDel: d => { S.mits[today()] = mits().filter(x => x.id !== d.id); },
     delEvent: d => remove('events', d.id),
+    calSync: () => { syncAll(true).then(() => rerender()); },
     learnTick: d => { const k = d.key || d.id; const l = (S.learnDone[today()] ||= {}); l[k] = !l[k]; },
     inboxTask: d => {
       const m = (app.brief.inbox || []).find(i => i.id === d.id); if (!m) return;
