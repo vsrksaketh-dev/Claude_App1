@@ -9,6 +9,7 @@ The morning routine reads this file each run. Edit it to change what gets surfac
 ## INCLUDE (surface in `inbox`, ranked by deadline)
 - Placement Office (`placement@gim.ac.in`): pre-placement talks, "Finals at <company>" application windows, GBMs, shortlists, interview schedules.
 - PGP Office (`pgpoffice@gim.ac.in`): feedback windows, registrations, exam and timetable notices, circulars.
+- Examination Control Office (`examcontroloffice@gim.ac.in`): exam schedules, seating and instructions. Only the exams whose seating sheet lists the student's roll number belong in the brief.
 - Professors and faculty (individual `@gim.ac.in` staff addresses): case studies, assignments, schedule changes. Student addresses (names with batch tags such as "BDA 25-27", or local parts with `25`) are NOT faculty.
 - Recruiters and company mail about the user's applications: next steps, assessments, interview invites, offers (e.g. TopHire, company careers portals, Superset status changes).
 - Class schedule reminders from `camugim@gim.ac.in`: turn into today's `events`, do not list as inbox items.
