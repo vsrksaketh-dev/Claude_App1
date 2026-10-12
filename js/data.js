@@ -176,3 +176,38 @@ export const KANBAN_COLUMNS = ['To apply', 'Applied', 'Assessment', 'Interview',
 export const APPLY_STEPS = [['superset', 'Superset'], ['portal', 'Company portal'], ['form', 'Google Form'], ['cv', 'CV named and uploaded']];
 export const DEFAULT_ROUTINE = ['Skin care', 'Take medication', 'Read 10 pages'];
 export const EXPENSE_CATS = ['Food', 'Travel', 'Rent', 'Fun', 'Study', 'Other'];
+
+export const MENTAL_MODELS = [
+  { name: 'First principles', summary: 'Break a problem into its basic truths, then rebuild from there instead of copying how it is usually done.', use: 'When "that is how it works" is the only reason given.', example: 'Ask what a product is made of and what those parts cost, before accepting its price.' },
+  { name: 'Inversion', summary: 'Ask how you would guarantee failure, then avoid those things.', use: 'Hiring, planning, relationships, any goal that feels vague.', example: 'To build a strong team, list how teams fall apart: unclear roles, silent conflict, no feedback. Then design against them.' },
+  { name: 'Second-order thinking', summary: 'Consider the consequences of the consequences, not just the first effect.', use: 'Policy, pricing, incentive design.', example: 'A steep discount lifts sales now (first order) and trains customers to wait for sales (second order).' },
+  { name: 'Circle of competence', summary: 'Know the edge of what you truly understand and be honest about it.', use: 'Before giving strong opinions or making bets.', example: 'Say "I do not know enough here" and either learn or defer to someone who does.' },
+  { name: 'Pareto principle (80/20)', summary: 'A small share of inputs usually drives most of the results.', use: 'Prioritising study topics, customers, tasks.', example: 'A few frameworks come up in most cases. Master those first.' },
+  { name: 'Opportunity cost', summary: 'The real price of a choice is the best alternative you gave up.', use: 'Time, money and attention decisions.', example: 'Three hours scrolling costs the chapter you did not read.' },
+  { name: 'Hanlon\'s razor', summary: 'Do not attribute to malice what is adequately explained by neglect or error.', use: 'Workplace conflict and group projects.', example: 'The teammate who missed the deadline probably misread it before they dodged it.' },
+  { name: 'The map is not the territory', summary: 'Models and reports simplify reality and can mislead when taken literally.', use: 'Reading dashboards, rankings, org charts.', example: 'An engagement score is a map. Go and talk to the people.' },
+  { name: 'Bayesian updating', summary: 'Start with a belief, then shift it in proportion to how strong the new evidence is.', use: 'News, forecasting, interviews.', example: 'One glowing reference moves you a little. Five consistent ones move you a lot.' },
+  { name: 'Chesterton\'s fence', summary: 'Do not remove a rule or practice until you know why it was put there.', use: 'Change management, new-job habits.', example: 'Before scrapping a slow approval step, find out what failure it once prevented.' },
+  { name: 'Goodhart\'s law', summary: 'When a measure becomes a target, it stops being a good measure.', use: 'KPIs, grades, habit tracking.', example: 'Call-centre agents hit the "short call" target by hanging up on hard customers.' },
+  { name: 'Lindy effect', summary: 'The longer something non-perishable has survived, the longer it is likely to last.', use: 'Choosing books, ideas, skills to invest in.', example: 'A 100-year-old management idea likely outlives this year\'s fad.' },
+  { name: 'Sunk cost fallacy', summary: 'Past, unrecoverable spending should not decide future choices.', use: 'Quitting projects, courses, bad investments.', example: 'Finishing a bad book because you are already 200 pages in.' },
+  { name: 'Confirmation bias', summary: 'We favour evidence that supports what we already believe.', use: 'Research, hiring, arguments.', example: 'Before deciding, search for the best case against your view.' },
+];
+
+export const REFLECTION_PROMPTS = [
+  'Where were you fully present today?',
+  'What did you avoid today, and why?',
+  'What would make tomorrow a clear win?',
+  'Who did you learn from or help?',
+  'What did you learn that you could teach someone?',
+  'Where did your time not match your priorities?',
+  'What gave you energy today, and what drained it?',
+  'Which decision are you putting off?',
+  'What did you do better than last week?',
+  'What are you grateful for right now?',
+];
+
+export const GOAL_AREAS = ['Career', 'Learning', 'Health', 'Money', 'Relationships', 'Projects'];
+export const LIB_KINDS = ['Book', 'Article', 'Course', 'Podcast', 'Paper'];
+export const DAILY_FIVE = [['guess', 'Guesstimate'], ['framework', 'Framework'], ['jargon', 'Jargon'], ['model', 'Mental model'], ['news', 'News']];
+export const DEFAULT_HABITS = [['Skin care', 'morning'], ['Take medication', 'morning'], ['Read 10 pages', 'anytime']];

@@ -13,13 +13,15 @@ Host the folder on GitHub Pages, Netlify or Cloudflare Pages to use it from your
 
 ## What is in it
 
-| Tab | Features |
+A daily driver for staying on target and getting better over time. Five areas in the bottom bar:
+
+| Area | What it does |
 | --- | --- |
-| Home | Needs-attention nudges, interview prep cards (surface 24h before), today's calendar, action inbox, morning routine with streak, categorised news with "why it matters", daily learning preview, one-tap "Add to tasks" on any email with a deadline |
-| Learn | Guesstimate with reveal-after-you-try, framework, jargon, weekly campaign teardown, HR/OB trend |
-| Career | Application board starting at To apply, with a per-company checklist (Superset, company portal, Google Form, CV) and a CV file-name generator; prep notes and questions per company; networking rolodex with 30/45/60-day nudges; STAR story bank |
-| Focus | Eisenhower matrix that re-sorts as due dates approach (exams, submissions and open applications all land here), Pomodoro with focus-hours log |
-| Money | Subscription tracker with 3-day renewal alerts, monthly budget ledger |
+| Today | Greeting and day score, one-field quick capture, needs-attention nudges, your top 3, calendar, habits with streaks, email actions and news from the brief, the daily five, a close-the-day prompt |
+| Plan | Triage for captured items, Eisenhower matrix that re-sorts as deadlines approach, goals with milestones, linked habits and focus hours |
+| Learn | Daily five (guesstimate, framework, jargon, mental model, news) with a streak, spaced-repetition flashcards, a library with notes, a "today I learned" log, weekly reading |
+| Growth | Habits with a 12-week heatmap, daily journal with mood and energy, weekly review with auto stats, 30-day insights |
+| More | Focus timer tagged by goal or skill, Money (budget and subscriptions), Career and placement (optional, switch off after you are placed), Settings and backup |
 
 ## Live data (Gmail, Calendar, news)
 

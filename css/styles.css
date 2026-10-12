@@ -66,3 +66,27 @@ details > summary { cursor: pointer; color: var(--brand); font-weight: 600; padd
 #nav button.on { color: var(--brand); font-weight: 700; }
 body.deep #nav { opacity: .35; pointer-events: none; }
 body.deep { background: #0b0e1a; }
+
+/* ---- v3 additions ---- */
+.tiles { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin: 12px 0; }
+.tile { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 10px 6px; text-align: center; display: grid; gap: 2px; }
+.tile b { font-size: 1.25rem; font-variant-numeric: tabular-nums; }
+.tile span { font-size: .72rem; color: var(--muted); text-transform: uppercase; letter-spacing: .06em; }
+.tick { width: 22px; height: 22px; flex: none; accent-color: var(--brand); margin-top: 1px; }
+.bars { display: flex; align-items: flex-end; gap: 2px; height: 84px; }
+.bars i { flex: 1; background: var(--brand); border-radius: 3px 3px 0 0; min-width: 2px; }
+.bars i.zero { background: var(--line); }
+.bars-axis { display: flex; justify-content: space-between; font-size: .72rem; color: var(--muted); margin-top: 4px; }
+.heat { display: grid; grid-auto-flow: column; grid-template-rows: repeat(7, 1fr); gap: 3px; overflow-x: auto; padding-bottom: 4px; }
+.heat i, .dots i { width: 12px; height: 12px; border-radius: 3px; background: var(--chip); display: block; }
+.heat i.h-1, .dots i.h-1 { background: transparent; border: 1px dashed var(--line); }
+.heat i.h1, .dots i.h1 { background: color-mix(in srgb, var(--ok) 25%, var(--chip)); }
+.heat i.h2 { background: color-mix(in srgb, var(--ok) 50%, var(--chip)); }
+.heat i.h3 { background: color-mix(in srgb, var(--ok) 75%, var(--chip)); }
+.heat i.h4, .dots i.h4 { background: var(--ok); }
+.dots { display: flex; gap: 3px; margin-top: 6px; flex-wrap: wrap; }
+.flash { border: 1px solid var(--line); border-radius: 12px; padding: 14px; display: grid; gap: 8px; }
+.tabs button[aria-selected="true"] { background: var(--brand); color: var(--brand-ink); border-color: var(--brand); }
+button:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-visible, summary:focus-visible { outline: 2px solid var(--brand); outline-offset: 2px; }
+button[disabled] { opacity: .4; cursor: default; }
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; animation: none !important; } }
