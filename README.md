@@ -21,7 +21,7 @@ A daily driver for staying on target and getting better over time. Five areas in
 | Plan | Triage for captured items, Eisenhower matrix that re-sorts as deadlines approach, goals with milestones, linked habits and focus hours |
 | Learn | Daily five (guesstimate, framework, jargon, mental model, news) with a streak, spaced-repetition flashcards, a library with notes, a "today I learned" log, weekly reading |
 | Growth | Habits with a 12-week heatmap, daily journal with mood and energy, weekly review with auto stats, 30-day insights |
-| More | Focus timer tagged by goal or skill, Money (budget and subscriptions), Career and placement (optional, switch off after you are placed), Settings and backup |
+| More | Focus timer tagged by goal or skill, Money (budget and subscriptions), Career and placement (optional, switch off after you are placed), Settings with reminders and backup |
 
 ## Android app (APK)
 
@@ -34,6 +34,10 @@ Download: https://github.com/vsrksaketh-dev/Claude_App1/releases/latest/download
 Updates: every push to the branch that changes the app rebuilds the APK in GitHub Actions and replaces the file at the same link. Install the new file over the old app and your data stays, because the signing key never changes. Do not uninstall first, since that erases local data. Export a backup from More, then Settings before any big change; in the app it opens the Android share sheet so you can save it to Drive.
 
 The build lives in `.github/workflows/android.yml` (Capacitor wraps the web app, no code changes needed to ship the same app on the web and on Android). To rebuild by hand: Actions, Build Android APK, Run workflow.
+
+### Reminders (Android app)
+
+More, then Settings, then Reminders. A morning plan prompt, an evening reflection prompt, deadline alerts (the day before, the day of, and 3 hours before an application closes) and a 6 PM flashcard nudge. They are scheduled on the phone itself, rebuilt whenever you leave the app, so no server is involved. Open the app now and then so the list stays current.
 
 ## Live data (Gmail, Calendar, news)
 

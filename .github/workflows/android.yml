@@ -53,6 +53,12 @@ jobs:
           npx capacitor-assets generate --android
           npx cap sync android
 
+      - name: Notification icon and permission
+        run: |
+          mkdir -p android/app/src/main/res/drawable
+          cp assets/ic_stat_notify.xml android/app/src/main/res/drawable/ic_stat_notify.xml
+          grep -q POST_NOTIFICATIONS android/app/src/main/AndroidManifest.xml || sed -i 's#<application#<uses-permission android:name="android.permission.POST_NOTIFICATIONS" />\n    <application#' android/app/src/main/AndroidManifest.xml
+
       - name: Set version from run number
         run: sed -i "s/versionCode 1/versionCode ${{ github.run_number }}/; s/versionName \"1.0\"/versionName \"1.0.${{ github.run_number }}\"/" android/app/build.gradle
 

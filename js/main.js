@@ -2,6 +2,7 @@
 import { ui, app, render, commit, go } from './core.js';
 import { save } from './store.js';
 import { isNative, initBackButton } from './native.js';
+import { refreshReminders } from './reminders-run.js';
 import './views/today.js';
 import './views/plan.js';
 import './views/learn.js';
@@ -40,6 +41,8 @@ document.addEventListener('input', e => {
 (async function boot() {
   try { app.brief = await (await fetch('data/brief.json', { cache: 'no-cache' })).json(); } catch { /* offline: render without brief */ }
   render();
+  refreshReminders();
+  document.addEventListener('visibilitychange', () => { if (document.hidden) refreshReminders(); });
   initBackButton(() => ui.view === 'today', () => go('today'));
   if ('serviceWorker' in navigator && !isNative()) navigator.serviceWorker.register('sw.js').catch(() => {});
 })();

@@ -20,7 +20,7 @@ app.nudgeSources.push(() => {
   return out;
 });
 app.taskSources.push(() => !on() ? [] : S.apps.filter(a => a.stage === 'To apply' && a.deadline).map(a => ({
-  id: 'app-' + a.id, derived: true, view: 'more', section: 'career', important: true, due: a.deadline.slice(0, 10), kind: 'Apply',
+  id: 'app-' + a.id, derived: true, view: 'more', section: 'career', important: true, due: a.deadline.slice(0, 10), kind: 'Apply', at: a.deadline,
   title: `Apply: ${a.company}`, left: missing(a).join(', ') || 'all steps ticked',
 })));
 app.todayCards.push(() => {

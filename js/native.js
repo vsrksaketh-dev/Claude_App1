@@ -17,6 +17,22 @@ export async function saveBackup(name, text) {
   return true;
 }
 
+// Local notifications (Android app only). Pending ones are replaced wholesale on every schedule call.
+export async function notifyPermission() {
+  if (!isNative()) return false;
+  const n = plugin('LocalNotifications');
+  let p = await n.checkPermissions();
+  if (p.display !== 'granted') p = await n.requestPermissions();
+  return p.display === 'granted';
+}
+export async function scheduleAll(list) {
+  if (!isNative()) return;
+  const n = plugin('LocalNotifications');
+  const pending = await n.getPending();
+  if (pending.notifications.length) await n.cancel({ notifications: pending.notifications.map(x => ({ id: x.id })) });
+  if (list.length) await n.schedule({ notifications: list });
+}
+
 // Hardware back button: go to Today first, then leave the app.
 export function initBackButton(isHome, goHome) {
   if (!isNative()) return;

@@ -66,6 +66,19 @@ const ok = (name, cond) => { console.log((cond ? 'PASS ' : 'FAIL ') + name); if 
   await p.click('[data-act=sub][data-id=settings]'); await p.click('[data-act=module][data-id=career]');
   ok('career module hides', await p.locator('[data-act=sub][data-id=career]').count() === 0);
 
+  // Reminders: settings form saves, and the built list has the daily pair plus deadline and flashcard items
+  await nav('plan'); await p.click('[data-act=sub][data-id=tasks]');
+  const tomorrow = new Date(Date.now() + 36 * 36e5).toISOString().slice(0, 10);
+  await p.fill('[data-form=task] [name=title]', 'Marketing exam'); await p.fill('[data-form=task] [name=due]', tomorrow); await p.click('[data-form=task] button.primary');
+  await nav('more'); await p.click('[data-act=sub][data-id=settings]');
+  await p.check('[data-form=reminders] [name=on]'); await p.click('[data-form=reminders] button.primary');
+  const list = await p.evaluate(async () => (await import('/js/reminders.js')).buildReminders().map(n => n.title));
+  ok('daily morning and evening reminders', list.includes('Plan your day') && list.includes('Close the day'));
+  ok('deadline reminder for the exam', list.some(t => t === 'Due tomorrow' || t === 'Due today'));
+  await p.evaluate(() => { const S = JSON.parse(localStorage.getItem('daily-driver-v2')); });
+  await p.click('[data-form=reminders] [name=on]'); await p.click('[data-form=reminders] button.primary');
+  ok('reminders off builds nothing', (await p.evaluate(async () => (await import('/js/reminders.js')).buildReminders().length)) === 0);
+
   // Persistence and migration from v1
   await p.reload(); await p.waitForSelector('h1'); await nav('growth');
   ok('data persists after reload', /Workout/.test(await view()));
