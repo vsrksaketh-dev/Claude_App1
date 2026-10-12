@@ -28,7 +28,7 @@ setInterval(() => {
   if (el) { el.textContent = fmtClock(r); const b = $('#timerbar'); if (b && S.timer.mode === 'focus') b.style.width = (1 - r / (S.timer.len * 60)) * 100 + '%'; }
 }, 500);
 
-function view() {
+export function focusView() {
   const tm = S.timer, r = remaining(), total = tm.len * 60;
   const tags = {};
   lastDays(30).forEach(k => Object.entries(S.focusTags[k] || {}).forEach(([g, m]) => { tags[g] = (tags[g] || 0) + m; }));
@@ -46,7 +46,7 @@ function view() {
 }
 
 register({
-  id: 'focus', label: 'Focus', section: true, order: 1, render: view,
+  id: 'focus', label: 'Focus', section: true,
   actions: {
     timerStart: () => { const t = S.timer; t.endsAt = Date.now() + t.remaining * 1000; t.running = true; ask(); },
     timerPause: () => { const t = S.timer; t.remaining = remaining(); t.running = false; t.endsAt = null; },

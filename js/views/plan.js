@@ -1,10 +1,12 @@
 import { S, ui, register, byId, remove } from '../core.js';
 import { today, daysFromToday, esc, uid, fmtDay } from '../util.js';
-import { field, empty, chip, bar, tabs, subOf, check } from '../ui.js';
+import { field, empty, chip, bar, tabs, subOf, check, head } from '../ui.js';
+import { careerPages, careerOn } from '../sections/career.js';
 import { GOAL_AREAS } from '../data.js';
 import { openTasks, taskQuadrant, completeTask, goalProgress } from '../logic.js';
 
-const TABS = [['tasks', 'Tasks'], ['goals', 'Goals']];
+const BASE_TABS = [['tasks', 'Tasks'], ['goals', 'Goals']];
+const tabList = () => [...BASE_TABS, ...(careerOn() ? [['board', 'Applications'], ['people', 'Network'], ['star', 'Stories']] : [])];
 const goalOptions = (sel = '') => `<option value="">No goal</option>${S.goals.filter(g => g.status === 'active').map(g => `<option value="${g.id}" ${g.id === sel ? 'selected' : ''}>${esc(g.title)}</option>`).join('')}`;
 const dueChip = t => {
   if (!t.due) return '';
@@ -48,12 +50,14 @@ function goalsTab() {
 }
 
 function render() {
-  const sub = subOf('plan', TABS);
-  return `<h1>Plan</h1>${tabs('plan', TABS)}${sub === 'tasks' ? tasksTab() : goalsTab()}`;
+  const TABS = tabList();
+  const pages = { tasks: tasksTab, goals: goalsTab, ...careerPages };
+  const sub = pages[subOf('plan', TABS)] ? subOf('plan', TABS) : 'tasks';
+  return `${head('Plan', 'Tasks, goals and applications.')}${tabs('plan', TABS)}${pages[sub]()}`;
 }
 
 register({
-  id: 'plan', label: 'Plan', render,
+  id: 'plan', label: 'Plan', nav: 3, render,
   actions: {
     taskDone: d => completeTask(d.id),
     delTask: d => remove('tasks', d.id),

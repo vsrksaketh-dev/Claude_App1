@@ -13,37 +13,25 @@ Host the folder on GitHub Pages, Netlify or Cloudflare Pages to use it from your
 
 ## What is in it
 
-A daily driver for staying on target and getting better over time. Five areas in the bottom bar:
+Five tabs, each a focused screen. Light and dark themes are chosen in Settings.
 
-| Area | What it does |
+| Tab | What it does |
 | --- | --- |
-| Today | Greeting and day score, one-field quick capture, needs-attention nudges, your top 3, calendar, habits with streaks, email actions and news from the brief, the daily five, a close-the-day prompt |
-| Plan | Triage for captured items, Eisenhower matrix that re-sorts as deadlines approach, goals with milestones, linked habits and focus hours |
-| Learn | Daily five (guesstimate, framework, jargon, mental model, news) with a streak, spaced-repetition flashcards, a library with notes, a "today I learned" log, weekly reading |
-| Growth | Habits with a 12-week heatmap, daily journal with mood and energy, weekly review with auto stats, 30-day insights |
-| More | Focus timer tagged by goal or skill, Money (budget and subscriptions), Career and placement (optional, switch off after you are placed), Settings with reminders and backup |
-
-## Android app (APK)
-
-Download: https://github.com/vsrksaketh-dev/Claude_App1/releases/latest/download/daily-driver.apk
-
-1. Open the link on your phone and download the file.
-2. Open it and allow "Install unknown apps" for your browser or file manager when Android asks.
-3. If Play Protect warns that the app is unrecognised, choose Install anyway. It is signed with a fixed debug key, not a Play Store key.
-
-Updates: every push to the branch that changes the app rebuilds the APK in GitHub Actions and replaces the file at the same link. Install the new file over the old app and your data stays, because the signing key never changes. Do not uninstall first, since that erases local data. Export a backup from More, then Settings before any big change; in the app it opens the Android share sheet so you can save it to Drive.
-
-The build lives in `.github/workflows/android.yml` (Capacitor wraps the web app, no code changes needed to ship the same app on the web and on Android). To rebuild by hand: Actions, Build Android APK, Run workflow.
+| Home | What needs you today: priorities (calendar items titled "Action:" or "Due:", deadlines, reminders), today's schedule, your top 3, habits, and a close-the-day prompt. Settings opens from the button at the top |
+| Learn | Daily five with a streak (guesstimate, framework, jargon, mental model, news), a News tab, spaced-repetition flashcards, a library with notes and a "today I learned" log |
+| Plan | Task triage and the Eisenhower matrix, goals with milestones, and (while the Career module is on) applications, network and interview stories |
+| Track | Today's numbers, habits with a 12-week heatmap, focus timer by goal or skill, journal, weekly review and 30-day insights |
+| Money | Monthly budget, spending log and subscription renewal reminders (optional module) |
 
 ### Google Calendar sync
 
-More, then Settings, then Google Calendar. Paste a calendar's "Secret address in iCal format" (Google Calendar on the web, Settings, pick the calendar, Integrate calendar). Add one per calendar, for example personal and college. Events appear on Today (plus the next 3 days), refresh when you open the app, when you return to it and every 10 minutes while it is open, and get a reminder 15 minutes before. Edits you make in Google Calendar, including moved, cancelled and recurring events, show up after the next sync.
+Settings (button on Home), then Google Calendar. Paste a calendar's "Secret address in iCal format" (Google Calendar on the web, Settings, pick the calendar, Integrate calendar). Add one per calendar, for example personal and college. Events appear on Today (plus the next 3 days), refresh when you open the app, when you return to it and every 10 minutes while it is open, and get a reminder 15 minutes before. Edits you make in Google Calendar, including moved, cancelled and recurring events, show up after the next sync.
 
 The address is private to anyone holding it, so the app keeps it only on the phone and leaves it out of backups. Reading it only works in the Android app (browsers block it). Google can take a little while to publish a change to that address.
 
 ### Reminders (Android app)
 
-More, then Settings, then Reminders. A morning plan prompt, an evening reflection prompt, deadline alerts (the day before, the day of, and 3 hours before an application closes) and a 6 PM flashcard nudge. They are scheduled on the phone itself, rebuilt whenever you leave the app, so no server is involved. Open the app now and then so the list stays current.
+Settings (the button on Home), then Reminders. A morning plan prompt, an evening reflection prompt, deadline alerts (the day before, the day of, and 3 hours before an application closes) and a 6 PM flashcard nudge. They are scheduled on the phone itself, rebuilt whenever you leave the app, so no server is involved. Open the app now and then so the list stays current.
 
 ## Live data (Gmail, Calendar, news)
 

@@ -1,11 +1,11 @@
 // Placement and career tracking. Optional module: switch it off in Settings once you are placed.
 import { S, ui, app, register, byId, remove } from '../core.js';
 import { today, daysFromToday, esc, uid, until } from '../util.js';
-import { field, empty, chip, tabs, subOf } from '../ui.js';
+import { field, empty, chip } from '../ui.js';
 import { STAR_TRAITS, KANBAN_COLUMNS, APPLY_STEPS } from '../data.js';
 
-const TABS = [['board', 'Applications'], ['people', 'Network'], ['star', 'STAR stories']];
 const on = () => S.modules.career;
+export const careerOn = on;
 const missing = a => APPLY_STEPS.filter(([k]) => !(a.steps || {})[k]).map(([, l]) => l);
 const cvName = a => `${S.profile.roll || 'Roll Number'}_${S.profile.name || 'Full Name'}_${a.company}`;
 const contactDue = c => c.last ? -daysFromToday(c.last) >= c.cadence : true;
@@ -20,7 +20,7 @@ app.nudgeSources.push(() => {
   return out;
 });
 app.taskSources.push(() => !on() ? [] : S.apps.filter(a => a.stage === 'To apply' && a.deadline).map(a => ({
-  id: 'app-' + a.id, derived: true, view: 'more', section: 'career', important: true, due: a.deadline.slice(0, 10), kind: 'Apply', at: a.deadline,
+  id: 'app-' + a.id, derived: true, view: 'plan', section: 'board', important: true, due: a.deadline.slice(0, 10), kind: 'Apply', at: a.deadline,
   title: `Apply: ${a.company}`, left: missing(a).join(', ') || 'all steps ticked',
 })));
 app.todayCards.push(() => {
@@ -63,13 +63,11 @@ function stories() {
     <details><summary>Add story</summary><form data-form="star">${field('Title', 'title', 'required')}<label>Trait<select name="trait">${STAR_TRAITS.map(t => `<option>${t}</option>`).join('')}</select></label><label>Situation<textarea name="s" required></textarea></label><label>Task<textarea name="t" required></textarea></label><label>Action<textarea name="a" required></textarea></label><label>Result (use numbers)<textarea name="r" required></textarea></label><button class="primary">Save story</button></form></details></div>`;
 }
 
-function view() {
-  const sub = subOf('career', TABS);
-  return `${tabs('career', TABS)}${{ board, people, star: stories }[sub]()}`;
-}
+// The Plan screen shows these as tabs when the Career module is on.
+export const careerPages = { board, people, star: stories };
 
 register({
-  id: 'career', label: 'Career', section: true, order: 3, enabled: on, render: view,
+  id: 'career', label: 'Career', section: true,
   actions: {
     starFilter: d => { ui.sub.starFilter = d.id; },
     step: d => {

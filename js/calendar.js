@@ -70,4 +70,10 @@ const hiddenWords = () => getHidden().split(',').map(w => w.trim().toLowerCase()
 const visible = e => { const w = hiddenWords(); if (!w.length) return true; const hay = `${e.title} ${e.desc || ''} ${e.where || ''}`.toLowerCase(); return !w.some(x => hay.includes(x)); };
 const all = () => sources.flatMap(s => (cache[s.id]?.events || []).filter(visible).map(e => ({ ...e, cal: s.name })));
 export const calEventsOn = dateKey => eventsOnDay(all(), dateKey).sort((a, b) => (b.allDay - a.allDay) || a.start - b.start);
+// Calendar entries titled "Action: ...", "Due: ..." or "Deadline: ..." are treated as things that need you.
+const ACTION = /^(action|due|deadline)\s*[:·-]\s*/i;
+export const actionEvents = days => {
+  const now = Date.now(), lim = now + days * 864e5;
+  return all().filter(e => ACTION.test(e.title) && e.end >= now && e.start < lim).sort((a, b) => a.start - b.start).map(e => ({ ...e, label: e.title.replace(ACTION, '') }));
+};
 export const upcomingTimed = hours => { const now = Date.now(); return all().filter(e => !e.allDay && e.start > now && e.start < now + hours * 36e5).sort((a, b) => a.start - b.start); };

@@ -4,11 +4,10 @@ import { save } from './store.js';
 import { isNative, initBackButton } from './native.js';
 import { refreshReminders } from './reminders-run.js';
 import { syncAll, onCalendarChange } from './calendar.js';
-import './views/today.js';
-import './views/plan.js';
+import './views/home.js';
 import './views/learn.js';
-import './views/growth.js';
-import './views/more.js';
+import './views/plan.js';
+import './views/track.js';
 import './sections/focus.js';
 import './sections/money.js';
 import './sections/career.js';
@@ -16,7 +15,7 @@ import './sections/settings.js';
 
 Object.assign(app.actions, {
   sub: d => { ui.sub[d.group] = d.id; },
-  openSource: d => { ui.view = d.view; if (d.section) ui.sub.more = d.section; },
+  openSource: d => { ui.view = d.view; if (d.section) ui.sub[d.view] = d.section; },
 });
 
 document.addEventListener('click', e => {
@@ -63,6 +62,6 @@ async function loadNews() {
   document.addEventListener('visibilitychange', () => { if (!document.hidden) syncAll(); });
   setInterval(() => { if (!document.hidden) syncAll(true); }, 10 * 60e3);
   document.addEventListener('visibilitychange', () => { if (document.hidden) refreshReminders(); });
-  initBackButton(() => ui.view === 'today', () => go('today'));
+  initBackButton(() => ui.view === 'home', () => go('home'));
   if ('serviceWorker' in navigator && !isNative()) navigator.serviceWorker.register('sw.js').catch(() => {});
 })();

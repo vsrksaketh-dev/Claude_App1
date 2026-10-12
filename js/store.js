@@ -9,6 +9,7 @@ export const SCHEMA = 2;
 export const blank = () => ({
   v: SCHEMA,
   profile: { name: '', roll: '' },
+  theme: 'system',                            // 'light', 'dark' or 'system'
   modules: { career: true, money: true },     // optional areas, switch off in Settings
   meta: { lastBackup: '' },
   reminders: { on: false, morning: '07:30', evening: '21:00', deadlines: true, cards: true, events: true },   // Android app only

@@ -16,8 +16,7 @@ Run the smoke test after any change to `js/`. It covers every screen, persistenc
 - `js/logic.js`: domain logic (habit streaks, flashcard scheduling, task quadrants, weekly summary). No HTML.
 - `js/util.js`: pure helpers (dates, escaping). `js/ui.js`: shared HTML snippets (tabs, bars, heatmap).
 - `js/data.js`: static learning content (frameworks, guesstimates, jargon, mental models, prompts).
-- `js/views/*`: bottom-nav screens: Today, Plan, Learn, Growth, More.
-- `js/sections/*`: sub-screens inside More: Focus, Money, Career, Settings.
+- `js/views/*`: screens in the bottom bar: Home, Learn, Plan, Track. `js/sections/*`: feature modules: Money (own tab), Settings (opened from the button on Home, no tab), Focus (shown as a tab inside Track) and Career (shown as tabs inside Plan).
 - `js/ics.js`: iCalendar reader (time zones, all-day, recurrence). `js/calendar.js`: calendar sync, secret addresses kept in their own storage keys (never in `S` or backups). `js/native.js`: Android bridge (uses `window.Capacitor.Plugins`; there is no bundler, so never call `registerPlugin` or import `@capacitor/*` in `js/`). The smoke test simulates the bridge. `js/reminders*.js`: local notifications.
 - `js/main.js`: event delegation and boot. `sw.js`: service worker (network first). Bump its cache name when adding files to `ASSETS`.
 - `brief/`: rules and template for the daily brief routine (see Privacy).
@@ -28,8 +27,8 @@ Run the smoke test after any change to `js/`. It covers every screen, persistenc
 - Extension points so modules do not import each other: `app.nudgeSources` (lines for "Needs attention"), `app.taskSources` (derived tasks for the Plan matrix), `app.todayCards` (extra cards on Today).
 
 ## Adding things
-- **New section in More:** create `js/sections/x.js`, call `register({ id, label, section: true, order, enabled?, render, actions, forms, inputs })`, import it in `main.js`, add it to `sw.js` ASSETS. To make it switchable, add a flag to `modules` in `store.js` and a row in Settings.
-- **New top-level screen:** register without `section`, add a button in `index.html`'s nav (keep to five).
+- **New screen:** create the file, call `register({ id, label, nav: <position>, enabled?, render, actions, forms, inputs })`, import it in `main.js`, add it to `sw.js` ASSETS. The bottom bar is built from views that have `nav` (keep it to five). A view without `nav` (Settings) is opened with a `data-nav` link. To make a module switchable, add a flag to `modules` in `store.js` and a row in Settings.
+- **New tab inside a screen:** add it to that screen's tab list and page map (see `plan.js`, which pulls in the Career pages).
 - **Changing stored data:** add the new field with a default in `blank()`. If an old shape must change, bump `SCHEMA` and add a step in `migrate()`. Never drop user data silently, and add a migration test to `tests/smoke.cjs`.
 
 ## Privacy rules (the GitHub repo is public)
@@ -42,7 +41,8 @@ Run the smoke test after any change to `js/`. It covers every screen, persistenc
 - Placement is an optional module that the user will switch off after being placed. Keep the core independent of it.
 
 ## Visual design rules
-- Quiet editorial look: hairline dividers instead of boxed cards, Newsreader (serif) for headings and big numbers, Hanken Grotesk for the interface, one deep-navy accent (light blue in dark mode), muted green/amber/red for state only.
-- No emoji, no icon sets, no gradients, no drop shadows. Navigation is words only. Section labels are small uppercase text.
-- Colours and fonts are tokens at the top of `css/styles.css`. Fonts are bundled in `fonts/` (open licence files alongside) so the Android app works offline.
-- Keep `.card` as a divided section. Only nested panels (flashcards, kanban cards, form panels) get a border.
+- Soft and welcoming: rounded cards on a calm tinted background, pill buttons and pill-shaped tabs, round checkboxes, a floating rounded bottom bar. One friendly typeface (Plus Jakarta Sans, bundled in `fonts/`) and one teal accent; amber, red and green are for state only.
+- No emoji, no icon sets, no gradients. Navigation and section titles are plain words. Never use serif type or all-caps tracked labels (they read as the generic editorial look the user rejected).
+- Light and dark are both designed and chosen in Settings (Light, Dark, Match phone). All colours are tokens at the top of `css/styles.css`; add any new colour to all three blocks (light, dark via media query, and `[data-theme="dark"]`).
+- Home is only what needs the user today. News and learning live in Learn, trackers and charts in Track, tasks and applications in Plan.
+- Keep `main` a single-column grid with `minmax(0, 1fr)`; without it wide content stretches past the screen.

@@ -1,21 +1,29 @@
 import { S, ui, register, byId, remove } from '../core.js';
 import { today, addDays, lastDays, dow, esc, uid, fmtDay, weekStart, avg, parse } from '../util.js';
-import { field, empty, chip, bar, tabs, subOf, barChart, heatmap } from '../ui.js';
+import { field, empty, chip, bar, tabs, subOf, barChart, heatmap, head } from '../ui.js';
+import { focusView } from '../sections/focus.js';
 import { REFLECTION_PROMPTS } from '../data.js';
-import { habitRate, habitDone, habitStreak, habitRateOver, habitScheduled, weekSummary, focusOn } from '../logic.js';
+import { habitsOn, learnCount, habitRate, habitDone, habitStreak, habitRateOver, habitScheduled, weekSummary, focusOn } from '../logic.js';
 import { pick } from '../util.js';
 
-const TABS = [['habits', 'Habits'], ['journal', 'Journal'], ['review', 'Weekly review'], ['insights', 'Insights']];
+const TABS = [['habits', 'Habits'], ['focus', 'Focus'], ['journal', 'Journal'], ['review', 'Review'], ['insights', 'Insights']];
 const DAYS = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 const MOODS = ['1', '2', '3', '4', '5'];
 const pct = r => r === null ? '–' : Math.round(r * 100) + '%';
 const level = r => r === null || r === 0 ? 0 : Math.ceil(r * 4);
 
+function dayTiles() {
+  const hs = habitsOn(today()), hd = hs.filter(h => habitDone(h, today())).length;
+  const m = S.mits[today()] || [];
+  const tile = (n, l) => `<div class="tile"><b>${n}</b><span>${l}</span></div>`;
+  return `<div class="card"><h2>Today so far</h2><div class="tiles">${tile(`${hd}/${hs.length}`, 'Habits')}${tile(`${m.filter(x => x.done).length}/${m.length}`, 'Top 3')}${tile(`${focusOn(today())}m`, 'Focus')}${tile(`${learnCount(today())}/5`, 'Learn')}</div></div>`;
+}
+
 function habitsTab() {
   const days = lastDays(84);
   const startPad = (parse(days[0]).getDay() + 6) % 7;
   const active = S.habits.filter(h => !h.archived), archived = S.habits.filter(h => h.archived);
-  return `
+  return `${dayTiles()}
   <div class="card"><h2>Last 12 weeks</h2>${heatmap(days.map(k => ({ date: k, level: level(habitRate(k)) })), startPad)}<p class="muted">Darker means more of that day's habits done. Columns are weeks, Monday at top.</p></div>
   <div class="card"><h2>Your habits</h2>${active.length ? `<ul class="list">${active.map(h => {
     const dots = lastDays(14).map(k => `<i class="h${!habitScheduled(h, k) ? '-1' : habitDone(h, k) ? 4 : 0}" title="${k}"></i>`).join('');
@@ -83,14 +91,14 @@ function insightsTab() {
 }
 
 function render() {
-  const sub = subOf('growth', TABS);
-  return `<h1>Growth</h1>${tabs('growth', TABS)}${{ habits: habitsTab, journal: journalTab, review: reviewTab, insights: insightsTab }[sub]()}`;
+  const sub = subOf('track', TABS);
+  return `${head('Track', 'Habits, focus and how you are doing.')}${tabs('track', TABS)}${{ habits: habitsTab, focus: focusView, journal: journalTab, review: reviewTab, insights: insightsTab }[sub]()}`;
 }
 
 const entry = k => (S.journal[k] ||= {});
 
 register({
-  id: 'growth', label: 'Growth', render,
+  id: 'track', label: 'Track', nav: 4, render,
   actions: {
     habitArchive: d => { const h = byId(S.habits, d.id); h.archived = !h.archived; },
     habitDel: d => { remove('habits', d.id); S.goals.forEach(g => { g.habitIds = (g.habitIds || []).filter(x => x !== d.id); }); },

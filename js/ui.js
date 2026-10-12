@@ -2,6 +2,8 @@
 import { ui } from './core.js';
 import { esc } from './util.js';
 
+// Screen header: big title, optional subtitle, optional control on the right.
+export const head = (title, subtitle = '', right = '') => `<header class="top"><div><h1>${title}</h1>${subtitle ? `<p class="sub">${subtitle}</p>` : ''}</div>${right}</header>`;
 export const field = (label, name, attrs = '') => `<label>${label}<input name="${name}" ${attrs}></label>`;
 export const empty = msg => `<p class="muted">${msg}</p>`;
 export const chip = (text, cls = '') => `<span class="chip ${cls}">${text}</span>`;

@@ -1,10 +1,10 @@
 import { S, ui, app, register, byId, remove } from '../core.js';
 import { today, esc, pick, uid, fmtDay } from '../util.js';
-import { field, empty, chip, bar, tabs, subOf, check } from '../ui.js';
+import { field, empty, chip, bar, tabs, subOf, check, head } from '../ui.js';
 import { GUESSTIMATES, FRAMEWORKS, JARGON, MENTAL_MODELS, TEARDOWNS, HR_TRENDS, LIB_KINDS, DAILY_FIVE } from '../data.js';
 import { dueCards, newCard, rateCard, learnCount, learnStreak } from '../logic.js';
 
-const TABS = [['daily', 'Daily'], ['review', 'Review'], ['library', 'Library'], ['log', 'Log']];
+const TABS = [['daily', 'Daily'], ['news', 'News'], ['review', 'Review'], ['library', 'Library'], ['log', 'Log']];
 const done = k => !!(S.learnDone[today()] || {})[k];
 const tick = k => `<label class="check"><input type="checkbox" data-act="learnTick" data-key="${k}" ${done(k) ? 'checked' : ''}> Done for today</label>`;
 
@@ -14,7 +14,7 @@ function dailyTab() {
   const td = TEARDOWNS[weekIdx % TEARDOWNS.length], tr = HR_TRENDS[weekIdx % HR_TRENDS.length];
   const gs = S.guess[t] || { text: '', revealed: false };
   return `
-  <div class="card"><div class="row between"><h2>Today ${learnCount(t)}/5</h2>${chip(`${learnStreak()} day streak`, 'ok')}</div>${bar(learnCount(t) * 20)}<p class="muted">Three of five keeps the streak alive.</p></div>
+  <div class="card"><div class="row between"><h2 style="margin:0">Daily five</h2>${chip(`${learnStreak()} day streak`, 'ok')}</div>${bar(learnCount(t) * 20)}<div class="row">${DAILY_FIVE.map(([k, l]) => chip(l, done(k) ? 'ok' : 'plain')).join('')}</div><p class="muted">Three of five keeps your streak alive.</p></div>
   <div class="card"><h2>Guesstimate</h2><p class="title">${esc(g.q)}</p><p class="muted">Hint: ${esc(g.hint)}</p>
     <textarea data-bind="guess" aria-label="Your approach" placeholder="Write your approach before you peek...">${esc(gs.text)}</textarea>
     ${gs.revealed ? `<h3>Breakdown</h3><ol class="list steps">${g.steps.map(([a, b]) => `<li><div><b>${esc(a)}</b><div class="muted">${esc(b)}</div></div></li>`).join('')}</ol><p class="quote">${esc(g.answer)}</p>` : `<button class="primary" data-act="reveal">Reveal breakdown</button>`}
@@ -25,10 +25,21 @@ function dailyTab() {
     <div class="row"><button data-act="addCard" data-kind="framework">Add to flashcards</button></div>${tick('framework')}</div>
   <div class="card"><h2>Jargon buster</h2><p class="title">${esc(j.term)}</p><p>${esc(j.meaning)}</p><div class="row"><button data-act="addCard" data-kind="jargon">Add to flashcards</button></div>${tick('jargon')}</div>
   <div class="card"><h2>Mental model</h2><p class="title">${esc(mm.name)}</p><p>${esc(mm.summary)}</p><p><b>Use it when:</b> ${esc(mm.use)}</p><p class="muted"><b>Example:</b> ${esc(mm.example)}</p><div class="row"><button data-act="addCard" data-kind="model">Add to flashcards</button></div>${tick('model')}</div>
-  <div class="card"><h2>News</h2><p>Read it on Today, then tick it off.</p><button data-nav="today">Open Today</button>${tick('news')}</div>
   <details class="card"><summary>Weekly reading: campaign teardown and HR trend</summary><div><h2>Campaign teardown ${chip(esc(td.verdict), 'plain')}</h2><p class="title">${esc(td.name)}</p><p class="muted">${esc(td.brand)} · ${esc(td.year)}</p>
     <ul class="list">${[['Audience', td.audience], ['Positioning', td.positioning], ['Tactics', td.tactics], ['Result', td.result]].map(([a, b]) => `<li><div><b>${a}</b><div>${esc(b)}</div></div></li>`).join('')}</ul><p class="quote">${esc(td.lesson)}</p></div>
     <div><h2>HR and OB trend</h2><p class="title">${esc(tr.title)}</p><p>${esc(tr.body)}</p><p class="muted">${esc(tr.lens)}</p></div></details>`;
+}
+
+function newsTab() {
+  const cats = ['International', 'Indian', 'Business', 'Tech'];
+  const cat = ui.sub.newsCat || cats[0];
+  const items = app.news.items || [];
+  const list = items.filter(n => n.cat === cat);
+  const stale = app.news.date && app.news.date !== today();
+  return `<div class="card"><div class="row between"><h2 style="margin:0">News</h2>${app.news.date ? chip(stale ? 'Updated ' + fmtDay(app.news.date) : 'Updated today', stale ? 'warn' : 'ok') : ''}</div>
+    <div class="tabs" style="margin-top:12px">${cats.map(c => `<button class="${cat === c ? 'on' : ''}" data-act="newsCat" data-id="${c}">${c}</button>`).join('')}</div>
+    ${items.length ? (list.length ? list.map(n => `<div class="panel"><span class="title">${n.kind === 'fact' ? 'Fact: ' : ''}${esc(n.title)}</span><p>${esc(n.summary)}</p><p class="muted"><b>Why it matters:</b> ${esc(n.why)}</p><span class="chip plain">${esc(n.src)}</span></div>`).join('') : empty('No stories in this category.')) : empty('News is unavailable right now. It refreshes every morning.')}
+    <label class="check" style="margin-top:14px"><input type="checkbox" data-act="learnTick" data-key="news" ${done('news') ? 'checked' : ''}> I read today's news</label></div>`;
 }
 
 function reviewTab() {
@@ -65,12 +76,13 @@ function logTab() {
 
 function render() {
   const sub = subOf('learn', TABS);
-  return `<h1>Learn</h1>${tabs('learn', TABS)}${{ daily: dailyTab, review: reviewTab, library: libraryTab, log: logTab }[sub]()}`;
+  return `${head('Learn', 'Knowledge that compounds.')}${tabs('learn', TABS)}${{ daily: dailyTab, news: newsTab, review: reviewTab, library: libraryTab, log: logTab }[sub]()}`;
 }
 
 register({
-  id: 'learn', label: 'Learn', render,
+  id: 'learn', label: 'Learn', nav: 2, render,
   actions: {
+    newsCat: d => { ui.sub.newsCat = d.id; },
     reveal: () => { (S.guess[today()] ||= { text: '' }).revealed = true; },
     flip: () => { ui.sub.cardFlip = true; },
     rate: d => { rateCard(byId(S.cards, d.id), Number(d.q)); ui.sub.cardFlip = false; },
