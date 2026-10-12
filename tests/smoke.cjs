@@ -116,6 +116,40 @@ const ok = (name, cond) => { console.log((cond ? 'PASS ' : 'FAIL ') + name); if 
   const q = await ctx.newPage(); await q.goto(`http://localhost:${port}/`); await q.waitForSelector('h1');
   await q.click('#nav [data-nav=today]'); ok('v1 habits migrated', /Old habit/.test(await q.textContent('#view')));
   await q.click('#nav [data-nav=plan]'); ok('v1 deadlines became tasks', /Old exam/.test(await q.textContent('#view')));
+  // Android shell simulation: the app must use window.Capacitor.Plugins (no registerPlugin) for HTTP, share and notifications
+  const fakeIcs = ['BEGIN:VCALENDAR', 'BEGIN:VEVENT', 'UID:n1', 'DTSTART:' + stamp(Date.now() + 3 * 36e5), 'DTEND:' + stamp(Date.now() + 4 * 36e5), 'SUMMARY:Native bridge event', 'END:VEVENT', 'END:VCALENDAR', ''].join('\r\n');
+  const nctx = await b.newContext({ viewport: { width: 390, height: 844 } });
+  await nctx.addInitScript(ics => {
+    window.__shared = []; window.__scheduled = [];
+    window.Capacitor = { isNativePlatform: () => true, Plugins: {
+      CapacitorHttp: { get: async () => ({ status: 200, data: ics }) },
+      Filesystem: { writeFile: async o => ({ uri: 'file:///cache/' + o.path }) },
+      Share: { share: async o => { window.__shared.push(o.url); } },
+      App: { addListener: async () => ({ remove() {} }), exitApp: async () => {} },
+      LocalNotifications: { checkPermissions: async () => ({ display: 'granted' }), requestPermissions: async () => ({ display: 'granted' }), getPending: async () => ({ notifications: [] }), cancel: async () => {}, schedule: async o => { window.__scheduled.push(...o.notifications); } },
+    } };
+  }, fakeIcs);
+  const n = await nctx.newPage(); const nerrs = []; n.on('pageerror', e => nerrs.push(e.message));
+  await n.goto(`http://localhost:${port}/`); await n.waitForSelector('h1');
+  await n.click('#nav [data-nav=more]'); await n.click('[data-act=sub][data-id=settings]');
+  await n.fill('[data-form=calAdd] [name=name]', 'Native'); await n.fill('[data-form=calAdd] [name=url]', 'https://calendar.google.com/calendar/ical/x/private-y/basic.ics'); await n.click('[data-form=calAdd] button.primary');
+  await n.waitForSelector('text=1 events synced');
+  await n.click('#nav [data-nav=today]'); ok('native HTTP bridge syncs the calendar', /Native bridge event/.test(await n.textContent('#view')));
+  await n.click('#nav [data-nav=more]'); await n.click('[data-act=sub][data-id=settings]');
+  await n.check('[data-form=reminders] [name=on]'); await n.click('[data-form=reminders] button.primary'); await n.waitForTimeout(400);
+  ok('native notifications get scheduled', (await n.evaluate(() => window.__scheduled.map(x => x.title))).includes('Plan your day'));
+  await n.click('[data-act=export]'); await n.waitForTimeout(400);
+  ok('native backup opens the share sheet', (await n.evaluate(() => window.__shared)).some(u => /daily-driver-.*\.json$/.test(u)));
+  ok('no page errors in the native simulation', nerrs.length === 0); if (nerrs.length) console.log(nerrs);
+  await nctx.close();
+  const bctx = await b.newContext(); await bctx.addInitScript(() => { window.Capacitor = { isNativePlatform: () => true }; });
+  const bp = await bctx.newPage(); await bp.goto(`http://localhost:${port}/`); await bp.waitForSelector('h1');
+  await bp.click('#nav [data-nav=more]'); await bp.click('[data-act=sub][data-id=settings]');
+  await bp.fill('[data-form=calAdd] [name=url]', 'https://calendar.google.com/calendar/ical/x/private-y/basic.ics'); await bp.click('[data-form=calAdd] button.primary');
+  await bp.waitForSelector('text=not available in this build');
+  ok('a missing Android feature shows a clear message', true);
+  await bctx.close();
+
   ok('no console errors', errs.length === 0); if (errs.length) console.log(errs);
   await b.close();
 })();

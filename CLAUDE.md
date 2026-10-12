@@ -18,7 +18,7 @@ Run the smoke test after any change to `js/`. It covers every screen, persistenc
 - `js/data.js`: static learning content (frameworks, guesstimates, jargon, mental models, prompts).
 - `js/views/*`: bottom-nav screens: Today, Plan, Learn, Growth, More.
 - `js/sections/*`: sub-screens inside More: Focus, Money, Career, Settings.
-- `js/ics.js`: iCalendar reader (time zones, all-day, recurrence). `js/calendar.js`: calendar sync, secret addresses kept in their own storage keys (never in `S` or backups). `js/native.js`: Android bridge. `js/reminders*.js`: local notifications.
+- `js/ics.js`: iCalendar reader (time zones, all-day, recurrence). `js/calendar.js`: calendar sync, secret addresses kept in their own storage keys (never in `S` or backups). `js/native.js`: Android bridge (uses `window.Capacitor.Plugins`; there is no bundler, so never call `registerPlugin` or import `@capacitor/*` in `js/`). The smoke test simulates the bridge. `js/reminders*.js`: local notifications.
 - `js/main.js`: event delegation and boot. `sw.js`: service worker (network first). Bump its cache name when adding files to `ASSETS`.
 - `brief/`: rules and template for the daily brief routine (see Privacy).
 

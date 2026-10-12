@@ -1,8 +1,14 @@
 // Bridge to the Android wrapper (Capacitor). Everything here is a no-op in a normal browser.
 const cap = () => window.Capacitor;
-const cache = {};
 export const isNative = () => !!cap()?.isNativePlatform?.();
-const plugin = name => (cache[name] ||= cap().registerPlugin(name));
+// The app has no bundler, so it cannot import @capacitor/core. Inside the Android shell, window.Capacitor.Plugins already
+// holds a proxy for every installed plugin; registerPlugin only exists when the core script was bundled, so it is a fallback.
+const plugin = name => {
+  const c = cap();
+  const p = c?.Plugins?.[name] || (typeof c?.registerPlugin === 'function' ? c.registerPlugin(name) : null);
+  if (!p) throw new Error(`The Android feature "${name}" is not available in this build.`);
+  return p;
+};
 
 // Save the backup as a file. In the app, open the Android share sheet (Drive, email, WhatsApp, Files...).
 export async function saveBackup(name, text) {
