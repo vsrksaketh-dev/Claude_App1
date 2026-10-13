@@ -1,92 +1,95 @@
 {
- "date": "2026-10-12",
- "generated": "2026-10-12T14:45:00+05:30",
+ "date": "2026-10-13",
+ "generated": "2026-10-13T06:20:00+05:30",
  "items": [
   {
    "cat": "International",
-   "title": "Riyadh airport attacked for a second day",
-   "summary": "Riyadh's international airport was attacked for a second straight day. The United States, which had limited itself to indirect support, hinted at possible military intervention, and the war with Iran remains at a standstill. NDTV earlier reported 14 deaths in the first attack, including one Indian national.",
-   "why": "Gulf airspace and oil-route risk feed straight into fuel prices, airline costs and Gulf-linked remittances and hiring.",
-   "src": "WORLD Radio, NDTV"
+   "title": "Houthi strikes hit Riyadh airport again as Saudi Arabia probes air-defence failure",
+   "summary": "Gulf News reports a fresh Houthi strike on Riyadh's airport that killed one Pakistani national and wounded 11. Saudi Arabia has opened an investigation into how its air defences failed to intercept the missile and drone barrage, and Riyadh schools have again moved to distance learning. CBS News adds that the attacks keep the airport closed while President Trump weighs U.S. strikes in Yemen.",
+   "why": "Gulf airspace closures and escalation risk feed into fuel prices, airline costs and the Gulf-linked hiring and remittances many Indian families depend on.",
+   "src": "Gulf News, CBS News",
+   "url": "https://gulfnews.com/world/gulf/saudi/riyadh-airport-hit-again-in-fresh-houthi-strike-1-pakistani-killed-11-wounded-1.500706943"
   },
   {
    "cat": "International",
-   "title": "Energy ceasefire claim keeps unravelling",
-   "summary": "President Trump said Russia and Ukraine agreed to stop attacking energy sites. A White House official later told Axios he was referring to a possible deal on oil refineries, and Zelenskyy said it was the first he had heard of it. Ukrainian officials then reported a Russian strike on a power plant in Kharkiv.",
-   "why": "Energy headlines move oil and gas prices and inflation, and the gap between announcement and reality is a live case in credibility and crisis communication.",
-   "src": "WORLD Radio, Axios"
+   "title": "Strait of Hormuz tension: Iran's navy claims a third tanker hit, crude near $103 to $107",
+   "summary": "Just Security's early edition reports Iran's Revolutionary Guard Navy claimed to have struck a third supertanker in the Strait of Hormuz, and its chief warned foreign powers against interfering in the Gulf. Brent crude is quoted at roughly $103 to $107 a barrel depending on the source, so treat the price as provisional. Iran's Mohsen Rezaei called the U.S. response to Iran's conditions for reopening the strait insufficient.",
+   "why": "Oil is the transmission channel to Indian inflation, the rupee and company margins, and shipping risk is a live supply-chain case study.",
+   "src": "Just Security",
+   "url": "https://www.justsecurity.org/160381/early-edition-october-12-2026/"
   },
   {
    "cat": "International",
-   "title": "North Korea fires ballistic missiles",
-   "summary": "North Korea fired multiple ballistic missiles toward the East Sea on the morning of 12 October, according to Korean media.",
-   "why": "Regional security shocks raise the risk premium on Asian markets and shipping, which matters for any firm with East Asian supply chains.",
-   "src": "SBS News"
+   "title": "Trump's energy ceasefire for Russia and Ukraine has no sign of Russian agreement",
+   "summary": "Reports say Russian attacks killed at least six civilians on Sunday, including a strike on a grocery store in Kharkiv. There is no evidence Russia has agreed to the energy ceasefire President Trump announced. Ukrainian drones reportedly hit a Yandex data centre, and Zelenskyy said he would hold an election if Russia accepted a 60-day ceasefire.",
+   "why": "A gap between an announcement and reality is a live lesson in credibility and crisis communication, and energy headlines move prices.",
+   "src": "Just Security, Havana Times",
+   "url": "https://www.justsecurity.org/160381/early-edition-october-12-2026/"
   },
   {
    "cat": "Indian",
-   "title": "INDIA bloc marches to the Supreme Court",
-   "summary": "The opposition bloc planned a march to the Supreme Court at 1:30 PM against the Election Commission and the Special Intensive Revision of electoral rolls. Rahul Gandhi said they will submit a memorandum to the Chief Justice demanding an end to what they call 'vote chori', a halt to the revision and the resignation of Chief Election Commissioner Gyanesh Kumar. Reports differ on whether the CJI declined a meeting; ANI's headline says the march goes ahead despite a refusal.",
-   "why": "Political uncertainty around elections affects investor sentiment and policy predictability for employers and brands.",
-   "src": "Free Press Journal, ANI"
+   "title": "Six states get new governors",
+   "summary": "Amar Ujala's headline roundup for 13 October reports that the President announced governor appointments for six states on Monday, including Kerala and Tamil Nadu, with Uttarakhand also getting a new governor. The source text is partial, so the full list is provisional.",
+   "why": "Governor appointments shape centre-state dynamics, which matters for policy, investment climate and public-sector hiring.",
+   "src": "Amar Ujala",
+   "url": "https://amarujala.com/photo-gallery/india-news/top-headline-today-important-and-big-news-stories-of-13-october-2026-updates-on-amar-ujala-news-in-hindi-2026-10-13"
   },
   {
    "cat": "Indian",
-   "title": "Central Delhi under heavy security",
-   "summary": "Police tightened security across central Delhi ahead of the march, and entry and exit at several metro stations stay closed until 4 PM.",
-   "why": "Large public events disrupt commuting, logistics and footfall, a practical reason to plan travel and a case study in risk planning.",
-   "src": "ANI"
+   "title": "INDIA bloc puts eight demands before the Supreme Court on the SIR voter-roll exercise",
+   "summary": "Prabhat Khabar's morning top-20 list leads with the opposition INDIA bloc placing eight demands before the Supreme Court, including an interim stay on the SIR voter-roll exercise and a bar on removing names from voter lists. The same list mentions a petition concerning the Chief Election Commissioner. This is headline-level reporting from one source.",
+   "why": "Electoral-roll rules affect who can vote, and this is a case study in how institutions communicate under public scrutiny.",
+   "src": "Prabhat Khabar",
+   "url": "https://prabhatkhabar.com/national/13-oct-top-20-news-in-hindi-india-bloc-ramleela-maidan-protest-rahul-gandhi"
   },
   {
    "cat": "Business",
-   "title": "Sensex and Nifty start the week higher as the rupee gains",
-   "summary": "Early reports differ and are provisional. India TV has the Sensex up about 0.4% near 72,771 and the rupee opening at about 95.77 per dollar against 96.73 on Friday. A less established source puts the Sensex down about 59 points near 72,413 at 9:26 AM, citing RBI measures to defend the rupee. Friday's close was about 72,472 on the Sensex and 22,520 on the Nifty.",
-   "why": "A stronger rupee lowers import costs and helps firms with dollar debt, but squeezes exporters such as IT services. Oil and Gulf news are driving the swings.",
-   "src": "India TV News, HDFC Sky"
+   "title": "Sensex and Nifty tumble on oil spike, rate-hike worries and foreign selling",
+   "summary": "The Sensex fell nearly 548 points to close at 71,924.68 and the Nifty lost 157.10 points, or 0.70 per cent, to 22,363.35 on Monday, according to a 13 October report. Reports cite rate-hike worries, higher crude and persistent foreign fund outflows. Tuesday's session is not yet covered.",
+   "why": "Market swings shape campus placement budgets, fintech and banking hiring sentiment, and the cost of capital for the firms recruiting you.",
+   "src": "The Shillong Times",
+   "url": "https://theshillongtimes.com/2026/10/13/stock-markets-tumble-on-oil-price-spike/"
   },
   {
    "cat": "Business",
-   "title": "Tech job openings hit 1.23 lakh, skewed to experienced hires",
-   "summary": "Active tech openings in India reached a peak of 1.23 lakh for October 2026, with demand favouring mid and senior talent over fresh graduates.",
-   "why": "Directly relevant to placements: entry-level tech-adjacent roles are scarce, so differentiate with projects and domain depth.",
-   "src": "India Today"
+   "title": "RBI rate hike and a tighter CRR rattle banks while retail inflation climbs to 5.54%",
+   "summary": "The Week's analysis describes a rate shock after the RBI's hawkish stance, followed by a rebound that ended an eight-week losing streak, and an effort to protect the rupee. Banking stocks fell after the central bank raised the daily CRR maintenance requirement to absorb surplus liquidity, and retail inflation rose to 5.54 per cent in September, per other reports. Figures come from several outlets and should be treated as provisional.",
+   "why": "Rate and inflation moves feed straight into consumer demand, pricing decisions and hiring plans, which are core inputs for marketing and HR roles.",
+   "src": "The Week, The Shillong Times",
+   "url": "https://www.theweek.in/news/biz-tech/2026/10/10/rbi-rate-hike-market-volatility-analysis.amp.html"
   },
   {
    "cat": "Business",
+   "title": "Fact: retail inflation was 5.54% in September",
+   "summary": "India's retail inflation rose to 5.54 per cent in September, according to reports around the 12 October market close.",
+   "why": "A useful anchor figure for pricing, wage and cost-of-living discussions in class cases.",
+   "src": "The Shillong Times",
    "kind": "fact",
-   "title": "Mid-senior roles are 55% of tech openings",
-   "summary": "That points to a sharp contraction in entry-level hiring within IT.",
-   "why": "Pitch yourself on business impact, not only potential.",
-   "src": "India Today"
+   "url": "https://theshillongtimes.com/2026/10/13/stock-markets-tumble-on-oil-price-spike/"
+  },
+  {
+   "cat": "Tech",
+   "title": "Microsoft unveils Maia 300, its next in-house AI chip, to lean less on Nvidia",
+   "summary": "GeekWire reports Microsoft says its homegrown Maia chips will handle most of the AI work behind Copilot and its other products, with the new Maia 300 rolling out in 2027. Microsoft says it does more AI work per unit of electricity than the GPU systems that power most AI today.",
+   "why": "Custom silicon changes the economics and competition of AI services, which affects the vendor and talent landscape you will recruit into.",
+   "src": "GeekWire",
+   "url": "https://geekwire.com/2026/microsoft-makes-biggest-bet-yet-on-its-own-silicon-unveils-new-ai-chip-to-reduce-reliance-on-nvidia"
+  },
+  {
+   "cat": "Tech",
+   "title": "Report: Nvidia plans to buy Hugging Face for about $13 billion",
+   "summary": "Inc. reports, citing unconfirmed sources, that Nvidia is planning to acquire Hugging Face in a deal described as worth $13 billion. This is a report, not a confirmed deal, and the date of the original report is about two days old.",
+   "why": "If confirmed, it would reshape who controls open AI tooling, a useful case for M&A and platform strategy discussions.",
+   "src": "Inc."
   },
   {
    "cat": "Business",
+   "title": "Fact: the rupee's hedging rush hit a record $77 billion",
+   "summary": "A report says the rupee was set for a 1 per cent rally after the RBI curbed a hedging rush that had reached a record $77 billion. Provisional, from a single report.",
+   "why": "Currency volatility affects import costs and the pricing of anything with foreign inputs.",
+   "src": "The Week",
    "kind": "fact",
-   "title": "GCC tech openings up 64% year on year",
-   "summary": "Global Capability Centres show strong resilience and continued reliance on Indian talent hubs despite global volatility.",
-   "why": "GCCs are a growing source of HR and marketing roles. Add them to your target list.",
-   "src": "India Today"
-  },
-  {
-   "cat": "Tech",
-   "title": "AI is eating the bottom rung of India's tech jobs",
-   "summary": "Banks such as JPMorgan and Goldman Sachs are automating much of the work that formed the entry level in India's Global Capability Centres. Nomura analysts call India 'ground zero' for the effect of AI on jobs, and a McKinsey estimate cited by the report puts 30% of job hours in India as automatable by 2030. The report is from 8 October.",
-   "why": "It explains why fresher hiring is thin and why skills that work alongside AI, such as judgement, people and domain depth, hold their value.",
-   "src": "Business Standard"
-  },
-  {
-   "cat": "Tech",
-   "title": "India's 'Techade' push: chips, electronics, AI",
-   "summary": "A Malay Mail report lists five key moves in chips, electronics, AI and global competition. The government expects AI-linked jobs to nearly double to 1.25 million by 2027, while experts question whether India can turn the plans into a competitive tech ecosystem.",
-   "why": "Policy-backed sectors create hiring waves and brand opportunities, but ambitious targets often lag delivery.",
-   "src": "Malay Mail"
-  },
-  {
-   "cat": "Tech",
-   "title": "Work-from-office takes over Indian tech hiring",
-   "summary": "In-office roles are now 81% of active tech demand. Remote roles fell 23% and hybrid openings dropped 19% year over year, reversing pandemic-era policy.",
-   "why": "A major HR and organisational behaviour theme: flexibility versus control. It also affects commercial real estate demand.",
-   "src": "India Today"
+   "url": "https://www.theweek.in/news/biz-tech/2026/10/10/rbi-rate-hike-market-volatility-analysis.amp.html"
   }
  ]
 }
