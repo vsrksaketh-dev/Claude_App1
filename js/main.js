@@ -4,7 +4,7 @@ import { save } from './store.js';
 import { isNative, initBackButton } from './native.js';
 import { refreshReminders } from './reminders-run.js';
 import { syncAll, onCalendarChange } from './calendar.js';
-import { pushSoon, pushNow, syncFromWidgets } from './widgets.js';
+import { pushSoon, pushNow, syncFromWidgets, openTarget } from './widgets.js';
 import './views/home.js';
 import './views/learn.js';
 import './views/plan.js';
@@ -21,6 +21,8 @@ Object.assign(app.actions, {
 });
 
 document.addEventListener('click', e => {
+  const to = e.target.closest('[data-go]');
+  if (to) { openTarget(to.dataset.go); return; }
   const nav = e.target.closest('[data-nav]');
   if (nav) { go(nav.dataset.nav, nav.dataset.sub ? { [nav.dataset.nav]: nav.dataset.sub } : undefined); return; }
   const el = e.target.closest('[data-act]');

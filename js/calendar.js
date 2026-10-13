@@ -76,4 +76,11 @@ export const actionEvents = days => {
   const now = Date.now(), lim = now + days * 864e5;
   return all().filter(e => ACTION.test(e.title) && e.end >= now && e.start < lim).sort((a, b) => a.start - b.start).map(e => ({ ...e, label: e.title.replace(ACTION, '') }));
 };
+// "Mail: ..." entries are the key facts of an important email that has no date to act on. They stay for a week or until ticked.
+const MAIL = /^mail\s*[:·-]\s*/i;
+export const isMail = title => MAIL.test(title);
+export const mailEvents = days => {
+  const now = Date.now();
+  return all().filter(e => MAIL.test(e.title) && e.start >= now - days * 864e5 && e.start < now + 864e5).sort((a, b) => b.start - a.start).map(e => ({ ...e, label: e.title.replace(MAIL, '') }));
+};
 export const upcomingTimed = hours => { const now = Date.now(); return all().filter(e => !e.allDay && e.start > now && e.start < now + hours * 36e5).sort((a, b) => a.start - b.start); };

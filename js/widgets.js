@@ -20,7 +20,7 @@ export function buildSnapshot() {
   return {
     v: 2, at: Date.now(), name: S.profile.name || '',
     events: events.slice(0, 60),
-    actions: pendingActions(7).filter(e => !e.done).slice(0, 8).map(e => ({ id: e.key, title: e.label, s: e.start })),
+    actions: pendingActions(7).filter(e => !e.done).slice(0, 8).map(e => ({ id: e.key, title: e.label, s: e.start, mail: !!e.mail })),
     tasks: open.slice(0, 16).map(x => ({ id: x.id, title: x.title, due: dueLabel(x.due), q: taskQuadrant(x), kind: x.kind && x.kind !== 'Task' ? x.kind : '' })),
     taskCount: open.length,
     dueSoon: open.filter(x => x.due && daysFromToday(x.due) <= 2).length,

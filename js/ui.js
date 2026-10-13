@@ -8,7 +8,7 @@ export const field = (label, name, attrs = '') => `<label>${label}<input name="$
 export const empty = msg => `<p class="muted">${msg}</p>`;
 export const chip = (text, cls = '') => `<span class="chip ${cls}">${text}</span>`;
 export const bar = (pct, over = false) => `<div class="bar ${over ? 'over' : ''}"><i style="width:${Math.max(0, Math.min(100, pct))}%"></i></div>`;
-export const subOf = (group, items) => ui.sub[group] || items[0][0];
+export const subOf = (group, items) => (items.some(i => i[0] === ui.sub[group]) ? ui.sub[group] : items[0][0]);
 export const tabs = (group, items) => {
   const cur = subOf(group, items);
   return `<div class="tabs" role="tablist">${items.map(([id, label]) => `<button role="tab" aria-selected="${cur === id}" class="${cur === id ? 'on' : ''}" data-act="sub" data-group="${group}" data-id="${id}">${label}</button>`).join('')}</div>`;

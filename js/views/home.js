@@ -45,7 +45,7 @@ function render() {
 
   <section class="card ${outstanding ? 'alert' : ''}"><h2>Needs your attention</h2>
     ${hasAttention ? `<ul class="list">
-      ${acts.map(e => `<li class="${e.done ? 'done' : e.dueToday ? 'due-today' : ''}">${check('actToggle', e.key, e.done)}<div class="grow"><span class="title">${esc(e.label)}</span><div class="muted">${esc(when(e.start))}${e.cal ? ' · ' + esc(e.cal) : ''}</div></div>${e.done ? chip('Done', 'ok') : chip(e.dueToday ? 'Today' : esc(when(e.start)), e.dueToday ? 'bad' : 'warn')}</li>`).join('')}
+      ${acts.map(e => `<li class="${e.done ? 'done' : e.dueToday ? 'due-today' : ''}">${check('actToggle', e.key, e.done)}<div class="grow"><span class="title">${esc(e.label)}</span><div class="muted">${e.mail ? esc(e.note || 'Important email') : esc(when(e.start)) + (e.cal ? ' · ' + esc(e.cal) : '')}</div></div>${e.done ? chip('Done', 'ok') : e.mail ? chip(esc(new Date(e.start).toLocaleDateString('en-IN', { day: 'numeric', month: 'short' })), 'plain') : chip(e.dueToday ? 'Today' : esc(when(e.start)), e.dueToday ? 'bad' : 'warn')}</li>`).join('')}
       ${briefMail.map(x => `<li class="${S.inboxDone[x.id] ? 'done' : ''}">${check('inbox', x.id, S.inboxDone[x.id])}<div class="grow"><span class="title">${esc(x.from)}: ${esc(x.subject)}</span><div class="muted">${esc(x.action)}</div></div>${x.due ? `<button class="ghost" data-act="inboxTask" data-id="${x.id}">Add to tasks</button>` : ''}</li>`).join('')}
       ${nd.map(n => `<li><span class="grow">${n}</span></li>`).join('')}</ul>` : empty('All clear. Nothing needs you right now.')}
   </section>
@@ -65,12 +65,12 @@ function render() {
     <div style="margin-top:12px">${todos.length ? `<ul class="list">${todos.slice(0, 10).map(x => `<li>${check('taskDone', x.id, false)}<div class="grow"><span class="title">${esc(x.title)}</span>${x.due ? `<div class="muted">due ${esc(fmtDay(x.due))}</div>` : ''}</div><button class="ghost danger" data-act="delTask" data-id="${x.id}" aria-label="Remove">×</button></li>`).join('')}</ul>${todos.length > 10 ? `<p class="muted" style="margin-top:10px">${todos.length - 10} more in Plan</p>` : ''}` : empty('Nothing on your list.')}</div>
   </section>
 
-  <section class="card"><div class="row between"><h2 style="margin:0">Habits ${chip(`${dayStreak()} day streak`, 'ok')}</h2><button class="ghost" data-nav="track" data-sub="habits">Open Track</button></div>
+  <section class="card"><div class="row between"><h2 style="margin:0">Habits ${chip(`${dayStreak()} day streak`, 'ok')}</h2><button class="ghost" data-go="track:trackers">Open Track</button></div>
     <div style="margin-top:12px">${hs.length ? `<ul class="list">${[...hs].sort((a, b) => order[a.when] - order[b.when]).map(x => `<li class="${habitDone(x, t) ? 'done' : ''}">${check('habit', x.id, habitDone(x, t))}<span class="grow title">${esc(x.name)}</span>${chip(x.when, 'plain')}${habitStreak(x) > 1 ? chip(habitStreak(x) + 'd') : ''}</li>`).join('')}</ul>` : empty('No habits scheduled today.')}</div>
   </section>
 
   <section class="card"><h2>Close the day</h2>${j ? `<p>You reflected today. Mood ${j.mood || '-'}/5, energy ${j.energy || '-'}/5.</p>` : '<p class="muted">Two minutes: what went well, what to fix, and what to do tomorrow.</p>'}
-    <div class="row" style="margin-top:10px"><button class="${j ? '' : 'primary'}" data-nav="track" data-sub="journal">${j ? 'Edit reflection' : 'Reflect now'}</button></div></section>`;
+    <div class="row" style="margin-top:10px"><button class="${j ? '' : 'primary'}" data-go="track:mind:journal">${j ? 'Edit reflection' : 'Reflect now'}</button></div></section>`;
 }
 
 register({

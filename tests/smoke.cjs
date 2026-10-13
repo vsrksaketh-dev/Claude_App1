@@ -64,6 +64,14 @@ const ok = (name, cond) => { console.log((cond ? 'PASS ' : 'FAIL ') + name); if 
   await p.fill('[data-bind=review][data-field=focus]', 'Ship the CV');
   ok('review also holds the insights', /Deep work/.test(await view()) && /Mood/.test(await view()));
 
+  // Buttons that jump to other screens
+  await nav('home'); await p.click('[data-go="track:mind:journal"]');
+  ok('Reflect now opens the journal', await p.locator('.seg.pills button.on:has-text("Journal")').count() === 1);
+  await nav('home'); await p.click('[data-go="track:trackers"]');
+  ok('Open Track opens the trackers', await p.locator('.seg.pills button.on:has-text("Habits")').count() === 1);
+  await p.evaluate(async () => { const c = await import('/js/core.js'); c.go('track', { track: 'journal' }); });
+  ok('a wrong tab value cannot break Track', await p.locator('h1:has-text("Track")').count() === 1);
+
   // Body trackers
   await nav('track'); await p.click('[data-act=sub][data-group=track][data-id=trackers]');
   await p.click('[data-act=sub][data-group=trk][data-id=workout]'); await p.fill('[data-form=workout] [name=min]', '40'); await p.fill('[data-form=workout] [name=note]', 'Chest day'); await p.click('[data-form=workout] button.primary');
@@ -109,18 +117,21 @@ const ok = (name, cond) => { console.log((cond ? 'PASS ' : 'FAIL ') + name); if 
     'BEGIN:VEVENT', 'UID:t1', 'DTSTART:' + stamp(Date.now() + 3 * 36e5), 'DTEND:' + stamp(Date.now() + 4 * 36e5), 'SUMMARY:' + title, 'LOCATION:Room 7', 'END:VEVENT',
     'BEGIN:VEVENT', 'UID:a1', 'DTSTART:' + stamp(Date.now() + 2 * 36e5), 'DTEND:' + stamp(Date.now() + 3 * 36e5), 'SUMMARY:Due: Form submission', 'END:VEVENT',
     'BEGIN:VEVENT', 'UID:a2', 'DTSTART:' + stamp(Date.now() - 40 * 6e4), 'DTEND:' + stamp(Date.now() + 36e5), 'SUMMARY:Due: Already late', 'END:VEVENT',
+    'BEGIN:VEVENT', 'UID:m1', 'DTSTART;VALUE=DATE:' + new Date().toLocaleDateString('en-CA').replace(/-/g, ''), 'SUMMARY:Mail: Placement notice', 'DESCRIPTION:Shortlist is out. Check the Superset portal. Added from email.', 'END:VEVENT',
     'BEGIN:VEVENT', 'UID:t3', 'DTSTART:' + stamp(Date.now() + 5 * 36e5), 'DTEND:' + stamp(Date.now() + 6 * 36e5), 'SUMMARY:Friend class', 'DESCRIPTION:Not mine - friend', 'END:VEVENT',
     'BEGIN:VEVENT', 'UID:t2', 'DTSTART;VALUE=DATE:' + new Date().toLocaleDateString('en-CA').replace(/-/g, ''), 'SUMMARY:Fest day', 'END:VEVENT', 'END:VCALENDAR', ''].join('\r\n');
   fs.writeFileSync(path.join(tmp, 'cal.ics'), ics('Calendar sync works'));
   await nav('home'); await p.click('[data-nav=settings]');
   await p.fill('[data-form=calAdd] [name=name]', 'Test cal'); await p.fill('[data-form=calAdd] [name=url]', `http://localhost:${port}/tests/.tmp/cal.ics`); await p.click('[data-form=calAdd] button.primary');
-  await p.waitForSelector('text=5 events synced');
+  await p.waitForSelector('text=6 events synced');
   await nav('home');
   ok('calendar event shows on Today', /Calendar sync works/.test(await view()) && /Room 7/.test(await view()) && /Fest day/.test(await view()));
   ok('events marked not mine are hidden', !/Friend class/.test(await view()));
   fs.writeFileSync(path.join(tmp, 'cal.ics'), ics('Calendar sync updated'));
   await p.click('[data-act=calSync]'); await p.waitForSelector('text=Calendar sync updated');
   ok('edit in the calendar reflects after sync', !/Calendar sync works/.test(await view()));
+  ok('important mail shows its key facts under Needs attention', /Placement notice/.test(await p.textContent('.card.alert')) && /Shortlist is out/.test(await p.textContent('.card.alert')));
+  ok('mail items are not listed as schedule events', !/Placement notice/.test(await p.textContent('.card:has(h2:has-text("Today"))')));
   const attn = () => p.textContent('.card.alert');
   ok('upcoming deadline is in Needs attention, red today', /Form submission/.test(await attn()) && await p.locator('.card.alert li.due-today').count() >= 1);
   ok('deadline 40 minutes past is gone automatically', !/Already late/.test(await attn()));

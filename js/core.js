@@ -41,7 +41,11 @@ export function render() {
   applyTheme();
   let v = app.views[ui.view];
   if (!v || (v.enabled && !v.enabled())) { ui.view = 'home'; v = app.views.home; }
-  $('#view').innerHTML = v.render();
+  try { $('#view').innerHTML = v.render(); } catch (e) {
+    // A broken screen must never leave the app stuck: forget the tab choices and offer a way back.
+    console.error(e); ui.sub = {};
+    $('#view').innerHTML = '<section class="card"><h2>Something went wrong on this screen</h2><p class="muted">Your data is safe. Tap below to reopen it.</p><div class="row" style="margin-top:10px"><button class="primary" data-nav="' + ui.view + '">Reopen</button><button data-nav="home">Go to Home</button></div></section>';
+  }
   renderNav();
   document.body.classList.toggle('deep', S.timer.running && S.timer.mode === 'focus');
 }

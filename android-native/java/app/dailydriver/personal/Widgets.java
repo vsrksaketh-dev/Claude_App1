@@ -253,6 +253,7 @@ public class Widgets {
     }
 
     private static void attentionRow(Context c, RemoteViews v, JSONObject m) {
+        if (m.optBoolean("mail")) { ringRow(c, v, m.optString("title"), "", "Mail", "", false, act(c, "act", m.optString("id")), open(c, "home")); return; }
         boolean today = fmt("yyyy-MM-dd", m.optLong("s")).equals(dayKey(0));
         ringRow(c, v, m.optString("title"), "", today ? fmt("h:mm a", m.optLong("s")) : fmt("EEE", m.optLong("s")), today ? "bad" : "warn", false, act(c, "act", m.optString("id")), open(c, "home"));
     }
