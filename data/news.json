@@ -1,95 +1,88 @@
 {
- "date": "2026-10-13",
- "generated": "2026-10-13T06:20:00+05:30",
+ "date": "2026-10-14",
+ "generated": "2026-10-14T06:20:00+05:30",
  "items": [
   {
    "cat": "International",
-   "title": "Houthi strikes hit Riyadh airport again as Saudi Arabia probes air-defence failure",
-   "summary": "Gulf News reports a fresh Houthi strike on Riyadh's airport that killed one Pakistani national and wounded 11. Saudi Arabia has opened an investigation into how its air defences failed to intercept the missile and drone barrage, and Riyadh schools have again moved to distance learning. CBS News adds that the attacks keep the airport closed while President Trump weighs U.S. strikes in Yemen.",
-   "why": "Gulf airspace closures and escalation risk feed into fuel prices, airline costs and the Gulf-linked hiring and remittances many Indian families depend on.",
-   "src": "Gulf News, CBS News",
-   "url": "https://gulfnews.com/world/gulf/saudi/riyadh-airport-hit-again-in-fresh-houthi-strike-1-pakistani-killed-11-wounded-1.500706943"
+   "title": "Hackers heat supermarket fridges across France, sparking fires and food losses",
+   "summary": "CBS News and Al Jazeera report that a cyberattack on internet-linked refrigeration controllers pushed fridges and freezers to as high as 50C at more than 500 French shops, including Intermarche, Cooperative U and Carrefour outlets. France's cyber agency ANSSI says two Danfoss control series were affected, and Intermarche's parent expects losses of several million euros. Reports of the number of stores vary and nobody has been named as the attacker yet, so figures are provisional.",
+   "why": "A clear case of operational technology risk: for any retailer or FMCG firm, cold-chain failure is a brand and supply-chain crisis, not just an IT problem.",
+   "src": "CBS News, Al Jazeera, CNBC",
+   "url": "https://www.cnbc.com/2026/10/13/france-supermarket-hack-cyberattack-fridges-fires.html"
   },
   {
    "cat": "International",
-   "title": "Strait of Hormuz tension: Iran's navy claims a third tanker hit, crude near $103 to $107",
-   "summary": "Just Security's early edition reports Iran's Revolutionary Guard Navy claimed to have struck a third supertanker in the Strait of Hormuz, and its chief warned foreign powers against interfering in the Gulf. Brent crude is quoted at roughly $103 to $107 a barrel depending on the source, so treat the price as provisional. Iran's Mohsen Rezaei called the U.S. response to Iran's conditions for reopening the strait insufficient.",
-   "why": "Oil is the transmission channel to Indian inflation, the rupee and company margins, and shipping risk is a live supply-chain case study.",
-   "src": "Just Security",
-   "url": "https://www.justsecurity.org/160381/early-edition-october-12-2026/"
+   "title": "MI5 chief says Britain has entered a 'new era of national security'",
+   "summary": "In his annual threat update on 13 October, MI5 Director General Ken McCallum called Russia 'aggressor number one' and said Iran is escalating its campaign on British soil, now targeting harder military sites. NBC News and other outlets report that MI5 has disrupted more than 20 potentially lethal Iran-backed plots in the last year and flagged AI misuse as a growing risk.",
+   "why": "Geopolitical risk shapes defence, energy and cyber spending, and employers increasingly expect managers to understand security and compliance exposure.",
+   "src": "NBC News, WION",
+   "url": "https://www.nbcnews.com/world/united-kingdom/iran-increasingly-targeting-british-military-sites-mi5-boss-says-rcna603182"
   },
   {
    "cat": "International",
-   "title": "Trump's energy ceasefire for Russia and Ukraine has no sign of Russian agreement",
-   "summary": "Reports say Russian attacks killed at least six civilians on Sunday, including a strike on a grocery store in Kharkiv. There is no evidence Russia has agreed to the energy ceasefire President Trump announced. Ukrainian drones reportedly hit a Yandex data centre, and Zelenskyy said he would hold an election if Russia accepted a 60-day ceasefire.",
-   "why": "A gap between an announcement and reality is a live lesson in credibility and crisis communication, and energy headlines move prices.",
-   "src": "Just Security, Havana Times",
-   "url": "https://www.justsecurity.org/160381/early-edition-october-12-2026/"
+   "title": "Riyadh airport stays shut after repeated Houthi strikes",
+   "summary": "France 24 and CNN report fresh Houthi strikes on Riyadh's King Khalid airport after a deadly attack on 10 October, with Saudi Arabia intercepting further missiles on Monday. A notice to airmen indicates the airport will remain closed until at least 17 October. Death tolls differ between sources, so treat them as provisional.",
+   "why": "Gulf air hubs carry heavy India-linked passenger and cargo traffic, so closures push up airfares and fuel costs and affect Gulf-based jobs and remittances.",
+   "src": "France 24, CNN",
+   "url": "https://www.france24.com/en/middle-east/20261012-houthi-strike-riyadh-airport-yemen"
   },
   {
    "cat": "Indian",
-   "title": "Six states get new governors",
-   "summary": "Amar Ujala's headline roundup for 13 October reports that the President announced governor appointments for six states on Monday, including Kerala and Tamil Nadu, with Uttarakhand also getting a new governor. The source text is partial, so the full list is provisional.",
-   "why": "Governor appointments shape centre-state dynamics, which matters for policy, investment climate and public-sector hiring.",
-   "src": "Amar Ujala",
-   "url": "https://amarujala.com/photo-gallery/india-news/top-headline-today-important-and-big-news-stories-of-13-october-2026-updates-on-amar-ujala-news-in-hindi-2026-10-13"
-  },
-  {
-   "cat": "Indian",
-   "title": "INDIA bloc puts eight demands before the Supreme Court on the SIR voter-roll exercise",
-   "summary": "Prabhat Khabar's morning top-20 list leads with the opposition INDIA bloc placing eight demands before the Supreme Court, including an interim stay on the SIR voter-roll exercise and a bar on removing names from voter lists. The same list mentions a petition concerning the Chief Election Commissioner. This is headline-level reporting from one source.",
-   "why": "Electoral-roll rules affect who can vote, and this is a case study in how institutions communicate under public scrutiny.",
-   "src": "Prabhat Khabar",
-   "url": "https://prabhatkhabar.com/national/13-oct-top-20-news-in-hindi-india-bloc-ramleela-maidan-protest-rahul-gandhi"
+   "title": "Opposition steps up protests against Election Commission chief over voter-roll revision",
+   "summary": "Al Jazeera and The Washington Post report that Rahul Gandhi, Priyanka Gandhi Vadra and over 250 INDIA bloc MPs were briefly detained in Delhi during protests demanding the resignation of Chief Election Commissioner Gyanesh Kumar over the revision of electoral rolls. Outlook India says a further march to the Supreme Court was planned this week. The Election Commission and the BJP reject the allegations; sources differ on exact dates, so details are provisional.",
+   "why": "Political and regulatory uncertainty around elections affects investor sentiment and the policy calendar that employers and brands plan around.",
+   "src": "Al Jazeera, Washington Post, Outlook India",
+   "url": "https://www.aljazeera.com/news/2026/10/6/india-opposition-leaders-briefly-arrested-in-protest-against-election-chief"
   },
   {
    "cat": "Business",
-   "title": "Sensex and Nifty tumble on oil spike, rate-hike worries and foreign selling",
-   "summary": "The Sensex fell nearly 548 points to close at 71,924.68 and the Nifty lost 157.10 points, or 0.70 per cent, to 22,363.35 on Monday, according to a 13 October report. Reports cite rate-hike worries, higher crude and persistent foreign fund outflows. Tuesday's session is not yet covered.",
-   "why": "Market swings shape campus placement budgets, fintech and banking hiring sentiment, and the cost of capital for the firms recruiting you.",
-   "src": "The Shillong Times",
-   "url": "https://theshillongtimes.com/2026/10/13/stock-markets-tumble-on-oil-price-spike/"
+   "title": "Sensex jumps 1,109 points after FM says she is open to views on LTCG tax and STT",
+   "summary": "Business Today and Business Standard report that the Sensex closed 1.54% higher at 73,033.78 and the Nifty at 22,721.95 on 13 October after Finance Minister Nirmala Sitharaman said the government would hear views on removing long-term capital gains tax and called the debate on securities transaction tax healthy. Investors gained about Rs 5 lakh crore, though no policy change has been announced.",
+   "why": "Capital-gains and transaction taxes shape retail investing behaviour and the cost of capital, which feeds into hiring and marketing budgets in financial services.",
+   "src": "Business Today, Business Standard",
+   "url": "https://businesstoday.in/markets/stocks/story/investors-gain-rs-5-lakh-crore-as-sensex-nifty-gain-over-1-each-key-factors-behind-the-rally-561318-2026-10-13"
   },
   {
    "cat": "Business",
-   "title": "RBI rate hike and a tighter CRR rattle banks while retail inflation climbs to 5.54%",
-   "summary": "The Week's analysis describes a rate shock after the RBI's hawkish stance, followed by a rebound that ended an eight-week losing streak, and an effort to protect the rupee. Banking stocks fell after the central bank raised the daily CRR maintenance requirement to absorb surplus liquidity, and retail inflation rose to 5.54 per cent in September, per other reports. Figures come from several outlets and should be treated as provisional.",
-   "why": "Rate and inflation moves feed straight into consumer demand, pricing decisions and hiring plans, which are core inputs for marketing and HR roles.",
-   "src": "The Week, The Shillong Times",
-   "url": "https://www.theweek.in/news/biz-tech/2026/10/10/rbi-rate-hike-market-volatility-analysis.amp.html"
+   "title": "NPCI defers MDR on UPI; payments stocks rebound",
+   "summary": "Business Standard reports that Paytm, Mobikwik and Pine Labs rebounded after the National Payments Corporation of India deferred merchant discount rates on UPI. The Groww digest of 13 October carries the same headline. Full details of the deferral were not available in the search results.",
+   "why": "Whether UPI stays free for merchants decides how fintechs can monetise, a live case for pricing and business-model strategy.",
+   "src": "Business Standard, Groww Digest",
+   "url": "https://www.business-standard.com/markets/news/stock-market-live-october-13-bse-sensex-today-nifty50-gift-nifty-crude-oil-prices-q2-results-ipo-today-126101300081_1.html"
   },
   {
    "cat": "Business",
-   "title": "Fact: retail inflation was 5.54% in September",
-   "summary": "India's retail inflation rose to 5.54 per cent in September, according to reports around the 12 October market close.",
-   "why": "A useful anchor figure for pricing, wage and cost-of-living discussions in class cases.",
-   "src": "The Shillong Times",
    "kind": "fact",
-   "url": "https://theshillongtimes.com/2026/10/13/stock-markets-tumble-on-oil-price-spike/"
+   "title": "Foreign investors have pulled Rs 3.08 lakh crore from Indian equities in 2026 so far",
+   "summary": "Business Today puts net foreign portfolio investor withdrawals for 2026 at Rs 3,07,719 crore, even as the market rallied on 13 October and the volatility index fell about 7%.",
+   "why": "Heavy FPI selling is the backdrop for recent market swings and explains why policy signals on taxes matter so much.",
+   "src": "Business Today",
+   "url": "https://businesstoday.in/markets/stocks/story/investors-gain-rs-5-lakh-crore-as-sensex-nifty-gain-over-1-each-key-factors-behind-the-rally-561318-2026-10-13"
   },
   {
    "cat": "Tech",
-   "title": "Microsoft unveils Maia 300, its next in-house AI chip, to lean less on Nvidia",
-   "summary": "GeekWire reports Microsoft says its homegrown Maia chips will handle most of the AI work behind Copilot and its other products, with the new Maia 300 rolling out in 2027. Microsoft says it does more AI work per unit of electricity than the GPU systems that power most AI today.",
-   "why": "Custom silicon changes the economics and competition of AI services, which affects the vendor and talent landscape you will recruit into.",
-   "src": "GeekWire",
-   "url": "https://geekwire.com/2026/microsoft-makes-biggest-bet-yet-on-its-own-silicon-unveils-new-ai-chip-to-reduce-reliance-on-nvidia"
+   "title": "Apple launches $299 HomeView smart-home display built around AI Siri",
+   "summary": "CNBC reports that Apple announced HomeView on 13 October: a 7-inch display for table or wall that controls lights, thermostats, cameras and locks, recognises household members by face, and uses on-device processing plus Private Cloud Compute. It costs $299, ships on 13 November, and arrives with a new Apple TV 4K and HomePod Mini.",
+   "why": "A textbook platform-ecosystem play in a market Amazon and Google lead, with privacy as the stated differentiator.",
+   "src": "CNBC",
+   "url": "https://www.cnbc.com/2026/10/13/apple-homeview-smart-home-siri-ai.html"
   },
   {
    "cat": "Tech",
-   "title": "Report: Nvidia plans to buy Hugging Face for about $13 billion",
-   "summary": "Inc. reports, citing unconfirmed sources, that Nvidia is planning to acquire Hugging Face in a deal described as worth $13 billion. This is a report, not a confirmed deal, and the date of the original report is about two days old.",
-   "why": "If confirmed, it would reshape who controls open AI tooling, a useful case for M&A and platform strategy discussions.",
-   "src": "Inc."
+   "title": "Meta releases Muse Wonder, its first frontier AI model",
+   "summary": "TechCrunch reports that Meta's Superintelligence Lab released Muse Wonder and Muse Wonder Full on 12 October. Meta says they match leading rival models on its own benchmarks and stresses 'active memory'. API pricing is reported at $4 per million input tokens and $20 per million output tokens, with Wonder Full limited to Muse Code subscribers. The benchmark figures come from Meta and are unverified.",
+   "why": "Cheaper, stronger models from more vendors change the build-versus-buy maths for HR and marketing teams adopting AI tools.",
+   "src": "TechCrunch, Technology.org",
+   "url": "https://techcrunch.com/2026/10/12/meta-releases-its-first-frontier-model-muse-wonder/"
   },
   {
-   "cat": "Business",
-   "title": "Fact: the rupee's hedging rush hit a record $77 billion",
-   "summary": "A report says the rupee was set for a 1 per cent rally after the RBI curbed a hedging rush that had reached a record $77 billion. Provisional, from a single report.",
-   "why": "Currency volatility affects import costs and the pricing of anything with foreign inputs.",
-   "src": "The Week",
+   "cat": "Tech",
    "kind": "fact",
-   "url": "https://www.theweek.in/news/biz-tech/2026/10/10/rbi-rate-hike-market-volatility-analysis.amp.html"
+   "title": "Nvidia's AI chip shipments to China fell 44% in the first half of 2026",
+   "summary": "An AI news roundup citing IDC data says Nvidia shipped 678,000 AI accelerators in China in H1 2026, down 44% year over year, while Huawei shipped 572,000. This comes from an aggregator and should be treated as provisional.",
+   "why": "Export controls are reshaping the AI hardware market and creating room for local rivals.",
+   "src": "AI Weekly (citing IDC)",
+   "url": "https://aiweekly.co/ai-news-today"
   }
  ]
 }
