@@ -1,88 +1,88 @@
 {
- "date": "2026-10-14",
- "generated": "2026-10-14T06:20:00+05:30",
+ "date": "2026-10-15",
+ "generated": "2026-10-15T06:20:00+05:30",
  "items": [
   {
    "cat": "International",
-   "title": "Hackers heat supermarket fridges across France, sparking fires and food losses",
-   "summary": "CBS News and Al Jazeera report that a cyberattack on internet-linked refrigeration controllers pushed fridges and freezers to as high as 50C at more than 500 French shops, including Intermarche, Cooperative U and Carrefour outlets. France's cyber agency ANSSI says two Danfoss control series were affected, and Intermarche's parent expects losses of several million euros. Reports of the number of stores vary and nobody has been named as the attacker yet, so figures are provisional.",
-   "why": "A clear case of operational technology risk: for any retailer or FMCG firm, cold-chain failure is a brand and supply-chain crisis, not just an IT problem.",
-   "src": "CBS News, Al Jazeera, CNBC",
-   "url": "https://www.cnbc.com/2026/10/13/france-supermarket-hack-cyberattack-fridges-fires.html"
+   "title": "Russia hits Ukraine's power grid again, leaving about 600,000 without electricity",
+   "summary": "ABC News and CNN report that Russia fired ballistic missiles and drones at energy sites in Kyiv, the Kyiv region and Kharkiv overnight into 14 October, despite a US-announced 'energy ceasefire'. Zelensky says around 600,000 people lost power; Kyiv police reported five dead and 36 injured, while CBC counts at least nine killed across Ukraine. Casualty figures differ between outlets, so they are provisional.",
+   "why": "Attacks on energy infrastructure move oil, gas and shipping costs worldwide, which feed into input prices for Indian firms and brands.",
+   "src": "ABC News, CNN, CBC",
+   "url": "https://abcnews.com/International/600000-power-ukraine-russia-launches-missile-drone-attack/story?id=137248732"
   },
   {
    "cat": "International",
-   "title": "MI5 chief says Britain has entered a 'new era of national security'",
-   "summary": "In his annual threat update on 13 October, MI5 Director General Ken McCallum called Russia 'aggressor number one' and said Iran is escalating its campaign on British soil, now targeting harder military sites. NBC News and other outlets report that MI5 has disrupted more than 20 potentially lethal Iran-backed plots in the last year and flagged AI misuse as a growing risk.",
-   "why": "Geopolitical risk shapes defence, energy and cyber spending, and employers increasingly expect managers to understand security and compliance exposure.",
-   "src": "NBC News, WION",
-   "url": "https://www.nbcnews.com/world/united-kingdom/iran-increasingly-targeting-british-military-sites-mi5-boss-says-rcna603182"
-  },
-  {
-   "cat": "International",
-   "title": "Riyadh airport stays shut after repeated Houthi strikes",
-   "summary": "France 24 and CNN report fresh Houthi strikes on Riyadh's King Khalid airport after a deadly attack on 10 October, with Saudi Arabia intercepting further missiles on Monday. A notice to airmen indicates the airport will remain closed until at least 17 October. Death tolls differ between sources, so treat them as provisional.",
-   "why": "Gulf air hubs carry heavy India-linked passenger and cargo traffic, so closures push up airfares and fuel costs and affect Gulf-based jobs and remittances.",
-   "src": "France 24, CNN",
-   "url": "https://www.france24.com/en/middle-east/20261012-houthi-strike-riyadh-airport-yemen"
+   "title": "Saudi-led coalition reportedly intercepts Houthi missile aimed at Riyadh; crude edges higher",
+   "summary": "A morning news recap dated 15 October says a Houthi ballistic missile aimed at Riyadh was intercepted and that rising West Asia tension pushed crude oil prices up. This comes from a headline roundup rather than a full report, so details are provisional.",
+   "why": "Gulf conflict keeps oil prices high, which squeezes consumer spending and company margins in India.",
+   "src": "The Standard (Hong Kong) recap",
+   "url": "https://www.thestandard.com.hk/news/article/345523/Morning-Recap-October-15-2026"
   },
   {
    "cat": "Indian",
-   "title": "Opposition steps up protests against Election Commission chief over voter-roll revision",
-   "summary": "Al Jazeera and The Washington Post report that Rahul Gandhi, Priyanka Gandhi Vadra and over 250 INDIA bloc MPs were briefly detained in Delhi during protests demanding the resignation of Chief Election Commissioner Gyanesh Kumar over the revision of electoral rolls. Outlook India says a further march to the Supreme Court was planned this week. The Election Commission and the BJP reject the allegations; sources differ on exact dates, so details are provisional.",
-   "why": "Political and regulatory uncertainty around elections affects investor sentiment and the policy calendar that employers and brands plan around.",
-   "src": "Al Jazeera, Washington Post, Outlook India",
-   "url": "https://www.aljazeera.com/news/2026/10/6/india-opposition-leaders-briefly-arrested-in-protest-against-election-chief"
+   "title": "Jaishankar says India-US trade talks are nearing a 'landing point'",
+   "summary": "Speaking at the Bloomberg New Economy Forum, External Affairs Minister S Jaishankar said the two sides are working through key differences but gave no details and announced no breakthrough. Business Standard notes that Finance Minister Nirmala Sitharaman earlier called talks at a 'plateau' and the US trade representative said a deal is not imminent. US Secretary of State Marco Rubio is due in Jamnagar and Mumbai from 17 to 22 October.",
+   "why": "A trade deal decides tariffs on Indian exports, which shapes hiring and pricing in textiles, IT and consumer goods.",
+   "src": "Business Standard, ThePrint",
+   "url": "https://www.business-standard.com/external-affairs-defence-security/news/india-us-trade-deal-talks-nearing-landing-point-says-jaishankar-126101400466_1.html"
+  },
+  {
+   "cat": "Indian",
+   "title": "Police detain Ankita Bhandari's parents and Congress leaders at India Gate protest",
+   "summary": "Latestly and Dynamite News report that Delhi Police detained the parents of Ankita Bhandari and opposition leaders during a sit-in at India Gate, and Congress accused the police of manhandling protesters. Coverage found was thin and from smaller outlets, so treat details as provisional.",
+   "why": "Public protests and policing disputes shape political risk and brand reputation, a live case of crisis communication.",
+   "src": "Latestly, Dynamite News",
+   "url": "https://www.latestly.com/agency-news/india-news-delhi-police-detains-ankita-bhandaris-parents-congress-leaders-amid-protest-at-india-gate-7645103.html"
+  },
+  {
+   "cat": "Indian",
+   "kind": "fact",
+   "title": "US Secretary of State Marco Rubio is due to visit Jamnagar and Mumbai from 17 to 22 October",
+   "summary": "Business Standard reports the visit as trade talks with the US near what India's foreign minister calls a 'landing point'.",
+   "why": "A senior US visit during live trade talks signals how much weight both sides put on a deal.",
+   "src": "Business Standard",
+   "url": "https://business-standard.com/external-affairs-defence-security/news/marco-rubio-to-visit-india-as-trade-talks-with-us-near-landing-point-126101401299_1.html"
   },
   {
    "cat": "Business",
-   "title": "Sensex jumps 1,109 points after FM says she is open to views on LTCG tax and STT",
-   "summary": "Business Today and Business Standard report that the Sensex closed 1.54% higher at 73,033.78 and the Nifty at 22,721.95 on 13 October after Finance Minister Nirmala Sitharaman said the government would hear views on removing long-term capital gains tax and called the debate on securities transaction tax healthy. Investors gained about Rs 5 lakh crore, though no policy change has been announced.",
-   "why": "Capital-gains and transaction taxes shape retail investing behaviour and the cost of capital, which feeds into hiring and marketing budgets in financial services.",
-   "src": "Business Today, Business Standard",
-   "url": "https://businesstoday.in/markets/stocks/story/investors-gain-rs-5-lakh-crore-as-sensex-nifty-gain-over-1-each-key-factors-behind-the-rally-561318-2026-10-13"
+   "title": "Sensex slips 252 points to 72,782 as crude and inflation worries weigh",
+   "summary": "Business Standard and Kotak Neo report that the Sensex closed 0.34% lower at 72,781.89 and the Nifty 0.44% lower at 22,622.70 on 14 October. They cite rising wholesale inflation, foreign investor outflows and crude near $107, while IT stocks held up and the pharma index fell about 1%.",
+   "why": "Market swings track inflation and oil, which drive interest-rate expectations and corporate budgets, including marketing and hiring spend.",
+   "src": "Business Standard, Kotak Neo",
+   "url": "https://www.business-standard.com/markets/news/stock-market-live-october-14-bse-sensex-today-nifty50-gift-nifty-crude-oil-prices-q2-results-ipo-today-126101400113_1.html"
   },
   {
    "cat": "Business",
-   "title": "NPCI defers MDR on UPI; payments stocks rebound",
-   "summary": "Business Standard reports that Paytm, Mobikwik and Pine Labs rebounded after the National Payments Corporation of India deferred merchant discount rates on UPI. The Groww digest of 13 October carries the same headline. Full details of the deferral were not available in the search results.",
-   "why": "Whether UPI stays free for merchants decides how fintechs can monetise, a live case for pricing and business-model strategy.",
-   "src": "Business Standard, Groww Digest",
-   "url": "https://www.business-standard.com/markets/news/stock-market-live-october-13-bse-sensex-today-nifty50-gift-nifty-crude-oil-prices-q2-results-ipo-today-126101300081_1.html"
+   "title": "India's wholesale inflation jumps to 11.39% in September",
+   "summary": "The Tribune and others report that WPI inflation rose to 11.39% in September from 9.92% in August, driven by mineral oils, food articles and crude petroleum and natural gas. Reports link the rise to the West Asia conflict and disruption around the Strait of Hormuz.",
+   "why": "Higher input costs squeeze margins and often get passed on as price rises, a core pricing and brand-strategy issue.",
+   "src": "The Tribune, HDFC Sky",
+   "url": "https://www.tribuneindia.com/news/business/wpi-inflation-climbs-to-11-39-in-september-from-9-92-in-august"
   },
   {
    "cat": "Business",
    "kind": "fact",
-   "title": "Foreign investors have pulled Rs 3.08 lakh crore from Indian equities in 2026 so far",
-   "summary": "Business Today puts net foreign portfolio investor withdrawals for 2026 at Rs 3,07,719 crore, even as the market rallied on 13 October and the volatility index fell about 7%.",
-   "why": "Heavy FPI selling is the backdrop for recent market swings and explains why policy signals on taxes matter so much.",
-   "src": "Business Today",
-   "url": "https://businesstoday.in/markets/stocks/story/investors-gain-rs-5-lakh-crore-as-sensex-nifty-gain-over-1-each-key-factors-behind-the-rally-561318-2026-10-13"
+   "title": "WPI food inflation rose to 8.66% in September from 7.05% in August",
+   "summary": "Reports on the 14 October Commerce Ministry release put food article inflation at 8.66%, up from 7.05% a month earlier.",
+   "why": "Food prices hit household budgets first, which changes how FMCG shoppers trade down or switch brands.",
+   "src": "The Tribune",
+   "url": "https://www.tribuneindia.com/news/business/wpi-inflation-climbs-to-11-39-in-september-from-9-92-in-august"
   },
   {
    "cat": "Tech",
-   "title": "Apple launches $299 HomeView smart-home display built around AI Siri",
-   "summary": "CNBC reports that Apple announced HomeView on 13 October: a 7-inch display for table or wall that controls lights, thermostats, cameras and locks, recognises household members by face, and uses on-device processing plus Private Cloud Compute. It costs $299, ships on 13 November, and arrives with a new Apple TV 4K and HomePod Mini.",
-   "why": "A textbook platform-ecosystem play in a market Amazon and Google lead, with privacy as the stated differentiator.",
-   "src": "CNBC",
-   "url": "https://www.cnbc.com/2026/10/13/apple-homeview-smart-home-siri-ai.html"
+   "title": "Google lets US adults build personal Android apps with AI Studio, no developer account needed",
+   "summary": "Archyde reports that a Google Play update in the US lets users aged 18 and older build personal Android apps in Google AI Studio without a developer account. It is dated 15 October and rests on a single secondary source, so treat it as provisional.",
+   "why": "Lowering the barrier to building apps widens who can create tools, a platform-strategy move that matters for marketers and HR teams.",
+   "src": "Archyde",
+   "url": "https://archyde.com/google-play-lets-us-users-build-personal-android-apps-via-ai-studio"
   },
   {
    "cat": "Tech",
    "title": "Meta releases Muse Wonder, its first frontier AI model",
-   "summary": "TechCrunch reports that Meta's Superintelligence Lab released Muse Wonder and Muse Wonder Full on 12 October. Meta says they match leading rival models on its own benchmarks and stresses 'active memory'. API pricing is reported at $4 per million input tokens and $20 per million output tokens, with Wonder Full limited to Muse Code subscribers. The benchmark figures come from Meta and are unverified.",
-   "why": "Cheaper, stronger models from more vendors change the build-versus-buy maths for HR and marketing teams adopting AI tools.",
-   "src": "TechCrunch, Technology.org",
+   "summary": "TechCrunch reported on 12 October that Meta's Superintelligence Lab released Muse Wonder and Muse Wonder Full, pitching 'Active Memory' for cross-conversation context and 'Active Focus' for goal persistence. Benchmark claims come from Meta and are unverified.",
+   "why": "More strong model vendors change the build-versus-buy maths for HR and marketing teams adopting AI tools.",
+   "src": "TechCrunch",
    "url": "https://techcrunch.com/2026/10/12/meta-releases-its-first-frontier-model-muse-wonder/"
-  },
-  {
-   "cat": "Tech",
-   "kind": "fact",
-   "title": "Nvidia's AI chip shipments to China fell 44% in the first half of 2026",
-   "summary": "An AI news roundup citing IDC data says Nvidia shipped 678,000 AI accelerators in China in H1 2026, down 44% year over year, while Huawei shipped 572,000. This comes from an aggregator and should be treated as provisional.",
-   "why": "Export controls are reshaping the AI hardware market and creating room for local rivals.",
-   "src": "AI Weekly (citing IDC)",
-   "url": "https://aiweekly.co/ai-news-today"
   }
  ]
 }
