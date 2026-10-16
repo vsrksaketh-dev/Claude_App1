@@ -1,88 +1,80 @@
 {
- "date": "2026-10-15",
- "generated": "2026-10-15T06:20:00+05:30",
+ "date": "2026-10-16",
+ "generated": "2026-10-16T06:20:00+05:30",
  "items": [
   {
    "cat": "International",
-   "title": "Russia hits Ukraine's power grid again, leaving about 600,000 without electricity",
-   "summary": "ABC News and CNN report that Russia fired ballistic missiles and drones at energy sites in Kyiv, the Kyiv region and Kharkiv overnight into 14 October, despite a US-announced 'energy ceasefire'. Zelensky says around 600,000 people lost power; Kyiv police reported five dead and 36 injured, while CBC counts at least nine killed across Ukraine. Casualty figures differ between outlets, so they are provisional.",
-   "why": "Attacks on energy infrastructure move oil, gas and shipping costs worldwide, which feed into input prices for Indian firms and brands.",
-   "src": "ABC News, CNN, CBC",
-   "url": "https://abcnews.com/International/600000-power-ukraine-russia-launches-missile-drone-attack/story?id=137248732"
+   "title": "Pope Leo XIV has lung cancer, Vatican says, after successful surgery",
+   "summary": "NPR and CBS News report that the Vatican said Pope Leo XIV had the lower lobe of his right lung removed on 13 October and that pathology showed lung adenocarcinoma. The Vatican says the roughly 90-minute operation had no complications and recovery is proceeding as normal, with about a week expected. Oncologists quoted by CBS call the prognosis excellent because it was caught early.",
+   "why": "A leader's health news forces careful, transparent communication, a live case study in crisis and stakeholder communication.",
+   "src": "NPR, CBS News",
+   "url": "https://www.npr.org/2026/10/13/g-s1-147968/pope-leo-has-lung-cancer-vatican-announces"
   },
   {
    "cat": "International",
-   "title": "Saudi-led coalition reportedly intercepts Houthi missile aimed at Riyadh; crude edges higher",
-   "summary": "A morning news recap dated 15 October says a Houthi ballistic missile aimed at Riyadh was intercepted and that rising West Asia tension pushed crude oil prices up. This comes from a headline roundup rather than a full report, so details are provisional.",
-   "why": "Gulf conflict keeps oil prices high, which squeezes consumer spending and company margins in India.",
-   "src": "The Standard (Hong Kong) recap",
-   "url": "https://www.thestandard.com.hk/news/article/345523/Morning-Recap-October-15-2026"
+   "title": "Riots reported in Albania's capital as students join anti-government movement",
+   "summary": "ABC News' international page lists riots in Tirana as students joined an anti-government movement, alongside flooding in Istanbul with at least two deaths. These come from a section page rather than full articles and are not precisely dated, so treat details as provisional.",
+   "why": "Youth-led protest movements reshape political risk and brand sentiment in a market, relevant to any firm operating abroad.",
+   "src": "ABC News (section page)",
+   "url": "https://abcnews.com/international"
   },
   {
    "cat": "Indian",
-   "title": "Jaishankar says India-US trade talks are nearing a 'landing point'",
-   "summary": "Speaking at the Bloomberg New Economy Forum, External Affairs Minister S Jaishankar said the two sides are working through key differences but gave no details and announced no breakthrough. Business Standard notes that Finance Minister Nirmala Sitharaman earlier called talks at a 'plateau' and the US trade representative said a deal is not imminent. US Secretary of State Marco Rubio is due in Jamnagar and Mumbai from 17 to 22 October.",
-   "why": "A trade deal decides tariffs on Indian exports, which shapes hiring and pricing in textiles, IT and consumer goods.",
-   "src": "Business Standard, ThePrint",
-   "url": "https://www.business-standard.com/external-affairs-defence-security/news/india-us-trade-deal-talks-nearing-landing-point-says-jaishankar-126101400466_1.html"
-  },
-  {
-   "cat": "Indian",
-   "title": "Police detain Ankita Bhandari's parents and Congress leaders at India Gate protest",
-   "summary": "Latestly and Dynamite News report that Delhi Police detained the parents of Ankita Bhandari and opposition leaders during a sit-in at India Gate, and Congress accused the police of manhandling protesters. Coverage found was thin and from smaller outlets, so treat details as provisional.",
-   "why": "Public protests and policing disputes shape political risk and brand reputation, a live case of crisis communication.",
-   "src": "Latestly, Dynamite News",
-   "url": "https://www.latestly.com/agency-news/india-news-delhi-police-detains-ankita-bhandaris-parents-congress-leaders-amid-protest-at-india-gate-7645103.html"
-  },
-  {
-   "cat": "Indian",
-   "kind": "fact",
-   "title": "US Secretary of State Marco Rubio is due to visit Jamnagar and Mumbai from 17 to 22 October",
-   "summary": "Business Standard reports the visit as trade talks with the US near what India's foreign minister calls a 'landing point'.",
-   "why": "A senior US visit during live trade talks signals how much weight both sides put on a deal.",
-   "src": "Business Standard",
-   "url": "https://business-standard.com/external-affairs-defence-security/news/marco-rubio-to-visit-india-as-trade-talks-with-us-near-landing-point-126101401299_1.html"
+   "title": "Supreme Court issues notice to Rahul Gandhi and Congress over INDIA bloc march to the court",
+   "summary": "Business Standard reports the court issued notices on a petition seeking limits on political protests inside court premises, after the INDIA bloc's 12 October march demanding Chief Election Commissioner Gyanesh Kumar's resignation. Bar and Bench reports a wider batch of petitions on the electoral-roll revision before a bench led by CJI Surya Kant.",
+   "why": "Court rulings on protest and election rules shape the political calendar that employers and brands plan around.",
+   "src": "Business Standard, Bar and Bench",
+   "url": "https://www.business-standard.com/amp/india-news/sc-notice-rahul-gandhi-congress-india-bloc-march-supreme-court-eci-sir-126101500859_1.html"
   },
   {
    "cat": "Business",
-   "title": "Sensex slips 252 points to 72,782 as crude and inflation worries weigh",
-   "summary": "Business Standard and Kotak Neo report that the Sensex closed 0.34% lower at 72,781.89 and the Nifty 0.44% lower at 22,622.70 on 14 October. They cite rising wholesale inflation, foreign investor outflows and crude near $107, while IT stocks held up and the pharma index fell about 1%.",
-   "why": "Market swings track inflation and oil, which drive interest-rate expectations and corporate budgets, including marketing and hiring spend.",
-   "src": "Business Standard, Kotak Neo",
-   "url": "https://www.business-standard.com/markets/news/stock-market-live-october-14-bse-sensex-today-nifty50-gift-nifty-crude-oil-prices-q2-results-ipo-today-126101400113_1.html"
+   "title": "Sensex surges 1,534 points to 74,316 as crude falls and IT stocks lead",
+   "summary": "Business Standard reports the Sensex closed 2.11% higher at 74,315.61 on 15 October, and Kotak Securities puts the Nifty at 22,997.35, up 1.66%. Both credit IT and auto stocks, crude oil down about 2% and a stronger rupee; broader markets ended weaker than the headline indices.",
+   "why": "Falling oil eases input costs and inflation worries, which lifts spending confidence and corporate budgets.",
+   "src": "Business Standard, Kotak Securities",
+   "url": "https://www.business-standard.com/amp/markets/news/stock-market-live-october-15-bse-sensex-today-nifty50-gift-nifty-crude-oil-prices-q2-results-ipo-today-126101500089_1.html"
   },
   {
    "cat": "Business",
-   "title": "India's wholesale inflation jumps to 11.39% in September",
-   "summary": "The Tribune and others report that WPI inflation rose to 11.39% in September from 9.92% in August, driven by mineral oils, food articles and crude petroleum and natural gas. Reports link the rise to the West Asia conflict and disruption around the Strait of Hormuz.",
-   "why": "Higher input costs squeeze margins and often get passed on as price rises, a core pricing and brand-strategy issue.",
-   "src": "The Tribune, HDFC Sky",
-   "url": "https://www.tribuneindia.com/news/business/wpi-inflation-climbs-to-11-39-in-september-from-9-92-in-august"
+   "title": "Jio Platforms sets up India's biggest IPO, around Rs 30,000 crore, opening 21 October",
+   "summary": "Business Today and a Groww digest report a price band of Rs 1,065 to Rs 1,119, anchor bidding on 19 October, subscription from 21 to 23 October and listing expected on 28 October. Reports put the issue at about Rs 28,755 to 30,213 crore and the valuation near Rs 10.3 lakh crore. Sources are news and aggregator reports, so size and dates are provisional.",
+   "why": "A record IPO is a major brand and investor-relations event, and it shapes hiring and marketing budgets in telecom and digital.",
+   "src": "Business Today, Groww Digest",
+   "url": "https://www.businesstoday.in/bt-tv/whats-hot/video/jio-platforms-ipo-rs30000-crore-issue-opens-october-21-valuation-at-rs10-3-lakh-crore-561928-2026-10-15"
   },
   {
    "cat": "Business",
    "kind": "fact",
-   "title": "WPI food inflation rose to 8.66% in September from 7.05% in August",
-   "summary": "Reports on the 14 October Commerce Ministry release put food article inflation at 8.66%, up from 7.05% a month earlier.",
-   "why": "Food prices hit household budgets first, which changes how FMCG shoppers trade down or switch brands.",
-   "src": "The Tribune",
-   "url": "https://www.tribuneindia.com/news/business/wpi-inflation-climbs-to-11-39-in-september-from-9-92-in-august"
+   "title": "Jio Platforms reported FY26 revenue of Rs 1,46,885 crore and profit after tax of Rs 30,049 crore",
+   "summary": "An IPO analysis report cites these FY26 figures from the offer documents. They come from a secondary source and are provisional.",
+   "why": "Scale and margin numbers like these decide how a company is valued and how it positions itself to investors.",
+   "src": "Finology Ticker",
+   "url": "https://ticker.finology.in/discover/market-update/jio-platforms-ipo-analysis"
   },
   {
    "cat": "Tech",
-   "title": "Google lets US adults build personal Android apps with AI Studio, no developer account needed",
-   "summary": "Archyde reports that a Google Play update in the US lets users aged 18 and older build personal Android apps in Google AI Studio without a developer account. It is dated 15 October and rests on a single secondary source, so treat it as provisional.",
-   "why": "Lowering the barrier to building apps widens who can create tools, a platform-strategy move that matters for marketers and HR teams.",
-   "src": "Archyde",
-   "url": "https://archyde.com/google-play-lets-us-users-build-personal-android-apps-via-ai-studio"
+   "title": "Google's Gemini 4 Argon reported available for long-running agent work",
+   "summary": "A 15 October AI digest says Google released Gemini 4 Argon through the Gemini API and AI Studio with introductory pricing, plus a Gemini app task mode that keeps working while you are away. Earlier reports said Google was limiting Argon to vetted cybersecurity experts, so the access picture conflicts and is provisional.",
+   "why": "Agentic AI that works unattended changes how HR and marketing teams plan routine analysis and content work.",
+   "src": "The Neuron",
+   "url": "https://theneuron.ai/digest/everything-that-happened-in-ai-today-thursday-october-15-2026"
   },
   {
    "cat": "Tech",
-   "title": "Meta releases Muse Wonder, its first frontier AI model",
-   "summary": "TechCrunch reported on 12 October that Meta's Superintelligence Lab released Muse Wonder and Muse Wonder Full, pitching 'Active Memory' for cross-conversation context and 'Active Focus' for goal persistence. Benchmark claims come from Meta and are unverified.",
-   "why": "More strong model vendors change the build-versus-buy maths for HR and marketing teams adopting AI tools.",
-   "src": "TechCrunch",
-   "url": "https://techcrunch.com/2026/10/12/meta-releases-its-first-frontier-model-muse-wonder/"
+   "title": "Anthropic reported to launch Claude Haiku 5.5 for fast, high-volume tasks",
+   "summary": "The same digest reports Claude Haiku 5.5 aimed at summaries, database queries, customer support and coding sub-agents. This rests on a single newsletter, so treat it as provisional.",
+   "why": "Cheaper, faster models widen where AI is affordable, including support and screening workflows in HR.",
+   "src": "The Neuron",
+   "url": "https://theneuron.ai/digest/everything-that-happened-in-ai-today-thursday-october-15-2026"
+  },
+  {
+   "cat": "Tech",
+   "kind": "fact",
+   "title": "Workday made its Sana assistant the main agentic interface for HR, finance and IT",
+   "summary": "The 15 October AI digest reports the change, a signal that HR software vendors are putting AI agents at the front of their products. Single-source and provisional.",
+   "why": "HR tech is moving to agent-first interfaces, which is directly relevant to an HR specialisation.",
+   "src": "The Neuron",
+   "url": "https://theneuron.ai/digest/everything-that-happened-in-ai-today-thursday-october-15-2026"
   }
  ]
 }
