@@ -1,80 +1,90 @@
 {
- "date": "2026-10-16",
- "generated": "2026-10-16T06:20:00+05:30",
+ "date": "2026-10-17",
+ "generated": "2026-10-17T06:20:00+05:30",
  "items": [
   {
    "cat": "International",
-   "title": "Pope Leo XIV has lung cancer, Vatican says, after successful surgery",
-   "summary": "NPR and CBS News report that the Vatican said Pope Leo XIV had the lower lobe of his right lung removed on 13 October and that pathology showed lung adenocarcinoma. The Vatican says the roughly 90-minute operation had no complications and recovery is proceeding as normal, with about a week expected. Oncologists quoted by CBS call the prognosis excellent because it was caught early.",
-   "why": "A leader's health news forces careful, transparent communication, a live case study in crisis and stakeholder communication.",
-   "src": "NPR, CBS News",
-   "url": "https://www.npr.org/2026/10/13/g-s1-147968/pope-leo-has-lung-cancer-vatican-announces"
+   "title": "Istanbul hit by its worst floods in over 80 years, with 4 dead",
+   "summary": "ABC News, NBC and The Tribune report that Turkey's interior minister called the flooding the worst in more than 80 years, and the death toll has reached four. Turkish Minute says five people were still missing and more rain was forecast. Reports differ on the details of the deaths and missing counts, so figures are provisional.",
+   "why": "Extreme weather disrupting a major commercial hub affects logistics, insurance and supply chains, and shows why crisis communication plans matter for brands.",
+   "src": "ABC News, NBC News, The Tribune, Turkish Minute",
+   "url": "https://abcnews.com/International/wireStory/istanbuls-worst-floods-80-years-leave-4-dead-137314073"
   },
   {
    "cat": "International",
-   "title": "Riots reported in Albania's capital as students join anti-government movement",
-   "summary": "ABC News' international page lists riots in Tirana as students joined an anti-government movement, alongside flooding in Istanbul with at least two deaths. These come from a section page rather than full articles and are not precisely dated, so treat details as provisional.",
-   "why": "Youth-led protest movements reshape political risk and brand sentiment in a market, relevant to any firm operating abroad.",
-   "src": "ABC News (section page)",
-   "url": "https://abcnews.com/international"
+   "kind": "fact",
+   "title": "Istanbul got more rain in 48 hours than its September and October average combined",
+   "summary": "Anadolu Agency, as relayed by ABC News, says the rain fell in the 48 hours up to Thursday morning, 15 October, and the interior minister reported 9,850 damage reports with 46,000 personnel on cleanup.",
+   "why": "Numbers like these show how fast a local event becomes a business continuity problem for firms with operations in the region.",
+   "src": "ABC News (Anadolu Agency)",
+   "url": "https://abcnews.com/International/wireStory/istanbuls-worst-floods-80-years-leave-4-dead-137314073"
   },
   {
    "cat": "Indian",
-   "title": "Supreme Court issues notice to Rahul Gandhi and Congress over INDIA bloc march to the court",
-   "summary": "Business Standard reports the court issued notices on a petition seeking limits on political protests inside court premises, after the INDIA bloc's 12 October march demanding Chief Election Commissioner Gyanesh Kumar's resignation. Bar and Bench reports a wider batch of petitions on the electoral-roll revision before a bench led by CJI Surya Kant.",
-   "why": "Court rulings on protest and election rules shape the political calendar that employers and brands plan around.",
-   "src": "Business Standard, Bar and Bench",
-   "url": "https://www.business-standard.com/amp/india-news/sc-notice-rahul-gandhi-congress-india-bloc-march-supreme-court-eci-sir-126101500859_1.html"
+   "title": "DoT orders caller name display on 4G and 5G networks from 1 November",
+   "summary": "The Tribune and Deccan Herald report a Department of Telecommunications circular dated 13 October that makes operators roll out Calling Name Presentation. Recipients see their saved contact name first, then the name held by the caller's operator, and overseas calls show as international. Users who opted for Calling Line Identification Restriction stay hidden. Some outlets say 'all callers', but the circular covers operator-held names.",
+   "why": "Verified caller names change how outbound sales and recruiter calls are received, which matters for marketing outreach and HR screening calls.",
+   "src": "The Tribune, Deccan Herald",
+   "url": "https://www.tribuneindia.com/news/india/come-nov-1-phones-to-show-names-of-all-callers-as-dot-issues-fresh-rules/amp/?utm=relatedarticles"
+  },
+  {
+   "cat": "Indian",
+   "title": "First tranche of the India-US trade deal is finalised and in legal drafting, says Goyal",
+   "summary": "Commerce Minister Piyush Goyal said on 15 October that the first tranche has been finalised and is going through legal drafting. The Commerce Secretary said signing depends on the US finishing its broader tariff framework. Earlier target dates, including November 2025 and mid-March 2026, were missed.",
+   "why": "A trade deal affects tariffs on Indian exports and prices of imported brands, which feeds into hiring and pricing plans.",
+   "src": "The Tribune, Deccan Herald, The Federal",
+   "url": "https://www.tribuneindia.com/news/business/first-phase-of-india-us-trade-agreement-finalised-says-piyush-goyal/"
+  },
+  {
+   "cat": "Indian",
+   "kind": "fact",
+   "title": "Caller name display excludes 2G, 3G and landlines for now",
+   "summary": "The DoT said CNAP on 2G, 3G and landline networks will be considered separately after further examination.",
+   "why": "The first phase reaches only smartphone users on 4G and 5G, which is most of the audience brands and recruiters call.",
+   "src": "Deccan Herald",
+   "url": "https://www.deccanherald.com/india/govt-mandates-caller-name-display-from-november-1-heres-what-you-need-to-know-4183670"
   },
   {
    "cat": "Business",
-   "title": "Sensex surges 1,534 points to 74,316 as crude falls and IT stocks lead",
-   "summary": "Business Standard reports the Sensex closed 2.11% higher at 74,315.61 on 15 October, and Kotak Securities puts the Nifty at 22,997.35, up 1.66%. Both credit IT and auto stocks, crude oil down about 2% and a stronger rupee; broader markets ended weaker than the headline indices.",
-   "why": "Falling oil eases input costs and inflation worries, which lifts spending confidence and corporate budgets.",
-   "src": "Business Standard, Kotak Securities",
-   "url": "https://www.business-standard.com/amp/markets/news/stock-market-live-october-15-bse-sensex-today-nifty50-gift-nifty-crude-oil-prices-q2-results-ipo-today-126101500089_1.html"
-  },
-  {
-   "cat": "Business",
-   "title": "Jio Platforms sets up India's biggest IPO, around Rs 30,000 crore, opening 21 October",
-   "summary": "Business Today and a Groww digest report a price band of Rs 1,065 to Rs 1,119, anchor bidding on 19 October, subscription from 21 to 23 October and listing expected on 28 October. Reports put the issue at about Rs 28,755 to 30,213 crore and the valuation near Rs 10.3 lakh crore. Sources are news and aggregator reports, so size and dates are provisional.",
-   "why": "A record IPO is a major brand and investor-relations event, and it shapes hiring and marketing budgets in telecom and digital.",
-   "src": "Business Today, Groww Digest",
-   "url": "https://www.businesstoday.in/bt-tv/whats-hot/video/jio-platforms-ipo-rs30000-crore-issue-opens-october-21-valuation-at-rs10-3-lakh-crore-561928-2026-10-15"
+   "title": "Sensex and Nifty gain for a second day as IT stocks lead",
+   "summary": "HDFC Sky and other reports say the Sensex rose 413.66 points, or 0.56%, to 74,729.27 on 16 October. The Nifty 50 ended near 23,146.15, though one outlet gives 23,119.00, so the Nifty figure is provisional. Gains were concentrated in large caps, with the midcap index down 0.12% and smallcaps flat. One report ties the rally to SEBI's VWAP relief and softer US Treasury yields.",
+   "why": "Market direction shapes corporate budgets and IPO appetite, which affect campus hiring and marketing spend.",
+   "src": "HDFC Sky, India TV News, SolarQuarter",
+   "url": "https://hdfcsky.com/news/stock-market-close-report-today-october-16-2026-sensex-nifty-gain-for-second-day-as-it-lifts-sentiment"
   },
   {
    "cat": "Business",
    "kind": "fact",
-   "title": "Jio Platforms reported FY26 revenue of Rs 1,46,885 crore and profit after tax of Rs 30,049 crore",
-   "summary": "An IPO analysis report cites these FY26 figures from the offer documents. They come from a secondary source and are provisional.",
-   "why": "Scale and margin numbers like these decide how a company is valued and how it positions itself to investors.",
-   "src": "Finology Ticker",
-   "url": "https://ticker.finology.in/discover/market-update/jio-platforms-ipo-analysis"
+   "title": "The Sensex closed at 74,315.61 on 15 October before the 16 October gain",
+   "summary": "Reports on the 16 October close cite 74,315.61 as the previous session's Sensex close and 22,997.35 for the Nifty.",
+   "why": "Day-to-day moves matter less than the two-day IT-led trend a placement season is read against.",
+   "src": "HDFC Sky",
+   "url": "https://hdfcsky.com/news/stock-market-close-report-today-october-16-2026-sensex-nifty-gain-for-second-day-as-it-lifts-sentiment"
   },
   {
    "cat": "Tech",
-   "title": "Google's Gemini 4 Argon reported available for long-running agent work",
-   "summary": "A 15 October AI digest says Google released Gemini 4 Argon through the Gemini API and AI Studio with introductory pricing, plus a Gemini app task mode that keeps working while you are away. Earlier reports said Google was limiting Argon to vetted cybersecurity experts, so the access picture conflicts and is provisional.",
-   "why": "Agentic AI that works unattended changes how HR and marketing teams plan routine analysis and content work.",
-   "src": "The Neuron",
-   "url": "https://theneuron.ai/digest/everything-that-happened-in-ai-today-thursday-october-15-2026"
+   "title": "Reflection AI's Beam is a 501B open-weight model aimed at Chinese open models",
+   "summary": "VentureBeat, DataCamp and The Rundown describe Beam as a mixture-of-experts model with 501B total and 23B active parameters. Reflection reports 80.1 on Terminal-Bench 2.1 and claims a 3x to 4x cut in estimated compute versus GLM-5.2. Sources conflict on release timing and licence terms, and the benchmark scores are the company's own, so treat these as provisional.",
+   "why": "Cheap, capable open models change what HR and marketing teams can build in-house instead of buying AI tools.",
+   "src": "VentureBeat, DataCamp, The Rundown",
+   "url": "https://venturebeat.com/technology/reflections-beam-aims-to-undercut-chinese-open-models-with-fewer-tokens-not-cheaper-tokens"
   },
   {
    "cat": "Tech",
-   "title": "Anthropic reported to launch Claude Haiku 5.5 for fast, high-volume tasks",
-   "summary": "The same digest reports Claude Haiku 5.5 aimed at summaries, database queries, customer support and coding sub-agents. This rests on a single newsletter, so treat it as provisional.",
-   "why": "Cheaper, faster models widen where AI is affordable, including support and screening workflows in HR.",
-   "src": "The Neuron",
-   "url": "https://theneuron.ai/digest/everything-that-happened-in-ai-today-thursday-october-15-2026"
+   "title": "Google reported to keep Gemini 4 Argon limited to vetted cybersecurity experts",
+   "summary": "An AI news aggregator says Google is holding back its most powerful model from the public over misuse concerns. An earlier digest said Argon was available through the Gemini API, so the access picture conflicts and is provisional.",
+   "why": "Staged access to frontier AI shows how companies manage risk, a live case for brand trust and governance.",
+   "src": "AI Weekly",
+   "url": "https://aiweekly.co/ai-news-today"
   },
   {
    "cat": "Tech",
    "kind": "fact",
-   "title": "Workday made its Sana assistant the main agentic interface for HR, finance and IT",
-   "summary": "The 15 October AI digest reports the change, a signal that HR software vendors are putting AI agents at the front of their products. Single-source and provisional.",
-   "why": "HR tech is moving to agent-first interfaces, which is directly relevant to an HR specialisation.",
-   "src": "The Neuron",
-   "url": "https://theneuron.ai/digest/everything-that-happened-in-ai-today-thursday-october-15-2026"
+   "title": "Beam supports a context window of up to one million tokens",
+   "summary": "DataCamp and Trending Topics describe Beam as text-only with up to a one million token context window.",
+   "why": "Long context lets one model read whole policy manuals or candidate files in one pass, relevant to HR automation.",
+   "src": "DataCamp",
+   "url": "https://www.datacamp.com/blog/reflection-ai-beam"
   }
  ]
 }
