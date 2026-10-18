@@ -58,7 +58,7 @@
    "summary": "The Hugging Face model card and MarkTechPost report that DeepSeek posted the update on 17 October, aimed at agentic and coding tasks with shorter outputs and a 1M-token context. The hosted model runs as deepseek-flash at unchanged prices and a search API was opened. Benchmark numbers come from DeepSeek's own tables with no independent reproduction yet, and parameter counts differ across sources, so details are provisional.",
    "why": "Cheap open-weight models lower the cost of building in-house AI tools for HR screening and marketing content.",
    "src": "Hugging Face, MarkTechPost",
-   "url": "https://www.marktechpost.com/2026/10/17/deepseek-just-released-v4-1-flash-1017-scores-77-0-on-deepseek-opens-search-api/"
+   "url": "https://www.marktechpost.com/2026/10/17/deepseek-just-released-v4-1-flash-1017-scores-77-0-on-deepswe-opens-search-api/"
   },
   {
    "cat": "Tech",
