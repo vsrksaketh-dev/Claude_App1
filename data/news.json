@@ -1,81 +1,72 @@
 {
- "date": "2026-10-18",
- "generated": "2026-10-18T06:20:00+05:30",
+ "date": "2026-10-19",
+ "generated": "2026-10-19T06:20:00+05:30",
  "items": [
   {
    "cat": "International",
-   "title": "Pope Leo XIV leaves hospital four days after lung cancer surgery",
-   "summary": "Euronews, NBC News, Axios and Vatican News report that the Vatican cleared the pope for discharge from Rome's Gemelli Hospital on 17 October after surgery on his right lung. The Vatican confirmed a diagnosis of pulmonary adenocarcinoma and said the operation went without complications. He is due to give the Angelus from the papal apartment window on Sunday. The Vatican has not said whether further treatment is needed.",
-   "why": "A global institution managing a leader's health in public is a live case in crisis communication and stakeholder trust.",
-   "src": "Euronews, NBC News, Axios, Vatican News",
-   "url": "https://www.euronews.com/2026/10/17/pope-leo-xiv-cleared-for-discharge-from-hospital-vatican-says"
+   "title": "Trump pauses sweeping Russia sanctions package; Zelenskyy urges support for the sanctions",
+   "summary": "AP reports, via ABC News and KPBS, that President Trump signed an executive order on 17 October pausing a package of sanctions on Russia's economy, two days before the deadline set in the law, and told Congress the pause was in the national interest without giving details. Zelenskyy urged backers to defend the sanctions and said Russia had hit more than 15 energy sites across Ukraine. Sen. Richard Blumenthal criticised the pause. Zelenskyy also said the US is working on a possible meeting with him and Putin.",
+   "why": "Sanctions and energy shocks feed straight into oil prices, supply chains and the cost of doing business for Indian companies that recruit on campus.",
+   "src": "ABC News, KPBS (AP), The Washington Post",
+   "url": "https://abcnews.com/International/wireStory/zelenskyy-urges-support-new-us-sanctions-russia-after-137342993"
   },
   {
    "cat": "International",
-   "title": "Istanbul's worst floods in over 80 years leave at least 4 dead",
-   "summary": "ABC News, The Washington Post and The Tribune report that Turkey's interior minister called the flooding the worst since 1942, with more rain in 48 hours than the city's combined September and October average. About 9,850 damage reports were logged and 46,000 workers deployed. Sources differ on how many people are missing, so the toll is provisional.",
-   "why": "Extreme weather in a major commercial hub disrupts logistics and insurance, and the environment minister links it to the COP31 climate talks Turkey hosts next month.",
-   "src": "ABC News, The Washington Post, The Tribune",
-   "url": "https://abcnews.com/International/wireStory/istanbuls-worst-floods-80-years-leave-4-dead-137314073"
+   "title": "Kenya's Ebola cases rise to seven, including three health workers",
+   "summary": "AP reports, via ABC News, that Kenya's Health Ministry confirmed four new Ebola cases on 17 October: three health workers who treated the first patient and a relative who had been in quarantine. Tests identified the Bundibugyo strain. The first patient died on 5 October after flying in from Congo. About 128 of roughly 130 contacts are traced and quarantined, and the ministry says there is no evidence of community transmission and the public risk is low.",
+   "why": "Outbreak response is a live case in health-worker safety, crisis communication and duty of care for employers.",
+   "src": "ABC News (AP), Al Jazeera",
+   "url": "https://abcnews.com/Health/wireStory/kenyas-ebola-cases-rise-7-including-health-workers-137348256"
   },
   {
    "cat": "International",
    "kind": "fact",
-   "title": "Turkey hosts the COP31 climate conference in Antalya next month",
-   "summary": "The Washington Post's flood coverage notes that Environment Minister Murat Kurum, who linked the floods to climate change, will chair the conference.",
-   "why": "Climate commitments increasingly shape corporate reporting and brand claims.",
-   "src": "The Washington Post",
-   "url": "https://www.washingtonpost.com/world/2026/10/16/floods-istanbul-turkey-deaths-sariyer-climate-change/fc1b7190-c951-11f1-aefb-abe4112d087e_story.html"
+   "title": "Japan's MMX Phobos sample-return mission is set to launch on 20 October",
+   "summary": "Pre-launch coverage says JAXA plans liftoff on an H3 rocket from Tanegashima at 4:41 a.m. Japan time on 20 October, aiming to bring back at least 10 grams from Mars's moon Phobos, with Mars arrival in August 2027 and Earth return in 2031. The launch time can shift, and no source yet confirms liftoff.",
+   "why": "Long-horizon, multi-country projects like this show how partners, budgets and public trust are managed over a decade.",
+   "src": "Phys.org, Space.com",
+   "url": "https://phys.org/news/2026-10-japan-mmx-mission-aims-swipe.html"
   },
   {
    "cat": "Indian",
-   "title": "India's September exports rise 23% to $44.4 billion",
-   "summary": "Business Today, Forbes India and Business Standard report Commerce Ministry data released on 15 October: exports grew 23% year on year, the sixth straight month of double-digit growth, while imports rose 8% to $74.61 billion. The trade deficit of $30.21 billion is narrower than a year earlier ($32.96 billion) but wider than August's $26.86 billion, which is why headlines differ. Figures are provisional.",
-   "why": "Strong exports in electronics and engineering goods point to where manufacturing hiring and brand investment are growing.",
-   "src": "Business Today, Forbes India, Business Standard",
-   "url": "https://www.businesstoday.in/latest/economy/story/india-exports-rise-to-44-4-billion-in-september-trade-deficit-narrows-to-30-21-billion-561822-2026-10-15"
+   "title": "At least 19 die in a crowd crush at a Durga Puja venue in Kolkata",
+   "summary": "AP reports, via ABC News, that a crowd waiting outside a pandal pushed forward and fell after rain began on 17 October. At least 19 people died and about 25 were hurt. Officials detained festival organisers, and a special investigation team led by a high court judge will look into possible negligence. Al Jazeera's early report put the toll at 17, so figures are provisional.",
+   "why": "Event safety, crowd management and organiser liability matter for anyone planning campaigns, activations or campus events.",
+   "src": "ABC News (AP), Al Jazeera",
+   "url": "https://abcnews.com/International/wireStory/stampede-popular-hindu-festival-eastern-india-kills-19-137356042"
+  },
+  {
+   "cat": "Indian",
+   "title": "India's current account deficit narrows to $5.2 billion in August",
+   "summary": "Business Standard and other outlets report the RBI's preliminary data, released on 15 October: the August current account deficit was $5.2 billion, down from about $6.1 billion a year earlier, helped by a smaller goods trade gap and a larger services surplus. For April to August the deficit widened to $18.3 billion from $12.8 billion. Reports also cite a large balance of payments surplus driven by capital inflows; treat that figure as preliminary.",
+   "why": "A narrower external gap supports the rupee and borrowing costs, which shape hiring budgets and ad spends across sectors.",
+   "src": "Business Standard, Motilal Oswal",
+   "url": "https://www.business-standard.com/economy/news/current-account-deficit-narrows-to-5-2-billion-in-august-rbi-data-126101501194_1.html"
   },
   {
    "cat": "Business",
-   "title": "Tech Mahindra profit jumps 33% and board proposes a 1:1 bonus issue",
-   "summary": "IIFL, HDFC Sky and Upstox report Q2 FY27 consolidated net profit of about Rs 1,586 crore against Rs 1,194.5 crore a year earlier, with revenue up 15.6% to Rs 16,180 crore. The board recommended one bonus share for each share held, subject to shareholder approval, and declared an interim dividend of Rs 15 with a record date of 23 October. The shares rose about 7.5% on Friday. Timing of the bonus record date is not confirmed.",
-   "why": "IT services results are a read on client budgets and campus hiring from the sector that recruits the most MBA graduates.",
-   "src": "IIFL, HDFC Sky, Upstox",
-   "url": "https://www.indiainfoline.com/news/companies/tech-mahindra-q2-results-net-profit-rises-33-to-1586-crore-board-recommends-11-bonus-shares"
-  },
-  {
-   "cat": "Business",
-   "kind": "fact",
-   "title": "Tech Mahindra's new deal wins were $1.023 billion, the fourth straight quarter above $1 billion",
-   "summary": "Reports on the Q2 FY27 results cite total contract value of $1.023 billion and an EBIT margin of 14.8%.",
-   "why": "A steady deal pipeline supports hiring plans through the placement season.",
-   "src": "HDFC Sky",
-   "url": "https://hdfcsky.com/news/tech-mahindra-q2-profit-rises-33-pc-to-rs-1586-cr-board-recommends-11-bonus-shares"
+   "title": "Sensex rises 414 points on 16 October as IT stocks extend their rally",
+   "summary": "Business Standard reports the Sensex gained for a second day, closing up 414 points, with the Nifty near 23,146 and the Nifty IT index up about 4%. Other coverage says IT stocks rose for a fifth straight session, lifted by Tech Mahindra's results. The Monday session has not been reported yet.",
+   "why": "Market sentiment in IT and services is an early signal for campus hiring in the sector that recruits most MBAs.",
+   "src": "Business Standard, Sunday Guardian",
+   "url": "https://www.business-standard.com/amp/markets/news/stock-market-live-october-16-nse-bse-sensex-today-nifty50-gift-nifty-crude-oil-prices-q2-results-ipo-today-126101600083_1.html"
   },
   {
    "cat": "Tech",
-   "title": "DeepSeek releases V4.1-Flash-1017 with open MIT-licensed weights",
-   "summary": "The Hugging Face model card and MarkTechPost report that DeepSeek posted the update on 17 October, aimed at agentic and coding tasks with shorter outputs and a 1M-token context. The hosted model runs as deepseek-flash at unchanged prices and a search API was opened. Benchmark numbers come from DeepSeek's own tables with no independent reproduction yet, and parameter counts differ across sources, so details are provisional.",
-   "why": "Cheap open-weight models lower the cost of building in-house AI tools for HR screening and marketing content.",
-   "src": "Hugging Face, MarkTechPost",
-   "url": "https://www.marktechpost.com/2026/10/17/deepseek-just-released-v4-1-flash-1017-scores-77-0-on-deepswe-opens-search-api/"
-  },
-  {
-   "cat": "Tech",
-   "title": "ChatGPT Slides adds real-time co-editing for paid workspace users",
-   "summary": "OpenAI's release notes, as reported by Digital Today and Superpower Daily, list ChatGPT Slides from 16 October. Teammates can edit the same deck and comment, decks can be built from chats, files or an outline, and web users can export to PowerPoint, PDF or Google Slides. Access is limited to Pro, Business and Enterprise accounts with Space access. TechCrunch earlier said the feature would arrive in the coming weeks, so rollout timing is provisional.",
-   "why": "AI-built decks change how pitches and campaign reviews get drafted, a skill every marketing and HR role will be expected to use.",
-   "src": "Digital Today, Superpower Daily, TechCrunch",
-   "url": "https://www.digitaltoday.co.kr/en/view/108685/openai-adds-collaboration-space-documents-and-slides-features-to-chatgpt"
+   "title": "NVIDIA's RTX Spark Windows laptops go on sale for local AI agents",
+   "summary": "NVIDIA announced on 16 October that RTX Spark PCs are available from ASUS, Dell, HP, Lenovo, Microsoft and MSI. Each pairs a Blackwell RTX graphics chip with a Grace processor and up to 128GB of shared memory, aimed at running AI agents on the laptop itself. Prices start at $2,599, and compact desktops are due in November.",
+   "why": "On-device AI changes what tools a marketer or HR team can run privately on their own laptops, without sending data to the cloud.",
+   "src": "NVIDIA Newsroom, The Next Web",
+   "url": "https://nvidianews.nvidia.com/news/nvidia-rtx-spark-pcs-available-today-a-new-beginning-for-windows-pcs"
   },
   {
    "cat": "Tech",
    "kind": "fact",
-   "title": "DeepSeek V4.1-Flash-1017 is served at a 1M-token context",
-   "summary": "Sources agree on the 1M-token context for the model, with hosted output up to 384K tokens.",
-   "why": "Long context lets one model read whole policy manuals or candidate files in one pass.",
-   "src": "TestMu AI, Explainx",
-   "url": "https://www.testmuai.com/blog/deepseek-v4-1-flash/"
+   "title": "RTX Spark laptops start at $2,599 and pack up to 128GB of memory",
+   "summary": "NVIDIA says the machines offer up to 128GB of unified memory and up to 1 petaflop of FP4 AI performance, according to its launch announcement.",
+   "why": "Hardware prices set how quickly local AI tools reach ordinary workplaces.",
+   "src": "NVIDIA Newsroom",
+   "url": "https://nvidianews.nvidia.com/news/nvidia-rtx-spark-pcs-available-today-a-new-beginning-for-windows-pcs"
   }
  ]
 }
