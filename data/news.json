@@ -1,72 +1,72 @@
 {
- "date": "2026-10-19",
- "generated": "2026-10-19T06:20:00+05:30",
+ "date": "2026-10-20",
+ "generated": "2026-10-20T06:20:00+05:30",
  "items": [
   {
    "cat": "International",
-   "title": "Trump pauses sweeping Russia sanctions package; Zelenskyy urges support for the sanctions",
-   "summary": "AP reports, via ABC News and KPBS, that President Trump signed an executive order on 17 October pausing a package of sanctions on Russia's economy, two days before the deadline set in the law, and told Congress the pause was in the national interest without giving details. Zelenskyy urged backers to defend the sanctions and said Russia had hit more than 15 energy sites across Ukraine. Sen. Richard Blumenthal criticised the pause. Zelenskyy also said the US is working on a possible meeting with him and Putin.",
-   "why": "Sanctions and energy shocks feed straight into oil prices, supply chains and the cost of doing business for Indian companies that recruit on campus.",
-   "src": "ABC News, KPBS (AP), The Washington Post",
-   "url": "https://abcnews.com/International/wireStory/zelenskyy-urges-support-new-us-sanctions-russia-after-137342993"
+   "title": "Ukraine launches more than 1,000 drones at Russia, setting St Petersburg oil sites ablaze",
+   "summary": "ABC News (AP) and Al Jazeera report that Russia said it downed 1,015 Ukrainian drones over 15 regions on 18 October, while fires broke out at the St Petersburg oil terminal and the Ruchi oil depot. Officials said about 20,000 people lost power and one person was killed. CNN reports President Trump criticised Zelenskyy over the attack, which came after Trump said both sides had agreed to stop hitting energy infrastructure. Casualty and damage figures come from Russian officials and are provisional.",
+   "why": "Strikes on energy sites move oil prices and shipping costs, and the Sensex fell on Monday with Brent above $100, which feeds into corporate budgets and hiring.",
+   "src": "ABC News (AP), Al Jazeera, CNN",
+   "url": "https://abcnews.com/International/wireStory/blaze-st-petersburg-oil-sites-kyiv-launches-1000-137358485"
   },
   {
    "cat": "International",
-   "title": "Kenya's Ebola cases rise to seven, including three health workers",
-   "summary": "AP reports, via ABC News, that Kenya's Health Ministry confirmed four new Ebola cases on 17 October: three health workers who treated the first patient and a relative who had been in quarantine. Tests identified the Bundibugyo strain. The first patient died on 5 October after flying in from Congo. About 128 of roughly 130 contacts are traced and quarantined, and the ministry says there is no evidence of community transmission and the public risk is low.",
-   "why": "Outbreak response is a live case in health-worker safety, crisis communication and duty of care for employers.",
-   "src": "ABC News (AP), Al Jazeera",
-   "url": "https://abcnews.com/Health/wireStory/kenyas-ebola-cases-rise-7-including-health-workers-137348256"
-  },
-  {
-   "cat": "International",
-   "kind": "fact",
-   "title": "Japan's MMX Phobos sample-return mission is set to launch on 20 October",
-   "summary": "Pre-launch coverage says JAXA plans liftoff on an H3 rocket from Tanegashima at 4:41 a.m. Japan time on 20 October, aiming to bring back at least 10 grams from Mars's moon Phobos, with Mars arrival in August 2027 and Earth return in 2031. The launch time can shift, and no source yet confirms liftoff.",
-   "why": "Long-horizon, multi-country projects like this show how partners, budgets and public trust are managed over a decade.",
-   "src": "Phys.org, Space.com",
-   "url": "https://phys.org/news/2026-10-japan-mmx-mission-aims-swipe.html"
+   "title": "Kenya confirms an eighth Ebola case, all linked to the first patient",
+   "summary": "A 19 October report says Kenya's health officials confirmed an eighth Ebola case and that every infection traces back to the first patient, who died. Earlier AP coverage said the count had reached seven, including health workers who treated that patient, and the ministry judged public risk to be low. The outbreak is linked to the larger epidemic in Congo. The count is still changing, so treat it as provisional.",
+   "why": "Duty of care, contact tracing and clear communication during an outbreak are live HR and brand-crisis lessons.",
+   "src": "My Central Oregon (wire report), ABC News (AP)",
+   "url": "https://www.mycentraloregon.com/2026/10/19/kenya-confirms-8th-case-of-ebola-all-infections-linked-back-to-1st-patient-who-died-health-officials/"
   },
   {
    "cat": "Indian",
-   "title": "At least 19 die in a crowd crush at a Durga Puja venue in Kolkata",
-   "summary": "AP reports, via ABC News, that a crowd waiting outside a pandal pushed forward and fell after rain began on 17 October. At least 19 people died and about 25 were hurt. Officials detained festival organisers, and a special investigation team led by a high court judge will look into possible negligence. Al Jazeera's early report put the toll at 17, so figures are provisional.",
-   "why": "Event safety, crowd management and organiser liability matter for anyone planning campaigns, activations or campus events.",
-   "src": "ABC News (AP), Al Jazeera",
-   "url": "https://abcnews.com/International/wireStory/stampede-popular-hindu-festival-eastern-india-kills-19-137356042"
+   "title": "Deloitte raises India's FY27 growth forecast to 7.1-7.3%",
+   "summary": "Business Standard and HDFC Sky report that Deloitte India lifted its FY27 GDP forecast to 7.1 to 7.3 per cent from 6.5 to 6.8 per cent, citing a revival in private investment, and expects 6.6 to 7.0 per cent in FY28. It flags geopolitical tensions, energy-price swings and trade disruptions as risks. The RBI and OECD have projected 7.1 per cent, and the IMF, ADB, S&P and Moody's about 7 per cent.",
+   "why": "Stronger private investment usually means more corporate hiring and bigger marketing budgets, which helps the placement season.",
+   "src": "Business Standard, HDFC Sky",
+   "url": "https://www.business-standard.com/amp/economy/news/india-gdp-to-grow-7-1-7-3-in-fy27-on-private-investment-revival-deloitte-126101600332_1.html"
   },
   {
    "cat": "Indian",
-   "title": "India's current account deficit narrows to $5.2 billion in August",
-   "summary": "Business Standard and other outlets report the RBI's preliminary data, released on 15 October: the August current account deficit was $5.2 billion, down from about $6.1 billion a year earlier, helped by a smaller goods trade gap and a larger services surplus. For April to August the deficit widened to $18.3 billion from $12.8 billion. Reports also cite a large balance of payments surplus driven by capital inflows; treat that figure as preliminary.",
-   "why": "A narrower external gap supports the rupee and borrowing costs, which shape hiring budgets and ad spends across sectors.",
-   "src": "Business Standard, Motilal Oswal",
-   "url": "https://www.business-standard.com/economy/news/current-account-deficit-narrows-to-5-2-billion-in-august-rbi-data-126101501194_1.html"
+   "title": "Seven arrested after the Kolkata Durga Puja crowd crush that killed 19",
+   "summary": "NationPath reports that seven people were arrested after the 17 October crush at the Chorbagan Sarbojanin pandal, where 19 died and 25 were hurt. Investigators are looking at crowd management, blocked exits and public announcements, and the state has ordered a special investigation and promised compensation. This comes from a single outlet and has not been confirmed by a wire service, so treat it as provisional.",
+   "why": "Event safety and organiser accountability matter for anyone running campaigns, activations or campus events.",
+   "src": "NationPath India",
+   "url": "https://www.nationpathindia.com/national/kolkata-durga-puja-stampede-19-dead-seven-arrested"
   },
   {
    "cat": "Business",
-   "title": "Sensex rises 414 points on 16 October as IT stocks extend their rally",
-   "summary": "Business Standard reports the Sensex gained for a second day, closing up 414 points, with the Nifty near 23,146 and the Nifty IT index up about 4%. Other coverage says IT stocks rose for a fifth straight session, lifted by Tech Mahindra's results. The Monday session has not been reported yet.",
-   "why": "Market sentiment in IT and services is an early signal for campus hiring in the sector that recruits most MBAs.",
-   "src": "Business Standard, Sunday Guardian",
-   "url": "https://www.business-standard.com/amp/markets/news/stock-market-live-october-16-nse-bse-sensex-today-nifty50-gift-nifty-crude-oil-prices-q2-results-ipo-today-126101600083_1.html"
+   "title": "Sensex falls 876 points to snap a two-day winning streak",
+   "summary": "HDFC Sky and Upstox report that on 19 October the Sensex closed near 73,853 and the Nifty near 22,889, down about 1.1%, dragged by private banks and IT. Axis Bank fell about 4% after its quarterly profit narrowly missed expectations, and Infosys also fell about 3%. The Nifty Private Bank index lost around 1.9% while PSU banks rose.",
+   "why": "Falling banking and IT stocks hit the sectors that hire the most MBAs, so watch how recruiters talk about budgets.",
+   "src": "HDFC Sky, Upstox",
+   "url": "https://hdfcsky.com/news/market-close-report-today-october-19-2026-sensex-nifty-crash-snapping-two-day-winning-streak"
+  },
+  {
+   "cat": "Business",
+   "kind": "fact",
+   "title": "Axis Bank closed about 4% lower after its September-quarter results",
+   "summary": "Upstox's gainers and losers list for 19 October shows Axis Bank down about 4%, with Infosys and TMPV also down around 3%, while JSW Steel rose about 2%.",
+   "why": "Bank results are an early signal of credit growth and corporate demand.",
+   "src": "Upstox",
+   "url": "https://upstox.com/news/market-news/stocks/top-gainers-and-losers-october-19-axis-bank-tumbles-4-tmpv-infosys-fall-3-jsw-steel-rises-2/article-202096/"
   },
   {
    "cat": "Tech",
-   "title": "NVIDIA's RTX Spark Windows laptops go on sale for local AI agents",
-   "summary": "NVIDIA announced on 16 October that RTX Spark PCs are available from ASUS, Dell, HP, Lenovo, Microsoft and MSI. Each pairs a Blackwell RTX graphics chip with a Grace processor and up to 128GB of shared memory, aimed at running AI agents on the laptop itself. Prices start at $2,599, and compact desktops are due in November.",
-   "why": "On-device AI changes what tools a marketer or HR team can run privately on their own laptops, without sending data to the cloud.",
-   "src": "NVIDIA Newsroom, The Next Web",
-   "url": "https://nvidianews.nvidia.com/news/nvidia-rtx-spark-pcs-available-today-a-new-beginning-for-windows-pcs"
+   "title": "Anthropic commits 5% of its shares to a new public benefit fund",
+   "summary": "TechCrunch, ABC News and Al Jazeera report that Anthropic announced on 18 October it will commit 5% of its shares to a public benefit fund, subject to stockholder approval. The fund would be a wholly owned LLC that could make large donations to nonprofits or direct distributions, including efforts on AI's effect on jobs, and would not be used for lobbying. Anthropic says more detail on governance will follow in the coming months, and reports link the move to a possible IPO as soon as November.",
+   "why": "How AI companies share value and address job disruption shapes employer branding, workforce planning and the debate about AI and hiring.",
+   "src": "TechCrunch, ABC News, Al Jazeera",
+   "url": "https://techcrunch.com/2026/10/18/anthropic-says-its-committing-5-of-its-shares-to-a-public-benefit-fund/"
   },
   {
    "cat": "Tech",
    "kind": "fact",
-   "title": "RTX Spark laptops start at $2,599 and pack up to 128GB of memory",
-   "summary": "NVIDIA says the machines offer up to 128GB of unified memory and up to 1 petaflop of FP4 AI performance, according to its launch announcement.",
-   "why": "Hardware prices set how quickly local AI tools reach ordinary workplaces.",
-   "src": "NVIDIA Newsroom",
-   "url": "https://nvidianews.nvidia.com/news/nvidia-rtx-spark-pcs-available-today-a-new-beginning-for-windows-pcs"
+   "title": "The fund can grow by 2% of shares for every 50% rise in Anthropic's value",
+   "summary": "Forbes and other outlets say the board has the option to add 2% more shares for each 50% increase in the company's value, and that combined pledges could dedicate roughly 20% of shares to public purposes.",
+   "why": "Pledges tied to company value are a template for corporate giving that marketers and HR teams will be asked to explain.",
+   "src": "Forbes",
+   "url": "https://www.forbes.com/sites/siladityaray/2026/10/19/anthropic-pledges-5-of-its-shares-to-public-benefit-fund-heres-how-it-works/"
   }
  ]
 }
