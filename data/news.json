@@ -1,72 +1,81 @@
 {
- "date": "2026-10-20",
- "generated": "2026-10-20T06:20:00+05:30",
+ "date": "2026-10-21",
+ "generated": "2026-10-21T06:20:00+05:30",
  "items": [
   {
    "cat": "International",
-   "title": "Ukraine launches more than 1,000 drones at Russia, setting St Petersburg oil sites ablaze",
-   "summary": "ABC News (AP) and Al Jazeera report that Russia said it downed 1,015 Ukrainian drones over 15 regions on 18 October, while fires broke out at the St Petersburg oil terminal and the Ruchi oil depot. Officials said about 20,000 people lost power and one person was killed. CNN reports President Trump criticised Zelenskyy over the attack, which came after Trump said both sides had agreed to stop hitting energy infrastructure. Casualty and damage figures come from Russian officials and are provisional.",
-   "why": "Strikes on energy sites move oil prices and shipping costs, and the Sensex fell on Monday with Brent above $100, which feeds into corporate budgets and hiring.",
-   "src": "ABC News (AP), Al Jazeera, CNN",
-   "url": "https://abcnews.com/International/wireStory/blaze-st-petersburg-oil-sites-kyiv-launches-1000-137358485"
+   "title": "Kenya confirms a ninth Ebola case, with 134 of 135 contacts in quarantine",
+   "summary": "The Washington Post and Al Jazeera report that Kenya's health ministry confirmed a ninth Ebola case on 20 October, a contact of the first patient who tested positive while already in quarantine. The ministry says there is still no evidence of spread beyond known contacts. Officials have identified 135 contacts and 134 are quarantined. The strain is Bundibugyo, which has no approved vaccine or treatment. The count keeps changing, so treat it as provisional.",
+   "why": "Outbreak response is a live case in duty of care, contact tracing and crisis communication that HR and brand teams are judged on.",
+   "src": "The Washington Post, Al Jazeera",
+   "url": "https://www.aljazeera.com/news/2026/10/20/kenya-confirms-ninth-ebola-case"
   },
   {
    "cat": "International",
-   "title": "Kenya confirms an eighth Ebola case, all linked to the first patient",
-   "summary": "A 19 October report says Kenya's health officials confirmed an eighth Ebola case and that every infection traces back to the first patient, who died. Earlier AP coverage said the count had reached seven, including health workers who treated that patient, and the ministry judged public risk to be low. The outbreak is linked to the larger epidemic in Congo. The count is still changing, so treat it as provisional.",
-   "why": "Duty of care, contact tracing and clear communication during an outbreak are live HR and brand-crisis lessons.",
-   "src": "My Central Oregon (wire report), ABC News (AP)",
-   "url": "https://www.mycentraloregon.com/2026/10/19/kenya-confirms-8th-case-of-ebola-all-infections-linked-back-to-1st-patient-who-died-health-officials/"
+   "title": "US raises its Kenya travel advisory to Level 3",
+   "summary": "Africanews reports that the United States raised its travel advisory for Kenya from Level 2 to Level 3 on 20 October, citing Ebola along with crime, kidnapping, terrorism, civil unrest and road safety. The advisory comes as Kenya's confirmed Ebola cases reached nine.",
+   "why": "Travel advisories change corporate travel policy, insurance and where companies send people, which feeds HR planning for field roles.",
+   "src": "Africanews",
+   "url": "https://www.africanews.com/amp/2026/10/20/us-raises-kenya-travel-advisory-over-ebola-and-security-concerns/"
   },
   {
    "cat": "Indian",
-   "title": "Deloitte raises India's FY27 growth forecast to 7.1-7.3%",
-   "summary": "Business Standard and HDFC Sky report that Deloitte India lifted its FY27 GDP forecast to 7.1 to 7.3 per cent from 6.5 to 6.8 per cent, citing a revival in private investment, and expects 6.6 to 7.0 per cent in FY28. It flags geopolitical tensions, energy-price swings and trade disruptions as risks. The RBI and OECD have projected 7.1 per cent, and the IMF, ADB, S&P and Moody's about 7 per cent.",
-   "why": "Stronger private investment usually means more corporate hiring and bigger marketing budgets, which helps the placement season.",
-   "src": "Business Standard, HDFC Sky",
-   "url": "https://www.business-standard.com/amp/economy/news/india-gdp-to-grow-7-1-7-3-in-fy27-on-private-investment-revival-deloitte-126101600332_1.html"
-  },
-  {
-   "cat": "Indian",
-   "title": "Seven arrested after the Kolkata Durga Puja crowd crush that killed 19",
-   "summary": "NationPath reports that seven people were arrested after the 17 October crush at the Chorbagan Sarbojanin pandal, where 19 died and 25 were hurt. Investigators are looking at crowd management, blocked exits and public announcements, and the state has ordered a special investigation and promised compensation. This comes from a single outlet and has not been confirmed by a wire service, so treat it as provisional.",
-   "why": "Event safety and organiser accountability matter for anyone running campaigns, activations or campus events.",
-   "src": "NationPath India",
-   "url": "https://www.nationpathindia.com/national/kolkata-durga-puja-stampede-19-dead-seven-arrested"
+   "title": "Rubio holds talks with Jaishankar in Mumbai as India and the US try to finalise a trade deal",
+   "summary": "AP, via KSAT, reports that US Secretary of State Marco Rubio met External Affairs Minister S. Jaishankar in Mumbai on 20 October. Rubio said the two sides are as close as they can be without having signed, with a few items left. The Week says energy, defence and West Asia are also on the agenda, and that he is expected to meet business leaders, then fly to Jamnagar on 21 October. A report on a possible waiver for India's Russian energy purchases is still under discussion, so treat it as provisional.",
+   "why": "A US-India trade deal affects tariffs on Indian exports, which shapes hiring in export, retail and consumer firms that recruit MBAs.",
+   "src": "AP (KSAT), The Week",
+   "url": "https://www.ksat.com/news/politics/2026/10/20/rubio-and-jaishankar-hold-talks-in-mumbai-as-us-and-india-aim-to-finalize-trade-deal/"
   },
   {
    "cat": "Business",
-   "title": "Sensex falls 876 points to snap a two-day winning streak",
-   "summary": "HDFC Sky and Upstox report that on 19 October the Sensex closed near 73,853 and the Nifty near 22,889, down about 1.1%, dragged by private banks and IT. Axis Bank fell about 4% after its quarterly profit narrowly missed expectations, and Infosys also fell about 3%. The Nifty Private Bank index lost around 1.9% while PSU banks rose.",
-   "why": "Falling banking and IT stocks hit the sectors that hire the most MBAs, so watch how recruiters talk about budgets.",
-   "src": "HDFC Sky, Upstox",
-   "url": "https://hdfcsky.com/news/market-close-report-today-october-19-2026-sensex-nifty-crash-snapping-two-day-winning-streak"
+   "title": "Jio Platforms raises about Rs 8,110 crore from anchor investors; IPO opens today",
+   "summary": "Business Standard, ThePrint and the Groww digest report that Jio Platforms allotted shares worth about Rs 8,109.9 crore to 212 anchor investors at the top of the Rs 1,065 to Rs 1,119 price band. Institutional bids exceeded Rs 2.5 lakh crore, about 30 times the anchor quota. The public issue opens on 21 October and closes on 23 October. Sources differ slightly on the exact anchor and issue size, so treat the figures as approximate.",
+   "why": "A very large listing shows investor appetite for Indian consumer and telecom brands, and shapes how marketers think about brand value and employer branding.",
+   "src": "Business Standard, ThePrint, Groww",
+   "url": "https://www.business-standard.com/companies/news/jio-platforms-ipo-anchor-investor-quota-nearly-30-times-oversubscribed-126101900538_1.html"
   },
   {
    "cat": "Business",
    "kind": "fact",
-   "title": "Axis Bank closed about 4% lower after its September-quarter results",
-   "summary": "Upstox's gainers and losers list for 19 October shows Axis Bank down about 4%, with Infosys and TMPV also down around 3%, while JSW Steel rose about 2%.",
-   "why": "Bank results are an early signal of credit growth and corporate demand.",
-   "src": "Upstox",
-   "url": "https://upstox.com/news/market-news/stocks/top-gainers-and-losers-october-19-axis-bank-tumbles-4-tmpv-infosys-fall-3-jsw-steel-rises-2/article-202096/"
+   "title": "Indian equity markets reopen today after the Dussehra holiday",
+   "summary": "Newstrack and the Groww digest report that the exchanges were closed on 20 October for Dussehra and that normal trading resumes on 21 October. The Nifty last closed at 22,888.95 on 19 October, down 1.11%.",
+   "why": "Market sentiment after a holiday sets the tone for recruiter conversations in finance and consulting.",
+   "src": "Newstrack, Groww",
+   "url": "https://english.newstrack.com/india-news/stock-market-closed-today-when-will-bse-and-nse-reopen-641791"
+  },
+  {
+   "cat": "Business",
+   "kind": "fact",
+   "title": "Muhurat trading date is reported as 8 November, but not confirmed",
+   "summary": "A Groww digest says the special Muhurat session will run from 2:20 pm to 3:30 pm on 8 November. A Newstrack report says exchanges have not yet announced this year's timings, so the date is unconfirmed until NSE or BSE issue a circular.",
+   "why": "Diwali-season trading traditions are a common talking point in finance interviews.",
+   "src": "Groww, Newstrack",
+   "url": "https://digest.groww.in/p/muhurat-trading-timing-announced"
   },
   {
    "cat": "Tech",
-   "title": "Anthropic commits 5% of its shares to a new public benefit fund",
-   "summary": "TechCrunch, ABC News and Al Jazeera report that Anthropic announced on 18 October it will commit 5% of its shares to a public benefit fund, subject to stockholder approval. The fund would be a wholly owned LLC that could make large donations to nonprofits or direct distributions, including efforts on AI's effect on jobs, and would not be used for lobbying. Anthropic says more detail on governance will follow in the coming months, and reports link the move to a possible IPO as soon as November.",
-   "why": "How AI companies share value and address job disruption shapes employer branding, workforce planning and the debate about AI and hiring.",
-   "src": "TechCrunch, ABC News, Al Jazeera",
-   "url": "https://techcrunch.com/2026/10/18/anthropic-says-its-committing-5-of-its-shares-to-a-public-benefit-fund/"
+   "title": "DeepSeek open-sources DeepInfer, its in-house inference engine",
+   "summary": "Tech Insider reports that DeepSeek released its in-house inference framework, DeepInfer, under an Apache 2.0 licence on 20 October. The report comes from a secondary outlet, so details of speed and cost claims are unverified.",
+   "why": "Cheaper open inference lowers the cost of building AI tools, which matters for how marketing and HR teams will adopt them.",
+   "src": "Tech Insider",
+   "url": "https://tech-insider.org/deepseek-deepinfer-open-source-inference-framework-2026"
+  },
+  {
+   "cat": "Tech",
+   "title": "Anthropic launches a free open-source vulnerability scanner",
+   "summary": "The Neuron's daily AI digest for 20 October says Anthropic released OSS Scanner, which runs free periodic vulnerability scans on critical open-source projects and can include a proof of concept and, where possible, a proposed patch. This comes from a newsletter summary, so check Anthropic's own announcement for details.",
+   "why": "Security and trust in the software supply chain affects every company that buys HR and marketing software.",
+   "src": "The Neuron",
+   "url": "https://theneuron.ai/digest/everything-that-happened-in-ai-today-tuesday-october-20-2026"
   },
   {
    "cat": "Tech",
    "kind": "fact",
-   "title": "The fund can grow by 2% of shares for every 50% rise in Anthropic's value",
-   "summary": "Forbes and other outlets say the board has the option to add 2% more shares for each 50% increase in the company's value, and that combined pledges could dedicate roughly 20% of shares to public purposes.",
-   "why": "Pledges tied to company value are a template for corporate giving that marketers and HR teams will be asked to explain.",
-   "src": "Forbes",
-   "url": "https://www.forbes.com/sites/siladityaray/2026/10/19/anthropic-pledges-5-of-its-shares-to-public-benefit-fund-heres-how-it-works/"
+   "title": "Amazon opens TorchNeuron in public beta, a day after Google's TorchTPU",
+   "summary": "The same Neuron digest says Amazon released TorchNeuron in public beta so PyTorch workloads can run on its Trainium chips, one day after Google released TorchTPU. Treat details as secondary-source reports.",
+   "why": "Competition among chip platforms is what brings AI costs down for ordinary businesses.",
+   "src": "The Neuron",
+   "url": "https://theneuron.ai/digest/everything-that-happened-in-ai-today-tuesday-october-20-2026"
   }
  ]
 }
