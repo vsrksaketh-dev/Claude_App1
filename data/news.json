@@ -1,81 +1,81 @@
 {
- "date": "2026-10-21",
- "generated": "2026-10-21T06:20:00+05:30",
+ "date": "2026-10-22",
+ "generated": "2026-10-22T06:20:00+05:30",
  "items": [
   {
    "cat": "International",
-   "title": "Kenya confirms a ninth Ebola case, with 134 of 135 contacts in quarantine",
-   "summary": "The Washington Post and Al Jazeera report that Kenya's health ministry confirmed a ninth Ebola case on 20 October, a contact of the first patient who tested positive while already in quarantine. The ministry says there is still no evidence of spread beyond known contacts. Officials have identified 135 contacts and 134 are quarantined. The strain is Bundibugyo, which has no approved vaccine or treatment. The count keeps changing, so treat it as provisional.",
-   "why": "Outbreak response is a live case in duty of care, contact tracing and crisis communication that HR and brand teams are judged on.",
-   "src": "The Washington Post, Al Jazeera",
-   "url": "https://www.aljazeera.com/news/2026/10/20/kenya-confirms-ninth-ebola-case"
+   "title": "Nigeria confirms its first Ebola case, in Abuja",
+   "summary": "NPR, The Washington Post and France 24 report that Nigeria's health ministry confirmed an Ebola case in Abuja on 20 October, a woman who arrived from Uganda. She began showing symptoms on 7 October and was admitted to a private hospital on 11 October. Yahoo News and the WHO, as relayed there, say it is the Bundibugyo strain, which has no approved vaccine or treatment, and that authorities are tracing 44 contacts. Contact counts may change, so treat them as provisional.",
+   "why": "A spreading outbreak affects business travel, insurance and duty of care for employers, and is a live crisis-communication case for HR and brand teams.",
+   "src": "NPR, The Washington Post, France 24",
+   "url": "https://www.npr.org/2026/10/20/g-s1-148975/nigeria-confirms-ebola-case"
   },
   {
    "cat": "International",
-   "title": "US raises its Kenya travel advisory to Level 3",
-   "summary": "Africanews reports that the United States raised its travel advisory for Kenya from Level 2 to Level 3 on 20 October, citing Ebola along with crime, kidnapping, terrorism, civil unrest and road safety. The advisory comes as Kenya's confirmed Ebola cases reached nine.",
-   "why": "Travel advisories change corporate travel policy, insurance and where companies send people, which feeds HR planning for field roles.",
-   "src": "Africanews",
-   "url": "https://www.africanews.com/amp/2026/10/20/us-raises-kenya-travel-advisory-over-ebola-and-security-concerns/"
+   "kind": "fact",
+   "title": "A UN report says warming is set to exceed the 1.5C target",
+   "summary": "UPI reports on a UN Environment Programme report published on 21 October saying global warming will exceed the Paris Agreement's 1.5 degrees Celsius target. The wire summary gives few details, so check the original report for figures.",
+   "why": "Climate targets drive ESG reporting and employer branding, which many recruiters now raise in interviews.",
+   "src": "UPI",
+   "url": "https://upi.com/Top_News/World-News/2026/10/21/un-environment-program-warming-report-surpass-paris-agreement-levels/7011792594732"
   },
   {
    "cat": "Indian",
-   "title": "Rubio holds talks with Jaishankar in Mumbai as India and the US try to finalise a trade deal",
-   "summary": "AP, via KSAT, reports that US Secretary of State Marco Rubio met External Affairs Minister S. Jaishankar in Mumbai on 20 October. Rubio said the two sides are as close as they can be without having signed, with a few items left. The Week says energy, defence and West Asia are also on the agenda, and that he is expected to meet business leaders, then fly to Jamnagar on 21 October. A report on a possible waiver for India's Russian energy purchases is still under discussion, so treat it as provisional.",
-   "why": "A US-India trade deal affects tariffs on Indian exports, which shapes hiring in export, retail and consumer firms that recruit MBAs.",
-   "src": "AP (KSAT), The Week",
-   "url": "https://www.ksat.com/news/politics/2026/10/20/rubio-and-jaishankar-hold-talks-in-mumbai-as-us-and-india-aim-to-finalize-trade-deal/"
+   "title": "Rubio presses for an early India-US trade deal after talks with Jaishankar",
+   "summary": "Business Standard and ABC News (AP) report that US Secretary of State Marco Rubio met External Affairs Minister S. Jaishankar in Mumbai and pushed for an early trade deal, saying the two sides are about as close as they can be without signing, with a small number of items left. AP-linked coverage also notes that Finance Minister Sitharaman had earlier said talks had plateaued, while Commerce Minister Goyal said the first tranche was in its final stages. Rubio also urged India to buy more fuel from the US and Venezuela. No signing date has been reported.",
+   "why": "Tariff outcomes decide hiring in export-linked sectors such as textiles, auto parts and consumer goods that recruit MBAs.",
+   "src": "Business Standard, ABC News (AP)",
+   "url": "https://www.business-standard.com/india-news/rubio-meets-jaishankar-in-mumbai-pushes-for-early-india-us-trade-deal-126102100227_1.html"
   },
   {
    "cat": "Business",
-   "title": "Jio Platforms raises about Rs 8,110 crore from anchor investors; IPO opens today",
-   "summary": "Business Standard, ThePrint and the Groww digest report that Jio Platforms allotted shares worth about Rs 8,109.9 crore to 212 anchor investors at the top of the Rs 1,065 to Rs 1,119 price band. Institutional bids exceeded Rs 2.5 lakh crore, about 30 times the anchor quota. The public issue opens on 21 October and closes on 23 October. Sources differ slightly on the exact anchor and issue size, so treat the figures as approximate.",
-   "why": "A very large listing shows investor appetite for Indian consumer and telecom brands, and shapes how marketers think about brand value and employer branding.",
-   "src": "Business Standard, ThePrint, Groww",
-   "url": "https://www.business-standard.com/companies/news/jio-platforms-ipo-anchor-investor-quota-nearly-30-times-oversubscribed-126101900538_1.html"
+   "title": "Jio Platforms IPO subscribed about 2.5 times on day one",
+   "summary": "Telangana Today reports that the Rs 30,213 crore Jio Platforms IPO was subscribed about 2.5 times by 3:15 pm on 21 October, with the institutional portion at 7.46 times and retail at about 60 per cent. Another report says the issue was fully subscribed within hours of opening. The final day-one number was not found, so treat figures as intraday. The issue closes on 23 October.",
+   "why": "The scale of demand for India's biggest IPO shows investor appetite for consumer-tech brands and shapes how marketers value a brand story.",
+   "src": "Telangana Today, IIFL",
+   "url": "https://telanganatoday.com/jio-platforms-ipo-subscribed-2-5-times-on-day-one-qib-portion-7-46-times"
+  },
+  {
+   "cat": "Business",
+   "title": "Sensex and Nifty fall for a second session on bank selling",
+   "summary": "On 21 October the Nifty 50 fell 77.60 points to 22,811.35 and the Sensex lost 143.21 points to 73,709.69, the second straight loss, with banking and financial stocks, rising US bond yields and steady foreign investor selling weighing on markets. No RBI policy decision for October was found in the sources.",
+   "why": "Weak banking and financial stocks hint at cautious hiring in the sectors that recruit the most MBAs.",
+   "src": "Whalesbook, The Hans India",
+   "url": "https://www.whalesbook.com/news/English/sebiexchange/Nifty-Closes-at-22811-as-FII-Selling-Hits-Markets/6ad8a50679a16deaeaf8daac"
   },
   {
    "cat": "Business",
    "kind": "fact",
-   "title": "Indian equity markets reopen today after the Dussehra holiday",
-   "summary": "Newstrack and the Groww digest report that the exchanges were closed on 20 October for Dussehra and that normal trading resumes on 21 October. The Nifty last closed at 22,888.95 on 19 October, down 1.11%.",
-   "why": "Market sentiment after a holiday sets the tone for recruiter conversations in finance and consulting.",
-   "src": "Newstrack, Groww",
+   "title": "Markets reopened on 21 October after the Dussehra holiday",
+   "summary": "Earlier reports said exchanges were shut on 20 October and trading resumed on 21 October, when the Nifty ended at 22,811.35.",
+   "why": "Holiday-shortened weeks affect when results and IPO subscriptions are reported.",
+   "src": "Newstrack, Whalesbook",
    "url": "https://english.newstrack.com/india-news/stock-market-closed-today-when-will-bse-and-nse-reopen-641791"
   },
   {
-   "cat": "Business",
-   "kind": "fact",
-   "title": "Muhurat trading date is reported as 8 November, but not confirmed",
-   "summary": "A Groww digest says the special Muhurat session will run from 2:20 pm to 3:30 pm on 8 November. A Newstrack report says exchanges have not yet announced this year's timings, so the date is unconfirmed until NSE or BSE issue a circular.",
-   "why": "Diwali-season trading traditions are a common talking point in finance interviews.",
-   "src": "Groww, Newstrack",
-   "url": "https://digest.groww.in/p/muhurat-trading-timing-announced"
+   "cat": "Tech",
+   "title": "Anthropic launches Claude Duet, a proactive agent in research preview",
+   "summary": "TechBuzz reports that Anthropic launched Claude Duet, a research preview of a proactive agent built on Claude Opus 5.5, gated behind a waitlist for US Pro and Max subscribers at existing usage limits, and aimed at professionals. Gizmodo notes it is not widely available yet. Details come from secondary outlets, so check Anthropic's announcement.",
+   "why": "Proactive AI agents will change how marketers and HR teams hand off routine work, which is a common interview topic.",
+   "src": "TechBuzz, Gizmodo",
+   "url": "https://www.techbuzz.ai/articles/anthropic-launches-claude-duet-ai-agent-to-take-on-meta-and-openai"
   },
   {
    "cat": "Tech",
-   "title": "DeepSeek open-sources DeepInfer, its in-house inference engine",
-   "summary": "Tech Insider reports that DeepSeek released its in-house inference framework, DeepInfer, under an Apache 2.0 licence on 20 October. The report comes from a secondary outlet, so details of speed and cost claims are unverified.",
-   "why": "Cheaper open inference lowers the cost of building AI tools, which matters for how marketing and HR teams will adopt them.",
-   "src": "Tech Insider",
-   "url": "https://tech-insider.org/deepseek-deepinfer-open-source-inference-framework-2026"
-  },
-  {
-   "cat": "Tech",
-   "title": "Anthropic launches a free open-source vulnerability scanner",
-   "summary": "The Neuron's daily AI digest for 20 October says Anthropic released OSS Scanner, which runs free periodic vulnerability scans on critical open-source projects and can include a proof of concept and, where possible, a proposed patch. This comes from a newsletter summary, so check Anthropic's own announcement for details.",
-   "why": "Security and trust in the software supply chain affects every company that buys HR and marketing software.",
-   "src": "The Neuron",
-   "url": "https://theneuron.ai/digest/everything-that-happened-in-ai-today-tuesday-october-20-2026"
+   "title": "Nvidia unveils DSX POD and OpenShell at GTC Berlin",
+   "summary": "Per a summary of Nvidia's GTC Berlin announcements, DSX POD is a modular data-centre reference design meant to cut AI-factory deployment from about six months to about 14 days. OpenShell is a reference architecture for running AI agents, with Anthropic, OpenAI, Meta, Microsoft, Google Cloud and AWS named as working with it, according to Nvidia. The claims are company-reported.",
+   "why": "Cheaper, faster AI infrastructure lowers the cost of the tools HR and marketing teams will buy.",
+   "src": "The Next Web",
+   "url": "https://thenextweb.com/news/nvidia-openshell-ai-agents-safety-anthropic-openai"
   },
   {
    "cat": "Tech",
    "kind": "fact",
-   "title": "Amazon opens TorchNeuron in public beta, a day after Google's TorchTPU",
-   "summary": "The same Neuron digest says Amazon released TorchNeuron in public beta so PyTorch workloads can run on its Trainium chips, one day after Google released TorchTPU. Treat details as secondary-source reports.",
-   "why": "Competition among chip platforms is what brings AI costs down for ordinary businesses.",
-   "src": "The Neuron",
-   "url": "https://theneuron.ai/digest/everything-that-happened-in-ai-today-tuesday-october-20-2026"
+   "title": "OpenAI expanded ChatGPT ads to 26 more countries, 83 in total",
+   "summary": "AI Weekly's roundup says OpenAI extended ads in ChatGPT to 26 new countries on 21 October, for a total of 83, still limited to the Free and Go tiers.",
+   "why": "Ad formats inside AI assistants are a new channel marketers are being asked to plan for.",
+   "src": "AI Weekly",
+   "url": "https://aiweekly.co/ai-news-today"
   }
  ]
 }
