@@ -1,81 +1,72 @@
 {
- "date": "2026-10-22",
- "generated": "2026-10-22T06:20:00+05:30",
+ "date": "2026-10-23",
+ "generated": "2026-10-23T06:20:00+05:30",
  "items": [
   {
    "cat": "International",
-   "title": "Nigeria confirms its first Ebola case, in Abuja",
-   "summary": "NPR, The Washington Post and France 24 report that Nigeria's health ministry confirmed an Ebola case in Abuja on 20 October, a woman who arrived from Uganda. She began showing symptoms on 7 October and was admitted to a private hospital on 11 October. Yahoo News and the WHO, as relayed there, say it is the Bundibugyo strain, which has no approved vaccine or treatment, and that authorities are tracing 44 contacts. Contact counts may change, so treat them as provisional.",
-   "why": "A spreading outbreak affects business travel, insurance and duty of care for employers, and is a live crisis-communication case for HR and brand teams.",
-   "src": "NPR, The Washington Post, France 24",
-   "url": "https://www.npr.org/2026/10/20/g-s1-148975/nigeria-confirms-ebola-case"
+   "title": "Russia and Ukraine trade strikes on each other's capitals as Moscow signals readiness for talks",
+   "summary": "France 24, CNN and NBC report that Russia hit Kyiv with missiles and drones on 21 to 22 October, hours after Putin agreed in principle, after meeting US envoy Steve Witkoff, to resume US-mediated trilateral talks, possibly after 10 November. Ukraine said at least 21 ballistic missiles were fired in three waves, and Moscow's mayor said hundreds of drones were headed for the region overnight. Casualty figures differ by source, so treat them as provisional.",
+   "why": "A prolonged war keeps energy and commodity prices volatile and shapes sanctions and supply-chain risk that multinationals plan hiring around.",
+   "src": "France 24, CNN, NBC News",
+   "url": "https://www.france24.com/en/europe/20261022-russia-missiles-kyiv-ukraine-peace-talks"
   },
   {
    "cat": "International",
    "kind": "fact",
-   "title": "A UN report says warming is set to exceed the 1.5C target",
-   "summary": "UPI reports on a UN Environment Programme report published on 21 October saying global warming will exceed the Paris Agreement's 1.5 degrees Celsius target. The wire summary gives few details, so check the original report for figures.",
-   "why": "Climate targets drive ESG reporting and employer branding, which many recruiters now raise in interviews.",
-   "src": "UPI",
-   "url": "https://upi.com/Top_News/World-News/2026/10/21/un-environment-program-warming-report-surpass-paris-agreement-levels/7011792594732"
+   "title": "Putin's agreement to resume talks is in principle, with no date fixed",
+   "summary": "The reports above say trilateral talks with Ukraine and the US could come after 10 November, and would be the first since February. Analysts quoted see no sign Russia has shifted its main positions.",
+   "why": "A date would matter for markets, but the wording is still conditional.",
+   "src": "France 24, CNN",
+   "url": "https://www.france24.com/en/europe/20261022-russia-missiles-kyiv-ukraine-peace-talks"
   },
   {
    "cat": "Indian",
-   "title": "Rubio presses for an early India-US trade deal after talks with Jaishankar",
-   "summary": "Business Standard and ABC News (AP) report that US Secretary of State Marco Rubio met External Affairs Minister S. Jaishankar in Mumbai and pushed for an early trade deal, saying the two sides are about as close as they can be without signing, with a small number of items left. AP-linked coverage also notes that Finance Minister Sitharaman had earlier said talks had plateaued, while Commerce Minister Goyal said the first tranche was in its final stages. Rubio also urged India to buy more fuel from the US and Venezuela. No signing date has been reported.",
-   "why": "Tariff outcomes decide hiring in export-linked sectors such as textiles, auto parts and consumer goods that recruit MBAs.",
-   "src": "Business Standard, ABC News (AP)",
-   "url": "https://www.business-standard.com/india-news/rubio-meets-jaishankar-in-mumbai-pushes-for-early-india-us-trade-deal-126102100227_1.html"
+   "title": "India and Poland aim to double trade by 2030 and open a defence industry dialogue",
+   "summary": "Following talks between PM Modi and Polish PM Donald Tusk in New Delhi on 22 October, the two sides set a target of doubling bilateral trade by 2030, agreed to a Defence Industry Dialogue and a counter-terrorism dialogue, and said Poland will join the Coalition for Disaster Resilient Infrastructure. Cybersecurity, critical minerals and connectivity were also named as areas for cooperation. Tusk's visit runs from 21 to 23 October.",
+   "why": "Bilateral trade targets open export and market-entry roles in engineering, defence supply chains and consumer goods that recruit MBAs.",
+   "src": "Organiser, Revoi, Newstrack",
+   "url": "https://organiser.org/2026/10/22/419306/world/india-poland-ties-gain-momentum-trade-tech-defence-counter-terrorism-more-highlights-of-pm-modi-pm-tusk-talks/"
   },
   {
-   "cat": "Business",
-   "title": "Jio Platforms IPO subscribed about 2.5 times on day one",
-   "summary": "Telangana Today reports that the Rs 30,213 crore Jio Platforms IPO was subscribed about 2.5 times by 3:15 pm on 21 October, with the institutional portion at 7.46 times and retail at about 60 per cent. Another report says the issue was fully subscribed within hours of opening. The final day-one number was not found, so treat figures as intraday. The issue closes on 23 October.",
-   "why": "The scale of demand for India's biggest IPO shows investor appetite for consumer-tech brands and shapes how marketers value a brand story.",
-   "src": "Telangana Today, IIFL",
-   "url": "https://telanganatoday.com/jio-platforms-ipo-subscribed-2-5-times-on-day-one-qib-portion-7-46-times"
-  },
-  {
-   "cat": "Business",
-   "title": "Sensex and Nifty fall for a second session on bank selling",
-   "summary": "On 21 October the Nifty 50 fell 77.60 points to 22,811.35 and the Sensex lost 143.21 points to 73,709.69, the second straight loss, with banking and financial stocks, rising US bond yields and steady foreign investor selling weighing on markets. No RBI policy decision for October was found in the sources.",
-   "why": "Weak banking and financial stocks hint at cautious hiring in the sectors that recruit the most MBAs.",
-   "src": "Whalesbook, The Hans India",
-   "url": "https://www.whalesbook.com/news/English/sebiexchange/Nifty-Closes-at-22811-as-FII-Selling-Hits-Markets/6ad8a50679a16deaeaf8daac"
-  },
-  {
-   "cat": "Business",
+   "cat": "Indian",
    "kind": "fact",
-   "title": "Markets reopened on 21 October after the Dussehra holiday",
-   "summary": "Earlier reports said exchanges were shut on 20 October and trading resumed on 21 October, when the Nifty ended at 22,811.35.",
-   "why": "Holiday-shortened weeks affect when results and IPO subscriptions are reported.",
-   "src": "Newstrack, Whalesbook",
-   "url": "https://english.newstrack.com/india-news/stock-market-closed-today-when-will-bse-and-nse-reopen-641791"
+   "title": "India-Poland trade was 6.36 billion US dollars in 2025",
+   "summary": "Revoi, citing official figures, puts 2025 bilateral trade at 6.36 billion dollars, the base for the 2030 doubling target.",
+   "why": "A concrete base figure makes a target easier to judge.",
+   "src": "Revoi",
+   "url": "https://english.revoi.in/india-poland-agree-to-deepen-ties-in-trade-defence-counter-terrorism-and-disaster-management/"
+  },
+  {
+   "cat": "Business",
+   "title": "Jio Platforms IPO sees strong institutional demand on day two while the market slips",
+   "summary": "Business Standard reports the Rs 30,213 crore Jio Platforms IPO was subscribed 5.57 times on day two with qualified institutional buyers at 13.29 times, and The Week says the retail portion was fully subscribed even as the Sensex and Nifty fell. The Week puts the overall figure nearer 4.2 times, so the end-of-day tally is provisional. Business Standard's headline says the Sensex fell 460 points and the Nifty ended at 22,688. The issue closes on 23 October.",
+   "why": "Record demand for an India IPO shows how much investors will pay for a consumer-tech brand story, which frames how marketers argue brand value.",
+   "src": "Business Standard, The Week",
+   "url": "https://www.theweek.in/news/biz-tech/2026/10/22/jio-ipo-retail-portion-fully-subscribed.html"
+  },
+  {
+   "cat": "Business",
+   "title": "Eternal's Q2 profit jumps 92 per cent to Rs 125 crore as Blinkit scales",
+   "summary": "Deccan Herald and Indian Startup News report Eternal, the parent of Zomato and Blinkit, posted a September-quarter consolidated net profit of about Rs 125 crore, up from Rs 65 crore a year earlier, with revenue from operations of Rs 24,138 crore. Coverage says Blinkit earned Rs 184 crore and targets 3,500 stores. Cash fell by Rs 1,813 crore to Rs 16,475 crore.",
+   "why": "Quick commerce is one of the fastest-growing employers of marketing, category and operations talent in India.",
+   "src": "Deccan Herald, Indian Startup News",
+   "url": "https://www.deccanherald.com/amp/story/business/companies/eternal-q2-net-profit-rises-92-to-rs-125-crore-revenue-up-776-4190565"
   },
   {
    "cat": "Tech",
-   "title": "Anthropic launches Claude Duet, a proactive agent in research preview",
-   "summary": "TechBuzz reports that Anthropic launched Claude Duet, a research preview of a proactive agent built on Claude Opus 5.5, gated behind a waitlist for US Pro and Max subscribers at existing usage limits, and aimed at professionals. Gizmodo notes it is not widely available yet. Details come from secondary outlets, so check Anthropic's announcement.",
-   "why": "Proactive AI agents will change how marketers and HR teams hand off routine work, which is a common interview topic.",
-   "src": "TechBuzz, Gizmodo",
-   "url": "https://www.techbuzz.ai/articles/anthropic-launches-claude-duet-ai-agent-to-take-on-meta-and-openai"
+   "title": "Canva launches Craft, its first in-house image generation model",
+   "summary": "Digital Trends, Unite.AI and AI Weekly report that Canva released Craft on 22 October, trained on its own library of human-designed templates and working in two stages, a layout planning pass and a render pass, with output up to 2K across about 30 aspect ratios. It is open to all Canva users through Dream Lab and to developers via the API. Canva's claim of a fourth-place ranking on a design leaderboard is preliminary and self-reported.",
+   "why": "Marketers will be expected to produce on-brand creative with tools like this, so knowing what they can and cannot do is now a basic skill.",
+   "src": "Digital Trends, Unite.AI, AI Weekly",
+   "url": "https://www.digitaltrends.com/computing/canva-craft-ai-image-generation-model-launch/"
   },
   {
    "cat": "Tech",
-   "title": "Nvidia unveils DSX POD and OpenShell at GTC Berlin",
-   "summary": "Per a summary of Nvidia's GTC Berlin announcements, DSX POD is a modular data-centre reference design meant to cut AI-factory deployment from about six months to about 14 days. OpenShell is a reference architecture for running AI agents, with Anthropic, OpenAI, Meta, Microsoft, Google Cloud and AWS named as working with it, according to Nvidia. The claims are company-reported.",
-   "why": "Cheaper, faster AI infrastructure lowers the cost of the tools HR and marketing teams will buy.",
-   "src": "The Next Web",
-   "url": "https://thenextweb.com/news/nvidia-openshell-ai-agents-safety-anthropic-openai"
-  },
-  {
-   "cat": "Tech",
-   "kind": "fact",
-   "title": "OpenAI expanded ChatGPT ads to 26 more countries, 83 in total",
-   "summary": "AI Weekly's roundup says OpenAI extended ads in ChatGPT to 26 new countries on 21 October, for a total of 83, still limited to the Free and Go tiers.",
-   "why": "Ad formats inside AI assistants are a new channel marketers are being asked to plan for.",
-   "src": "AI Weekly",
-   "url": "https://aiweekly.co/ai-news-today"
+   "title": "Eternal announces Dark, a privacy-focused AI assistant planned for a 2026 launch",
+   "summary": "Inc42 and Entrepreneur India report that Eternal's shareholder letter described Dark, an AI assistant that, the company says, keeps user conversation history in an encrypted memory it cannot read, aimed at founders, researchers and enterprises. Founder Deepinder Goyal said it would launch globally 'hopefully within 2026'. Outside commentary notes there is no launch date, pricing or demo yet and no independent audit of the privacy claim.",
+   "why": "Privacy as a product promise is a positioning choice marketers and HR teams handling employee data will increasingly have to explain.",
+   "src": "Inc42, Entrepreneur India",
+   "url": "https://inc42.com/buzz/eternal-unveils-privacy-focused-ai-platform-dark-eyes-global-launch-in-2026"
   }
  ]
 }
