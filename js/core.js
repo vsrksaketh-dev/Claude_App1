@@ -18,6 +18,7 @@ export const app = {
   taskSources: [],  // () => task[]              derived tasks shown in the matrix
   todayCards: [],   // () => html string         extra cards on Home
   afterCommit: null, // () => void               called after every saved change (used to refresh widgets)
+  pop: '',          // data-flip key of the checkbox just ticked, so it can bounce after the re-render
 };
 export const $ = s => document.querySelector(s);
 
@@ -37,8 +38,22 @@ function renderNav() {
   const items = Object.values(app.views).filter(v => v.nav && (!v.enabled || v.enabled())).sort((a, b) => a.nav - b.nav);
   $('#nav').innerHTML = items.map(v => `<button data-nav="${v.id}" class="${v.id === ui.view ? 'on' : ''}">${v.label}</button>`).join('');
 }
+let lastView = null;
+const calm = () => !!(window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches);
+// Rows marked data-flip glide to their new place when a list re-sorts (a ticked task sinking to the bottom, an unticked one rising).
+function glide(before) {
+  if (!before.size || calm()) return;
+  $('#view').querySelectorAll('[data-flip]').forEach(el => {
+    const old = before.get(el.dataset.flip);
+    if (old === undefined || !el.animate) return;
+    const dy = old - el.getBoundingClientRect().top;
+    if (Math.abs(dy) > 2) el.animate([{ transform: `translateY(${dy}px)` }, { transform: 'none' }], { duration: 460, easing: 'cubic-bezier(.3, 1.35, .5, 1)' });
+  });
+}
 export function render() {
   applyTheme();
+  const before = new Map();
+  if (lastView === ui.view) $('#view').querySelectorAll('[data-flip]').forEach(el => before.set(el.dataset.flip, el.getBoundingClientRect().top));
   let v = app.views[ui.view];
   if (!v || (v.enabled && !v.enabled())) { ui.view = 'home'; v = app.views.home; }
   try { $('#view').innerHTML = v.render(); } catch (e) {
@@ -46,6 +61,10 @@ export function render() {
     console.error(e); ui.sub = {};
     $('#view').innerHTML = '<section class="card"><h2>Something went wrong on this screen</h2><p class="muted">Your data is safe. Tap below to reopen it.</p><div class="row" style="margin-top:10px"><button class="primary" data-nav="' + ui.view + '">Reopen</button><button data-nav="home">Go to Home</button></div></section>';
   }
+  $('#view').classList.toggle('enter', lastView !== ui.view && !calm());
+  glide(before);
+  if (app.pop) { const k = app.pop; app.pop = ''; [...$('#view').querySelectorAll('[data-flip]')].find(e => e.dataset.flip === k)?.classList.add('popped'); }
+  lastView = ui.view;
   renderNav();
   document.body.classList.toggle('deep', S.timer.running && S.timer.mode === 'focus');
 }

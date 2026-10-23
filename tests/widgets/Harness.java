@@ -51,12 +51,18 @@ public class Harness {
     // ticking from a list
     int before = WidgetRows.build(c, Widgets.TASKS).size();
     Widgets.handle(c, "task", "a2", "");
-    int after = WidgetRows.build(c, Widgets.TASKS).size();
-    ok("ticking a task removes its row", after == before - 1);
+    List<WidgetRows.Row> afterTick = WidgetRows.build(c, Widgets.TASKS);
+    ok("a ticked task stays on the list and sinks to the bottom under Done today", afterTick.size() == before + 1 && afterTick.get(afterTick.size() - 1).type == WidgetRows.T_TASK && afterTick.get(afterTick.size() - 1).done && afterTick.get(afterTick.size() - 1).a.equals("Call placement cell") && afterTick.get(afterTick.size() - 2).type == WidgetRows.T_SECTION);
     JSONArray ops = new JSONArray(Widgets.takeOps(c));
-    ok("and queues it for the app", ops.length() == 1 && ops.getJSONObject(0).getString("t").equals("task") && ops.getJSONObject(0).getString("id").equals("a2"));
+    ok("and queues it as ticked for the app", ops.length() == 1 && ops.getJSONObject(0).getString("t").equals("task") && ops.getJSONObject(0).getString("id").equals("a2") && ops.getJSONObject(0).getBoolean("on"));
     boolean struck = false; for (WidgetRows.Row r : WidgetRows.build(c, 5)) if (r.type == WidgetRows.T_TASK && r.a.equals("Call placement cell") && r.done) struck = true;
     ok("the same task shows ticked in the calendar", struck);
+    Widgets.handle(c, "task", "a2", "");
+    List<WidgetRows.Row> afterUntick = WidgetRows.build(c, Widgets.TASKS);
+    ok("tapping it again puts it back in its place", afterUntick.size() == before && afterUntick.stream().noneMatch(r -> r.type == WidgetRows.T_TASK && r.done));
+    JSONArray ops2 = new JSONArray(Widgets.takeOps(c));
+    ok("and queues the undo", ops2.length() == 1 && !ops2.getJSONObject(0).getBoolean("on"));
+    Widgets.handle(c, "task", "a2", ""); Widgets.takeOps(c);
     String mailKey = null; for (int i = 0; i < new JSONObject(snap).getJSONArray("cal").length(); i++) { JSONObject e = new JSONObject(snap).getJSONArray("cal").getJSONObject(i); if (e.getString("k").equals("mail")) mailKey = e.getString("id"); }
     Widgets.handle(c, "act", mailKey, "");
     boolean mailDone = false; for (WidgetRows.Row r : WidgetRows.build(c, 5)) if (r.type == WidgetRows.T_TASK && r.a.startsWith("Placement Chair") && r.done) mailDone = true;

@@ -17,7 +17,7 @@ Five tabs, each a focused screen (Home, Learn, Plan, Calendar, Track). Light and
 
 | Tab | What it does |
 | --- | --- |
-| Home | What needs you today: priorities (calendar items titled "Action:" or "Due:", deadlines, reminders), today's schedule, your top 3, habits, and a close-the-day prompt. Settings opens from the button at the top |
+| Home | A warm hero with today's count, then your to-do list ranked by urgency (ticked items sink to the bottom and can be unticked), what needs you today (calendar items titled "Action:" or "Due:", reminders), today's schedule, habits, and a close-the-day prompt. Settings opens from the button at the top |
 | Learn | Daily five with a streak (guesstimate, framework, jargon, mental model, news), a News tab, spaced-repetition flashcards, a library with notes and a "today I learned" log |
 | Plan | Task triage and the Eisenhower matrix, goals with milestones, and (while the Career module is on) applications, network and interview stories |
 | Calendar | Everything dated, like Google Calendar: month grid with dots, a week and day time grid, and an agenda list. Each day lists its events, deadlines ("Due:"), things to do ("Action:"), email key facts ("Mail:") and tasks that fall due, with ticks and an add-event form |

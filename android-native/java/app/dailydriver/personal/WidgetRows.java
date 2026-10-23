@@ -127,12 +127,30 @@ final class WidgetRows {
         }
     }
 
-    private static void habitRows(List<Row> out, JSONObject s, int max) {
-        JSONArray hl = Widgets.arr(s, "habitList");
-        boolean head = false;
-        for (int i = 0; i < hl.length() && i < max; i++) {
+    /** Habits not done yet first, the done ones after. */
+    private static List<JSONObject> habitOrder(JSONArray hl) {
+        List<JSONObject> todo = new ArrayList<>(), done = new ArrayList<>();
+        for (int i = 0; i < hl.length(); i++) {
             JSONObject h = hl.optJSONObject(i);
             if (h == null) continue;
+            if (h.optBoolean("done")) done.add(h); else todo.add(h);
+        }
+        todo.addAll(done);
+        return todo;
+    }
+
+    private static List<JSONObject> doneLast(List<JSONObject> items) {
+        List<JSONObject> todo = new ArrayList<>(), done = new ArrayList<>();
+        for (JSONObject e : items) { if (e.optInt("x") == 1) done.add(e); else todo.add(e); }
+        todo.addAll(done);
+        return todo;
+    }
+
+    private static void habitRows(List<Row> out, JSONObject s, int max) {
+        List<JSONObject> hl = habitOrder(Widgets.arr(s, "habitList"));
+        boolean head = false;
+        for (int i = 0; i < hl.size() && i < max; i++) {
+            JSONObject h = hl.get(i);
             if (!head) { section(out, "Tap to tick off", "track:trackers"); head = true; }
             Row r = add(out, T_HABIT);
             r.a = h.optString("name");
@@ -146,6 +164,7 @@ final class WidgetRows {
     private static Row taskRow(List<Row> out, JSONObject x, boolean detail) {
         Row r = add(out, T_TASK);
         r.a = x.optString("title");
+        r.done = x.optInt("dn") == 1;
         String due = x.optString("due");
         r.due = due;
         r.style = due.equals("Overdue") || due.equals("Today") ? "bad" : due.equals("Tomorrow") ? "warn" : "";
@@ -189,11 +208,13 @@ final class WidgetRows {
         // The next few things on the plan
         JSONArray tk = Widgets.arr(s, "tasks");
         boolean head = false;
-        for (int i = 0; i < tk.length() && i < 6; i++) {
+        int shownTasks = 0;
+        for (int i = 0; i < tk.length() && shownTasks < 6; i++) {
             JSONObject x = tk.optJSONObject(i);
-            if (x == null) continue;
+            if (x == null || x.optInt("dn") == 1) continue;
             if (!head) { section(out, "Tasks", "plan:tasks"); head = true; }
             taskRow(out, x, false);
+            shownTasks++;
         }
         habitRows(out, s, 14);
     }
@@ -216,9 +237,11 @@ final class WidgetRows {
         JSONArray t = Widgets.arr(s, "tasks");
         String lastQ = null;
         int shown = 0;
+        List<JSONObject> finished = new ArrayList<>();
         for (int i = 0; i < t.length(); i++) {
             JSONObject x = t.optJSONObject(i);
             if (x == null) continue;
+            if (x.optInt("dn") == 1) { finished.add(x); continue; }
             String due = x.optString("due");
             if (tf.equals("soon") && !(due.equals("Overdue") || due.equals("Today") || due.equals("Tomorrow"))) continue;
             String q = x.optString("q");
@@ -230,6 +253,10 @@ final class WidgetRows {
             shown++;
         }
         if (shown == 0) text(out, tf.equals("soon") ? "Nothing due soon. Nice." : "Nothing left to do. Enjoy the quiet.");
+        if (!finished.isEmpty()) {
+            section(out, "Done today", "plan:tasks");
+            for (JSONObject x : finished) taskRow(out, x, false);
+        }
     }
 
     private static void news(Context c, List<Row> out, JSONObject s) {
@@ -241,11 +268,10 @@ final class WidgetRows {
 
     private static void habits(Context c, List<Row> out, JSONObject s) {
         habitProgress(out, s);
-        JSONArray hl = Widgets.arr(s, "habitList");
-        if (hl.length() == 0) { text(out, "No habits scheduled today."); return; }
-        for (int i = 0; i < hl.length(); i++) {
-            JSONObject h = hl.optJSONObject(i);
-            if (h == null) continue;
+        List<JSONObject> hl = habitOrder(Widgets.arr(s, "habitList"));
+        if (hl.isEmpty()) { text(out, "No habits scheduled today."); return; }
+        for (int i = 0; i < hl.size(); i++) {
+            JSONObject h = hl.get(i);
             Row r = add(out, T_HABIT);
             r.a = h.optString("name");
             r.done = h.optBoolean("done");
@@ -270,11 +296,13 @@ final class WidgetRows {
         }
         JSONArray tk = Widgets.arr(s, "tasks");
         head = false;
-        for (int i = 0; i < tk.length() && i < 10; i++) {
+        int shownTasks = 0;
+        for (int i = 0; i < tk.length() && shownTasks < 10; i++) {
             JSONObject x = tk.optJSONObject(i);
-            if (x == null) continue;
+            if (x == null || x.optInt("dn") == 1) continue;
             if (!head) { section(out, "Tasks", "plan:tasks"); head = true; }
             taskRow(out, x, false);
+            shownTasks++;
         }
         habitRows(out, s, 14);
         int before = out.size();
@@ -317,7 +345,7 @@ final class WidgetRows {
             Row h = add(out, T_SECTION);
             h.a = dayHeading(sel);
             h.target = "calendar:day:" + sel;
-            List<JSONObject> items = itemsOn(s, sel);
+            List<JSONObject> items = doneLast(itemsOn(s, sel));
             if (items.isEmpty()) text(out, "Nothing planned.");
             for (JSONObject e : items) calItem(out, e);
         } else if ("week".equals(mode)) {
@@ -328,7 +356,7 @@ final class WidgetRows {
                 h.a = dayHeading(k);
                 h.id = k;
                 h.act = "csel";
-                List<JSONObject> items = itemsOn(s, k);
+                List<JSONObject> items = doneLast(itemsOn(s, k));
                 if (items.isEmpty()) { Row t = add(out, T_TEXT); t.a = "Free"; t.target = "calendar:day:" + k; }
                 for (JSONObject e : items) calItem(out, e);
             }
@@ -336,7 +364,7 @@ final class WidgetRows {
             int shown = 0;
             for (int i = 0; i < 42; i++) {
                 String k = Widgets.plusDays(anchor, i);
-                List<JSONObject> items = itemsOn(s, k);
+                List<JSONObject> items = doneLast(itemsOn(s, k));
                 if (items.isEmpty()) continue;
                 Row h = add(out, T_SECTION);
                 h.a = dayHeading(k);

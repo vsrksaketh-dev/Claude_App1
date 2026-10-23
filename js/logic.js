@@ -36,6 +36,27 @@ export function dayStreak() {
 // ---- tasks ----
 export const taskQuadrant = t => ((t.due && daysFromToday(t.due) <= 2) ? 'U' : '') + (t.important ? 'I' : '');
 export const openTasks = () => [...S.tasks.filter(t => !t.done && !t.triage), ...app.taskSources.flatMap(f => f())];
+// How urgent a task is, lowest first: overdue, due today, due within two days, important with a date, important, dated, the rest.
+export const taskRank = t => {
+  const n = t.due ? daysFromToday(t.due) : null;
+  if (n !== null && n < 0) return 0;
+  if (n === 0) return 1;
+  if (n !== null && n <= 2) return 2;
+  if (t.important) return n !== null ? 3 : 4;
+  return n !== null ? 5 : 6;
+};
+export const byRank = (a, b) => (taskRank(a) - taskRank(b)) || (a.due || '9').localeCompare(b.due || '9');
+// Tasks ticked today stay on the list (at the bottom) so a slip of the finger can be undone.
+export const doneToday = () => S.tasks.filter(t => t.done && t.doneAt === today());
+// Undone first, done last; otherwise the order it came in.
+export const doneLast = (list, isDone) => [...list.filter(x => !isDone(x)), ...list.filter(isDone)];
+export function uncompleteTask(id) {
+  const t = S.tasks.find(x => x.id === id);
+  if (!t || !t.done) return;
+  if (t.doneAt && S.stats.tasksDone[t.doneAt]) S.stats.tasksDone[t.doneAt] = Math.max(0, S.stats.tasksDone[t.doneAt] - 1);
+  t.done = false;
+  delete t.doneAt;
+}
 export function completeTask(id) {
   const t = S.tasks.find(x => x.id === id);
   if (!t || t.done) return;

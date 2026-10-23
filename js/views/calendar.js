@@ -24,14 +24,14 @@ const firstOf = k => k.slice(0, 8) + '01';
 function itemRow(it) {
   const time = it.allDay ? '' : `${clock(it.start)}${it.end > it.start ? ' to ' + clock(it.end) : ''}`;
   let lead = '';
-  if (it.kind === 'task') lead = it.derived ? `<button data-act="openSource" data-view="${esc(it.view)}" data-section="${esc(it.section)}">Open</button>` : check('taskDone', it.id, !!it.done, it.done ? 'disabled' : '');
+  if (it.kind === 'task') lead = it.derived ? `<button data-act="openSource" data-view="${esc(it.view)}" data-section="${esc(it.section)}">Open</button>` : (it.done ? check('taskUndo', it.id, true) : check('taskDone', it.id, false));
   else if (it.key) lead = check('actToggle', it.key, it.done);
   else lead = `<span class="chip">${it.allDay ? 'All day' : clock(it.start)}</span>`;
   const tag = it.kind === 'event' ? (it.interview ? chip('Interview', 'warn') : '') : chip(KIND_LABEL[it.kind], it.kind === 'due' ? 'bad' : it.kind === 'action' ? 'warn' : 'plain');
   const meta = [it.kind !== 'event' && time ? time : it.kind === 'event' && !it.allDay && it.end > it.start ? 'until ' + clock(it.end) : '', it.where, it.src, it.desc].filter(Boolean).join(' · ');
-  return `<li class="cal-item k-${it.kind} ${it.done ? 'done' : ''}">${lead}<div class="grow"><span class="title">${esc(it.title)}</span> ${tag}${meta ? `<div class="muted">${esc(meta)}</div>` : ''}</div>${it.id && it.kind === 'event' ? `<button class="ghost danger" data-act="delEvent" data-id="${esc(it.id)}" aria-label="Remove event">×</button>` : ''}</li>`;
+  return `<li data-flip="c:${esc(it.id || it.key || it.title)}:${it.start}" class="cal-item k-${it.kind} ${it.done ? 'done' : ''}">${lead}<div class="grow"><span class="title">${esc(it.title)}</span> ${tag}${meta ? `<div class="muted">${esc(meta)}</div>` : ''}</div>${it.id && it.kind === 'event' ? `<button class="ghost danger" data-act="delEvent" data-id="${esc(it.id)}" aria-label="Remove event">×</button>` : ''}</li>`;
 }
-const itemList = items => items.length ? `<ul class="list">${items.map(itemRow).join('')}</ul>` : empty('Nothing planned.');
+const itemList = items => items.length ? `<ul class="list">${[...items.filter(i => !i.done), ...items.filter(i => i.done)].map(itemRow).join('')}</ul>` : empty('Nothing planned.');
 
 const addForm = k => `<details><summary>Add an event on this day</summary><form data-form="event" class="inline">
   <label>Title<input name="title" required></label><label>Date<input name="date" type="date" required value="${k}"></label><label>Time<input name="time" type="time"></label><button class="primary">Add</button></form></details>`;

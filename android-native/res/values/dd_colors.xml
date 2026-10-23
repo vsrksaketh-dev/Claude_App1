@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="dd_bg">#FFFFFF</color>
-    <color name="dd_inset">#EEF3F1</color>
-    <color name="dd_text">#18211F</color>
-    <color name="dd_muted">#66726F</color>
-    <color name="dd_accent">#1F7A68</color>
-    <color name="dd_tint">#DCEFE9</color>
-    <color name="dd_warn">#A8610D</color>
-    <color name="dd_warn_tint">#FBEFD9</color>
-    <color name="dd_bad">#B0402F</color>
-    <color name="dd_bad_tint">#FBE5E0</color>
+    <color name="dd_inset">#F6EFE9</color>
+    <color name="dd_text">#232A3D</color>
+    <color name="dd_muted">#756F7C</color>
+    <color name="dd_accent">#3E5F94</color>
+    <color name="dd_tint">#F8DCC6</color>
+    <color name="dd_warn">#9A5A0A</color>
+    <color name="dd_warn_tint">#FCEBC9</color>
+    <color name="dd_bad">#B23B2E</color>
+    <color name="dd_bad_tint">#FADCD6</color>
     <color name="dd_on_accent">#FFFFFF</color>
 </resources>

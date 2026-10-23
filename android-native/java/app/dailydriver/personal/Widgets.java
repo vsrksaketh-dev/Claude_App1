@@ -60,10 +60,15 @@ public class Widgets {
         return o;
     }
 
-    private static void queue(Context c, String type, String id) {
+    private static void queue(Context c, String type, String id) { queue(c, type, id, null); }
+
+    // on: for a task, whether it was ticked (true) or put back (false); the app applies it in order.
+    private static void queue(Context c, String type, String id, Boolean on) {
         try {
             JSONArray ops = new JSONArray(prefs(c).getString("ops", "[]"));
-            ops.put(new JSONObject().put("t", type).put("id", id));
+            JSONObject op = new JSONObject().put("t", type).put("id", id);
+            if (on != null) op.put("on", on.booleanValue());
+            ops.put(op);
             prefs(c).edit().putString("ops", ops.toString()).apply();
         } catch (Exception ignored) { }
     }
@@ -115,15 +120,22 @@ public class Widgets {
         try {
             switch (type) {
                 case "task": {
-                    s.put("tasks", without(s.optJSONArray("tasks"), id));
-                    s.put("taskCount", Math.max(0, s.optInt("taskCount") - 1));
-                    mark(s, id, true);
-                    queue(c, "task", id);
+                    // A ticked task stays on the list, struck through at the bottom, so it can be put back with another tap.
+                    JSONArray ts = s.optJSONArray("tasks");
+                    boolean on = true;
+                    for (int i = 0; ts != null && i < ts.length(); i++) {
+                        JSONObject x = ts.optJSONObject(i);
+                        if (x != null && id.equals(x.optString("id"))) { on = x.optInt("dn") == 0; x.put("dn", on ? 1 : 0); }
+                    }
+                    s.put("tasks", sortTasks(ts));
+                    s.put("taskCount", Math.max(0, s.optInt("taskCount") + (on ? -1 : 1)));
+                    mark(s, id, true, on);
+                    queue(c, "task", id, on);
                     break;
                 }
                 case "act": {
                     s.put("actions", without(s.optJSONArray("actions"), id));
-                    mark(s, id, false);
+                    mark(s, id, false, false);
                     queue(c, "act", id);
                     break;
                 }
@@ -180,14 +192,29 @@ public class Widgets {
     }
 
     /** Reflect a tick in the calendar entries too, so the widget shows it at once. */
-    private static void mark(JSONObject s, String id, boolean isTask) {
+    private static void mark(JSONObject s, String id, boolean isTask, boolean on) {
         if (id.isEmpty()) return;
         JSONArray cal = s.optJSONArray("cal");
         for (int i = 0; cal != null && i < cal.length(); i++) {
             JSONObject x = cal.optJSONObject(i);
             if (x == null || !id.equals(x.optString("id")) || ("task".equals(x.optString("k")) != isTask)) continue;
-            try { x.put("x", isTask ? 1 : (x.optInt("x") == 1 ? 0 : 1)); } catch (Exception ignored) { }
+            try { x.put("x", isTask ? (on ? 1 : 0) : (x.optInt("x") == 1 ? 0 : 1)); } catch (Exception ignored) { }
         }
+    }
+
+    /** Undone tasks first in their original priority order, ticked ones after. */
+    private static JSONArray sortTasks(JSONArray a) {
+        java.util.List<JSONObject> list = new java.util.ArrayList<>();
+        for (int i = 0; a != null && i < a.length(); i++) { JSONObject o = a.optJSONObject(i); if (o != null) list.add(o); }
+        java.util.Collections.sort(list, new java.util.Comparator<JSONObject>() {
+            @Override public int compare(JSONObject x, JSONObject y) {
+                int d = x.optInt("dn") - y.optInt("dn");
+                return d != 0 ? d : x.optInt("i") - y.optInt("i");
+            }
+        });
+        JSONArray out = new JSONArray();
+        for (JSONObject o : list) out.put(o);
+        return out;
     }
 
     private static JSONArray without(JSONArray a, String id) {

@@ -43,8 +43,10 @@ Run the smoke test after any change to `js/`, and the widget test after any chan
 - Placement is an optional module that the user will switch off after being placed. Keep the core independent of it.
 
 ## Visual design rules
-- Soft and welcoming: rounded cards on a calm tinted background, pill buttons and pill-shaped tabs, round checkboxes, a floating rounded bottom bar. One friendly typeface (Plus Jakarta Sans, bundled in `fonts/`) and one teal accent; amber, red and green are for state only.
+- Soft, warm and a little playful: a white page with beige (peach) and dusty-blue accents, the same two colours as the user's phone icon pack. Big round corners, pill buttons and pill-shaped tabs, round checkboxes, a floating rounded bottom bar, a peach hero on Home. Two typefaces, both bundled in `fonts/`: Poppins for text and Fredoka for titles and big numbers. Amber, red and green are for state only; there is no green accent any more.
 - No emoji, no icon sets, no gradients. Navigation and section titles are plain words. Never use serif type or all-caps tracked labels (they read as the generic editorial look the user rejected).
 - Light and dark are both designed and chosen in Settings (Light, Dark, Match phone). All colours are tokens at the top of `css/styles.css`; add any new colour to all three blocks (light, dark via media query, and `[data-theme="dark"]`).
-- Home is only what needs the user today. News and learning live in Learn, trackers and charts in Track, tasks and applications in Plan.
+- Lists that can be ticked (Home to-do, Plan matrix, needs-attention, habits, calendar days, the Tasks and Habits widgets) keep ticked rows at the bottom, struck through, and rows glide to their new place (`data-flip`, see `render()` in `core.js`). Unticking lifts them back. Tasks ticked today stay visible; older ones move to Completed.
+- Motion is gentle (entrance rise, tick pop, list glide) and switched off by `prefers-reduced-motion`.
+- Home is only what needs the user today, and it opens with the to-do list ranked by urgency. News and learning live in Learn, trackers and charts in Track, tasks and applications in Plan.
 - Keep `main` a single-column grid with `minmax(0, 1fr)`; without it wide content stretches past the screen.

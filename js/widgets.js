@@ -4,7 +4,7 @@ import { S, ui, app, go, render, commit } from './core.js';
 import { today, addDays, daysFromToday, fmtDay } from './util.js';
 import { pendingActions } from './schedule.js';
 import { agendaOn } from './agenda.js';
-import { openTasks, taskQuadrant, habitsOn, habitDone, dayStreak, completeTask, learnCount, focusOn } from './logic.js';
+import { openTasks, taskQuadrant, habitsOn, habitDone, dayStreak, completeTask, uncompleteTask, doneToday, learnCount, focusOn } from './logic.js';
 import { widgetPush, widgetTake } from './native.js';
 
 const RANK = { UI: 0, I: 1, U: 2, '': 3 };
@@ -27,7 +27,9 @@ export function buildSnapshot() {
     v: 3, at: Date.now(), name: S.profile.name || '', today: t,
     cal,
     actions: pendingActions(7).filter(e => !e.done).slice(0, 12).map(e => ({ id: e.key, title: e.label, s: e.start, mail: !!e.mail })),
-    tasks: open.slice(0, 60).map(x => ({ id: x.id, title: x.title, due: dueLabel(x.due), dd: x.due || '', q: taskQuadrant(x), kind: x.kind && x.kind !== 'Task' ? x.kind : '', dv: x.derived ? 1 : 0 })),
+    // Open tasks in priority order (i keeps that order), then the ones ticked today (dn: 1) so a widget can show them struck at the bottom and undo them.
+    tasks: [...open.slice(0, 60).map((x, i) => ({ id: x.id, title: x.title, due: dueLabel(x.due), dd: x.due || '', q: taskQuadrant(x), kind: x.kind && x.kind !== 'Task' ? x.kind : '', dv: x.derived ? 1 : 0, i, dn: 0 })),
+      ...doneToday().slice(0, 12).map((x, i) => ({ id: x.id, title: x.title, due: '', dd: '', q: taskQuadrant(x), kind: '', dv: 0, i: 100 + i, dn: 1 }))],
     taskCount: open.length,
     dueSoon: open.filter(x => x.due && daysFromToday(x.due) <= 2).length,
     habitList: hs.map(h => ({ id: h.id, name: h.name, done: habitDone(h, t) })).slice(0, 14),
@@ -46,7 +48,7 @@ export const pushSoon = () => { clearTimeout(timer); timer = setTimeout(pushNow,
 export function applyOps(ops) {
   const t = today();
   ops.forEach(o => {
-    if (o.t === 'task') { const x = S.tasks.find(y => y.id === o.id); if (x && !x.done) completeTask(o.id); }
+    if (o.t === 'task') { const x = S.tasks.find(y => y.id === o.id); if (x) { if (o.on === false) uncompleteTask(o.id); else if (!x.done) completeTask(o.id); } }
     if (o.t === 'act') S.inboxDone[o.id] = !S.inboxDone[o.id];
     if (o.t === 'habit') { const l = (S.habitLog[t] ||= {}); l[o.id] = !l[o.id]; }
   });

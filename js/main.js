@@ -28,6 +28,7 @@ document.addEventListener('click', e => {
   if (nav) { go(nav.dataset.nav, nav.dataset.sub ? { [nav.dataset.nav]: nav.dataset.sub } : undefined); return; }
   const el = e.target.closest('[data-act]');
   if (!el || !app.actions[el.dataset.act]) return;
+  if (el.type === 'checkbox' && el.checked) app.pop = el.closest('[data-flip]')?.dataset.flip || '';
   app.actions[el.dataset.act](el.dataset, el);
   commit();
 });
