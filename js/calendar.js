@@ -37,7 +37,8 @@ export function removeSource(id) {
   listeners.forEach(f => f());
 }
 
-const windowMs = () => [parse(addDays(today(), -1)).getTime(), parse(addDays(today(), 63)).getTime()];
+// Wide enough for the Calendar tab to page back a month and forward a term, and for the widgets' month view.
+const windowMs = () => [parse(addDays(today(), -45)).getTime(), parse(addDays(today(), 150)).getTime()];
 
 async function syncOne(s) {
   const [a, b] = windowMs();
@@ -76,6 +77,9 @@ export const actionEvents = days => {
   const now = Date.now(), lim = now + days * 864e5;
   return all().filter(e => ACTION.test(e.title) && e.end >= now && e.start < lim).sort((a, b) => a.start - b.start).map(e => ({ ...e, label: e.title.replace(ACTION, '') }));
 };
+// What a calendar entry is, from its title: a deadline, a thing to do, an email's key facts, or an ordinary event.
+export const kindOf = title => /^(due|deadline)\s*[:·-]/i.test(title) ? 'due' : /^action\s*[:·-]/i.test(title) ? 'action' : /^mail\s*[:·-]/i.test(title) ? 'mail' : 'event';
+export const stripKind = title => title.replace(/^(action|due|deadline|mail)\s*[:·-]\s*/i, '');
 // "Mail: ..." entries are the key facts of an important email that has no date to act on. They stay for a week or until ticked.
 const MAIL = /^mail\s*[:·-]\s*/i;
 export const isMail = title => MAIL.test(title);

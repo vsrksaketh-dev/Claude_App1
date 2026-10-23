@@ -10,4 +10,5 @@
     <color name="dd_warn_tint">#3A2E15</color>
     <color name="dd_bad">#F0907F</color>
     <color name="dd_bad_tint">#40231E</color>
+    <color name="dd_on_accent">#0A1A16</color>
 </resources>

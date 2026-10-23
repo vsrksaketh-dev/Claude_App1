@@ -5,4 +5,6 @@
     <string name="w_tasks">Daily Driver: Tasks</string>
     <string name="w_news">Daily Driver: News</string>
     <string name="w_everything">Daily Driver: Everything</string>
+    <string name="w_calendar">Daily Driver: Calendar</string>
+    <string name="w_habits">Daily Driver: Habits</string>
 </resources>

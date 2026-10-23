@@ -8,6 +8,7 @@ import { pushSoon, pushNow, syncFromWidgets, openTarget } from './widgets.js';
 import './views/home.js';
 import './views/learn.js';
 import './views/plan.js';
+import './views/calendar.js';
 import './views/track.js';
 import './sections/focus.js';
 import './sections/money.js';

@@ -7,8 +7,9 @@ A personal, long-lived self-monitoring and self-development app. Plain ES module
 python3 -m http.server 8000            # serve the repo root
 node tests/smoke.cjs <path-to-playwright> 8000   # end-to-end smoke test (needs Chromium)
 node tests/ics.test.mjs                          # calendar reader unit tests
+sh tests/widgets/run.sh <path-to-playwright> 8000 # widget Java on the JVM against stand-in Android classes (needs java)
 ```
-Run the smoke test after any change to `js/`. It covers every screen, persistence and the v1 to v2 data migration.
+Run the smoke test after any change to `js/`, and the widget test after any change to `android-native/` or the snapshot in `js/widgets.js`. It covers every screen, persistence and the v1 to v2 data migration.
 
 ## Layout
 - `js/core.js`: shared state `S`, UI state `ui`, the `app` registry, `register()`, `render()`, `commit()`.
@@ -16,10 +17,10 @@ Run the smoke test after any change to `js/`. It covers every screen, persistenc
 - `js/logic.js`: domain logic (habit streaks, flashcard scheduling, task quadrants, weekly summary). No HTML.
 - `js/util.js`: pure helpers (dates, escaping). `js/ui.js`: shared HTML snippets (tabs, bars, heatmap).
 - `js/data.js`: static learning content (frameworks, guesstimates, jargon, mental models, prompts).
-- `js/views/*`: screens in the bottom bar: Home, Learn, Plan, Track (four tabs). `js/sections/*`: feature modules: Money, Body (workout log, calories), Focus (all shown inside Track), Settings (opened from the button on Home, no tab) and Career (shown as tabs inside Plan).
+- `js/views/*`: screens in the bottom bar: Home, Learn, Plan, Calendar, Track (five tabs; that is the limit). `js/agenda.js`: everything dated on a day (calendar events, hand-typed events, deadlines, to-dos, email facts, tasks due) with a kind; the Calendar tab and the widget snapshot both read it. `js/sections/*`: feature modules: Money, Body (workout log, calories), Focus (all shown inside Track), Settings (opened from the button on Home, no tab) and Career (shown as tabs inside Plan).
 - `js/ics.js`: iCalendar reader (time zones, all-day, recurrence). `js/calendar.js`: calendar sync, secret addresses kept in their own storage keys (never in `S` or backups). `js/native.js`: Android bridge (uses `window.Capacitor.Plugins`; there is no bundler, so never call `registerPlugin` or import `@capacitor/*` in `js/`). The smoke test simulates the bridge. `js/reminders*.js`: local notifications.
 - `js/main.js`: event delegation and boot. `sw.js`: service worker (network first). Bump its cache name when adding files to `ASSETS`.
-- `js/schedule.js`: the day's items from all sources. `js/widgets.js`: builds a JSON snapshot after each change and hands it to `WidgetBridge.update` (`js/native.js`). `android-native/`: Java widget providers, layouts and manifest receivers that CI copies into the generated Android project. Widgets read the snapshot, never the web app. Any snapshot field change needs the Java side updated too. Widgets are interactive: ticks and page flips are handled natively and queued as ops that `syncFromWidgets()` applies when the app next opens; a tap carries a target like `learn:news` or `plan:tasks:add` that `openTarget()` turns into a tab. Layout adapts to the widget's height.
+- `js/schedule.js`: the day's items from all sources. `js/widgets.js`: builds a JSON snapshot after each change and hands it to `WidgetBridge.update` (`js/native.js`). `android-native/`: Java widget providers, layouts and manifest receivers that CI copies into the generated Android project. Widgets read the snapshot, never the web app. Every widget is a header, buttons and a scrolling `ListView` fed by `WidgetListService` and `WidgetRows`; row taps go through one mutable pending-intent template to `WidgetRouteActivity`, which has no screen and either opens a tab or applies a tick. The calendar widget draws its month grid or week strip as static cells above the list. Any snapshot field change needs the Java side updated too. Widgets are interactive: ticks and page flips are handled natively and queued as ops that `syncFromWidgets()` applies when the app next opens; a tap carries a target like `learn:news` or `plan:tasks:add` that `openTarget()` turns into a tab. Layout adapts to the widget's height.
 - `brief/`: rules and template for the daily brief routine (see Privacy).
 
 ## How things work

@@ -111,7 +111,7 @@ function render() {
 const entry = k => (S.journal[k] ||= {});
 
 register({
-  id: 'track', label: 'Track', nav: 4, render,
+  id: 'track', label: 'Track', nav: 5, render,
   actions: {
     habitArchive: d => { const h = byId(S.habits, d.id); h.archived = !h.archived; },
     habitDel: d => { remove('habits', d.id); S.goals.forEach(g => { g.habitIds = (g.habitIds || []).filter(x => x !== d.id); }); },

@@ -12,9 +12,9 @@ const ok = (name, cond) => { console.log((cond ? 'PASS ' : 'FAIL ') + name); if 
   const view = () => p.textContent('#view');
   const nav = n => p.click(`#nav [data-nav=${n}]`);
 
-  ok('home leads with attention and schedule, not news', /Needs your attention/.test(await view()) && /Today's schedule/.test(await view()) && !/Riyadh/.test(await view()));
-  ok('bottom bar has four tabs', (await p.locator('#nav button').count()) === 4);
-  await nav('learn'); await p.click('[data-act=sub][data-id=news]'); ok('news shows in Learn', /Riyadh airport/.test(await view())); await nav('home');
+  ok('home leads with attention and schedule, not news', /Needs your attention/.test(await view()) && /Today's schedule/.test(await view()) && !(await p.locator('.story').count()));
+  ok('bottom bar has five tabs', (await p.locator('#nav button').count()) === 5);
+  await nav('learn'); await p.click('[data-act=sub][data-id=news]'); ok('news shows in Learn', await p.locator('.story').count() >= 1); await nav('home');
 
   // Today: capture, triage, top 3, habits, daily five
   await p.fill('[data-form=quick] [name=text]', 'Prepare marketing case'); await p.click('[data-form=quick] button');
@@ -145,6 +145,30 @@ const ok = (name, cond) => { console.log((cond ? 'PASS ' : 'FAIL ') + name); if 
   ok('calendar event gets a reminder', rem.includes('Calendar sync updated'));
   await p.click('[data-form=reminders] [name=on]'); await p.click('[data-form=reminders] button.primary');
   ok('calendar link is not in the backup data', !(await p.evaluate(() => localStorage.getItem('daily-driver-v2'))).includes('tests/.tmp'));
+  // Calendar tab: month, week, day and agenda over the same items as Home
+  await nav('calendar');
+  ok('calendar tab opens on the month grid with today picked', await p.locator('.cal-grid .cal-cell').count() >= 28 && await p.locator('.cal-cell.today.sel').count() === 1);
+  ok('the picked day lists its events, deadlines and email facts', /Calendar sync updated/.test(await p.textContent('#cal-day')) && /Form submission/.test(await p.textContent('#cal-day')) && /Placement notice/.test(await p.textContent('#cal-day')));
+  ok('days with items carry dots', await p.locator('.cal-cell.today .cal-dots i').count() >= 2);
+  ok('events marked not mine stay hidden in the calendar too', !/Friend class/.test(await p.textContent('#cal-day')));
+  await p.click('[data-act=calMode][data-id=week]');
+  ok('week view lays events on a time grid', await p.locator('.cal-col').count() === 7 && await p.locator('.cal-block').count() >= 1);
+  await p.click('[data-act=calMode][data-id=day]');
+  ok('day view shows one column', await p.locator('.cal-tg.one .cal-block').count() >= 1);
+  await p.click('[data-act=calMode][data-id=agenda]');
+  ok('agenda lists the coming days', /Calendar sync updated/.test(await view()) && /Today/.test(await view()));
+  await p.click('[data-act=calMode][data-id=month]');
+  await p.click('#cal-day summary'); await p.fill('#cal-day [name=title]', 'Mock interview'); await p.fill('#cal-day [name=time]', '14:00'); await p.click('#cal-day button.primary');
+  ok('an event added from the calendar shows on that day', /Mock interview/.test(await p.textContent('#cal-day')) && await p.locator('.cal-cell.today .cal-dots i').count() >= 2);
+  await nav('home'); ok('and on Home', /Mock interview/.test(await view())); await nav('calendar');
+  const tmr = new Date(Date.now() + 864e5).toLocaleDateString('en-CA');
+  await p.click(`[data-act=calPick][data-d="${tmr}"]`);
+  ok('a task due that day appears on it', /Marketing exam/.test(await p.textContent('#cal-day')));
+  await p.click('#cal-day li:has-text("Marketing exam") [data-act=taskDone]');
+  ok('ticking it in the calendar completes the task', await p.locator('#cal-day li.done:has-text("Marketing exam")').count() === 1);
+  await p.click('[data-act=calNext]'); ok('next moves the month on', !(await p.textContent('.cal-nav')).includes(new Date().toLocaleDateString('en-IN', { month: 'long', year: 'numeric' })));
+  await p.click('[data-act=calToday]'); ok('Today jumps back', await p.locator('.cal-cell.today.sel').count() === 1);
+  await nav('home'); await p.click('[data-nav=settings]');
   await p.click('[data-act=calRemove]'); await nav('home');
   ok('removing the calendar removes its events', !/Calendar sync updated/.test(await view()));
 
@@ -180,8 +204,8 @@ const ok = (name, cond) => { console.log((cond ? 'PASS ' : 'FAIL ') + name); if 
   await n.check('[data-form=reminders] [name=on]'); await n.click('[data-form=reminders] button.primary'); await n.waitForTimeout(400);
   await n.waitForTimeout(900);
   const snap = await n.evaluate(() => window.__widget);
-  ok('widget snapshot is pushed to the native side', !!snap && snap.v === 2 && Array.isArray(snap.events) && snap.events.some(e => /Native bridge event/.test(e.title)) && Array.isArray(snap.tasks) && !!snap.habits);
-  ok('snapshot carries habits, tasks and news for the widgets', snap.v === 2 && Array.isArray(snap.habitList) && snap.habitList.length > 0 && Array.isArray(snap.news));
+  ok('widget snapshot is pushed to the native side', !!snap && snap.v === 3 && Array.isArray(snap.cal) && snap.cal.some(e => /Native bridge event/.test(e.t) && e.k === 'event' && e.d && typeof e.s === 'number') && Array.isArray(snap.tasks) && !!snap.habits);
+  ok('snapshot carries habits, tasks and news for the widgets', snap.v === 3 && Array.isArray(snap.habitList) && snap.habitList.length > 0 && Array.isArray(snap.news));
   await n.evaluate(async () => { const c = await import('/js/core.js'); c.S.tasks.push({ id: 'wtask', title: 'Ticked from a widget', done: false, important: true, kind: 'Task' }); c.S.habits.length && (window.__hid = c.S.habits[0].id); c.commit(); });
   await n.evaluate(() => { window.__take = { ops: JSON.stringify([{ t: 'task', id: 'wtask' }, { t: 'habit', id: window.__hid }]), target: 'learn:news' }; window.dispatchEvent(new Event('widgetOpen')); });
   await n.waitForTimeout(500);
@@ -190,6 +214,12 @@ const ok = (name, cond) => { console.log((cond ? 'PASS ' : 'FAIL ') + name); if 
   await n.evaluate(() => { window.__take = { ops: '[]', target: 'plan:tasks:add' }; window.dispatchEvent(new Event('widgetOpen')); });
   await n.waitForTimeout(300);
   ok('a widget can open the add task sheet', await n.locator('.sheet').count() === 1);
+  await n.evaluate(() => { window.__take = { ops: '[]', target: 'calendar:week' }; window.dispatchEvent(new Event('widgetOpen')); });
+  await n.waitForTimeout(300);
+  ok('a widget can open the calendar on a chosen view', await n.locator('.seg.pills button.on:has-text("Week")').count() === 1 && await n.locator('.cal-col').count() === 7);
+  await n.evaluate(() => { window.__take = { ops: '[]', target: 'calendar:day:2026-12-25' }; window.dispatchEvent(new Event('widgetOpen')); });
+  await n.waitForTimeout(300);
+  ok('a widget can open the calendar on a chosen day', /Friday 25 December/.test(await n.textContent('.cal-nav')));
   await n.evaluate(async () => { const c = await import('/js/core.js'); c.ui.sub.addTask = false; c.go('home'); });
   await n.click('[data-nav=settings]');
   ok('native notifications get scheduled', (await n.evaluate(() => window.__scheduled.map(x => x.title))).includes('Plan your day'));
