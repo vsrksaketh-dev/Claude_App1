@@ -1,72 +1,63 @@
 {
- "date": "2026-10-23",
- "generated": "2026-10-23T06:20:00+05:30",
+ "date": "2026-10-24",
+ "generated": "2026-10-24T06:25:00+05:30",
  "items": [
   {
    "cat": "International",
-   "title": "Russia and Ukraine trade strikes on each other's capitals as Moscow signals readiness for talks",
-   "summary": "France 24, CNN and NBC report that Russia hit Kyiv with missiles and drones on 21 to 22 October, hours after Putin agreed in principle, after meeting US envoy Steve Witkoff, to resume US-mediated trilateral talks, possibly after 10 November. Ukraine said at least 21 ballistic missiles were fired in three waves, and Moscow's mayor said hundreds of drones were headed for the region overnight. Casualty figures differ by source, so treat them as provisional.",
-   "why": "A prolonged war keeps energy and commodity prices volatile and shapes sanctions and supply-chain risk that multinationals plan hiring around.",
-   "src": "France 24, CNN, NBC News",
-   "url": "https://www.france24.com/en/europe/20261022-russia-missiles-kyiv-ukraine-peace-talks"
+   "title": "Zelenskyy says Ukraine is open to freezing the war along current front lines",
+   "summary": "In an ABC News interview published on 23 October, Volodymyr Zelenskyy said Kyiv is ready to end the war quickly and is open to a freeze along the present lines, while criticising reduced US support. Ukrinform separately reports he expects Russia to step up ballistic missile attacks as US Patriot supplies fall. Details of any talks remain unconfirmed.",
+   "why": "The shape of any ceasefire drives energy prices, sanctions and supply-chain risk that global employers plan hiring around.",
+   "src": "ABC News, Ukrinform",
+   "url": "https://abcnews.com/International/zelenskyy-starlink-network-working/story?id=137489299"
   },
   {
    "cat": "International",
-   "kind": "fact",
-   "title": "Putin's agreement to resume talks is in principle, with no date fixed",
-   "summary": "The reports above say trilateral talks with Ukraine and the US could come after 10 November, and would be the first since February. Analysts quoted see no sign Russia has shifted its main positions.",
-   "why": "A date would matter for markets, but the wording is still conditional.",
-   "src": "France 24, CNN",
-   "url": "https://www.france24.com/en/europe/20261022-russia-missiles-kyiv-ukraine-peace-talks"
+   "title": "IDF chief vows to pursue those behind a deadly West Bank shooting",
+   "summary": "Times of Israel's live blog for 23 October leads with the IDF chief visiting the site of a deadly shooting and promising to pursue everyone involved. Casualty details were still developing in the coverage, so treat them as provisional.",
+   "why": "Regional escalation feeds oil prices and risk sentiment that move markets and corporate travel and hiring plans.",
+   "src": "Times of Israel",
+   "url": "https://timesofisrael.com/liveblog-october-23-2026"
   },
   {
    "cat": "Indian",
    "title": "India and Poland aim to double trade by 2030 and open a defence industry dialogue",
-   "summary": "Following talks between PM Modi and Polish PM Donald Tusk in New Delhi on 22 October, the two sides set a target of doubling bilateral trade by 2030, agreed to a Defence Industry Dialogue and a counter-terrorism dialogue, and said Poland will join the Coalition for Disaster Resilient Infrastructure. Cybersecurity, critical minerals and connectivity were also named as areas for cooperation. Tusk's visit runs from 21 to 23 October.",
-   "why": "Bilateral trade targets open export and market-entry roles in engineering, defence supply chains and consumer goods that recruit MBAs.",
-   "src": "Organiser, Revoi, Newstrack",
+   "summary": "Reported on 22 October (two days ago): after talks between PM Modi and Polish PM Donald Tusk in New Delhi, the two sides set a target of doubling bilateral trade by 2030 and agreed a Defence Industry Dialogue and a counter-terrorism dialogue. Cybersecurity, critical minerals and connectivity were also named. No fresher India story with a verifiable link was found today.",
+   "why": "Trade targets open export and market-entry roles in engineering, defence supply chains and consumer goods that recruit MBAs.",
+   "src": "Organiser, Revoi",
    "url": "https://organiser.org/2026/10/22/419306/world/india-poland-ties-gain-momentum-trade-tech-defence-counter-terrorism-more-highlights-of-pm-modi-pm-tusk-talks/"
-  },
-  {
-   "cat": "Indian",
-   "kind": "fact",
-   "title": "India-Poland trade was 6.36 billion US dollars in 2025",
-   "summary": "Revoi, citing official figures, puts 2025 bilateral trade at 6.36 billion dollars, the base for the 2030 doubling target.",
-   "why": "A concrete base figure makes a target easier to judge.",
-   "src": "Revoi",
-   "url": "https://english.revoi.in/india-poland-agree-to-deepen-ties-in-trade-defence-counter-terrorism-and-disaster-management/"
-  },
-  {
-   "cat": "Business",
-   "title": "Jio Platforms IPO sees strong institutional demand on day two while the market slips",
-   "summary": "Business Standard reports the Rs 30,213 crore Jio Platforms IPO was subscribed 5.57 times on day two with qualified institutional buyers at 13.29 times, and The Week says the retail portion was fully subscribed even as the Sensex and Nifty fell. The Week puts the overall figure nearer 4.2 times, so the end-of-day tally is provisional. Business Standard's headline says the Sensex fell 460 points and the Nifty ended at 22,688. The issue closes on 23 October.",
-   "why": "Record demand for an India IPO shows how much investors will pay for a consumer-tech brand story, which frames how marketers argue brand value.",
-   "src": "Business Standard, The Week",
-   "url": "https://www.theweek.in/news/biz-tech/2026/10/22/jio-ipo-retail-portion-fully-subscribed.html"
-  },
-  {
-   "cat": "Business",
-   "title": "Eternal's Q2 profit jumps 92 per cent to Rs 125 crore as Blinkit scales",
-   "summary": "Deccan Herald and Indian Startup News report Eternal, the parent of Zomato and Blinkit, posted a September-quarter consolidated net profit of about Rs 125 crore, up from Rs 65 crore a year earlier, with revenue from operations of Rs 24,138 crore. Coverage says Blinkit earned Rs 184 crore and targets 3,500 stores. Cash fell by Rs 1,813 crore to Rs 16,475 crore.",
-   "why": "Quick commerce is one of the fastest-growing employers of marketing, category and operations talent in India.",
-   "src": "Deccan Herald, Indian Startup News",
-   "url": "https://www.deccanherald.com/amp/story/business/companies/eternal-q2-net-profit-rises-92-to-rs-125-crore-revenue-up-776-4190565"
   },
   {
    "cat": "Tech",
    "title": "Canva launches Craft, its first in-house image generation model",
-   "summary": "Digital Trends, Unite.AI and AI Weekly report that Canva released Craft on 22 October, trained on its own library of human-designed templates and working in two stages, a layout planning pass and a render pass, with output up to 2K across about 30 aspect ratios. It is open to all Canva users through Dream Lab and to developers via the API. Canva's claim of a fourth-place ranking on a design leaderboard is preliminary and self-reported.",
-   "why": "Marketers will be expected to produce on-brand creative with tools like this, so knowing what they can and cannot do is now a basic skill.",
-   "src": "Digital Trends, Unite.AI, AI Weekly",
+   "summary": "Reported on 22 October (two days ago): Canva released Craft, trained on its own template library, open to users through Dream Lab and to developers via an API. Its claimed leaderboard ranking is preliminary and self-reported.",
+   "why": "Marketers will be expected to produce on-brand creative with tools like this.",
+   "src": "Digital Trends, AI Weekly",
    "url": "https://www.digitaltrends.com/computing/canva-craft-ai-image-generation-model-launch/"
   },
   {
+   "cat": "Business",
+   "title": "Jio Platforms IPO drew strong institutional demand ahead of its 23 October close",
+   "summary": "The Week reported on 22 October that the Rs 30,213 crore Jio Platforms issue was fully covered on day two, with overall demand about 4.2 times the shares on offer. Qualified institutional buyers bid about 9.9 times and retail about 1.32 times. The Sensex fell more than 700 points that day. Final subscription and listing details were not found, so figures are provisional and from two days ago.",
+   "why": "Heavy demand for a consumer-tech brand shows how much investors pay for scale and brand strength, a useful lens for marketers.",
+   "src": "The Week",
+   "url": "https://www.theweek.in/news/biz-tech/2026/10/22/jio-ipo-retail-portion-fully-subscribed.html"
+  },
+  {
    "cat": "Tech",
-   "title": "Eternal announces Dark, a privacy-focused AI assistant planned for a 2026 launch",
-   "summary": "Inc42 and Entrepreneur India report that Eternal's shareholder letter described Dark, an AI assistant that, the company says, keeps user conversation history in an encrypted memory it cannot read, aimed at founders, researchers and enterprises. Founder Deepinder Goyal said it would launch globally 'hopefully within 2026'. Outside commentary notes there is no launch date, pricing or demo yet and no independent audit of the privacy claim.",
-   "why": "Privacy as a product promise is a positioning choice marketers and HR teams handling employee data will increasingly have to explain.",
-   "src": "Inc42, Entrepreneur India",
-   "url": "https://inc42.com/buzz/eternal-unveils-privacy-focused-ai-platform-dark-eyes-global-launch-in-2026"
+   "title": "Uber rolls out ChatGPT Work to more than 30,000 employees",
+   "summary": "AI Weekly reports that on 22 October Uber said it is deploying OpenAI's ChatGPT Work company-wide to over 30,000 staff after a pilot with 1,000, calling it its first company-wide agentic platform for knowledge work.",
+   "why": "HR teams are being asked to plan training, role design and policy as AI agents enter everyday work.",
+   "src": "AI Weekly",
+   "url": "https://aiweekly.co/ai-news-today"
+  },
+  {
+   "cat": "Tech",
+   "kind": "fact",
+   "title": "Nvidia unveils Minerva, an operations platform for AI data centres",
+   "summary": "At GTC Berlin Nvidia introduced Minerva, which pulls GPU, networking and job telemetry into one knowledge graph for managing AI factories, according to its live blog (22 to 23 October).",
+   "why": "It shows AI infrastructure is becoming a managed operations product, a growing category for B2B marketing.",
+   "src": "Nvidia blog",
+   "url": "https://blogs.nvidia.com/gtc-berlin-2026-news/"
   }
  ]
 }
