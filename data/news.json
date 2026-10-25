@@ -1,63 +1,47 @@
 {
- "date": "2026-10-24",
- "generated": "2026-10-24T06:25:00+05:30",
+ "date": "2026-10-25",
+ "generated": "2026-10-25T06:30:00+05:30",
  "items": [
   {
    "cat": "International",
-   "title": "Zelenskyy says Ukraine is open to freezing the war along current front lines",
-   "summary": "In an ABC News interview published on 23 October, Volodymyr Zelenskyy said Kyiv is ready to end the war quickly and is open to a freeze along the present lines, while criticising reduced US support. Ukrinform separately reports he expects Russia to step up ballistic missile attacks as US Patriot supplies fall. Details of any talks remain unconfirmed.",
-   "why": "The shape of any ceasefire drives energy prices, sanctions and supply-chain risk that global employers plan hiring around.",
-   "src": "ABC News, Ukrinform",
-   "url": "https://abcnews.com/International/zelenskyy-starlink-network-working/story?id=137489299"
+   "title": "Kyiv Post: Russia keeps up strikes while a limited humanitarian truce is announced for Oleshky",
+   "summary": "Kyiv Post's live page for 24 October and an AP-based search summary report continued Russian missile and drone attacks, including a Kramatorsk airstrike that killed one civilian and wounded six. Separately, a White House statement cited in coverage says a localized humanitarian truce in occupied Oleshky is due to begin on 29 October. Details of the truce are unconfirmed and early, so treat them as provisional.",
+   "why": "Whether talks and local truces turn into a wider ceasefire drives energy prices and sanctions risk that global employers plan hiring around.",
+   "src": "Kyiv Post",
+   "url": "https://kyivpost.com/thread/88035"
   },
   {
-   "cat": "International",
-   "title": "IDF chief vows to pursue those behind a deadly West Bank shooting",
-   "summary": "Times of Israel's live blog for 23 October leads with the IDF chief visiting the site of a deadly shooting and promising to pursue everyone involved. Casualty details were still developing in the coverage, so treat them as provisional.",
-   "why": "Regional escalation feeds oil prices and risk sentiment that move markets and corporate travel and hiring plans.",
-   "src": "Times of Israel",
-   "url": "https://timesofisrael.com/liveblog-october-23-2026"
+   "cat": "Business",
+   "title": "Jio Platforms IPO closed heavily subscribed; allotment on 26 October, listing set for 28 October",
+   "summary": "Trendlyne and Chittorgarh list the Rs 30,213 crore Jio Platforms issue, priced at Rs 1,065 to 1,119 a share, as closing on 23 October with allotment on 26 October and listing on BSE and NSE on 28 October. One tracker puts final subscription at 22.19 times, but figures differ across sources and are provisional. Unofficial grey-market quotes near Rs 243 to 246 are indicative only and not a guarantee of listing price.",
+   "why": "A mega consumer-tech listing shows how markets price brand scale and subscriber loyalty, a useful lens for marketing strategy.",
+   "src": "Chittorgarh, Trendlyne",
+   "url": "https://www.chittorgarh.com/ipo/jio-platforms-ipo/3152/"
   },
   {
    "cat": "Indian",
    "title": "India and Poland aim to double trade by 2030 and open a defence industry dialogue",
-   "summary": "Reported on 22 October (two days ago): after talks between PM Modi and Polish PM Donald Tusk in New Delhi, the two sides set a target of doubling bilateral trade by 2030 and agreed a Defence Industry Dialogue and a counter-terrorism dialogue. Cybersecurity, critical minerals and connectivity were also named. No fresher India story with a verifiable link was found today.",
+   "summary": "Reported on 22 October (three days ago): after talks between PM Modi and Polish PM Donald Tusk in New Delhi, the two sides set a target of doubling bilateral trade by 2030 and agreed a Defence Industry Dialogue and a counter-terrorism dialogue. No fresher India story with a verifiable link was found today.",
    "why": "Trade targets open export and market-entry roles in engineering, defence supply chains and consumer goods that recruit MBAs.",
-   "src": "Organiser, Revoi",
+   "src": "Organiser",
    "url": "https://organiser.org/2026/10/22/419306/world/india-poland-ties-gain-momentum-trade-tech-defence-counter-terrorism-more-highlights-of-pm-modi-pm-tusk-talks/"
   },
   {
    "cat": "Tech",
-   "title": "Canva launches Craft, its first in-house image generation model",
-   "summary": "Reported on 22 October (two days ago): Canva released Craft, trained on its own template library, open to users through Dream Lab and to developers via an API. Its claimed leaderboard ranking is preliminary and self-reported.",
-   "why": "Marketers will be expected to produce on-brand creative with tools like this.",
-   "src": "Digital Trends, AI Weekly",
-   "url": "https://www.digitaltrends.com/computing/canva-craft-ai-image-generation-model-launch/"
-  },
-  {
-   "cat": "Business",
-   "title": "Jio Platforms IPO drew strong institutional demand ahead of its 23 October close",
-   "summary": "The Week reported on 22 October that the Rs 30,213 crore Jio Platforms issue was fully covered on day two, with overall demand about 4.2 times the shares on offer. Qualified institutional buyers bid about 9.9 times and retail about 1.32 times. The Sensex fell more than 700 points that day. Final subscription and listing details were not found, so figures are provisional and from two days ago.",
-   "why": "Heavy demand for a consumer-tech brand shows how much investors pay for scale and brand strength, a useful lens for marketers.",
-   "src": "The Week",
-   "url": "https://www.theweek.in/news/biz-tech/2026/10/22/jio-ipo-retail-portion-fully-subscribed.html"
-  },
-  {
-   "cat": "Tech",
-   "title": "Uber rolls out ChatGPT Work to more than 30,000 employees",
-   "summary": "AI Weekly reports that on 22 October Uber said it is deploying OpenAI's ChatGPT Work company-wide to over 30,000 staff after a pilot with 1,000, calling it its first company-wide agentic platform for knowledge work.",
-   "why": "HR teams are being asked to plan training, role design and policy as AI agents enter everyday work.",
+   "title": "Cursor adds Computer Use so its coding agents can operate any desktop app",
+   "summary": "AI Weekly's daily digest for 24 October lists Cursor's Computer Use, announced on 23 October, which lets its agents click and type across desktop applications rather than only the browser. The same digest lists Moonshot's Kimi K3.1 Pro release, with open weights promised by 4 November. These are company announcements and not independently tested.",
+   "why": "Agents that operate ordinary software change which HR and marketing tasks can be automated, so skills planning needs to catch up.",
    "src": "AI Weekly",
    "url": "https://aiweekly.co/ai-news-today"
   },
   {
    "cat": "Tech",
    "kind": "fact",
-   "title": "Nvidia unveils Minerva, an operations platform for AI data centres",
-   "summary": "At GTC Berlin Nvidia introduced Minerva, which pulls GPU, networking and job telemetry into one knowledge graph for managing AI factories, according to its live blog (22 to 23 October).",
-   "why": "It shows AI infrastructure is becoming a managed operations product, a growing category for B2B marketing.",
-   "src": "Nvidia blog",
-   "url": "https://blogs.nvidia.com/gtc-berlin-2026-news/"
+   "title": "Universal Music licenses its catalogs to AI music platform Tyger",
+   "summary": "AI Weekly reports on 23 October that Universal Music Group became the first major music company to license its recorded and publishing catalogs to Tyger, an AI music platform.",
+   "why": "Licensing deals are the template brands will follow for AI-generated content rights.",
+   "src": "AI Weekly",
+   "url": "https://aiweekly.co/ai-news-today"
   }
  ]
 }
