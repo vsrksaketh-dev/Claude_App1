@@ -1,45 +1,53 @@
 {
- "date": "2026-10-26",
- "generated": "2026-10-26T06:30:00+05:30",
+ "date": "2026-10-27",
+ "generated": "2026-10-27T06:30:00+05:30",
  "items": [
   {
    "cat": "International",
-   "title": "Ukraine and Russia swap 270 prisoners as a local truce in Oleshky is set for 29 October",
-   "summary": "The CFR conflict tracker reports a 270-for-270 prisoner exchange on 23 October facilitated by the US and UAE, and a temporary ceasefire in occupied Oleshky starting 29 October to allow aid and evacuations. It also reports Russian strikes on Ukrainian energy infrastructure that cut power to over half a million people. These are tracker summaries of early reports, so treat the details as provisional.",
-   "why": "Local truces and prisoner swaps are the first signals of a wider ceasefire, which moves energy prices and sanctions risk that global employers plan around.",
-   "src": "CFR Global Conflict Tracker",
-   "url": "https://www.cfr.org/global-conflict-tracker/conflict/conflict-ukraine"
+   "title": "Kyiv and Moscow trade attacks as peace talks are pencilled in for November",
+   "summary": "Al Jazeera's Russia page and a search summary of recent reports say overnight attacks on Kyiv injured 15 people, Russia said it intercepted 163 drones, and Ukraine reported strikes on a plant in Yelets on 25 and 26 October. Reports also say Russia and Ukraine have talks planned for November in the UAE. Casualty and loss figures come from the warring parties and are provisional.",
+   "why": "Talks, sanctions easing and energy prices feed straight into global hiring budgets and consumer demand that employers plan around.",
+   "src": "Al Jazeera",
+   "url": "https://www.aljazeera.com/where/russia/"
   },
   {
    "cat": "International",
-   "title": "Al Jazeera: Trump says no strikes on Iran for now as Iran warns against renewed attacks",
-   "summary": "Al Jazeera's front page leads with Trump saying there would be no strikes on Iran 'today', while Iran replied that renewed US-Israeli attacks would 'achieve no different outcome'. It also reports Qatari mediators visiting Tehran. The situation is fluid and the page is a live headline summary, so details are provisional.",
-   "why": "Tension in the Gulf feeds oil prices and investor risk appetite, which affect hiring budgets and consumer demand.",
-   "src": "Al Jazeera",
-   "url": "https://www.aljazeera.com/"
+   "title": "US-Iran talks stall; Trump says no attack before the 3 November midterms",
+   "summary": "CBS News' live coverage and a search summary report that Trump said last Thursday (22 October) the US will not attack Iran before the 3 November congressional midterms, while Iran has set red lines for talks and Russia's Lavrov visited Tehran. Details move fast and come from several outlets, so treat them as provisional.",
+   "why": "A Gulf conflict moves oil prices and investor risk appetite, which shape company hiring and marketing spend.",
+   "src": "CBS News",
+   "url": "https://www.cbsnews.com/live-updates/iran-war-us-trump-talks-russia-strait-of-hormuz/"
   },
   {
    "cat": "Business",
-   "title": "Jio Platforms IPO allotment is set for today, with listing expected on 28 October",
-   "summary": "Chittorgarh and HDFC Sky list basis of allotment for the Rs 30,213 crore Jio Platforms issue as 26 October, refunds and demat credit on 27 October, and listing on BSE and NSE on 28 October (tentative). Overall subscription is put at about 22.19 times, with qualified institutional buyers at 70.55 times, though one tracker shows 21.36 times, so the figure is provisional. Price band is Rs 1,065 to 1,119.",
-   "why": "The largest consumer-tech listing in India shows how markets value subscriber scale and brand strength, a useful lens for marketing strategy.",
-   "src": "Chittorgarh, HDFC Sky",
-   "url": "https://hdfcsky.com/news/jio-ipo-allotment-status-check-expected-allotment-date-status-and-share-allocation-on-monday"
+   "title": "Jio Platforms refunds due today, listing set for 28 October",
+   "summary": "HDFC Sky and India TV report that the Rs 30,213 crore Jio Platforms issue priced at Rs 1,119 closed about 22.2 times subscribed, with allotment on 26 October, refunds and share credit on 27 October and listing on BSE and NSE on 28 October. One report puts the unofficial grey-market premium near Rs 249, which is indicative only and not a guarantee of the listing price.",
+   "why": "India's largest IPO shows how markets price subscriber scale and brand strength, a useful lens for marketing strategy.",
+   "src": "HDFC Sky, India TV",
+   "url": "https://hdfcsky.com/news/jio-platforms-ipo-price-fixed-at-rs-1119-ahead-of-october-28-listing"
+  },
+  {
+   "cat": "Business",
+   "title": "Sensex and Nifty snap a four-session losing run on 26 October",
+   "summary": "BusinessToday reports that the Sensex and Nifty ended Monday's session higher after four straight falls, recovering from intraday lows to gain over 1 per cent each according to one market summary. The exact closing levels differ between sources and are provisional.",
+   "why": "Market swings change campus-hiring sentiment and the risk appetite of the companies recruiting this season.",
+   "src": "BusinessToday",
+   "url": "https://www.businesstoday.in/markets/stocks/story/sensex-nifty-snap-four-session-losing-run-tentative-relief-or-more-recovery-ahead-563719-2026-10-26"
   },
   {
    "cat": "Tech",
-   "title": "WWT and DDN launch an AI storage design for NVIDIA Vera Rubin racks",
-   "summary": "IT Brief reports that WWT and DDN released a storage reference design for AI factory campuses of 50 megawatts and above, built around NVIDIA's Vera Rubin NVL72 systems with storage sized for 72-GPU racks. It is a vendor announcement and has not been independently tested.",
-   "why": "AI infrastructure is turning into a productised B2B market, and positioning in it is a marketing problem as much as an engineering one.",
-   "src": "IT Brief",
-   "url": "https://itbrief.co.nz/story/wwt-ddn-launch-ai-storage-design-for-nvidia-vera-rubin"
+   "title": "Nvidia unveils OpenShell architecture for governed AI agents",
+   "summary": "AI Weekly's digest lists Nvidia's OpenShell reference architecture for governed AI agents, announced on 21 October at GTC Berlin, and the open Nemotron 3.5 Bolt E4B model released on 23 October. These are company announcements and have not been independently tested.",
+   "why": "Governance for AI agents is becoming a selling point and a hiring need in HR, risk and marketing roles.",
+   "src": "AI Weekly",
+   "url": "https://aiweekly.co/ai-news-today"
   },
   {
    "cat": "Tech",
    "kind": "fact",
-   "title": "Cursor's Computer Use lets coding agents operate any desktop app",
-   "summary": "AI Weekly's digest for 25 October lists Cursor's Computer Use, announced on 23 October, which lets its agents click and type across desktop applications rather than only the browser.",
-   "why": "Agents that use ordinary software change which HR and marketing tasks can be automated.",
+   "title": "Nvidia reportedly weighs a software fee of $2,000 per GPU",
+   "summary": "AI Weekly reports that Nvidia is considering an annual fee of $2,000 per GPU for software that runs agents on AI factories; this is a report, not an announced price.",
+   "why": "Pricing models for AI software decide who captures value, a classic marketing question.",
    "src": "AI Weekly",
    "url": "https://aiweekly.co/ai-news-today"
   }
