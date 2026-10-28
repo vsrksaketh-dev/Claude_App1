@@ -1,55 +1,63 @@
 {
- "date": "2026-10-27",
- "generated": "2026-10-27T06:30:00+05:30",
+ "date": "2026-10-28",
+ "generated": "2026-10-28T06:30:00+05:30",
  "items": [
   {
    "cat": "International",
-   "title": "Kyiv and Moscow trade attacks as peace talks are pencilled in for November",
-   "summary": "Al Jazeera's Russia page and a search summary of recent reports say overnight attacks on Kyiv injured 15 people, Russia said it intercepted 163 drones, and Ukraine reported strikes on a plant in Yelets on 25 and 26 October. Reports also say Russia and Ukraine have talks planned for November in the UAE. Casualty and loss figures come from the warring parties and are provisional.",
-   "why": "Talks, sanctions easing and energy prices feed straight into global hiring budgets and consumer demand that employers plan around.",
-   "src": "Al Jazeera",
-   "url": "https://www.aljazeera.com/where/russia/"
-  },
-  {
-   "cat": "International",
-   "title": "US-Iran talks stall; Trump says no attack before the 3 November midterms",
-   "summary": "CBS News' live coverage and a search summary report that Trump said last Thursday (22 October) the US will not attack Iran before the 3 November congressional midterms, while Iran has set red lines for talks and Russia's Lavrov visited Tehran. Details move fast and come from several outlets, so treat them as provisional.",
-   "why": "A Gulf conflict moves oil prices and investor risk appetite, which shape company hiring and marketing spend.",
+   "title": "US-Iran talks continue through Qatar while Washington signals no attack before the midterms",
+   "summary": "CBS News' live coverage and a search summary report that Qatar's foreign ministry says US-Iran negotiations are ongoing despite tension, and that the White House has said the US will not attack Iran ahead of the 3 November midterms. Iran has demanded sanctions relief and an end to threats before talks proper begin. Nothing dated 28 October was found, so treat this as the latest available picture and provisional.",
+   "why": "Gulf tension drives oil prices and investor risk appetite, which shape company hiring budgets and marketing spend.",
    "src": "CBS News",
    "url": "https://www.cbsnews.com/live-updates/iran-war-us-trump-talks-russia-strait-of-hormuz/"
   },
   {
-   "cat": "Business",
-   "title": "Jio Platforms refunds due today, listing set for 28 October",
-   "summary": "HDFC Sky and India TV report that the Rs 30,213 crore Jio Platforms issue priced at Rs 1,119 closed about 22.2 times subscribed, with allotment on 26 October, refunds and share credit on 27 October and listing on BSE and NSE on 28 October. One report puts the unofficial grey-market premium near Rs 249, which is indicative only and not a guarantee of the listing price.",
-   "why": "India's largest IPO shows how markets price subscriber scale and brand strength, a useful lens for marketing strategy.",
-   "src": "HDFC Sky, India TV",
-   "url": "https://hdfcsky.com/news/jio-platforms-ipo-price-fixed-at-rs-1119-ahead-of-october-28-listing"
+   "cat": "International",
+   "title": "Trump warns that pressing Moscow could push Russia closer to Iran",
+   "summary": "Fox News' live coverage from 20 October (eight days ago) says Iran set red lines for talks, including sanctions relief, and reports Trump warning that immediate action against Russia could derail peace talks and deepen Russia's alignment with Tehran. This is older than the three-day window, so read it as background, and details are provisional.",
+   "why": "How the Ukraine war and the Iran conflict interlock affects energy prices and sanctions, which global employers plan around.",
+   "src": "Fox News",
+   "url": "https://www.foxnews.com/live-news/iran-war-news-trump-israel-russia-october-20"
+  },
+  {
+   "cat": "Indian",
+   "title": "RBI reportedly raised its repo rate by 25 basis points on 7 October, its first hike since 2023",
+   "summary": "Reported on 7 October (three weeks ago): CNBC says the Reserve Bank of India raised the benchmark repo rate by 25 basis points as inflation risks build. Other results the same search returned conflict on the current rate level, so check the RBI's own announcement. No fresher India story with a verifiable link was found today.",
+   "why": "Higher rates raise borrowing costs for companies and can slow campus hiring and marketing budgets.",
+   "src": "CNBC",
+   "url": "https://www.cnbc.com/2026/10/07/india-rbi-interest-rates-inflation.html"
   },
   {
    "cat": "Business",
-   "title": "Sensex and Nifty snap a four-session losing run on 26 October",
-   "summary": "BusinessToday reports that the Sensex and Nifty ended Monday's session higher after four straight falls, recovering from intraday lows to gain over 1 per cent each according to one market summary. The exact closing levels differ between sources and are provisional.",
-   "why": "Market swings change campus-hiring sentiment and the risk appetite of the companies recruiting this season.",
-   "src": "BusinessToday",
-   "url": "https://www.businesstoday.in/markets/stocks/story/sensex-nifty-snap-four-session-losing-run-tentative-relief-or-more-recovery-ahead-563719-2026-10-26"
+   "title": "Jio Platforms lists today on BSE and NSE at 10 am",
+   "summary": "India TV and HDFC Sky report that Jio Platforms shares, priced at Rs 1,119 after about 22.19 times subscription, debut on the BSE and NSE today, 28 October, at an issue valuation near Rs 10.3 lakh crore. Grey-market premium quotes of roughly Rs 244 to 247 are unofficial and conflict between sources, so they are not a guarantee of the listing price.",
+   "why": "India's largest IPO shows how markets price subscriber scale and brand strength, a useful lens for marketing strategy.",
+   "src": "India TV, HDFC Sky",
+   "url": "https://www.indiatvnews.com/business/news/jio-platforms-to-list-on-stock-market-on-october-28-becomes-india-s-4th-largest-company-by-market-cap-2026-10-27-1058053"
+  },
+  {
+   "cat": "Business",
+   "title": "Sensex and Nifty opened lower on Tuesday ahead of the Jio listing",
+   "summary": "Upstox reports the Nifty 50 and Sensex opened in the red on Tuesday 27 October, with Reliance shares moving ahead of the Jio Platforms listing. Closing levels for 27 and 28 October were not found, so the move is provisional.",
+   "why": "Market swings change campus-hiring sentiment and the risk appetite of recruiting companies.",
+   "src": "Upstox",
+   "url": "https://upstox.com/news/market-news/stocks/nifty-50-and-sensex-open-in-red-on-tuesday-reliance-gains-1-ahead-of-jio-platforms-ipo-listing/article-202431/"
   },
   {
    "cat": "Tech",
-   "title": "Nvidia unveils OpenShell architecture for governed AI agents",
-   "summary": "AI Weekly's digest lists Nvidia's OpenShell reference architecture for governed AI agents, announced on 21 October at GTC Berlin, and the open Nemotron 3.5 Bolt E4B model released on 23 October. These are company announcements and have not been independently tested.",
-   "why": "Governance for AI agents is becoming a selling point and a hiring need in HR, risk and marketing roles.",
-   "src": "AI Weekly",
-   "url": "https://aiweekly.co/ai-news-today"
+   "title": "OpenAI introduces GPT-6.1 Terra, a faster and cheaper model for computer-use tasks",
+   "summary": "Tech Startups' roundup for 27 October lists OpenAI's GPT-6.1 Terra, aimed at faster, lower-cost computer-based tasks, visual reasoning and software development, with reports of about 50 per cent lower API pricing. The same roundup mentions Microsoft offering voluntary buyouts to about 60,000 employees. These are aggregator reports and company claims, not independently tested.",
+   "why": "Cheaper agent models change which HR and marketing tasks can be automated, and buyouts at this scale reshape talent supply.",
+   "src": "Tech Startups",
+   "url": "https://techstartups.com/2026/10/27/tech-news-today-october-27-2026-anthropic-files-for-ipo-63b-ai-chip-deal-microsofts-60000-employee-buyouts-and-openais-new-gpt-6-1-terra/"
   },
   {
    "cat": "Tech",
    "kind": "fact",
-   "title": "Nvidia reportedly weighs a software fee of $2,000 per GPU",
-   "summary": "AI Weekly reports that Nvidia is considering an annual fee of $2,000 per GPU for software that runs agents on AI factories; this is a report, not an announced price.",
-   "why": "Pricing models for AI software decide who captures value, a classic marketing question.",
-   "src": "AI Weekly",
-   "url": "https://aiweekly.co/ai-news-today"
+   "title": "Apple reportedly announced M6 hardware, with a $1,499 iMac shipping 6 November",
+   "summary": "Tech Startups' 27 October roundup reports Apple announced M6 hardware including a $1,499 iMac and a $1,999 14-inch MacBook Pro, both shipping 6 November. This comes from an aggregator and is provisional.",
+   "why": "Pricing and launch timing are core marketing-mix decisions.",
+   "src": "Tech Startups",
+   "url": "https://techstartups.com/2026/10/27/tech-news-today-october-27-2026-anthropic-files-for-ipo-63b-ai-chip-deal-microsofts-60000-employee-buyouts-and-openais-new-gpt-6-1-terra/"
   }
  ]
 }
