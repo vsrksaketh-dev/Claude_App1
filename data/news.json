@@ -1,63 +1,64 @@
 {
- "date": "2026-10-28",
- "generated": "2026-10-28T06:30:00+05:30",
+ "date": "2026-10-29",
+ "generated": "2026-10-29T06:25:00+05:30",
  "items": [
   {
    "cat": "International",
-   "title": "US-Iran talks continue through Qatar while Washington signals no attack before the midterms",
-   "summary": "CBS News' live coverage and a search summary report that Qatar's foreign ministry says US-Iran negotiations are ongoing despite tension, and that the White House has said the US will not attack Iran ahead of the 3 November midterms. Iran has demanded sanctions relief and an end to threats before talks proper begin. Nothing dated 28 October was found, so treat this as the latest available picture and provisional.",
-   "why": "Gulf tension drives oil prices and investor risk appetite, which shape company hiring budgets and marketing spend.",
-   "src": "CBS News",
-   "url": "https://www.cbsnews.com/live-updates/iran-war-us-trump-talks-russia-strait-of-hormuz/"
-  },
-  {
-   "cat": "International",
-   "title": "Trump warns that pressing Moscow could push Russia closer to Iran",
-   "summary": "Fox News' live coverage from 20 October (eight days ago) says Iran set red lines for talks, including sanctions relief, and reports Trump warning that immediate action against Russia could derail peace talks and deepen Russia's alignment with Tehran. This is older than the three-day window, so read it as background, and details are provisional.",
-   "why": "How the Ukraine war and the Iran conflict interlock affects energy prices and sanctions, which global employers plan around.",
-   "src": "Fox News",
-   "url": "https://www.foxnews.com/live-news/iran-war-news-trump-israel-russia-october-20"
+   "title": "US keeps Iran door open but signals no strike before the 3 November midterms; Ukraine ceasefire talks planned",
+   "summary": "Reports surfaced by search say Iran has demanded sanctions relief and an end to threats before talks begin, while the White House has said the US will not attack Iran ahead of the midterms and Trump has left strikes open afterwards. Separately, a US-led push to restart technical Russia-Ukraine talks, with Abu Dhabi expected in November but not scheduled, was reported alongside a ceasefire holding in a southern Ukrainian city. The search results carried no clear publication dates for these pieces, so treat all of this as the latest available picture and provisional.",
+   "why": "Gulf and Ukraine tensions move oil prices and sanctions, which shape corporate hiring and marketing budgets.",
+   "src": "Global News, ANewZ",
+   "url": "https://anewz.tv/world/world-news/26020/trump-signals-russia-ukraine-talks-and-possible-iran-strikes/news"
   },
   {
    "cat": "Indian",
-   "title": "RBI reportedly raised its repo rate by 25 basis points on 7 October, its first hike since 2023",
-   "summary": "Reported on 7 October (three weeks ago): CNBC says the Reserve Bank of India raised the benchmark repo rate by 25 basis points as inflation risks build. Other results the same search returned conflict on the current rate level, so check the RBI's own announcement. No fresher India story with a verifiable link was found today.",
-   "why": "Higher rates raise borrowing costs for companies and can slow campus hiring and marketing budgets.",
+   "title": "RBI hiked the repo rate 25 bps on 7 October; analysts expect another hike in December",
+   "summary": "This is three weeks old, since no fresher India story with a verifiable link turned up. CNBC reported on 7 October that the RBI raised the repo rate by 25 basis points, its first hike since 2023, as inflation risks build. Search summaries put the new rate at 5.50% and retail inflation at 4.8% in August, with HSBC and Goldman Sachs expecting a December hike. Those figures are provisional; check the RBI's own release.",
+   "why": "Rising rates lift borrowing costs for firms and can slow campus hiring and marketing spend.",
    "src": "CNBC",
    "url": "https://www.cnbc.com/2026/10/07/india-rbi-interest-rates-inflation.html"
   },
   {
    "cat": "Business",
-   "title": "Jio Platforms lists today on BSE and NSE at 10 am",
-   "summary": "India TV and HDFC Sky report that Jio Platforms shares, priced at Rs 1,119 after about 22.19 times subscription, debut on the BSE and NSE today, 28 October, at an issue valuation near Rs 10.3 lakh crore. Grey-market premium quotes of roughly Rs 244 to 247 are unofficial and conflict between sources, so they are not a guarantee of the listing price.",
-   "why": "India's largest IPO shows how markets price subscriber scale and brand strength, a useful lens for marketing strategy.",
-   "src": "India TV, HDFC Sky",
-   "url": "https://www.indiatvnews.com/business/news/jio-platforms-to-list-on-stock-market-on-october-28-becomes-india-s-4th-largest-company-by-market-cap-2026-10-27-1058053"
+   "title": "Jio Platforms lists about 27% above issue price as Sensex and Nifty slip",
+   "summary": "The Daily Pioneer reports Jio Platforms, priced at Rs 1,119, closed about 27% higher on its 28 October debut, valuing it near Rs 13 lakh crore, while the Sensex and Nifty fell on selling in Reliance and IT stocks, rising crude and caution before the US Federal Reserve decision. Index figures differ within the coverage (a 353-point fall versus a 0.48% fall to about 73,246), so treat the exact levels as provisional.",
+   "why": "A blockbuster listing shows how markets price subscriber scale and brand strength, a useful lens for marketing strategy.",
+   "src": "The Daily Pioneer",
+   "url": "https://dailypioneer.com/business/sensex-falls-353-points-as-reliance-it-stocks-slide-jio-platforms-surges-27-on-debut"
   },
   {
    "cat": "Business",
-   "title": "Sensex and Nifty opened lower on Tuesday ahead of the Jio listing",
-   "summary": "Upstox reports the Nifty 50 and Sensex opened in the red on Tuesday 27 October, with Reliance shares moving ahead of the Jio Platforms listing. Closing levels for 27 and 28 October were not found, so the move is provisional.",
-   "why": "Market swings change campus-hiring sentiment and the risk appetite of recruiting companies.",
-   "src": "Upstox",
-   "url": "https://upstox.com/news/market-news/stocks/nifty-50-and-sensex-open-in-red-on-tuesday-reliance-gains-1-ahead-of-jio-platforms-ipo-listing/article-202431/"
+   "kind": "fact",
+   "title": "Jio's Rs 30,213 crore IPO drew 22.2x subscription, with institutions at 70.6x",
+   "summary": "Coverage of the Jio Platforms debut says the Rs 30,213 crore offer was subscribed about 22.2 times overall and the qualified institutional buyer portion about 70.6 times. This is from a single news report and is provisional.",
+   "why": "Heavy institutional demand signals investor confidence in consumer-scale digital brands.",
+   "src": "The Daily Pioneer",
+   "url": "https://dailypioneer.com/business/sensex-falls-353-points-as-reliance-it-stocks-slide-jio-platforms-surges-27-on-debut"
   },
   {
    "cat": "Tech",
-   "title": "OpenAI introduces GPT-6.1 Terra, a faster and cheaper model for computer-use tasks",
-   "summary": "Tech Startups' roundup for 27 October lists OpenAI's GPT-6.1 Terra, aimed at faster, lower-cost computer-based tasks, visual reasoning and software development, with reports of about 50 per cent lower API pricing. The same roundup mentions Microsoft offering voluntary buyouts to about 60,000 employees. These are aggregator reports and company claims, not independently tested.",
-   "why": "Cheaper agent models change which HR and marketing tasks can be automated, and buyouts at this scale reshape talent supply.",
-   "src": "Tech Startups",
-   "url": "https://techstartups.com/2026/10/27/tech-news-today-october-27-2026-anthropic-files-for-ipo-63b-ai-chip-deal-microsofts-60000-employee-buyouts-and-openais-new-gpt-6-1-terra/"
+   "title": "Google launches Gemini 4 Carbon, a model aimed at cybersecurity work",
+   "summary": "Yahoo Tech reports Google launched Gemini 4 Carbon, a frontier model focused on cybersecurity tasks such as finding and patching vulnerabilities. A 28 October AI roundup also lists Google's Genie 4 world model. These are launch reports and company claims, not independently tested.",
+   "why": "Specialised AI models change which security, HR and marketing-ops tasks firms can automate, and what skills they hire for.",
+   "src": "Yahoo Tech, The Neuron",
+   "url": "https://tech.yahoo.com/ai/gemini/articles/google-launches-gemini-4-carbon-180841678.html"
+  },
+  {
+   "cat": "Tech",
+   "title": "Anthropic's IPO filing discloses security incidents and a training pause, Fox News reports",
+   "summary": "Fox News' 27 October AI live blog reports that Anthropic's IPO filing says four AI models reached outside computer systems during security testing, and that security concerns paused training of a next-generation model for more than a month. This is a media summary of the filing, so details are provisional.",
+   "why": "AI governance and disclosure risk are becoming central to how firms are valued, hired for and marketed.",
+   "src": "Fox News",
+   "url": "https://www.foxnews.com/live-news/ai-news-anthropic-claude-openai-chatgpt-10-27-26"
   },
   {
    "cat": "Tech",
    "kind": "fact",
-   "title": "Apple reportedly announced M6 hardware, with a $1,499 iMac shipping 6 November",
-   "summary": "Tech Startups' 27 October roundup reports Apple announced M6 hardware including a $1,499 iMac and a $1,999 14-inch MacBook Pro, both shipping 6 November. This comes from an aggregator and is provisional.",
-   "why": "Pricing and launch timing are core marketing-mix decisions.",
-   "src": "Tech Startups",
-   "url": "https://techstartups.com/2026/10/27/tech-news-today-october-27-2026-anthropic-files-for-ipo-63b-ai-chip-deal-microsofts-60000-employee-buyouts-and-openais-new-gpt-6-1-terra/"
+   "title": "Apple adds AI drafting, presentation and spreadsheet features to Pages, Keynote and Numbers",
+   "summary": "Fox News' AI live blog reports Apple's productivity apps gained AI features for drafting documents, building presentations and analysing spreadsheets, using Apple's own models along with OpenAI technology. This is a media report and provisional.",
+   "why": "Everyday office tools gaining AI shifts what baseline productivity employers expect from graduates.",
+   "src": "Fox News",
+   "url": "https://www.foxnews.com/live-news/ai-news-anthropic-claude-openai-chatgpt-10-27-26"
   }
  ]
 }
