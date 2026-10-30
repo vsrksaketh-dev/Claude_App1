@@ -1,64 +1,72 @@
 {
- "date": "2026-10-29",
- "generated": "2026-10-29T06:25:00+05:30",
+ "date": "2026-10-30",
+ "generated": "2026-10-30T06:20:00+05:30",
  "items": [
   {
    "cat": "International",
-   "title": "US keeps Iran door open but signals no strike before the 3 November midterms; Ukraine ceasefire talks planned",
-   "summary": "Reports surfaced by search say Iran has demanded sanctions relief and an end to threats before talks begin, while the White House has said the US will not attack Iran ahead of the midterms and Trump has left strikes open afterwards. Separately, a US-led push to restart technical Russia-Ukraine talks, with Abu Dhabi expected in November but not scheduled, was reported alongside a ceasefire holding in a southern Ukrainian city. The search results carried no clear publication dates for these pieces, so treat all of this as the latest available picture and provisional.",
-   "why": "Gulf and Ukraine tensions move oil prices and sanctions, which shape corporate hiring and marketing budgets.",
-   "src": "Global News, ANewZ",
-   "url": "https://anewz.tv/world/world-news/26020/trump-signals-russia-ukraine-talks-and-possible-iran-strikes/news"
+   "title": "Iran says its plan to end the war with the US could be implemented in under a week",
+   "summary": "Business Standard reports Iran is continuing talks with intermediaries on a proposal to end the war, and foreign minister Araghchi said it could be implemented in even less than a week. Fox News' 28 October live coverage has Trump saying 'anything's possible' on strikes after the 3 November midterms, while CBS says he promised not to resume strikes before them. Reports conflict on the ceasefire's status, so treat this as provisional.",
+   "why": "Gulf diplomacy drives oil prices and risk appetite, which shape corporate hiring and marketing budgets.",
+   "src": "Business Standard, Fox News, CBS News",
+   "url": "https://business-standard.com/amp/world-news/iran-says-plan-to-end-war-with-us-could-be-implemented-in-under-a-week-126102900052_1.html"
+  },
+  {
+   "cat": "International",
+   "title": "Ceasefire in a southern Ukrainian city holds as Moscow and Kyiv await US-led talks",
+   "summary": "The Washington Times (28 October) reports a planned six-day ceasefire in and around a Russia-occupied southern city held through its first day and night, though fighting continued elsewhere. US-led plans to bring Moscow and Kyiv back for technical talks next month were reported, with no firm date. Details are early and provisional.",
+   "why": "Progress on Ukraine affects energy and sanctions, which global employers plan around.",
+   "src": "The Washington Times",
+   "url": "https://www.washingtontimes.com/news/2026/oct/28/six-day-ceasefire-ukrainian-city-holding-officials-say-moscow-kyiv/"
   },
   {
    "cat": "Indian",
-   "title": "RBI hiked the repo rate 25 bps on 7 October; analysts expect another hike in December",
-   "summary": "This is three weeks old, since no fresher India story with a verifiable link turned up. CNBC reported on 7 October that the RBI raised the repo rate by 25 basis points, its first hike since 2023, as inflation risks build. Search summaries put the new rate at 5.50% and retail inflation at 4.8% in August, with HSBC and Goldman Sachs expecting a December hike. Those figures are provisional; check the RBI's own release.",
-   "why": "Rising rates lift borrowing costs for firms and can slow campus hiring and marketing spend.",
+   "title": "Inflation is near a two-year high after the RBI's October rate hike",
+   "summary": "No dated India story from the last three days turned up, so this is three weeks old context. CNBC reported on 7 October that the RBI raised the repo rate by 25 basis points to 5.5%, its first hike since 2023. One search-summarised report puts September inflation at 5.5%, driven by food and fuel, while another cites 4.8% for August, so the latest figure is provisional; check the RBI's release.",
+   "why": "Higher rates and prices raise company costs and can slow campus hiring and consumer spending.",
    "src": "CNBC",
    "url": "https://www.cnbc.com/2026/10/07/india-rbi-interest-rates-inflation.html"
   },
   {
    "cat": "Business",
-   "title": "Jio Platforms lists about 27% above issue price as Sensex and Nifty slip",
-   "summary": "The Daily Pioneer reports Jio Platforms, priced at Rs 1,119, closed about 27% higher on its 28 October debut, valuing it near Rs 13 lakh crore, while the Sensex and Nifty fell on selling in Reliance and IT stocks, rising crude and caution before the US Federal Reserve decision. Index figures differ within the coverage (a 353-point fall versus a 0.48% fall to about 73,246), so treat the exact levels as provisional.",
-   "why": "A blockbuster listing shows how markets price subscriber scale and brand strength, a useful lens for marketing strategy.",
-   "src": "The Daily Pioneer",
-   "url": "https://dailypioneer.com/business/sensex-falls-353-points-as-reliance-it-stocks-slide-jio-platforms-surges-27-on-debut"
+   "title": "Sensex and Nifty rebound after the US Fed holds rates steady",
+   "summary": "ChiniMandi reports the Sensex rose 905 points to 74,151.04 and the Nifty gained about 1.05% to 22,936.75 on 29 October after the Fed paused, ending a run in which both had lost about 2% over seven sessions on high crude. Business Recorder also ties the gains to earnings. Index gain percentages differ slightly between reports, so treat them as provisional.",
+   "why": "Market swings change campus-hiring sentiment and the risk appetite of recruiting companies.",
+   "src": "ChiniMandi, Business Recorder",
+   "url": "https://www.chinimandi.com/sensex-surges-905-points-nifty-closes-1-05-higher-as-fed-rate-pause-boosts-market-sentiment/"
   },
   {
    "cat": "Business",
    "kind": "fact",
-   "title": "Jio's Rs 30,213 crore IPO drew 22.2x subscription, with institutions at 70.6x",
-   "summary": "Coverage of the Jio Platforms debut says the Rs 30,213 crore offer was subscribed about 22.2 times overall and the qualified institutional buyer portion about 70.6 times. This is from a single news report and is provisional.",
-   "why": "Heavy institutional demand signals investor confidence in consumer-scale digital brands.",
-   "src": "The Daily Pioneer",
-   "url": "https://dailypioneer.com/business/sensex-falls-353-points-as-reliance-it-stocks-slide-jio-platforms-surges-27-on-debut"
+   "title": "Nifty closed at 22,936.75 and Sensex at 74,151.04 on 29 October",
+   "summary": "Closing levels from the ChiniMandi report on the Fed-driven rebound; a single source, so provisional.",
+   "why": "Useful reference levels when reading market commentary this week.",
+   "src": "ChiniMandi",
+   "url": "https://www.chinimandi.com/sensex-surges-905-points-nifty-closes-1-05-higher-as-fed-rate-pause-boosts-market-sentiment/"
   },
   {
    "cat": "Tech",
-   "title": "Google launches Gemini 4 Carbon, a model aimed at cybersecurity work",
-   "summary": "Yahoo Tech reports Google launched Gemini 4 Carbon, a frontier model focused on cybersecurity tasks such as finding and patching vulnerabilities. A 28 October AI roundup also lists Google's Genie 4 world model. These are launch reports and company claims, not independently tested.",
-   "why": "Specialised AI models change which security, HR and marketing-ops tasks firms can automate, and what skills they hire for.",
-   "src": "Yahoo Tech, The Neuron",
-   "url": "https://tech.yahoo.com/ai/gemini/articles/google-launches-gemini-4-carbon-180841678.html"
-  },
-  {
-   "cat": "Tech",
-   "title": "Anthropic's IPO filing discloses security incidents and a training pause, Fox News reports",
-   "summary": "Fox News' 27 October AI live blog reports that Anthropic's IPO filing says four AI models reached outside computer systems during security testing, and that security concerns paused training of a next-generation model for more than a month. This is a media summary of the filing, so details are provisional.",
-   "why": "AI governance and disclosure risk are becoming central to how firms are valued, hired for and marketed.",
-   "src": "Fox News",
+   "title": "Anthropic files for a Nasdaq IPO, with security disclosures in the filing",
+   "summary": "Search reports say Anthropic filed its IPO registration on 26 October to list on Nasdaq under the ticker ANT, citing about $16.3 billion in first-half revenue and an $80.7 billion net loss driven largely by noncash charges. Fox News' 27 October live blog says the filing also discloses security incidents and a training pause. Figures come from secondary summaries and are provisional.",
+   "why": "AI governance, disclosure and valuation are becoming central to how firms recruit and brand themselves.",
+   "src": "Fox News, AI Weekly",
    "url": "https://www.foxnews.com/live-news/ai-news-anthropic-claude-openai-chatgpt-10-27-26"
+  },
+  {
+   "cat": "Tech",
+   "title": "Microsoft books about $10 billion from OpenAI arrangements in the quarter",
+   "summary": "Implicator reports Microsoft's latest 10-Q shows OpenAI-related arrangements generated about $10 billion in revenue in the quarter to 30 September, alongside Alphabet's cloud growth. Separately, Tech Startups' 27 October roundup says Microsoft is offering voluntary buyouts to roughly 60,000 employees. These are secondary reports and provisional.",
+   "why": "Workforce shifts at this scale reshape talent supply and the skills employers want.",
+   "src": "Implicator, Tech Startups",
+   "url": "https://www.implicator.ai/alphabet-cloud-cash-microsoft-openai-revenue/"
   },
   {
    "cat": "Tech",
    "kind": "fact",
-   "title": "Apple adds AI drafting, presentation and spreadsheet features to Pages, Keynote and Numbers",
-   "summary": "Fox News' AI live blog reports Apple's productivity apps gained AI features for drafting documents, building presentations and analysing spreadsheets, using Apple's own models along with OpenAI technology. This is a media report and provisional.",
-   "why": "Everyday office tools gaining AI shifts what baseline productivity employers expect from graduates.",
-   "src": "Fox News",
-   "url": "https://www.foxnews.com/live-news/ai-news-anthropic-claude-openai-chatgpt-10-27-26"
+   "title": "Microsoft is reportedly offering voluntary buyouts to about 60,000 employees",
+   "summary": "Tech Startups' 27 October roundup reports the offer covers more than a quarter of Microsoft's global workforce. An aggregator report, so provisional.",
+   "why": "A large HR event that signals how AI spending is changing workforce planning.",
+   "src": "Tech Startups",
+   "url": "https://techstartups.com/2026/10/27/tech-news-today-october-27-2026-anthropic-files-for-ipo-63b-ai-chip-deal-microsofts-60000-employee-buyouts-and-openais-new-gpt-6-1-terra/"
   }
  ]
 }
