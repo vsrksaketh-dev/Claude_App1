@@ -1,72 +1,81 @@
 {
- "date": "2026-10-30",
- "generated": "2026-10-30T06:20:00+05:30",
+ "date": "2026-10-31",
+ "generated": "2026-10-31T06:20:00+05:30",
  "items": [
   {
    "cat": "International",
-   "title": "Iran says its plan to end the war with the US could be implemented in under a week",
-   "summary": "Business Standard reports Iran is continuing talks with intermediaries on a proposal to end the war, and foreign minister Araghchi said it could be implemented in even less than a week. Fox News' 28 October live coverage has Trump saying 'anything's possible' on strikes after the 3 November midterms, while CBS says he promised not to resume strikes before them. Reports conflict on the ceasefire's status, so treat this as provisional.",
-   "why": "Gulf diplomacy drives oil prices and risk appetite, which shape corporate hiring and marketing budgets.",
-   "src": "Business Standard, Fox News, CBS News",
-   "url": "https://business-standard.com/amp/world-news/iran-says-plan-to-end-war-with-us-could-be-implemented-in-under-a-week-126102900052_1.html"
+   "title": "US weighs new Iran strikes after the midterms while Qatar pushes a draft deal",
+   "summary": "Al Jazeera (30 October) reports the US and Israel have drawn up plans to strike Iran after the 3 November midterms, citing the New York Times, while Vice President Vance has reached out proposing direct talks. CBS says Qatari mediators presented Iran with a new draft deal to end the war. Iranian state TV claims three tankers exploded while crossing the Strait of Hormuz; that claim is unverified, so treat the picture as provisional.",
+   "why": "Gulf escalation or a deal moves oil prices, which feed into corporate budgets, hiring and marketing spend.",
+   "src": "Al Jazeera, CBS News",
+   "url": "https://www.aljazeera.com/news/2026/10/30/us-weighs-new-iran-strikes-as-vance-reaches-out-is-war-or-a-deal-closer"
   },
   {
    "cat": "International",
-   "title": "Ceasefire in a southern Ukrainian city holds as Moscow and Kyiv await US-led talks",
-   "summary": "The Washington Times (28 October) reports a planned six-day ceasefire in and around a Russia-occupied southern city held through its first day and night, though fighting continued elsewhere. US-led plans to bring Moscow and Kyiv back for technical talks next month were reported, with no firm date. Details are early and provisional.",
-   "why": "Progress on Ukraine affects energy and sanctions, which global employers plan around.",
+   "title": "Ceasefire in a southern Ukrainian city held its first day, with US-led talks planned (3 days old)",
+   "summary": "The Washington Times (28 October, three days old) reported a six-day ceasefire in and around a Russia-occupied southern city held through its first day and night, though fighting continued elsewhere. US-led plans to bring Moscow and Kyiv back for technical talks next month were reported with no firm date. No newer Ukraine update was found, so this is early and provisional.",
+   "why": "Progress on Ukraine affects energy prices and sanctions, which global employers plan around.",
    "src": "The Washington Times",
    "url": "https://www.washingtontimes.com/news/2026/oct/28/six-day-ceasefire-ukrainian-city-holding-officials-say-moscow-kyiv/"
   },
   {
    "cat": "Indian",
-   "title": "Inflation is near a two-year high after the RBI's October rate hike",
-   "summary": "No dated India story from the last three days turned up, so this is three weeks old context. CNBC reported on 7 October that the RBI raised the repo rate by 25 basis points to 5.5%, its first hike since 2023. One search-summarised report puts September inflation at 5.5%, driven by food and fuel, while another cites 4.8% for August, so the latest figure is provisional; check the RBI's release.",
+   "title": "Inflation sits at its highest in about two years after the RBI's rate hike (October context)",
+   "summary": "No India story dated 31 October turned up, so this is October context. Trading Economics reports the RBI raised the repo rate by 25 basis points to 5.50% in October, its first hike since February 2023, and puts September CPI inflation at 5.54%, the highest since October 2024. The RBI's own release cites a lower August figure of 4.8%, so the latest number is provisional; check the RBI's release.",
    "why": "Higher rates and prices raise company costs and can slow campus hiring and consumer spending.",
-   "src": "CNBC",
-   "url": "https://www.cnbc.com/2026/10/07/india-rbi-interest-rates-inflation.html"
+   "src": "Trading Economics, RBI",
+   "url": "https://tradingeconomics.com/india/inflation-cpi"
+  },
+  {
+   "cat": "Indian",
+   "kind": "fact",
+   "title": "RBI projects CPI inflation near 5.8% and raised its FY27 growth forecast to 7.1%",
+   "summary": "Trading Economics reports the RBI expects headline CPI to average almost 5.8% over the next three quarters and raised its FY2026/27 GDP growth forecast to 7.1% from 6.7%. A single aggregator source, so provisional.",
+   "why": "Strong growth with sticky inflation shapes salary and hiring expectations.",
+   "src": "Trading Economics",
+   "url": "https://tradingeconomics.com/india/interest-rate"
   },
   {
    "cat": "Business",
-   "title": "Sensex and Nifty rebound after the US Fed holds rates steady",
-   "summary": "ChiniMandi reports the Sensex rose 905 points to 74,151.04 and the Nifty gained about 1.05% to 22,936.75 on 29 October after the Fed paused, ending a run in which both had lost about 2% over seven sessions on high crude. Business Recorder also ties the gains to earnings. Index gain percentages differ slightly between reports, so treat them as provisional.",
-   "why": "Market swings change campus-hiring sentiment and the risk appetite of recruiting companies.",
-   "src": "ChiniMandi, Business Recorder",
-   "url": "https://www.chinimandi.com/sensex-surges-905-points-nifty-closes-1-05-higher-as-fed-rate-pause-boosts-market-sentiment/"
+   "title": "Sensex and Nifty extend their recovery on Friday as IT and pharma gain",
+   "summary": "BusinessToday (30 October) reports the Sensex and Nifty extended their recovery, with the Sensex up about 0.6% near 74,629 and the Nifty about 0.7% near 23,098 in intraday trade, helped by IT, pharma and results from Trent and IndiGo. Analysts flagged elevated crude, West Asia tensions and continued FII selling as limits. Markets are shut on Saturday, and these are intraday levels rather than closing figures, so treat them as provisional.",
+   "why": "Market sentiment changes recruiters' risk appetite and campus-hiring plans.",
+   "src": "BusinessToday, Telangana Today",
+   "url": "https://www.businesstoday.in/markets/stocks/story/sensex-nifty-extend-recovery-whats-driving-this-upmove-564737-2026-10-30"
   },
   {
    "cat": "Business",
    "kind": "fact",
-   "title": "Nifty closed at 22,936.75 and Sensex at 74,151.04 on 29 October",
-   "summary": "Closing levels from the ChiniMandi report on the Fed-driven rebound; a single source, so provisional.",
-   "why": "Useful reference levels when reading market commentary this week.",
-   "src": "ChiniMandi",
-   "url": "https://www.chinimandi.com/sensex-surges-905-points-nifty-closes-1-05-higher-as-fed-rate-pause-boosts-market-sentiment/"
+   "title": "Reliance Industries' Q2 results are the next big market trigger",
+   "summary": "One market report names Reliance's Q2 results, oil prices and global cues as what will guide sentiment next. A single secondary source, so provisional.",
+   "why": "A heavyweight's earnings often set the tone for the whole index.",
+   "src": "Telangana Today",
+   "url": "https://telanganatoday.com/sensex-nifty-open-flat-as-crude-oil-prices-remain-elevated-it-stocks-gain"
   },
   {
    "cat": "Tech",
-   "title": "Anthropic files for a Nasdaq IPO, with security disclosures in the filing",
-   "summary": "Search reports say Anthropic filed its IPO registration on 26 October to list on Nasdaq under the ticker ANT, citing about $16.3 billion in first-half revenue and an $80.7 billion net loss driven largely by noncash charges. Fox News' 27 October live blog says the filing also discloses security incidents and a training pause. Figures come from secondary summaries and are provisional.",
-   "why": "AI governance, disclosure and valuation are becoming central to how firms recruit and brand themselves.",
-   "src": "Fox News, AI Weekly",
-   "url": "https://www.foxnews.com/live-news/ai-news-anthropic-claude-openai-chatgpt-10-27-26"
+   "title": "OpenAI, Google, Microsoft and Anthropic back one shared AI-training opt-out signal",
+   "summary": "AI Weekly reports that on 30 October the four companies said they will honour a single robots.txt token that lets a site opt out of AI training across all their crawlers. Rollout differs: Anthropic says it has begun, Microsoft targets 1 February 2027, Google says 2027 and OpenAI says coming months. This comes from an aggregator, so provisional.",
+   "why": "Content rights and data consent are becoming marketing and brand-policy issues.",
+   "src": "AI Weekly, FourWeekMBA",
+   "url": "https://aiweekly.co/alerts/openai-google-microsoft-anthropic-back-one-ai-opt-out-token"
   },
   {
    "cat": "Tech",
-   "title": "Microsoft books about $10 billion from OpenAI arrangements in the quarter",
-   "summary": "Implicator reports Microsoft's latest 10-Q shows OpenAI-related arrangements generated about $10 billion in revenue in the quarter to 30 September, alongside Alphabet's cloud growth. Separately, Tech Startups' 27 October roundup says Microsoft is offering voluntary buyouts to roughly 60,000 employees. These are secondary reports and provisional.",
-   "why": "Workforce shifts at this scale reshape talent supply and the skills employers want.",
-   "src": "Implicator, Tech Startups",
-   "url": "https://www.implicator.ai/alphabet-cloud-cash-microsoft-openai-revenue/"
+   "title": "OpenAI reportedly plans to buy Google's AI chips",
+   "summary": "A Venture Daily Digest roundup reports OpenAI plans to purchase Google's Tensor Processing Units, expanding a relationship that already includes renting them. The same roundup says Amazon could make over $100 billion from Anthropic's IPO. Newsletter-sourced and unconfirmed, so provisional.",
+   "why": "Shifting compute alliances change which AI vendors employers hire for and partner with.",
+   "src": "Venture Daily Digest",
+   "url": "https://www.venturedailydigest.com/p/amazon-could-make-100b-from-anthropics"
   },
   {
    "cat": "Tech",
    "kind": "fact",
-   "title": "Microsoft is reportedly offering voluntary buyouts to about 60,000 employees",
-   "summary": "Tech Startups' 27 October roundup reports the offer covers more than a quarter of Microsoft's global workforce. An aggregator report, so provisional.",
-   "why": "A large HR event that signals how AI spending is changing workforce planning.",
-   "src": "Tech Startups",
-   "url": "https://techstartups.com/2026/10/27/tech-news-today-october-27-2026-anthropic-files-for-ipo-63b-ai-chip-deal-microsofts-60000-employee-buyouts-and-openais-new-gpt-6-1-terra/"
+   "title": "Nvidia will guarantee Nscale's debt for a 460 MW Anthropic build",
+   "summary": "AI Weekly lists Nvidia guaranteeing Nscale debt for Anthropic's 460 MW build among 30 October's top AI stories. A headline-level item from one aggregator, so provisional.",
+   "why": "Shows how capital-heavy AI infrastructure has become.",
+   "src": "AI Weekly",
+   "url": "https://aiweekly.co/ai-news-today"
   }
  ]
 }
