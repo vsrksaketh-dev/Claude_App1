@@ -1,81 +1,70 @@
 {
- "date": "2026-10-31",
- "generated": "2026-10-31T06:20:00+05:30",
+ "date": "2026-11-01",
+ "generated": "2026-11-01T06:20:00+05:30",
  "items": [
   {
    "cat": "International",
-   "title": "US weighs new Iran strikes after the midterms while Qatar pushes a draft deal",
-   "summary": "Al Jazeera (30 October) reports the US and Israel have drawn up plans to strike Iran after the 3 November midterms, citing the New York Times, while Vice President Vance has reached out proposing direct talks. CBS says Qatari mediators presented Iran with a new draft deal to end the war. Iranian state TV claims three tankers exploded while crossing the Strait of Hormuz; that claim is unverified, so treat the picture as provisional.",
+   "title": "US reportedly warns Gulf allies of possible Iran strikes from 4 November, while talks on reopening Hormuz continue",
+   "summary": "The Times of Israel's 31 October live blog reports the US warned Gulf allies that strikes on Iran could come as early as 4 November, the day after the midterms. Fox News says Secretary of State Rubio said no decision has been made on resuming military action, and other reports say Tehran sees a softer tone in a letter from Vice President Vance and talks on a two-day plan to reopen the Strait of Hormuz are under way. Reports conflict on how close any strike is, so treat this as provisional.",
    "why": "Gulf escalation or a deal moves oil prices, which feed into corporate budgets, hiring and marketing spend.",
-   "src": "Al Jazeera, CBS News",
-   "url": "https://www.aljazeera.com/news/2026/10/30/us-weighs-new-iran-strikes-as-vance-reaches-out-is-war-or-a-deal-closer"
+   "src": "Times of Israel, Fox News",
+   "url": "https://timesofisrael.com/liveblog-october-31-2026/amp"
   },
   {
    "cat": "International",
-   "title": "Ceasefire in a southern Ukrainian city held its first day, with US-led talks planned (3 days old)",
-   "summary": "The Washington Times (28 October, three days old) reported a six-day ceasefire in and around a Russia-occupied southern city held through its first day and night, though fighting continued elsewhere. US-led plans to bring Moscow and Kyiv back for technical talks next month were reported with no firm date. No newer Ukraine update was found, so this is early and provisional.",
-   "why": "Progress on Ukraine affects energy prices and sanctions, which global employers plan around.",
-   "src": "The Washington Times",
-   "url": "https://www.washingtontimes.com/news/2026/oct/28/six-day-ceasefire-ukrainian-city-holding-officials-say-moscow-kyiv/"
-  },
-  {
-   "cat": "Indian",
-   "title": "Inflation sits at its highest in about two years after the RBI's rate hike (October context)",
-   "summary": "No India story dated 31 October turned up, so this is October context. Trading Economics reports the RBI raised the repo rate by 25 basis points to 5.50% in October, its first hike since February 2023, and puts September CPI inflation at 5.54%, the highest since October 2024. The RBI's own release cites a lower August figure of 4.8%, so the latest number is provisional; check the RBI's release.",
-   "why": "Higher rates and prices raise company costs and can slow campus hiring and consumer spending.",
-   "src": "Trading Economics, RBI",
-   "url": "https://tradingeconomics.com/india/inflation-cpi"
-  },
-  {
-   "cat": "Indian",
    "kind": "fact",
-   "title": "RBI projects CPI inflation near 5.8% and raised its FY27 growth forecast to 7.1%",
-   "summary": "Trading Economics reports the RBI expects headline CPI to average almost 5.8% over the next three quarters and raised its FY2026/27 GDP growth forecast to 7.1% from 6.7%. A single aggregator source, so provisional.",
-   "why": "Strong growth with sticky inflation shapes salary and hiring expectations.",
-   "src": "Trading Economics",
-   "url": "https://tradingeconomics.com/india/interest-rate"
+   "title": "The Iran war has pulled US attention and air-defence resources away from Ukraine",
+   "summary": "Wikipedia's article on Ukraine in the 2026 Iran war says Ukraine has shifted from mainly receiving Western military aid to offering drone-defence expertise. No dated Ukraine battlefield update was found today, so this is background context from a reference page, not a news report.",
+   "why": "Shows how one conflict reshapes defence supply chains and the skills in demand.",
+   "src": "Wikipedia",
+   "url": "https://en.wikipedia.org/wiki/Ukraine_in_the_2026_Iran_war"
+  },
+  {
+   "cat": "Indian",
+   "title": "Banking liquidity surplus has shrunk to about 46,200 crore rupees as the RBI defends the rupee (late October)",
+   "summary": "A Business Standard headline reports excess liquidity fell from a peak of about 11 trillion rupees in early September to 46,200 crore as of October, tied to the RBI's rupee defence. Separately, Deputy Governor Poonam Gupta told a Business Standard summit that growth has held up despite global shocks but dependence on imported oil and external finance remains a challenge. Nothing dated 1 November turned up, and the figures come from search-result headlines, so treat them as provisional.",
+   "why": "Tighter liquidity and a weak rupee raise funding costs and can slow hiring and consumer spending.",
+   "src": "Business Standard"
   },
   {
    "cat": "Business",
-   "title": "Sensex and Nifty extend their recovery on Friday as IT and pharma gain",
-   "summary": "BusinessToday (30 October) reports the Sensex and Nifty extended their recovery, with the Sensex up about 0.6% near 74,629 and the Nifty about 0.7% near 23,098 in intraday trade, helped by IT, pharma and results from Trent and IndiGo. Analysts flagged elevated crude, West Asia tensions and continued FII selling as limits. Markets are shut on Saturday, and these are intraday levels rather than closing figures, so treat them as provisional.",
+   "title": "Sensex and Nifty rebounded on 29 October; markets are shut on Sunday (3 days old)",
+   "summary": "Search results give the last verified close as 29 October: the Nifty 50 up 237.90 points (1.05%) to 22,936.75 and the Sensex up 905.01 points to 74,151.04, with Reliance rising on buying after the Jio Platforms listing. A newer Friday session was not confirmed in these results, and crude oil was cited as a drag, so treat the levels as provisional.",
    "why": "Market sentiment changes recruiters' risk appetite and campus-hiring plans.",
-   "src": "BusinessToday, Telangana Today",
-   "url": "https://www.businesstoday.in/markets/stocks/story/sensex-nifty-extend-recovery-whats-driving-this-upmove-564737-2026-10-30"
+   "src": "ChiniMandi, IIFL",
+   "url": "https://www.chinimandi.com/sensex-surges-905-points-nifty-closes-1-05-higher-as-fed-rate-pause-boosts-market-sentiment/"
   },
   {
    "cat": "Business",
    "kind": "fact",
-   "title": "Reliance Industries' Q2 results are the next big market trigger",
-   "summary": "One market report names Reliance's Q2 results, oil prices and global cues as what will guide sentiment next. A single secondary source, so provisional.",
-   "why": "A heavyweight's earnings often set the tone for the whole index.",
-   "src": "Telangana Today",
-   "url": "https://telanganatoday.com/sensex-nifty-open-flat-as-crude-oil-prices-remain-elevated-it-stocks-gain"
+   "title": "Reliance's latest profit figure is unclear across sources",
+   "summary": "One broker page dated 31 October shows a net profit rise of 27.17% to about 29,250 crore rupees, but the same page's period labels conflict, so the figure is unreliable until checked against Reliance's own filing.",
+   "why": "A caution about quoting earnings numbers from aggregator pages.",
+   "src": "HDFC Securities page via search"
   },
   {
    "cat": "Tech",
-   "title": "OpenAI, Google, Microsoft and Anthropic back one shared AI-training opt-out signal",
-   "summary": "AI Weekly reports that on 30 October the four companies said they will honour a single robots.txt token that lets a site opt out of AI training across all their crawlers. Rollout differs: Anthropic says it has begun, Microsoft targets 1 February 2027, Google says 2027 and OpenAI says coming months. This comes from an aggregator, so provisional.",
-   "why": "Content rights and data consent are becoming marketing and brand-policy issues.",
-   "src": "AI Weekly, FourWeekMBA",
-   "url": "https://aiweekly.co/alerts/openai-google-microsoft-anthropic-back-one-ai-opt-out-token"
+   "title": "Google, Microsoft, OpenAI and Anthropic back one robots.txt opt-out for AI training",
+   "summary": "SiliconANGLE and Engadget (30 to 31 October) report the four firms will support a single setting that lets sites block AI training crawlers. Anthropic says it has started, OpenAI says coming months, Microsoft from 1 February 2027 and Google in 2027. Critics, including an Inc. column, note it does not stop AI products from using web content to answer questions.",
+   "why": "Content rights and consent are becoming a marketing and brand-policy issue.",
+   "src": "SiliconANGLE, Engadget, Inc.",
+   "url": "https://siliconangle.com/2026/10/30/google-anthropic-and-others-to-support-new-ai-crawling-opt-out-standard"
   },
   {
    "cat": "Tech",
-   "title": "OpenAI reportedly plans to buy Google's AI chips",
-   "summary": "A Venture Daily Digest roundup reports OpenAI plans to purchase Google's Tensor Processing Units, expanding a relationship that already includes renting them. The same roundup says Amazon could make over $100 billion from Anthropic's IPO. Newsletter-sourced and unconfirmed, so provisional.",
-   "why": "Shifting compute alliances change which AI vendors employers hire for and partner with.",
-   "src": "Venture Daily Digest",
-   "url": "https://www.venturedailydigest.com/p/amazon-could-make-100b-from-anthropics"
+   "title": "OpenAI reportedly cut its funding round to 20 billion dollars after raising 11 billion",
+   "summary": "A headline attributed to the Wall Street Journal says OpenAI cut its funding round to 20 billion dollars after raising 11 billion. Only the headline appeared in search, with no article text, so the details are unverified and provisional.",
+   "why": "Signals how investor appetite is shaping AI vendors that employers rely on.",
+   "src": "Wall Street Journal (via search headline)"
   },
   {
    "cat": "Tech",
    "kind": "fact",
-   "title": "Nvidia will guarantee Nscale's debt for a 460 MW Anthropic build",
-   "summary": "AI Weekly lists Nvidia guaranteeing Nscale debt for Anthropic's 460 MW build among 30 October's top AI stories. A headline-level item from one aggregator, so provisional.",
-   "why": "Shows how capital-heavy AI infrastructure has become.",
-   "src": "AI Weekly",
-   "url": "https://aiweekly.co/ai-news-today"
+   "title": "ChatGPT will stop giving teenagers practical weapons and security-system information",
+   "summary": "The Next Web reports OpenAI said on Friday that ChatGPT will stop giving teens practical information about weapons and security systems, with a Community Safety Report due in early 2027.",
+   "why": "Safety policy is now a visible part of consumer AI brand positioning.",
+   "src": "The Next Web",
+   "url": "https://thenextweb.com/news/chatgpt-teen-safety-weapons-limits-community-safety-report"
   }
  ]
 }
