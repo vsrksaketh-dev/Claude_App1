@@ -1,70 +1,70 @@
 {
- "date": "2026-11-01",
- "generated": "2026-11-01T06:20:00+05:30",
+ "date": "2026-11-02",
+ "generated": "2026-11-02T06:30:00+05:30",
  "items": [
   {
    "cat": "International",
-   "title": "US reportedly warns Gulf allies of possible Iran strikes from 4 November, while talks on reopening Hormuz continue",
-   "summary": "The Times of Israel's 31 October live blog reports the US warned Gulf allies that strikes on Iran could come as early as 4 November, the day after the midterms. Fox News says Secretary of State Rubio said no decision has been made on resuming military action, and other reports say Tehran sees a softer tone in a letter from Vice President Vance and talks on a two-day plan to reopen the Strait of Hormuz are under way. Reports conflict on how close any strike is, so treat this as provisional.",
-   "why": "Gulf escalation or a deal moves oil prices, which feed into corporate budgets, hiring and marketing spend.",
-   "src": "Times of Israel, Fox News",
-   "url": "https://timesofisrael.com/liveblog-october-31-2026/amp"
+   "title": "Iran talks in Qatar on a plan to reopen Hormuz, while tanker strikes continue",
+   "summary": "Iran's top diplomat said negotiators are in Qatar discussing a proposal that could reopen the Strait of Hormuz within two days, and a State Department official said the US remains open to talks but would change course if the Strait does not return to normal. Meanwhile the IRGC Navy said two oil tankers hit mines, and a Qatari LNG tanker was struck on Friday. Reports are from 1 November and some claims are unverified, so treat this as provisional.",
+   "why": "A deal or a breakdown moves oil prices, which feed into corporate budgets, hiring and marketing spend.",
+   "src": "WWAY TV3, Iran International",
+   "url": "https://wwaytv3.com/irans-top-diplomat-hopes-us-shows-rationality-and-other-mideast-news"
   },
   {
    "cat": "International",
    "kind": "fact",
-   "title": "The Iran war has pulled US attention and air-defence resources away from Ukraine",
-   "summary": "Wikipedia's article on Ukraine in the 2026 Iran war says Ukraine has shifted from mainly receiving Western military aid to offering drone-defence expertise. No dated Ukraine battlefield update was found today, so this is background context from a reference page, not a news report.",
-   "why": "Shows how one conflict reshapes defence supply chains and the skills in demand.",
-   "src": "Wikipedia",
-   "url": "https://en.wikipedia.org/wiki/Ukraine_in_the_2026_Iran_war"
+   "title": "Gaza aid cut: World Food Programme reduces support for 500,000 people",
+   "summary": "Search results report the WFP cut aid to 500,000 Palestinians in Gaza citing funding shortages, and Gaza's Health Ministry says more than 1,570 people have been killed since the truce began. No Ukraine update dated today was found, so Ukraine is left out.",
+   "why": "Funding-driven cuts show how donor budgets shape humanitarian operations and NGO hiring.",
+   "src": "Search summary of Al Jazeera reporting"
   },
   {
    "cat": "Indian",
-   "title": "Banking liquidity surplus has shrunk to about 46,200 crore rupees as the RBI defends the rupee (late October)",
-   "summary": "A Business Standard headline reports excess liquidity fell from a peak of about 11 trillion rupees in early September to 46,200 crore as of October, tied to the RBI's rupee defence. Separately, Deputy Governor Poonam Gupta told a Business Standard summit that growth has held up despite global shocks but dependence on imported oil and external finance remains a challenge. Nothing dated 1 November turned up, and the figures come from search-result headlines, so treat them as provisional.",
-   "why": "Tighter liquidity and a weak rupee raise funding costs and can slow hiring and consumer spending.",
-   "src": "Business Standard"
+   "title": "Rupee holds near 95 to 96 per dollar as RBI defends it and weighs remittance limits (reports from October)",
+   "summary": "Business Standard market reports and CNBC (16 October) put the rupee around 95 to 96 per dollar with Brent near 95 dollars; the RBI has restricted rebooking of cancelled forex derivatives, and an ANC report says it is reportedly considering limits on overseas remittances, with education and healthcare exempt. S&P Global is cited seeing about 97 by end-2026. Nothing dated 2 November turned up and the sources vary in date, so treat the figures as provisional.",
+   "why": "A weak rupee raises the cost of foreign education, imports and overseas plans, and squeezes company margins.",
+   "src": "CNBC, Business Standard, ANC",
+   "url": "https://www.cnbc.com/2026/10/16/india-rupee-rbi-dollar-iran-war.html"
   },
   {
    "cat": "Business",
-   "title": "Sensex and Nifty rebounded on 29 October; markets are shut on Sunday (3 days old)",
-   "summary": "Search results give the last verified close as 29 October: the Nifty 50 up 237.90 points (1.05%) to 22,936.75 and the Sensex up 905.01 points to 74,151.04, with Reliance rising on buying after the Jio Platforms listing. A newer Friday session was not confirmed in these results, and crude oil was cited as a drag, so treat the levels as provisional.",
-   "why": "Market sentiment changes recruiters' risk appetite and campus-hiring plans.",
-   "src": "ChiniMandi, IIFL",
-   "url": "https://www.chinimandi.com/sensex-surges-905-points-nifty-closes-1-05-higher-as-fed-rate-pause-boosts-market-sentiment/"
+   "title": "Sensex up 308 points to 74,459 and Nifty at 23,053 on Friday 30 October (3 days old)",
+   "summary": "Business Standard's market close for 30 October shows the Sensex up 308.49 points (0.42%) to 74,459.53 and the Nifty 50 up 116.35 points (0.51%) to 23,053.10, led by IT shares. Elevated Brent crude remains a worry for inflation and the external accounts. Markets were shut on Sunday and no Monday session report was found yet.",
+   "why": "Market sentiment shapes recruiters' risk appetite and campus-hiring plans.",
+   "src": "Business Standard",
+   "url": "https://www.business-standard.com/amp/markets/news/stock-market-live-bse-sensex-today-nifty50-gift-nifty-crude-oil-prices-ipo-today-q2-results-october-30-126103000074_1.html"
   },
   {
    "cat": "Business",
    "kind": "fact",
-   "title": "Reliance's latest profit figure is unclear across sources",
-   "summary": "One broker page dated 31 October shows a net profit rise of 27.17% to about 29,250 crore rupees, but the same page's period labels conflict, so the figure is unreliable until checked against Reliance's own filing.",
-   "why": "A caution about quoting earnings numbers from aggregator pages.",
-   "src": "HDFC Securities page via search"
+   "title": "US stocks fell as investors questioned Big Tech's heavy AI spending",
+   "summary": "A search summary says US shares dropped after key earnings and inflation data, a day after the Federal Reserve held rates. No company figures were given, so this is a general market note only.",
+   "why": "Shows how investor patience with AI spending can change tech hiring and ad budgets.",
+   "src": "Search summary"
   },
   {
    "cat": "Tech",
-   "title": "Google, Microsoft, OpenAI and Anthropic back one robots.txt opt-out for AI training",
-   "summary": "SiliconANGLE and Engadget (30 to 31 October) report the four firms will support a single setting that lets sites block AI training crawlers. Anthropic says it has started, OpenAI says coming months, Microsoft from 1 February 2027 and Google in 2027. Critics, including an Inc. column, note it does not stop AI products from using web content to answer questions.",
-   "why": "Content rights and consent are becoming a marketing and brand-policy issue.",
-   "src": "SiliconANGLE, Engadget, Inc.",
-   "url": "https://siliconangle.com/2026/10/30/google-anthropic-and-others-to-support-new-ai-crawling-opt-out-standard"
+   "title": "Google, Microsoft, OpenAI and Anthropic back one robots.txt token to opt out of AI training",
+   "summary": "Reports from 30 October say the four firms will honour a single robots.txt entry that lets sites block AI training crawlers. Anthropic has started, Microsoft plans 1 February 2027 and Google targets 2027. It covers training crawlers only, not every AI use of web content.",
+   "why": "Content consent is becoming a brand and marketing-policy issue.",
+   "src": "Complete AI Training, Shattered",
+   "url": "https://completeaitraining.com/news/google-microsoft-anthropic-and-openai-back-new-standard-to/"
   },
   {
    "cat": "Tech",
-   "title": "OpenAI reportedly cut its funding round to 20 billion dollars after raising 11 billion",
-   "summary": "A headline attributed to the Wall Street Journal says OpenAI cut its funding round to 20 billion dollars after raising 11 billion. Only the headline appeared in search, with no article text, so the details are unverified and provisional.",
-   "why": "Signals how investor appetite is shaping AI vendors that employers rely on.",
-   "src": "Wall Street Journal (via search headline)"
+   "title": "OpenAI reportedly trims its funding round to 20 billion dollars, with details conflicting",
+   "summary": "One newsletter says the round was cut to 20 billion dollars at a 1.25 trillion dollar valuation from 30 billion at 1.4 trillion, and that OpenAI plans to buy Google's TPU chips. Another report in the same results gives different details, so all figures are provisional.",
+   "why": "Investor appetite decides which AI vendors employers can rely on.",
+   "src": "Venture Daily Digest",
+   "url": "https://www.venturedailydigest.com/p/amazon-could-make-100b-from-anthropics"
   },
   {
    "cat": "Tech",
    "kind": "fact",
-   "title": "ChatGPT will stop giving teenagers practical weapons and security-system information",
-   "summary": "The Next Web reports OpenAI said on Friday that ChatGPT will stop giving teens practical information about weapons and security systems, with a Community Safety Report due in early 2027.",
-   "why": "Safety policy is now a visible part of consumer AI brand positioning.",
-   "src": "The Next Web",
-   "url": "https://thenextweb.com/news/chatgpt-teen-safety-weapons-limits-community-safety-report"
+   "title": "ChatGPT and Codex will share one token allowance from December",
+   "summary": "A search summary says OpenAI confirmed on 31 October that from December ChatGPT and Codex will draw from a single shared token-based allowance for Plus, Pro and Business subscribers. It also lists Apple adding Alibaba's Qwen to Apple Intelligence in China, with a developer beta on 4 November; that item is unconfirmed.",
+   "why": "Pricing changes show how AI products are being repackaged for subscribers.",
+   "src": "AI Weekly summary"
   }
  ]
 }
