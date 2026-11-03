@@ -1,70 +1,69 @@
 {
- "date": "2026-11-02",
- "generated": "2026-11-02T06:30:00+05:30",
+ "date": "2026-11-03",
+ "generated": "2026-11-03T06:25:00+05:30",
  "items": [
   {
    "cat": "International",
-   "title": "Iran talks in Qatar on a plan to reopen Hormuz, while tanker strikes continue",
-   "summary": "Iran's top diplomat said negotiators are in Qatar discussing a proposal that could reopen the Strait of Hormuz within two days, and a State Department official said the US remains open to talks but would change course if the Strait does not return to normal. Meanwhile the IRGC Navy said two oil tankers hit mines, and a Qatari LNG tanker was struck on Friday. Reports are from 1 November and some claims are unverified, so treat this as provisional.",
-   "why": "A deal or a breakdown moves oil prices, which feed into corporate budgets, hiring and marketing spend.",
-   "src": "WWAY TV3, Iran International",
-   "url": "https://wwaytv3.com/irans-top-diplomat-hopes-us-shows-rationality-and-other-mideast-news"
+   "title": "US midterms today as Iran offers to reopen Hormuz on strict conditions",
+   "summary": "US midterm elections are scheduled for 3 November. Reports from 2 November say Iran offered to reopen the Strait of Hormuz under strict conditions, including sanctions relief and release of frozen assets, which Washington is unlikely to accept, and that oil fell sharply on Monday on hopes of a deal. Several reports also say a new US operation against Iran could follow soon after the vote; that is unconfirmed and provisional.",
+   "why": "Gulf diplomacy and US politics drive oil prices, which feed into corporate budgets, hiring and marketing spend.",
+   "src": "Yahoo News, CBS News, Times of Israel",
+   "url": "https://www.yahoo.com/news/politics/articles/iran-offers-open-strait-hormuz-201319460.html"
   },
   {
    "cat": "International",
    "kind": "fact",
-   "title": "Gaza aid cut: World Food Programme reduces support for 500,000 people",
-   "summary": "Search results report the WFP cut aid to 500,000 Palestinians in Gaza citing funding shortages, and Gaza's Health Ministry says more than 1,570 people have been killed since the truce began. No Ukraine update dated today was found, so Ukraine is left out.",
-   "why": "Funding-driven cuts show how donor budgets shape humanitarian operations and NGO hiring.",
-   "src": "Search summary of Al Jazeera reporting"
+   "title": "Ukraine and Russia both said their emergency alert apps were hacked overnight",
+   "summary": "A search summary says both countries reported false air-raid, chemical and nuclear warnings sent through their alert apps, and that Ukrainian emergency services said a Russian strike on a school in Zaporizhzhia region killed 24 people on Monday. These come from a single aggregated summary, so treat them as provisional.",
+   "why": "A reminder of how crisis communication and trust in official channels can be attacked.",
+   "src": "Search summary (Morning Recap)"
   },
   {
    "cat": "Indian",
-   "title": "Rupee holds near 95 to 96 per dollar as RBI defends it and weighs remittance limits (reports from October)",
-   "summary": "Business Standard market reports and CNBC (16 October) put the rupee around 95 to 96 per dollar with Brent near 95 dollars; the RBI has restricted rebooking of cancelled forex derivatives, and an ANC report says it is reportedly considering limits on overseas remittances, with education and healthcare exempt. S&P Global is cited seeing about 97 by end-2026. Nothing dated 2 November turned up and the sources vary in date, so treat the figures as provisional.",
-   "why": "A weak rupee raises the cost of foreign education, imports and overseas plans, and squeezes company margins.",
-   "src": "CNBC, Business Standard, ANC",
-   "url": "https://www.cnbc.com/2026/10/16/india-rupee-rbi-dollar-iran-war.html"
+   "title": "Rupee steadies near 95 per dollar as RBI measures support it",
+   "summary": "TradingView and other market reports put the rupee around 94.90 to 95.30 per dollar, recovering from about 96.79 earlier, helped by RBI curbs on rebooking cancelled forex derivatives and a special FX window for state refiners. Analysts still expect pressure, with S&P Global seeing about 97 by end-2026. Nothing specific to 3 November turned up, so figures are provisional.",
+   "why": "A weak rupee raises the cost of imports and overseas education and squeezes company margins.",
+   "src": "TradingView, CNBC",
+   "url": "https://www.tradingview.com/news/te_news:597116:0-rupee-rebounds-on-rbi-support/"
   },
   {
    "cat": "Business",
-   "title": "Sensex up 308 points to 74,459 and Nifty at 23,053 on Friday 30 October (3 days old)",
-   "summary": "Business Standard's market close for 30 October shows the Sensex up 308.49 points (0.42%) to 74,459.53 and the Nifty 50 up 116.35 points (0.51%) to 23,053.10, led by IT shares. Elevated Brent crude remains a worry for inflation and the external accounts. Markets were shut on Sunday and no Monday session report was found yet.",
-   "why": "Market sentiment shapes recruiters' risk appetite and campus-hiring plans.",
-   "src": "Business Standard",
-   "url": "https://www.business-standard.com/amp/markets/news/stock-market-live-bse-sensex-today-nifty50-gift-nifty-crude-oil-prices-ipo-today-q2-results-october-30-126103000074_1.html"
+   "title": "Sensex up 1.7% to about 75,693 and Nifty near 23,441 on 2 November, a third straight gain",
+   "summary": "Business Standard and Kotak Neo report the Sensex closing around 75,692.78 and the Nifty 50 around 23,440, both up about 1.7%, with Reliance Industries jumping 12% on results and lower crude helping. One data site shows a different Sensex level, likely an earlier-session figure, so the numbers are provisional.",
+   "why": "Rising markets lift recruiters' risk appetite and campus-hiring plans.",
+   "src": "Business Standard, Kotak Neo",
+   "url": "https://www.business-standard.com/markets/news/stock-market-live-november-2-nse-bse-sensex-today-nifty50-gift-nifty-crude-oil-prices-q2-results-jio-share-price-ipo-today-126110200053_1.html"
   },
   {
    "cat": "Business",
    "kind": "fact",
-   "title": "US stocks fell as investors questioned Big Tech's heavy AI spending",
-   "summary": "A search summary says US shares dropped after key earnings and inflation data, a day after the Federal Reserve held rates. No company figures were given, so this is a general market note only.",
-   "why": "Shows how investor patience with AI spending can change tech hiring and ad budgets.",
-   "src": "Search summary"
+   "title": "Oil fell sharply on Monday on hopes of a Gulf deal",
+   "summary": "One summary says oil dropped more than 7% on Monday, while a market report says crude was down more than 2% in early Indian trade. The sources differ on size, so treat the move as provisional.",
+   "why": "Oil prices shape India's inflation, rupee and corporate costs.",
+   "src": "Search summaries"
   },
   {
    "cat": "Tech",
-   "title": "Google, Microsoft, OpenAI and Anthropic back one robots.txt token to opt out of AI training",
-   "summary": "Reports from 30 October say the four firms will honour a single robots.txt entry that lets sites block AI training crawlers. Anthropic has started, Microsoft plans 1 February 2027 and Google targets 2027. It covers training crawlers only, not every AI use of web content.",
-   "why": "Content consent is becoming a brand and marketing-policy issue.",
-   "src": "Complete AI Training, Shattered",
-   "url": "https://completeaitraining.com/news/google-microsoft-anthropic-and-openai-back-new-standard-to/"
+   "title": "Anthropic's amended IPO filing raises its Google hosting commitment to about 121 billion dollars",
+   "summary": "A 2 November AI roundup reports the amended filing lifts Anthropic's minimum spend under a Google hosting agreement to about 121.3 billion dollars through July 2033, and says it expects to pay SpaceX's AI unit about 3.1 billion dollars a month from December 2026. The detail comes from an aggregator, so it is provisional.",
+   "why": "Shows how AI vendors' infrastructure bills shape pricing and the tools employers adopt.",
+   "src": "FourWeekMBA roundup",
+   "url": "https://fourweekmba.com/ai-daily-roundup-2-nov-2026-anthropic-17b-quarter-895b/"
   },
   {
    "cat": "Tech",
-   "title": "OpenAI reportedly trims its funding round to 20 billion dollars, with details conflicting",
-   "summary": "One newsletter says the round was cut to 20 billion dollars at a 1.25 trillion dollar valuation from 30 billion at 1.4 trillion, and that OpenAI plans to buy Google's TPU chips. Another report in the same results gives different details, so all figures are provisional.",
+   "title": "OpenAI funding reports still conflict, and it announced four Abu Dhabi agreements",
+   "summary": "One source says OpenAI trimmed its round to 20 billion dollars at a 1.25 trillion valuation, another that it secured about 11 billion in commitments against a 30 billion target. A separate report lists four OpenAI agreements announced in Abu Dhabi on 2 November. Figures conflict, so all are provisional.",
    "why": "Investor appetite decides which AI vendors employers can rely on.",
-   "src": "Venture Daily Digest",
-   "url": "https://www.venturedailydigest.com/p/amazon-could-make-100b-from-anthropics"
+   "src": "AI news aggregators"
   },
   {
    "cat": "Tech",
    "kind": "fact",
-   "title": "ChatGPT and Codex will share one token allowance from December",
-   "summary": "A search summary says OpenAI confirmed on 31 October that from December ChatGPT and Codex will draw from a single shared token-based allowance for Plus, Pro and Business subscribers. It also lists Apple adding Alibaba's Qwen to Apple Intelligence in China, with a developer beta on 4 November; that item is unconfirmed.",
-   "why": "Pricing changes show how AI products are being repackaged for subscribers.",
-   "src": "AI Weekly summary"
+   "title": "Apple reportedly testing Alibaba's Qwen in Apple Intelligence for China",
+   "summary": "Aggregator feeds report Apple is starting tests of Apple Intelligence in China using Alibaba's Qwen model. This is unconfirmed by a primary source.",
+   "why": "Local AI partnerships show how global brands adapt products to regulated markets.",
+   "src": "AI news aggregators"
   }
  ]
 }
