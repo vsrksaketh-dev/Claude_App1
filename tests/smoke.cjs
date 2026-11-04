@@ -54,6 +54,28 @@ const ok = (name, cond) => { console.log((cond ? 'PASS ' : 'FAIL ') + name); if 
   await p.click('.habit-chip [data-act=habit] >> nth=0');
   ok('habits are one tick-able strip', /1\/3 today/.test(await view()) && await p.locator('.habit-chip.done').count() === 1);
 
+  // Routine: weekly goals, counters, workout types, logging a missed day
+  await p.click('.card:has(h2:has-text("Habits")) [data-nav=routine]');
+  ok('Routine opens from Home with a card per habit and no tab of its own', /Routine/.test(await p.textContent('h1')) && await p.locator('.habit-card').count() === 3 && (await p.locator('#nav button').count()) === 5);
+  await p.click('[data-act=habitPreset][data-id=Gym]');
+  ok('the Gym preset is a weekly goal of five with types', /0\/5 this week/.test(await view()) && /5 times a week/.test(await view()));
+  await p.click('.habit-card:has(h2:has-text("Gym")) .wk.now');
+  ok('tapping today on the week dots logs it', /1\/5 this week/.test(await view()));
+  await p.click('.habit-card:has(h2:has-text("Gym")) .wk:not([disabled]):not(.on) >> nth=0');
+  ok('a missed earlier day can be logged too', /2\/5 this week/.test(await view()));
+  await p.click('[data-act=habitPreset][data-id=Water]'); await p.click('[data-nav=home]');
+  ok('Home shows the goal as 2/5 and the counter as 0/8', /2\/5/.test(await p.textContent('.habit-row')) && /0\/8/.test(await p.textContent('.habit-row')));
+  await p.click('.habit-chip.count >> nth=0'); await p.click('.habit-chip.count >> nth=0');
+  ok('a counter counts up with each tap', /2\/8/.test(await p.textContent('.habit-row')) && await p.locator('.habit-chip.count.done').count() === 0);
+  await p.evaluate(async () => { const c = await import('/js/core.js'); const l = await import('/js/logic.js'); const h = c.S.habits.find(x => x.name === 'Water'); l.setHabit(h, (await import('/js/util.js')).today(), 8); c.commit(); });
+  ok('reaching the target completes it', await p.locator('.habit-chip.count.done').count() === 1);
+  await nav('home');
+  await p.evaluate(async () => { const c = await import('/js/core.js'); c.ui.tagAsk = c.S.habits.find(x => x.name === 'Gym').id; c.commit(); });
+  await p.click('[data-act=habitTag][data-tag=Push]');
+  ok('a type can be recorded for a session and shows in this week', await p.evaluate(async () => { const c = await import('/js/core.js'); const l = await import('/js/logic.js'); return /Push x1/.test(l.weekTags(c.S.habits.find(x => x.name === 'Gym'))); }));
+  await p.evaluate(async () => { const c = await import('/js/core.js'); c.S.habits = c.S.habits.filter(x => !['Gym', 'Water'].includes(x.name)); c.commit(); });
+
+
   // Plan: one list grouped by date
   await nav('tasks');
   ok('Tasks has no goals, applications, network or stories', !/Goals|Applications|Network|Stories/.test(await p.textContent('#nav') + await view()) && await p.locator('.matrix, .kanban').count() === 0);
@@ -120,7 +142,7 @@ const ok = (name, cond) => { console.log((cond ? 'PASS ' : 'FAIL ') + name); if 
   await p.click('[data-act=glass]'); ok('glass can be switched off', (await p.evaluate(() => document.documentElement.dataset.glass)) === 'off');
   await p.click('[data-act=glass]'); ok('and back on', (await p.evaluate(() => document.documentElement.dataset.glass)) === undefined);
   ok('no module switches any more', await p.locator('[data-act=module]').count() === 0);
-  await p.fill('[data-form=habit] [name=name]', 'Workout'); await p.click('[data-form=habit] button.primary'); ok('habit added in Settings', /Workout/.test(await view()));
+  await p.click('[data-nav=routine]'); await p.fill('[data-form=habit] [name=name]', 'Workout'); await p.click('[data-form=habit] button.primary'); ok('habit added in Routine', /Workout/.test(await view()));
   await nav('home'); ok('and it shows on Home', /Workout/.test(await p.textContent('.habit-row')));
   await p.click('[data-nav=settings]'); await p.fill('[data-form=profile] [name=company]', 'Deloitte'); await p.fill('[data-form=profile] [name=joining]', new Date(Date.now() + 40 * 864e5).toLocaleDateString('en-CA')); await p.click('[data-form=profile] button');
   await nav('home'); ok('a start date adds a countdown to the hero', /40\s*days to Deloitte/.test(await p.textContent('.hero')));

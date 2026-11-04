@@ -6,7 +6,7 @@
 // The tone is warm and short. No guilt: a quiet day is fine.
 import { S } from './core.js';
 import { addDays, today, parse, daysFromToday, rot, clock12 } from './util.js';
-import { openTasks } from './logic.js';
+import { openTasks, habitDue, habitDone, habitLabel, habitGoal } from './logic.js';
 import { agendaOn } from './agenda.js';
 import { upcomingTimed } from './calendar.js';
 
@@ -56,6 +56,17 @@ export function buildReminders(now = new Date()) {
       } else body = tomorrow ? `Tomorrow: ${tomorrow}.` : 'Take a minute: what is the one thing for tomorrow?';
       add('Wrap up the day', body, at(k, eh, em));
     }
+  }
+  // Habit nudges at the time set on each habit, skipped on days it is already done or its weekly goal is met
+  if (R.habits !== false) {
+    S.habits.filter(h => !h.archived && h.time && /^\d{2}:\d{2}$/.test(h.time)).forEach(h => {
+      const [hh, hm] = h.time.split(':').map(Number);
+      for (let i = 0; i < 7; i++) {
+        const k = addDays(today(), i);
+        if (i === 0 ? !habitDue(h, k) || habitDone(h, k) : !h.days.includes(parse(k).getDay()) && !habitGoal(h)) continue;
+        add('Time for ' + h.name, habitGoal(h) ? `${habitLabel(h, today())} this week so far. A small start counts.` : 'A small start counts.', at(k, hh, hm));
+      }
+    });
   }
   if (R.comeback !== false) {
     const soon = openTasks().filter(t => t.due && daysFromToday(t.due) <= 3).length;

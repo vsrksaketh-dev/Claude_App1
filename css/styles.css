@@ -361,3 +361,22 @@ body.editing main { padding-bottom: 110px; }
 .blk .tick { margin: 9px 0 0 2px; width: 24px; height: 24px; flex: none; }
 .pages > li.pg { background: transparent; border: 0; box-shadow: none; border-bottom: 1px solid var(--hair); border-radius: 0; padding: 4px 0; }
 .pages > li.pg:last-child { border-bottom: 0; }
+
+/* ---- habits: chips with a count, the type prompt, the Routine page ---- */
+.habit-chip i { font-style: normal; font-weight: 600; font-size: .74rem; color: var(--accent); background: var(--accent-soft); border-radius: var(--r-pill); padding: 1px 8px; }
+.habit-chip.count { color: var(--ink); }
+.habit-chip.count.done { color: var(--muted); }
+.tag-ask { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin-top: 12px; padding: 10px 12px; border-radius: var(--r-inner); background: var(--accent-soft); }
+.tag-ask .pill { min-height: 34px; padding: 6px 14px; font-size: .82rem; }
+.wk-dots { display: grid; grid-template-columns: repeat(7, 1fr); gap: 6px; margin-top: 12px; }
+.wk { min-height: 0; aspect-ratio: 1; max-height: 44px; border-radius: 50%; padding: 0; display: grid; place-items: center; background: var(--inset); border: 1px solid var(--hair); color: var(--muted); box-shadow: none; }
+.wk b { font: 600 .78rem/1 var(--font); }
+.wk.on { background: var(--accent); color: var(--accent-ink); border-color: transparent; }
+.wk.now { box-shadow: 0 0 0 2px var(--accent-soft), 0 0 0 3px var(--accent); }
+.wk.off:not(.on) { opacity: .45; }
+.wk:disabled { opacity: .35; }
+.wk-hist { display: flex; align-items: flex-end; gap: 4px; height: 34px; width: 74px; }
+.wk-hist i { flex: 1; border-radius: 4px; background: var(--hair); }
+.wk-hist i.met { background: var(--accent); }
+.hedit { display: grid; gap: 12px; margin-top: 14px; padding-top: 14px; border-top: 1px solid var(--hair); }
+.hedit .days { display: flex; flex-wrap: wrap; gap: 6px 14px; }

@@ -18,7 +18,9 @@ export const blank = () => ({
   books: [],                   // { id, name, at }  notebooks (pages with no book sit in the built-in Inbox)
   pages: [],                   // { id, title, bookId, blocks[], pinned, at, upd, tp, src, shared }  blocks: { id, t: p|h|b|n|c, x, d, l }  (Notes)
   notes: [],                   // legacy flat notes: converted to pages on load, kept empty afterwards
-  habitLog: {},                // { date: { habitId: true } }
+  habitLog: {},                // { date: { habitId: true } }  done or not, per day
+  habitInfo: {},               // { date: { habitId: { n, tag } } }  count so far and what was done (Push, Run...)
+  // habits: { id, name, when, days, created, goal?: times a week, target?: count a day, time?: 'HH:MM' nudge, options?: ['Push','Pull'] }
   mits: {},                    // { date: [{ id, text, done, taskId }] }  top three for the day
   tasks: [],                   // { id, title, due, important, done, doneAt, kind, goalId }  (triage is legacy: such tasks now count as ordinary open tasks)
   // Legacy areas below have no screen any more (Track, Goals, Career, Money). Their data stays in the file and in backups, never dropped.

@@ -158,6 +158,7 @@ final class WidgetRows {
             Row r = add(out, T_HABIT);
             r.a = h.optString("name");
             r.done = h.optBoolean("done");
+            r.b = h.optString("wk");
             r.act = "habit";
             r.id = h.optString("id");
             r.target = "home";
@@ -198,6 +199,7 @@ final class WidgetRows {
             Row r = add(out, T_NEWS);
             r.o = x;
             r.target = "learn:news";
+            r.flag = shown == 0;          // the first story leads: bigger headline, longer summary
             shown++;
         }
     }
@@ -226,10 +228,18 @@ final class WidgetRows {
         int day = Widgets.prefs(c).getInt("day", 0);
         String key = Widgets.dayKey(day);
         int shown = 0;
+        long prevEnd = day == 0 ? now : 0;
         for (JSONObject e : itemsOn(s, key)) {
             if (!isSchedule(e.optString("k"))) continue;
             if (day == 0 && e.optInt("a") == 0 && e.optLong("e") <= now) continue;
+            boolean timed = e.optInt("a") == 0;
+            // a free stretch of 45 minutes or more between two things is worth saying out loud
+            if (timed && prevEnd > 0 && e.optLong("s") - prevEnd >= 45 * 60000L) {
+                long m = (e.optLong("s") - prevEnd) / 60000L;
+                text(out, "Free for " + (m >= 60 ? (m / 60) + " h" + (m % 60 >= 10 ? " " + (m % 60) + " min" : "") : m + " min"));
+            }
             eventRow(out, e, false);
+            if (timed) prevEnd = Math.max(prevEnd, e.optLong("e"));
             shown++;
         }
         if (shown == 0) text(out, day == 0 ? "Nothing left today. A free stretch is a good time to focus." : "Nothing planned. A clear day.");
@@ -278,6 +288,7 @@ final class WidgetRows {
             Row r = add(out, T_HABIT);
             r.a = h.optString("name");
             r.done = h.optBoolean("done");
+            r.b = h.optString("wk");
             r.act = "habit";
             r.id = h.optString("id");
             r.target = "home";
@@ -517,7 +528,7 @@ final class WidgetRows {
         RemoteViews v = new RemoteViews(c.getPackageName(), R.layout.row_habit);
         v.setTextViewText(R.id.hb, r.a);
         v.setTextColor(R.id.hb, Widgets.color(c, r.done ? R.color.dd_muted : R.color.dd_text));
-        v.setTextViewText(R.id.hs, r.done ? "Done" : "");
+        v.setTextViewText(R.id.hs, r.done ? (r.b.isEmpty() ? "Done" : "Done  ·  " + r.b) : r.b);
         v.setImageViewResource(R.id.ring, r.done ? R.drawable.ring_done : R.drawable.ring);
         v.setOnClickFillInIntent(R.id.ring, fill("habit", r.id, ""));
         v.setOnClickFillInIntent(R.id.rowroot, fill("open", "", r.target));
@@ -551,7 +562,8 @@ final class WidgetRows {
         RemoteViews v = new RemoteViews(c.getPackageName(), R.layout.row_news);
         v.setTextViewText(R.id.cat, (n.optString("cat") + (n.optString("src").isEmpty() ? "" : "  ·  " + n.optString("src"))).toUpperCase(Locale.ENGLISH));
         v.setTextViewText(R.id.nt, n.optString("title"));
-        if (!n.optString("summary").isEmpty()) { v.setTextViewText(R.id.ns, n.optString("summary")); v.setInt(R.id.ns, "setMaxLines", 3); }
+        if (r.flag) v.setTextViewTextSize(R.id.nt, android.util.TypedValue.COMPLEX_UNIT_SP, 19);
+        if (!n.optString("summary").isEmpty()) { v.setTextViewText(R.id.ns, n.optString("summary")); v.setInt(R.id.ns, "setMaxLines", r.flag ? 5 : 3); }
         else v.setViewVisibility(R.id.ns, View.GONE);
         if (!n.optString("why").isEmpty()) v.setTextViewText(R.id.nw, "Why it matters: " + n.optString("why"));
         else v.setViewVisibility(R.id.nw, View.GONE);

@@ -16,8 +16,7 @@ function render() {
   <div class="card"><h2>Appearance</h2><div class="seg" role="group" aria-label="Theme">${THEMES.map(([k, l]) => `<button class="${(S.theme || 'system') === k ? 'on' : ''}" data-act="theme" data-id="${k}">${l}</button>`).join('')}</div>
     <label class="check" style="margin-top:14px"><input type="checkbox" data-act="glass" ${S.glass === false ? '' : 'checked'}> <span><b>Frosted glass</b><div class="muted">Translucent panes over a soft colour wash. Turn it off for solid panes if the app ever feels slow.</div></span></label></div>
 
-  <div class="card"><h2>Habits</h2>${S.habits.filter(h => !h.archived).length ? `<ul class="list">${S.habits.filter(h => !h.archived).map(h => `<li><div class="grow"><span class="title">${esc(h.name)}</span><div class="muted">${h.days.length === 7 ? 'Every day' : h.days.map(d => DAYS[d]).join(', ')}</div></div><button class="ghost danger" data-act="habitDel" data-id="${h.id}">Remove</button></li>`).join('')}</ul>` : '<p class="muted">No habits. They show as a small strip on Home.</p>'}
-    <form data-form="habit" class="capture" style="margin-top:12px"><input name="name" placeholder="New habit" aria-label="New habit" maxlength="60" required><button class="primary">Add</button></form></div>
+  <div class="card"><h2>Habits</h2><p class="muted">Weekly goals like the gym five times a week, counters like eight glasses of water, workout types and nudges all live in Routine.</p><div class="row" style="margin-top:10px"><button class="primary" data-nav="routine">Open Routine</button></div></div>
 
   <div class="card"><h2>Profile</h2><form data-form="profile" class="inline">${field('Your name', 'name', `value="${esc(S.profile.name)}"`)}${field('Roll number', 'roll', `value="${esc(S.profile.roll)}"`)}${field('Starting at (optional)', 'company', `value="${esc(S.profile.company)}" placeholder="e.g. Deloitte"`)}${field('Start date (optional)', 'joining', `type="date" value="${esc(S.profile.joining)}"`)}<button>Save</button></form>
     <p class="muted">Your name appears in the greeting. A start date adds a countdown to Home.</p></div>
@@ -37,6 +36,7 @@ function render() {
       <label class="check"><input type="checkbox" name="briefing" ${S.reminders.briefing !== false ? 'checked' : ''}> Morning briefing with your classes and tasks</label>
       <label class="check"><input type="checkbox" name="wrap" ${S.reminders.wrap !== false ? 'checked' : ''}> Evening wrap-up with what is next</label>
       <label class="check"><input type="checkbox" name="comeback" ${S.reminders.comeback !== false ? 'checked' : ''}> A gentle hello if I have been away for two or five days</label>
+      <label class="check"><input type="checkbox" name="habits" ${S.reminders.habits !== false ? 'checked' : ''}> Habit nudges at the times I set in Routine</label>
       <label class="check"><input type="checkbox" name="weekly" ${S.reminders.weekly !== false ? 'checked' : ''}> Weekly review on Sunday evening</label>
       <label class="check"><input type="checkbox" name="backup" ${S.reminders.backup !== false ? 'checked' : ''}> Remind me to back up when it has been a while</label>
       <label class="check"><input type="checkbox" name="deadlines" ${S.reminders.deadlines ? 'checked' : ''}> Deadlines: the day before, the day of, and 3 hours before an application closes</label>
@@ -62,7 +62,6 @@ register({
     widgetsNow: () => { pushNow(); },
     nudgeTest: () => { notifyTest().then(ok => alert(ok ? 'A test nudge will arrive in a few seconds.' : 'Notifications are blocked. Allow them for Daily Driver in Android settings.')); },
     glass: () => { S.glass = S.glass === false; },
-    habitDel: d => { remove('habits', d.id); },
     calSync: () => { syncAll(true).then(() => commit()); },
     calRemove: d => { removeSource(d.id); refreshReminders(); },
     export: () => {
@@ -83,10 +82,9 @@ register({
       try { addSource(f.name, f.url); } catch (e) { alert(e.message); return; }
       syncAll(true).then(() => commit());
     },
-    habit: f => { const n = (f.name || '').trim(); if (n) S.habits.push({ id: uid(), name: n, when: 'anytime', days: [0, 1, 2, 3, 4, 5, 6], created: today() }); },
     profile: f => { S.profile.name = f.name.trim(); S.profile.roll = f.roll.trim(); S.profile.company = (f.company || '').trim(); S.profile.joining = f.joining || ''; },
     reminders: f => {
-      S.reminders = { on: !!f.on, morning: f.morning || '07:30', evening: f.evening || '21:00', briefing: !!f.briefing, wrap: !!f.wrap, comeback: !!f.comeback, weekly: !!f.weekly, backup: !!f.backup, deadlines: !!f.deadlines, cards: false, events: !!f.events };
+      S.reminders = { on: !!f.on, morning: f.morning || '07:30', evening: f.evening || '21:00', briefing: !!f.briefing, wrap: !!f.wrap, comeback: !!f.comeback, weekly: !!f.weekly, habits: !!f.habits, backup: !!f.backup, deadlines: !!f.deadlines, cards: false, events: !!f.events };
       if (S.reminders.on && isNative()) notifyPermission().then(ok => { if (!ok) alert('Notifications are blocked. Allow them for Daily Driver in Android settings.'); });
       refreshReminders();
     },

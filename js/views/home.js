@@ -1,10 +1,10 @@
 // Home: what needs you today. The to-do list first, then anything waiting on you, today's schedule and a one-line habit strip.
-import { S, app, register, remove, render as rerender } from '../core.js';
+import { S, ui, app, register, remove, render as rerender } from '../core.js';
 import { today, addDays, daysFromToday, esc, fmtDay, uid, pick, countdownText, clock12 } from '../util.js';
 import { empty, chip, check, me } from '../ui.js';
 import { getSources, hasCalendars, lastSync, syncAll } from '../calendar.js';
 import { dayItems, pendingActions } from '../schedule.js';
-import { habitsOn, habitDone, openTasks, dayStreak, byRank, doneToday, doneLast, uncompleteTask, dayProgress, practiceStreak } from '../logic.js';
+import { habitsOn, habitDone, tapHabit, habitLabel, habitTarget, setHabit, openTasks, dayStreak, byRank, doneToday, doneLast, uncompleteTask, dayProgress, practiceStreak } from '../logic.js';
 import { weekRecap, isRecapDay } from '../recap.js';
 
 const when = ms => new Date(ms).toLocaleString('en-IN', { weekday: 'short', hour: 'numeric', minute: '2-digit', hour12: true });
@@ -59,10 +59,23 @@ function recapCard() {
   const r = weekRecap();
   if (!r.tasks && !r.sessions && !r.practice) return '';
   const cell = (n, l) => `<div><b>${n}</b><span>${l}</span></div>`;
-  return `<section class="card recap"><h2>Your week</h2><div class="recap-grid">${cell(r.tasks, 'tasks done')}${cell(r.sessions, 'sessions')}${cell(r.practice, 'practice days')}${cell(r.ahead, 'due this week')}</div>${r.bestDay ? `<p class="muted">Best day: ${esc(r.bestDay)}, ${r.bestN} done.</p>` : ''}</section>`;
+  return `<section class="card recap"><h2>Your week</h2><div class="recap-grid">${cell(r.tasks, 'tasks done')}${cell(r.sessions, 'sessions')}${cell(r.practice, 'practice days')}${r.habitDays ? cell(r.habitDays, 'habit check-ins') : ''}${cell(r.ahead, 'due this week')}</div>${r.bestDay ? `<p class="muted">Best day: ${esc(r.bestDay)}, ${r.bestN} done.</p>` : ''}</section>`;
 }
 
 const SHOW = 6;
+// One habit as a chip: a tick for plain habits, a tap-to-count button for counters, with "2/5" for weekly goals.
+const habitChip = x => {
+  const t = today(), d = habitDone(x, t), lab = habitLabel(x, t);
+  return habitTarget(x) > 1
+    ? `<button class="habit-chip count ${d ? 'done' : ''}" data-flip="h:${esc(x.id)}" data-act="habit" data-id="${esc(x.id)}"><span>${esc(x.name)}</span><i>${lab}</i></button>`
+    : `<label class="habit-chip ${d ? 'done' : ''}" data-flip="h:${esc(x.id)}">${check('habit', x.id, d)}<span>${esc(x.name)}</span>${lab ? `<i>${lab}</i>` : ''}</label>`;
+};
+// Right after finishing a habit that keeps a type (Gym: Push, Pull, Legs...), one tap records what it was.
+const tagAsk = () => {
+  const h = ui.tagAsk && S.habits.find(x => x.id === ui.tagAsk);
+  if (!h || !(h.options || []).length || !habitDone(h, today())) return '';
+  return `<div class="tag-ask"><span class="muted">${esc(h.name)}: what was it?</span>${h.options.map(o => `<button class="pill" data-act="habitTag" data-id="${esc(h.id)}" data-tag="${esc(o)}">${esc(o)}</button>`).join('')}<button class="ghost" data-act="habitTag" data-id="${esc(h.id)}" data-tag="">Skip</button></div>`;
+};
 
 function render() {
   const h = new Date().getHours();
@@ -106,14 +119,15 @@ function render() {
     <div class="row between" style="margin-top:10px">${hasCalendars() ? `<span class="muted">${tomorrow.length ? `Tomorrow: ${tomorrow.length} item${tomorrow.length > 1 ? 's' : ''}` : 'Tomorrow is clear'}</span>` : '<button data-nav="settings">Connect Google Calendar</button>'}<button class="ghost" data-nav="calendar">Open calendar</button></div>
   </section>
 
-  ${hs.length ? `<section class="card"><div class="row between"><h2 style="margin:0">Habits</h2>${chip(`${habitsDone}/${hs.length} today`, habitsDone === hs.length ? 'ok' : 'plain')}</div>
-    <div class="habit-row" style="margin-top:12px">${doneLast(hs, x => habitDone(x, t)).map(x => `<label class="habit-chip ${habitDone(x, t) ? 'done' : ''}" data-flip="h:${esc(x.id)}">${check('habit', x.id, habitDone(x, t))}<span>${esc(x.name)}</span></label>`).join('')}</div></section>` : ''}`;
+  ${S.habits.some(x => !x.archived) ? `<section class="card"><div class="row between"><h2 style="margin:0">Habits</h2><span class="row" style="gap:6px">${hs.length ? chip(`${habitsDone}/${hs.length} today`, habitsDone === hs.length ? 'ok' : 'plain') : chip('all caught up', 'ok')}<button class="ghost" data-nav="routine">Routine</button></span></div>
+    ${hs.length ? `<div class="habit-row" style="margin-top:12px">${doneLast(hs, x => habitDone(x, t)).map(habitChip).join('')}</div>` : ''}${tagAsk()}</section>` : ''}`;
 }
 
 register({
   id: 'home', label: 'Home', nav: 1, render,
   actions: {
-    habit: d => { const l = (S.habitLog[today()] ||= {}); l[d.id] = !l[d.id]; },
+    habit: d => { const h = S.habits.find(x => x.id === d.id); if (!h) return; const done = tapHabit(h, today()); ui.tagAsk = done && (h.options || []).length ? h.id : null; },
+    habitTag: d => { const h = S.habits.find(x => x.id === d.id); if (h && d.tag) setHabit(h, today(), habitTarget(h), d.tag); ui.tagAsk = null; },
     inbox: d => { S.inboxDone[d.id] = !S.inboxDone[d.id]; },
     actToggle: d => { S.inboxDone[d.id] = !S.inboxDone[d.id]; },
     taskUndo: d => uncompleteTask(d.id),

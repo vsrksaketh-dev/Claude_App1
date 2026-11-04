@@ -98,6 +98,12 @@ public class Harness {
       boolean nx = false; for (WidgetRows.Row r : WidgetRows.build(c, Widgets.NEXT)) if (r.type == WidgetRows.T_NEXT) { RemoteViews v = WidgetRows.view(c, r); nx = v.texts.get(R.id.nn) != null; }
       ok("Next up draws its big card", nx);
     }
+    {
+      boolean hst = false; for (WidgetRows.Row r : WidgetRows.build(c, Widgets.HABITS)) if (r.type == WidgetRows.T_HABIT) { RemoteViews v = WidgetRows.view(c, r); if (v.texts.get(R.id.hs) != null) hst = true; }
+      ok("Habits rows draw with their status line", hst);
+      boolean lead = false; for (WidgetRows.Row r : WidgetRows.build(c, Widgets.NEWS)) if (r.type == WidgetRows.T_NEWS && r.flag) lead = true;
+      ok("the News widget leads with one bigger story", lead);
+    }
     // calendar fuzz: hundreds of random taps (arrows, days, modes, Today) must never break the state or the drawing
     {
       Widgets.save(c, snap);

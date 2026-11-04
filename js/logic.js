@@ -1,14 +1,56 @@
 // Domain logic over the state. Kept free of HTML so it is easy to test and reuse.
 import { S, app } from './core.js';
-import { today, addDays, dow, lastDays, daysFromToday } from './util.js';
+import { today, addDays, dow, lastDays, daysFromToday, weekStart } from './util.js';
 
 // ---- habits ----
-export const habitScheduled = (h, k) => !h.archived && h.created <= k && h.days.includes(dow(k));
-export const habitsOn = k => S.habits.filter(h => habitScheduled(h, k));
+// A habit is one of three kinds, all stored the same way (extra fields are optional, so old habits keep working):
+//  - fixed days: days = [0..6], done or not each scheduled day            ("Skin care every morning")
+//  - weekly goal: goal = N, any days, N days a week counts as a win       ("Gym 5 times a week")
+//  - counter: target = N, tap to count up to N in a day                   ("Water, 8 glasses")
+// habitLog[date][id] stays a plain true/false (so streaks and widgets are unchanged); habitInfo[date][id] = { n, tag } holds the count and what was done.
+export const habitGoal = h => h.goal || 0;
+export const habitTarget = h => Math.max(1, h.target || 1);
+export const habitScheduled = (h, k) => !h.archived && h.created <= k && (habitGoal(h) > 0 || h.days.includes(dow(k)));
 export const habitDone = (h, k) => !!(S.habitLog[k] || {})[h.id];
-export const habitRate = k => { const hs = habitsOn(k); return hs.length ? hs.filter(h => habitDone(h, k)).length / hs.length : null; };
+export const habitInfo = (h, k) => (S.habitInfo[k] || {})[h.id] || {};
+export const habitCount = (h, k) => habitDone(h, k) ? Math.max(habitInfo(h, k).n || 0, habitTarget(h)) : (habitInfo(h, k).n || 0);
+const weekDays = k => { const m = weekStart(k); return Array.from({ length: 7 }, (_, i) => addDays(m, i)); };
+export const habitWeek = (h, k = today()) => weekDays(k).map(d => ({ k: d, done: habitDone(h, d), future: d > today(), today: d === today(), off: d < h.created || (!habitGoal(h) && !h.days.includes(dow(d))) }));
+export const weekDone = (h, k = today()) => weekDays(k).filter(d => habitDone(h, d)).length;
+// Fixed-day habits are due on their days; weekly-goal habits are due until the week's goal is met (and stay visible once done today).
+export const habitDue = (h, k) => habitScheduled(h, k) && (!habitGoal(h) || weekDone(h, k) < habitGoal(h) || habitDone(h, k));
+export const habitsOn = k => S.habits.filter(h => habitDue(h, k));
+// "2/5" for a weekly goal, "3/8" for a counter, "" for a plain daily habit
+export const habitLabel = (h, k = today()) => habitGoal(h) ? `${weekDone(h, k)}/${habitGoal(h)}` : habitTarget(h) > 1 ? `${habitCount(h, k)}/${habitTarget(h)}` : '';
+export function setHabit(h, k, n, tag) {
+  const day = (S.habitInfo[k] ||= {}), info = (day[h.id] ||= {});
+  info.n = Math.max(0, Math.min(habitTarget(h), n));
+  const done = info.n >= habitTarget(h);
+  if (tag !== undefined) info.tag = tag;
+  if (!done) delete info.tag;
+  if (!info.n && !info.tag) delete day[h.id];
+  (S.habitLog[k] ||= {})[h.id] = done;
+  return done;
+}
+// A tap: counters step up and wrap to zero after the target; everything else flips done and not done.
+export function tapHabit(h, k) {
+  if (habitTarget(h) > 1 && !habitDone(h, k)) return setHabit(h, k, habitCount(h, k) + 1);
+  return setHabit(h, k, habitDone(h, k) ? 0 : habitTarget(h));
+}
+// Flip a day done or not done outright (used from the week dots and the widgets).
+export const toggleHabit = (h, k) => setHabit(h, k, habitDone(h, k) ? 0 : habitTarget(h));
+export const habitRate = k => { const hs = S.habits.filter(h => !habitGoal(h) && habitScheduled(h, k)); return hs.length ? hs.filter(h => habitDone(h, k)).length / hs.length : null; };
+// Streak: days in a row for a fixed habit, weeks in a row that met the goal for a weekly one. Today never breaks it.
 export function habitStreak(h) {
   let n = 0;
+  if (habitGoal(h)) {
+    for (let i = 0; i < 80; i++) {
+      const k = addDays(today(), -7 * i);
+      if (weekStart(k) < weekStart(h.created)) break;
+      if (weekDone(h, k) >= habitGoal(h)) n++; else if (i > 0) break;
+    }
+    return n;
+  }
   for (let i = 0; i < 400; i++) {
     const k = addDays(today(), -i);
     if (k < h.created) break;
@@ -17,11 +59,20 @@ export function habitStreak(h) {
   }
   return n;
 }
+export const streakText = h => { const n = habitStreak(h); return n < 2 ? '' : habitGoal(h) ? `${n} week streak` : `${n} day streak`; };
 export const habitRateOver = (h, days) => {
   const ks = lastDays(days).filter(k => habitScheduled(h, k));
   return ks.length >= 3 ? ks.filter(k => habitDone(h, k)).length / ks.length : null;   // too little history to judge
 };
-// A day counts toward the streak when at least 80% of its scheduled habits are done. Days with none scheduled are skipped.
+// What was done this week, by type: "Push x2, Legs x1" (only for habits that keep a type).
+export function weekTags(h, k = today()) {
+  const c = {};
+  weekDays(k).forEach(d => { const t = habitInfo(h, d).tag; if (t && habitDone(h, d)) c[t] = (c[t] || 0) + 1; });
+  return Object.entries(c).map(([t, n]) => `${t} x${n}`).join(', ');
+}
+// Goals met per week for the last n weeks, newest last: [{ k, n, goal }]
+export const weekHistory = (h, n = 6) => Array.from({ length: n }, (_, i) => { const k = addDays(today(), -7 * (n - 1 - i)); return { k: weekStart(k), n: weekDone(h, k), goal: habitGoal(h) || h.days.length }; });
+// A day counts toward the streak when at least 80% of its fixed-day habits are done. Days with none are skipped.
 export function dayStreak() {
   let n = 0;
   for (let i = 0; i < 400; i++) {

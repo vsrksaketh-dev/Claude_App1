@@ -4,7 +4,7 @@ import { S, ui, app, go, render, commit } from './core.js';
 import { today, addDays, daysFromToday, fmtDay, uid } from './util.js';
 import { pendingActions } from './schedule.js';
 import { agendaOn } from './agenda.js';
-import { openTasks, taskQuadrant, habitsOn, habitDone, dayStreak, completeTask, uncompleteTask, doneToday } from './logic.js';
+import { openTasks, taskQuadrant, habitsOn, habitDone, habitLabel, toggleHabit, dayStreak, completeTask, uncompleteTask, doneToday } from './logic.js';
 import { widgetPush, widgetTake } from './native.js';
 import { nativeSources } from './calendar.js';
 import { PRACTICE } from './casebook.js';
@@ -35,7 +35,7 @@ export function buildSnapshot() {
       ...doneToday().slice(0, 12).map((x, i) => ({ id: x.id, title: x.title, due: '', dd: '', q: taskQuadrant(x), kind: '', dv: 0, i: 100 + i, dn: 1 }))],
     taskCount: open.length,
     dueSoon: open.filter(x => x.due && daysFromToday(x.due) <= 2).length,
-    habitList: hs.map(h => ({ id: h.id, name: h.name, done: habitDone(h, t) })).slice(0, 14),
+    habitList: hs.map(h => ({ id: h.id, name: h.name, done: habitDone(h, t), wk: habitLabel(h, t) })).slice(0, 14),
     habits: { done: hs.filter(h => habitDone(h, t)).length, total: hs.length, streak: dayStreak() },
     news,
     newsDate: app.news.date || '',
@@ -53,7 +53,7 @@ export function applyOps(ops) {
   ops.forEach(o => {
     if (o.t === 'task') { const x = S.tasks.find(y => y.id === o.id); if (x) { if (o.on === false) uncompleteTask(o.id); else if (!x.done) completeTask(o.id); } }
     if (o.t === 'act') S.inboxDone[o.id] = !S.inboxDone[o.id];
-    if (o.t === 'habit') { const l = (S.habitLog[t] ||= {}); l[o.id] = !l[o.id]; }
+    if (o.t === 'habit') { const h = S.habits.find(y => y.id === o.id); if (h) toggleHabit(h, t); }
     // Text shared into the app from another app: the first line becomes a task, and the whole text is kept as a note when there is more to it.
     if (o.t === 'capture') {
       const lines = String(o.id || '').split('\n').map(x => x.trim()).filter(Boolean), title = (lines[0] || '').slice(0, 140);

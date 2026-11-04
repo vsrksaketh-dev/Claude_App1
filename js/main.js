@@ -10,6 +10,7 @@ import './views/home.js';
 import './views/learn.js';
 import './views/tasks.js';
 import './views/notes.js';
+import './views/routine.js';
 import './views/calendar.js';
 import './sections/settings.js';
 
