@@ -9,20 +9,20 @@ python3 -m http.server 8000   # or any static server
 # open http://localhost:8000, then "Add to Home Screen" on your phone
 ```
 
-Host the folder on GitHub Pages, Netlify or Cloudflare Pages to use it from your phone every day. Use Money > Ledger > Data to export and import backups.
+Host the folder on GitHub Pages, Netlify or Cloudflare Pages to use it from your phone every day. Use Settings > Your data to export and import backups.
 
 ## What is in it
 
-Five tabs, each a focused screen (Home, Learn, Plan, Calendar, Track). Light and dark themes are chosen in Settings.
+Four tabs, each a focused screen (Home, Learn, Plan, Calendar). The look is frosted glass over a soft colour wash, in the spirit of ColorOS 17; light and dark are chosen in Settings, and the glass can be switched off there for solid panes.
 
 | Tab | What it does |
 | --- | --- |
-| Home | A warm hero with today's count, then your to-do list ranked by urgency (ticked items sink to the bottom and can be unticked), what needs you today (calendar items titled "Action:" or "Due:", reminders), today's schedule, habits, and a close-the-day prompt. Settings opens from the button at the top |
-| Learn | Daily five with a streak (guesstimate, framework, jargon, mental model, news), a News tab, spaced-repetition flashcards, a library with notes and a "today I learned" log |
-| Plan | Task triage and the Eisenhower matrix, goals with milestones, and (while the Career module is on) applications, network and interview stories |
+| Home | A glass hero with today's counts, one capture bar, your to-do list ranked by urgency (ticked items sink to the bottom and can be unticked), what needs you today (calendar items titled "Action:" or "Due:", important mail facts; hidden when there is nothing), today's schedule and a one-line habit strip. Settings opens from the button at the top |
+| Learn | News (a lead story and the rest, filtered by World, India, Business or Tech) and Cases: a practice problem of the day with a suggested approach, the problem-solving playbook, a case library, a toolkit of change and organisation frameworks and a map of HR technology, aimed at HR transformation consulting |
+| Plan | One list of every task grouped by when it is due (Overdue, Today, Next 7 days, Later, No date), with a one-line add bar and a priority toggle |
 | Calendar | Everything dated, like Google Calendar: month grid with dots, a week and day time grid, and an agenda list. Each day lists its events, deadlines ("Due:"), things to do ("Action:"), email key facts ("Mail:") and tasks that fall due, with ticks and an add-event form |
-| Track | Today's numbers, habits with a 12-week heatmap, focus timer by goal or skill, journal, weekly review and 30-day insights |
-| Money | Monthly budget, spending log and subscription renewal reminders (optional module) |
+
+The Track, Goals, Career and Money screens were removed. Their data (journal, goals, applications, expenses and so on) is still kept in the data file and in backups, only the screens are gone. Habits are managed in Settings and ticked on Home.
 
 ### Google Calendar sync
 

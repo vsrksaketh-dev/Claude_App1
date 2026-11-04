@@ -12,113 +12,78 @@ const ok = (name, cond) => { console.log((cond ? 'PASS ' : 'FAIL ') + name); if 
   const view = () => p.textContent('#view');
   const nav = n => p.click(`#nav [data-nav=${n}]`);
 
-  ok('home leads with attention and schedule, not news', /Needs your attention/.test(await view()) && /Today's schedule/.test(await view()) && !(await p.locator('.story').count()));
-  ok('bottom bar has five tabs', (await p.locator('#nav button').count()) === 5);
-  await nav('learn'); await p.click('[data-act=sub][data-id=news]'); ok('news shows in Learn', await p.locator('.story').count() >= 1); await nav('home');
+  ok('home leads with the to-do list and the schedule, not news', /To do/.test(await view()) && /Today's schedule/.test(await view()) && !(await p.locator('.story').count()));
+  ok('bottom bar has four tabs and no Track', (await p.locator('#nav button').count()) === 4 && (await p.locator('#nav [data-nav=track]').count()) === 0);
+  ok('the page glass wash and frosted panes are on', await p.evaluate(() => !document.documentElement.hasAttribute('data-glass') && getComputedStyle(document.querySelector('.card')).backdropFilter !== 'none'));
 
-  // Today: capture, triage, top 3, habits, daily five
-  await p.fill('[data-form=quick] [name=text]', 'Prepare marketing case'); await p.click('[data-form=quick] button');
-  ok('captured item shows nudge', /1 captured item/.test(await view()));
-  await nav('plan');
-  ok('triage card present', /Sort what you captured/.test(await view()));
-  await p.fill('[data-form=triage] [name=due]', new Date().toISOString().slice(0, 10)); await p.check('[data-form=triage] [name=important]'); await p.click('[data-form=triage] button.primary');
-  ok('sorted task lands in Do first', /Prepare marketing case/.test(await p.textContent('.matrix > div:first-child')));
-  await nav('home');
-  await nav('home');
-  await p.click('.card:has(h2:has-text("To-do")) summary'); await p.fill('[data-form=todo] [name=text]', 'Call the placement cell'); await p.click('[data-form=todo] button');
-  ok('quick to-do appears on Home', /Call the placement cell/.test(await view()));
-  await p.click('.card:has(h2:has-text("To-do")) summary'); await p.fill('[data-form=todo] [name=text]', 'Pack the laptop bag'); await p.click('[data-form=todo] button');
-  const heads = await p.locator('#view h2').allTextContents();
-  ok('the to-do list comes before Needs your attention', heads.findIndex(h => /To-do/.test(h)) >= 0 && heads.findIndex(h => /To-do/.test(h)) < heads.findIndex(h => /Needs your attention/.test(h)));
-  const todoItems = () => p.locator('.card:has(h2:has-text("To-do")) .list > li').allTextContents();
-  await p.click('.card:has(h2:has-text("To-do")) li:has-text("Call the placement cell") [data-act=taskDone]');
-  const afterTick = await todoItems();
-  ok('a ticked to-do stays, struck through, at the bottom', /Call the placement cell/.test(afterTick[afterTick.length - 1]) && await p.locator('.card:has(h2:has-text("To-do")) li.done:has-text("Call the placement cell")').count() === 1);
-  ok('the undone ones stay above it', afterTick.slice(0, -1).some(t => /Pack the laptop bag/.test(t)));
-  await p.click('.card:has(h2:has-text("To-do")) li.done:has-text("Call the placement cell") [data-act=taskUndo]');
-  const afterUntick = await todoItems();
-  ok('unticking lifts it back up', await p.locator('.card:has(h2:has-text("To-do")) li.done').count() === 0 && afterUntick.some(t => /Call the placement cell/.test(t)));
-  await p.click('.card:has(h2:has-text("To-do")) li:has-text("Call the placement cell") [data-act=taskDone]');
-  await p.click('.card:has(h2:has-text("To-do")) li:has-text("Pack the laptop bag") [data-act=taskDone]');
-  ok('the hero counts what is done today', /2\s*done today/.test(await p.textContent('.hero')));
-  ok('top 3 card is gone', !/Top 3 for today/.test(await view()));
-  await nav('plan');
-  await p.click('[data-act=openAdd]'); await p.fill('[data-form=task] [name=title]', 'Sheet task'); await p.click('[data-form=task] button.primary');
-  ok('floating add button adds a task', /Sheet task/.test(await view()) && await p.locator('.sheet').count() === 0);
-  await nav('home');
-  await p.click('.card:has(h2:has-text("Habits")) [data-act=habit] >> nth=0');
-  await nav('learn'); await p.click('[data-act=sub][data-id=daily]');
-  await p.click('[data-act=learnTick][data-key=guess]'); await p.click('[data-act=learnTick][data-key=framework]'); await p.click('[data-act=learnTick][data-key=jargon]');
-  ok('learning streak starts', /1 day streak/.test(await p.textContent('.card:has(h2:has-text("Daily five"))')));
-
-  // Plan: goal with milestone and habit link
-  await nav('plan'); await p.click('[data-act=sub][data-id=goals]');
-  await p.fill('[data-form=goal] [name=title]', 'Land a marketing role'); await p.click('[data-form=goal] button.primary');
-  await p.fill('[data-form=milestone] [name=text]', 'Finish CV'); await p.click('[data-form=milestone] button');
-  await p.click('[data-act=msDone]');
-  ok('goal progress 100%', /100%/.test(await view()));
-
-  // Learn: three tabs only, reference opens
+  // Learn: News first (all categories), then Cases
   await nav('learn');
-  ok('learn has Daily, News, Reference only', await p.locator('.tabs button').count() === 3);
-  await p.click('[data-act=sub][data-id=reference]'); ok('reference lists frameworks', /Frameworks/.test(await view()) && /Jargon/.test(await view()));
-  await p.click('[data-act=sub][data-id=news]');
-  await p.evaluate(async () => { const c = await import('/js/core.js'); c.app.news.items[0].url = 'https://example.com/a'; c.render(); });
+  ok('news shows in Learn, all categories first', await p.locator('.story').count() >= 1 && await p.locator('.tabs button.on:has-text("All")').count() === 1);
+  ok('Learn has News and Cases only', (await p.locator('.stack > .tabs, #view > .tabs').first().locator('button').count()) === 2);
+  await p.click('[data-act=newsCat][data-id=Tech]'); ok('a category filters the stories', (await p.locator('.story .chip:not(.plain)').allTextContents()).every(t => /Tech/.test(t)));
+  await p.click('[data-act=sub][data-group=learn][data-id=cases]');
+  ok('Cases opens on a practice problem', /Problem of the day/.test(await view()) && /The playbook/.test(await view()));
+  await p.fill('[data-bind=guess]', 'Clarify, then split into people, process and pay'); await p.click('[data-act=reveal]');
+  ok('the suggested approach appears and the answer is kept', /A structure/.test(await view()) && (await p.inputValue('[data-bind=guess]')).startsWith('Clarify'));
+  await p.click('[data-act=sub][data-group=casepage][data-id=cases]'); ok('case library lists the cases', await p.locator('details.ref').count() >= 6 && /Microsoft/.test(await view()));
+  await p.click('[data-act=sub][data-group=casepage][data-id=toolkit]'); ok('toolkit lists change frameworks', /Kotter/.test(await view()) && /ADKAR/.test(await view()));
+  await p.click('[data-act=sub][data-group=casepage][data-id=tech]'); ok('HR tech map', /Workday/.test(await view()));
+  await p.click('[data-act=sub][data-group=learn][data-id=news]');
+  await p.evaluate(async () => { const c = await import('/js/core.js'); c.app.news.items.forEach(n => { n.url = 'https://example.com/a'; }); c.render(); });
   ok('news with a link opens in a browser', await p.locator('a.story[target=_blank]').count() >= 1);
+  await nav('home');
 
-  // Growth: new habit, journal, review, insights
-  await nav('track');
-  await p.fill('[data-form=habit] [name=name]', 'Workout'); await p.click('[data-form=habit] button.primary');
-  ok('habit added', /Workout/.test(await view()));
-  await p.click('[data-act=sub][data-group=track][data-id=mind]'); await p.click('[data-act=sub][data-id=journal]'); await p.click('[data-act=jScale][data-field=mood][data-v="4"]');
-  await p.fill('[data-bind=journal][data-field=tomorrow]', 'Write cover letter\nGym'); await p.click('[data-act=setTomorrow]');
-  await p.click('[data-act=sub][data-group=track][data-id=review]'); ok('weekly stats render', /Tasks done/.test(await view()));
-  await p.fill('[data-bind=review][data-field=focus]', 'Ship the CV');
-  ok('review also holds the insights', /Deep work/.test(await view()) && /Mood/.test(await view()));
+  // Home: one capture bar, a ranked to-do list, ticked rows sink
+  await p.fill('[data-form=quick] [name=text]', 'Prepare marketing case'); await p.click('[data-form=quick] button');
+  ok('captured task is on the to-do list at once', /Prepare marketing case/.test(await p.textContent('.card:has(h2:has-text("To do"))')));
+  ok('the capture bar keeps the keyboard open', await p.evaluate(() => document.activeElement && document.activeElement.name === 'text'));
+  await p.fill('[data-form=quick] [name=text]', 'Call the placement cell'); await p.click('[data-form=quick] button');
+  await p.fill('[data-form=quick] [name=text]', 'Pack the laptop bag'); await p.click('[data-form=quick] button');
+  const todoItems = () => p.locator('.card:has(h2:has-text("To do")) .list > li').allTextContents();
+  await p.click('.card:has(h2:has-text("To do")) li:has-text("Call the placement cell") [data-act=taskDone]');
+  const afterTick = await todoItems();
+  ok('a ticked to-do stays, struck through, at the bottom', /Call the placement cell/.test(afterTick[afterTick.length - 1]) && await p.locator('.card:has(h2:has-text("To do")) li.done:has-text("Call the placement cell")').count() === 1);
+  ok('the undone ones stay above it', afterTick.slice(0, -1).some(t => /Pack the laptop bag/.test(t)));
+  await p.click('.card:has(h2:has-text("To do")) li.done:has-text("Call the placement cell") [data-act=taskUndo]');
+  ok('unticking lifts it back up', await p.locator('.card:has(h2:has-text("To do")) li.done').count() === 0);
+  await p.click('.card:has(h2:has-text("To do")) li:has-text("Call the placement cell") [data-act=taskDone]');
+  await p.click('.card:has(h2:has-text("To do")) li:has-text("Pack the laptop bag") [data-act=taskDone]');
+  ok('the hero counts what is done today', /2\s*done today/.test(await p.textContent('.hero')));
+  ok('close the day and top 3 are gone', !/Close the day/.test(await view()) && !/Top 3/.test(await view()));
+  ok('Needs your attention is hidden when nothing needs you', !/Needs your attention/.test(await view()));
+  await p.click('.habit-chip [data-act=habit] >> nth=0');
+  ok('habits are one tick-able strip', /1\/3 today/.test(await view()) && await p.locator('.habit-chip.done').count() === 1);
 
-  // Buttons that jump to other screens
-  await nav('home'); await p.click('[data-go="track:mind:journal"]');
-  ok('Reflect now opens the journal', await p.locator('.seg.pills button.on:has-text("Journal")').count() === 1);
-  await nav('home'); await p.click('[data-go="track:trackers"]');
-  ok('Open Track opens the trackers', await p.locator('.seg.pills button.on:has-text("Habits")').count() === 1);
-  await p.evaluate(async () => { const c = await import('/js/core.js'); c.go('track', { track: 'journal' }); });
-  ok('a wrong tab value cannot break Track', await p.locator('h1:has-text("Track")').count() === 1);
+  // Plan: one list grouped by date
+  await nav('plan');
+  ok('Plan has no goals, applications, network or stories', !/Goals|Applications|Network|Stories/.test(await p.textContent('#nav') + await view()) && await p.locator('.matrix, .kanban').count() === 0);
+  ok('captured tasks are listed under No date', /Prepare marketing case/.test(await p.textContent('h3.group-h:has-text("No date") + ul')));
+  await p.fill('[data-form=task] [name=title]', 'Sheet task'); await p.selectOption('[data-form=task] [name=when]', '0'); await p.click('[data-form=task] button.primary');
+  ok('a task due today lands under Today', /Sheet task/.test(await p.textContent('h3.group-h:has-text("Today") + ul')));
+  await p.click('li:has-text("Sheet task") [data-act=taskStar]'); ok('priority toggles', await p.locator('li:has-text("Sheet task") .pri.on').count() === 1);
+  ok('what was ticked today shows under Done today', /Call the placement cell/.test(await p.textContent('.card:has(h2:has-text("Done today"))')));
 
-  // Body trackers
-  await nav('track'); await p.click('[data-act=sub][data-group=track][data-id=trackers]');
-  await p.click('[data-act=sub][data-group=trk][data-id=workout]'); await p.fill('[data-form=workout] [name=min]', '40'); await p.fill('[data-form=workout] [name=note]', 'Chest day'); await p.click('[data-form=workout] button.primary');
-  ok('workout logged', /Chest day/.test(await view()) && /40 min/.test(await view()));
-  await p.click('[data-act=sub][data-group=trk][data-id=food]'); await p.fill('[data-form=meal] [name=name]', 'Poha'); await p.fill('[data-form=meal] [name=kcal]', '350'); await p.click('[data-form=meal] button.primary');
-  ok('calories add up against the goal', /350/.test(await view()) && /1850 left/.test(await view().then(x => x.replace(/\s+/g, ' ')).catch(() => '')));
-
-  // Focus timer (Track), Money, Career (Plan), module switches and theme (Settings)
-  await nav('track'); await p.click('[data-act=sub][data-group=track][data-id=mind]'); await p.click('[data-act=sub][data-id=focus]'); await p.click('[data-act=timerStart]'); await p.waitForTimeout(700); await p.click('[data-act=timerPause]');
-  await nav('track'); await p.click('[data-act=sub][data-group=track][data-id=trackers]'); await p.click('[data-act=sub][data-group=trk][data-id=money]'); await p.fill('[data-form=expense] [name=amount]', '250'); await p.click('[data-form=expense] button.primary');
-  ok('expense logged', /₹250/.test(await view()));
-  await p.click('[data-act=sub][data-id=subs]'); ok('subscriptions tab', /Subscriptions/.test(await view()));
-  await nav('plan'); await p.click('[data-act=sub][data-id=board]'); await p.fill('[data-form=app] [name=company]', 'Acme'); await p.click('[data-form=app] button.primary');
-  ok('career board lives in Plan', /Acme/.test(await view()));
+  // Settings: theme, glass, habits
   await nav('home'); await p.click('[data-nav=settings]');
   await p.click('[data-act=theme][data-id=dark]'); ok('dark theme applies', (await p.evaluate(() => document.documentElement.dataset.theme)) === 'dark');
   await p.click('[data-act=theme][data-id=light]'); ok('light theme applies', (await p.evaluate(() => document.documentElement.dataset.theme)) === 'light');
   await p.click('[data-act=theme][data-id=system]'); ok('system theme clears the override', (await p.evaluate(() => document.documentElement.dataset.theme)) === undefined);
-  await p.click('[data-act=module][data-id=career]'); await p.click('[data-nav=home]'); await nav('plan');
-  ok('career module hides its tabs', await p.locator('[data-act=sub][data-id=board]').count() === 0);
-  await nav('home'); await p.click('[data-nav=settings]'); await p.click('[data-act=module][data-id=money]');
-  await nav('track'); await p.click('[data-act=sub][data-group=track][data-id=trackers]');
-  ok('money module hides its pill', await p.locator('[data-act=sub][data-group=trk][data-id=money]').count() === 0);
-  await nav('home'); await p.click('[data-nav=settings]'); await p.click('[data-act=module][data-id=money]'); await p.click('[data-act=module][data-id=career]');
+  await p.click('[data-act=glass]'); ok('glass can be switched off', (await p.evaluate(() => document.documentElement.dataset.glass)) === 'off');
+  await p.click('[data-act=glass]'); ok('and back on', (await p.evaluate(() => document.documentElement.dataset.glass)) === undefined);
+  ok('no module switches any more', await p.locator('[data-act=module]').count() === 0);
+  await p.fill('[data-form=habit] [name=name]', 'Workout'); await p.click('[data-form=habit] button.primary'); ok('habit added in Settings', /Workout/.test(await view()));
+  await nav('home'); ok('and it shows on Home', /Workout/.test(await p.textContent('.habit-row')));
 
-  // Reminders: settings form saves, and the built list has the daily pair plus deadline and flashcard items
-  await nav('plan'); await p.click('[data-act=sub][data-id=tasks]');
+  // Reminders: settings form saves, and the built list has the daily pair plus deadline items
+  await nav('plan');
   const tomorrow = new Date(Date.now() + 36 * 36e5).toISOString().slice(0, 10);
-  await p.click('[data-act=openAdd]'); await p.fill('[data-form=task] [name=title]', 'Marketing exam'); await p.fill('[data-form=task] [name=due]', tomorrow); await p.click('[data-form=task] button.primary');
+  await p.fill('[data-form=task] [name=title]', 'Marketing exam'); await p.selectOption('[data-form=task] [name=when]', '1'); await p.click('[data-form=task] button.primary');
   await nav('home'); await p.click('[data-nav=settings]');
   await p.check('[data-form=reminders] [name=on]'); await p.click('[data-form=reminders] button.primary');
   const list = await p.evaluate(async () => (await import('/js/reminders.js')).buildReminders().map(n => n.title));
-  ok('daily morning and evening reminders', list.includes('Plan your day') && list.includes('Close the day'));
+  ok('daily morning and evening reminders', list.includes('Your day') && list.includes('Tomorrow'));
   ok('deadline reminder for the exam', list.some(t => t === 'Due tomorrow' || t === 'Due today'));
-  await p.evaluate(() => { const S = JSON.parse(localStorage.getItem('daily-driver-v2')); });
+  ok('no flashcard reminder any more', !list.includes('Flashcards due'));
   await p.click('[data-form=reminders] [name=on]'); await p.click('[data-form=reminders] button.primary');
   ok('reminders off builds nothing', (await p.evaluate(async () => (await import('/js/reminders.js')).buildReminders().length)) === 0);
 
@@ -143,7 +108,7 @@ const ok = (name, cond) => { console.log((cond ? 'PASS ' : 'FAIL ') + name); if 
   await p.click('[data-act=calSync]'); await p.waitForSelector('text=Calendar sync updated');
   ok('edit in the calendar reflects after sync', !/Calendar sync works/.test(await view()));
   ok('important mail shows its key facts under Needs attention', /Placement notice/.test(await p.textContent('.card.alert')) && /Shortlist is out/.test(await p.textContent('.card.alert')));
-  ok('mail items are not listed as schedule events', !/Placement notice/.test(await p.textContent('.card:has(h2:has-text("Today"))')));
+  ok('mail items are not listed as schedule events', !/Placement notice/.test(await p.textContent('.card:has(h2:has-text("Today\'s schedule"))')));
   const attn = () => p.textContent('.card.alert');
   ok('upcoming deadline is in Needs attention, red today', /Form submission/.test(await attn()) && await p.locator('.card.alert li.due-today').count() >= 1);
   ok('deadline 40 minutes past is gone automatically', !/Already late/.test(await attn()));
@@ -185,8 +150,8 @@ const ok = (name, cond) => { console.log((cond ? 'PASS ' : 'FAIL ') + name); if 
   ok('removing the calendar removes its events', !/Calendar sync updated/.test(await view()));
 
   // Persistence and migration from v1
-  await p.reload(); await p.waitForSelector('h1'); await nav('track');
-  ok('data persists after reload', /Workout/.test(await view()));
+  await p.reload(); await p.waitForSelector('h1'); await nav('home');
+  ok('data persists after reload', /Workout/.test(await view()) && /Prepare marketing case/.test(await view()));
   const ctx = await b.newContext({ viewport: { width: 390, height: 844 } });
   await ctx.addInitScript(() => { localStorage.setItem('daily-driver-v1', JSON.stringify({ routineItems: [{ id: 'r1', label: 'Old habit' }], routineLog: {}, deadlines: [{ id: 'd1', title: 'Old exam', date: '2030-01-01', kind: 'Exam' }], tasks: [], apps: [], contacts: [], stars: [], subs: [], expenses: [], budget: 0 })); });
   const q = await ctx.newPage(); await q.goto(`http://localhost:${port}/`); await q.waitForSelector('h1');
@@ -225,16 +190,16 @@ const ok = (name, cond) => { console.log((cond ? 'PASS ' : 'FAIL ') + name); if 
   ok('things ticked on a widget are applied', await n.evaluate(async () => { const c = await import('/js/core.js'); return c.S.tasks.find(x => x.id === 'wtask').done && !!Object.values(c.S.habitLog)[0]?.[window.__hid]; }));
   await n.evaluate(() => { window.__take = { ops: '[]', target: 'plan:tasks:add' }; window.dispatchEvent(new Event('widgetOpen')); });
   await n.waitForTimeout(300);
-  ok('a widget can open the add task sheet', await n.locator('.sheet').count() === 1);
+  ok('a widget can open Plan with the add bar focused', await n.locator('h1:has-text("Plan")').count() === 1 && await n.evaluate(() => document.activeElement && document.activeElement.name === 'title'));
   await n.evaluate(() => { window.__take = { ops: '[]', target: 'calendar:week' }; window.dispatchEvent(new Event('widgetOpen')); });
   await n.waitForTimeout(300);
   ok('a widget can open the calendar on a chosen view', await n.locator('.seg.pills button.on:has-text("Week")').count() === 1 && await n.locator('.cal-col').count() === 7);
   await n.evaluate(() => { window.__take = { ops: '[]', target: 'calendar:day:2026-12-25' }; window.dispatchEvent(new Event('widgetOpen')); });
   await n.waitForTimeout(300);
   ok('a widget can open the calendar on a chosen day', /Friday 25 December/.test(await n.textContent('.cal-nav')));
-  await n.evaluate(async () => { const c = await import('/js/core.js'); c.ui.sub.addTask = false; c.go('home'); });
+  await n.evaluate(async () => { const c = await import('/js/core.js'); c.go('home'); });
   await n.click('[data-nav=settings]');
-  ok('native notifications get scheduled', (await n.evaluate(() => window.__scheduled.map(x => x.title))).includes('Plan your day'));
+  ok('native notifications get scheduled', (await n.evaluate(() => window.__scheduled.map(x => x.title))).includes('Your day'));
   await n.click('[data-act=export]'); await n.waitForTimeout(400);
   ok('native backup opens the share sheet', (await n.evaluate(() => window.__shared)).some(u => /daily-driver-.*\.json$/.test(u)));
   ok('no page errors in the native simulation', nerrs.length === 0); if (nerrs.length) console.log(nerrs);

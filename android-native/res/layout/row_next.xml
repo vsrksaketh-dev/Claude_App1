@@ -14,7 +14,7 @@
         android:layout_height="wrap_content"
         android:maxLines="1"
         android:textColor="@color/dd_accent"
-        android:textSize="11sp"
+        android:textSize="12sp"
         android:textStyle="bold" />
     <TextView
         android:id="@+id/nn"

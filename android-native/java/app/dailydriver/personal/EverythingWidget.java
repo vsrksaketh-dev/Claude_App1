@@ -7,8 +7,16 @@ import android.os.Bundle;
 
 public class EverythingWidget extends AppWidgetProvider {
     @Override
-    public void onUpdate(Context c, AppWidgetManager m, int[] ids) {
+    public void onUpdate(final Context c, AppWidgetManager m, int[] ids) {
         Widgets.update(c, m, ids, Widgets.EVERYTHING);
+        // Fetch today's stories in the background (the system calls this about every half hour), then redraw all widgets.
+        final PendingResult pending = goAsync();
+        final Context app = c.getApplicationContext();
+        new Thread(new Runnable() {
+            @Override public void run() {
+                try { if (NewsSync.refresh(app)) Widgets.refreshAll(app); } finally { pending.finish(); }
+            }
+        }).start();
     }
 
     // Resizing the widget re-lays it out: a bigger widget shows more, and more detail.

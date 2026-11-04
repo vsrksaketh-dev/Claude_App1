@@ -1,6 +1,6 @@
-// Settings: appearance, profile, modules, calendar, reminders and backup. Opened from the button on Home.
-import { S, register, commit } from '../core.js';
-import { today, esc } from '../util.js';
+// Settings: appearance, habits, profile, calendar, reminders, widgets and backup. Opened from the button on Home.
+import { S, register, commit, byId, remove } from '../core.js';
+import { today, esc, uid } from '../util.js';
 import { field, chip, head } from '../ui.js';
 import { exportJSON, importJSON, reset, SCHEMA } from '../store.js';
 import { saveBackup, isNative, notifyPermission } from '../native.js';
@@ -8,12 +8,16 @@ import { refreshReminders } from '../reminders-run.js';
 import { pushNow } from '../widgets.js';
 import { getSources, addSource, removeSource, syncAll, getHidden, setHidden } from '../calendar.js';
 
-const MODULES = [['career', 'Career and placement', 'Applications, network and interview stories. Switch off once you are placed.'], ['money', 'Money', 'Budget, spending and subscription renewals.']];
+const DAYS = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 const THEMES = [['light', 'Light'], ['dark', 'Dark'], ['system', 'Match phone']];
 
 function render() {
   return `${head('Settings', '', '<button class="pill" data-nav="home">Done</button>')}
-  <div class="card"><h2>Appearance</h2><div class="seg" role="group" aria-label="Theme">${THEMES.map(([k, l]) => `<button class="${(S.theme || 'system') === k ? 'on' : ''}" data-act="theme" data-id="${k}">${l}</button>`).join('')}</div></div>
+  <div class="card"><h2>Appearance</h2><div class="seg" role="group" aria-label="Theme">${THEMES.map(([k, l]) => `<button class="${(S.theme || 'system') === k ? 'on' : ''}" data-act="theme" data-id="${k}">${l}</button>`).join('')}</div>
+    <label class="check" style="margin-top:14px"><input type="checkbox" data-act="glass" ${S.glass === false ? '' : 'checked'}> <span><b>Frosted glass</b><div class="muted">Translucent panes over a soft colour wash. Turn it off for solid panes if the app ever feels slow.</div></span></label></div>
+
+  <div class="card"><h2>Habits</h2>${S.habits.filter(h => !h.archived).length ? `<ul class="list">${S.habits.filter(h => !h.archived).map(h => `<li><div class="grow"><span class="title">${esc(h.name)}</span><div class="muted">${h.days.length === 7 ? 'Every day' : h.days.map(d => DAYS[d]).join(', ')}</div></div><button class="ghost danger" data-act="habitDel" data-id="${h.id}">Remove</button></li>`).join('')}</ul>` : '<p class="muted">No habits. They show as a small strip on Home.</p>'}
+    <form data-form="habit" class="capture" style="margin-top:12px"><input name="name" placeholder="New habit" aria-label="New habit" maxlength="60" required><button class="primary">Add</button></form></div>
 
   <div class="card"><h2>Profile</h2><form data-form="profile" class="inline">${field('Your name', 'name', `value="${esc(S.profile.name)}"`)}${field('Roll number', 'roll', `value="${esc(S.profile.roll)}"`)}<button>Save</button></form>
     <p class="muted">Your name appears in the greeting. Name and roll number build the CV file names.</p></div>
@@ -29,19 +33,16 @@ function render() {
 
   <div class="card"><h2>Reminders</h2>${isNative() ? '' : '<p class="muted">Reminders work in the Android app. This is the browser version, so they will not fire here.</p>'}
     <form data-form="reminders"><label class="check"><input type="checkbox" name="on" ${S.reminders.on ? 'checked' : ''}> Turn reminders on</label>
-      <div class="inline">${field('Morning plan', 'morning', `type="time" value="${S.reminders.morning}"`)}${field('Evening reflection', 'evening', `type="time" value="${S.reminders.evening}"`)}</div>
+      <div class="inline">${field('Morning plan', 'morning', `type="time" value="${S.reminders.morning}"`)}${field('Evening look-ahead', 'evening', `type="time" value="${S.reminders.evening}"`)}</div>
       <label class="check"><input type="checkbox" name="deadlines" ${S.reminders.deadlines ? 'checked' : ''}> Deadlines: the day before, the day of, and 3 hours before an application closes</label>
       <label class="check"><input type="checkbox" name="events" ${S.reminders.events ? 'checked' : ''}> Calendar events: 15 minutes before</label>
-      <label class="check"><input type="checkbox" name="cards" ${S.reminders.cards ? 'checked' : ''}> Flashcards due, at 6 PM</label>
       <div class="row"><button class="primary">Save reminders</button></div></form></div>
 
   <div class="card"><h2>Home screen widgets</h2>${isNative() ? '' : '<p class="muted">Widgets are part of the Android app. This is the browser version.</p>'}
-    <p>Touch and hold an empty spot on your home screen, tap Widgets, then find Daily Driver. There are five: Overview, Schedule, Tasks, News and Everything (the large one).</p>
-    <p class="muted">They update whenever something changes in the app and about every half hour on their own. Tap any widget to open the app.</p>
+    <p>Touch and hold an empty spot on your home screen, tap Widgets, then find Daily Driver. There are seven: Overview, Schedule, Tasks, News, Calendar, Habits and Everything (the large one).</p>
+    <p class="muted">The News widget fetches fresh stories by itself about every half hour. The rest show what the app last sent, so open the app now and then. Tap any widget to open the app.</p>
+    <p class="muted">If widgets stop refreshing, allow background activity: Android settings, Apps, Daily Driver, Battery, then Unrestricted (on OnePlus also allow Auto-launch).</p>
     <div class="row" style="margin-top:10px"><button data-act="widgetsNow">Update widgets now</button></div></div>
-
-  <div class="card"><h2>Modules</h2><ul class="list">${MODULES.map(([k, l, d]) => `<li><label class="check"><input type="checkbox" data-act="module" data-id="${k}" ${S.modules[k] ? 'checked' : ''}> <span><b>${l}</b><div class="muted">${d}</div></span></label></li>`).join('')}</ul>
-    <p class="muted">Turning a module off hides it and its reminders. Your data stays and returns if you turn it back on.</p></div>
 
   <div class="card"><h2>Your data</h2><p class="muted">Everything lives on this device. Last backup: ${S.meta.lastBackup || 'never'}.</p>
     <div class="row" style="margin-top:10px"><button class="primary" data-act="export">Export backup</button><button data-act="import">Import backup</button><button class="danger" data-act="wipe">Erase everything</button></div></div>
@@ -53,7 +54,8 @@ register({
   actions: {
     theme: d => { S.theme = d.id; },
     widgetsNow: () => { pushNow(); },
-    module: d => { S.modules[d.id] = !S.modules[d.id]; },
+    glass: () => { S.glass = S.glass === false; },
+    habitDel: d => { remove('habits', d.id); },
     calSync: () => { syncAll(true).then(() => commit()); },
     calRemove: d => { removeSource(d.id); refreshReminders(); },
     export: () => {
@@ -74,9 +76,10 @@ register({
       try { addSource(f.name, f.url); } catch (e) { alert(e.message); return; }
       syncAll(true).then(() => commit());
     },
+    habit: f => { const n = (f.name || '').trim(); if (n) S.habits.push({ id: uid(), name: n, when: 'anytime', days: [0, 1, 2, 3, 4, 5, 6], created: today() }); },
     profile: f => { S.profile.name = f.name.trim(); S.profile.roll = f.roll.trim(); },
     reminders: f => {
-      S.reminders = { on: !!f.on, morning: f.morning || '07:30', evening: f.evening || '21:00', deadlines: !!f.deadlines, cards: !!f.cards, events: !!f.events };
+      S.reminders = { on: !!f.on, morning: f.morning || '07:30', evening: f.evening || '21:00', deadlines: !!f.deadlines, cards: false, events: !!f.events };
       if (S.reminders.on && isNative()) notifyPermission().then(ok => { if (!ok) alert('Notifications are blocked. Allow them for Daily Driver in Android settings.'); });
       refreshReminders();
     },

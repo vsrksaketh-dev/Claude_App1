@@ -4,7 +4,7 @@ import { S, ui, app, go, render, commit } from './core.js';
 import { today, addDays, daysFromToday, fmtDay } from './util.js';
 import { pendingActions } from './schedule.js';
 import { agendaOn } from './agenda.js';
-import { openTasks, taskQuadrant, habitsOn, habitDone, dayStreak, completeTask, uncompleteTask, doneToday, learnCount, focusOn } from './logic.js';
+import { openTasks, taskQuadrant, habitsOn, habitDone, dayStreak, completeTask, uncompleteTask, doneToday } from './logic.js';
 import { widgetPush, widgetTake } from './native.js';
 
 const RANK = { UI: 0, I: 1, U: 2, '': 3 };
@@ -34,7 +34,6 @@ export function buildSnapshot() {
     dueSoon: open.filter(x => x.due && daysFromToday(x.due) <= 2).length,
     habitList: hs.map(h => ({ id: h.id, name: h.name, done: habitDone(h, t) })).slice(0, 14),
     habits: { done: hs.filter(h => habitDone(h, t)).length, total: hs.length, streak: dayStreak() },
-    focusMin: focusOn(t), learn: learnCount(t),
     news,
     newsDate: app.news.date || '',
   };
@@ -54,17 +53,17 @@ export function applyOps(ops) {
   });
 }
 
-// "learn:news", "plan:tasks:add", "track:mind:journal", "home:capture", "calendar:day:2026-10-23": the tab a widget tap asked for.
+// "learn:news", "plan:tasks:add", "home:capture", "calendar:day:2026-10-23": the tab a widget tap asked for.
+// Widgets placed before the Track tab was removed may still send "track:..."; those open Home, where habits now live.
 export function openTarget(target) {
   if (!target) return;
-  const [view, a, b] = target.split(':');
+  let [view, a, b] = target.split(':');
+  if (view === 'track') view = 'home';
   if (!app.views[view]) return;
-  if (view === 'learn' && a) ui.sub.learn = a;
-  if (view === 'plan') { if (a) ui.sub.plan = a; if (b === 'add') ui.sub.addTask = true; }
+  if (view === 'learn' && ['news', 'cases'].includes(a)) ui.sub.learn = a;
   if (view === 'calendar') { if (['month', 'week', 'day', 'agenda'].includes(a)) ui.sub.calMode = a; if (/^\d{4}-\d{2}-\d{2}$/.test(b || a || '')) { ui.sub.calSel = ui.sub.calAnchor = b || a; if (!ui.sub.calMode) ui.sub.calMode = 'month'; } }
-  if (view === 'track' && a) { ui.sub.track = a; if (b) ui.sub[a === 'mind' ? 'mind' : 'trk'] = b; }
   go(view);
-  if (view === 'home' && a === 'capture') setTimeout(() => document.querySelector('[data-form=todo] input')?.focus(), 80);
+  if ((view === 'home' && a === 'capture') || (view === 'plan' && b === 'add')) setTimeout(() => document.querySelector('[data-form=quick] input, [data-form=task] input')?.focus(), 80);
 }
 
 export async function syncFromWidgets() {

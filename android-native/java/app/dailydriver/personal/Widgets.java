@@ -101,6 +101,32 @@ public class Widgets {
 
     static String fmt(String pattern, long ms) { return new SimpleDateFormat(pattern, Locale.ENGLISH).format(new Date(ms)); }
 
+    /** "Overdue", "Today", "Tomorrow" or a short date, worked out from the due date now so it is right even if the app was last opened yesterday. */
+    static String dueLabel(String dd, String fallback) {
+        if (dd == null || dd.length() < 10) return fallback == null ? "" : fallback;
+        try {
+            String k = dd.substring(0, 10);
+            int n = dayDiff(dayKey(0), k);
+            if (n < 0) return "Overdue";
+            if (n == 0) return "Today";
+            if (n == 1) return "Tomorrow";
+            return fmt("EEE d MMM", cal(k).getTimeInMillis());
+        } catch (Exception e) { return fallback == null ? "" : fallback; }
+    }
+
+    /** Open tasks due today, tomorrow or already late, counted from the stored list. */
+    static int dueSoon(JSONObject s) {
+        int n = 0;
+        JSONArray ts = arr(s, "tasks");
+        for (int i = 0; i < ts.length(); i++) {
+            JSONObject x = ts.optJSONObject(i);
+            if (x == null || x.optInt("dn") == 1) continue;
+            String d = dueLabel(x.optString("dd"), "");
+            if (d.equals("Overdue") || d.equals("Today") || d.equals("Tomorrow")) n++;
+        }
+        return n;
+    }
+
     static String dayKey(int offset) { return plusDays(key(Calendar.getInstance()), offset); }
 
     static String relative(long start, long now) {
@@ -338,7 +364,7 @@ public class Widgets {
         long now = System.currentTimeMillis();
         String name = s.optString("name", ""), date = fmt("EEEE d MMMM", now);
         boolean empty = s.length() == 0;
-        String target = kind == TASKS ? "plan:tasks" : kind == NEWS ? "learn:news" : kind == HABITS ? "track:trackers" : "home";
+        String target = kind == TASKS ? "plan:tasks" : kind == NEWS ? "learn:news" : "home";
         v.setOnClickPendingIntent(R.id.root, open(c, target));
         v.removeAllViews(R.id.pills);
         v.removeAllViews(R.id.foot);
@@ -350,8 +376,8 @@ public class Widgets {
                 if (!empty) {
                     showFoot(v);
                     pill(c, v, R.id.foot, "Capture", true, open(c, "home:capture"));
-                    pill(c, v, R.id.foot, "Focus", false, open(c, "track:mind:focus"));
-                    pill(c, v, R.id.foot, "Journal", false, open(c, "track:mind:journal"));
+                    pill(c, v, R.id.foot, "Calendar", false, open(c, "calendar:month"));
+                    pill(c, v, R.id.foot, "News", false, open(c, "learn:news"));
                 }
                 break;
             }
@@ -369,7 +395,8 @@ public class Widgets {
             }
             case TASKS: {
                 String tf = prefs(c).getString("tf", "all");
-                head(v, "Tasks", s.optInt("dueSoon") > 0 ? s.optInt("dueSoon") + " due soon" : "Nothing urgent", empty ? "" : s.optInt("taskCount") + " open");
+                int soon = dueSoon(s);
+                head(v, "Tasks", soon > 0 ? soon + " due soon" : "Nothing urgent", empty ? "" : s.optInt("taskCount") + " open");
                 if (!empty) {
                     showPills(v);
                     pill(c, v, R.id.pills, "All", tf.equals("all"), act(c, "tf", "all"));
@@ -393,8 +420,8 @@ public class Widgets {
                 head(v, "Habits", empty ? "" : (h == null ? 0 : h.optInt("done")) + " of " + (h == null ? 0 : h.optInt("total")) + " done today", empty || h == null ? "" : h.optInt("streak") + " day streak");
                 if (!empty) {
                     showFoot(v);
-                    pill(c, v, R.id.foot, "Open Track", true, open(c, "track:trackers"));
-                    pill(c, v, R.id.foot, "Journal", false, open(c, "track:mind:journal"));
+                    pill(c, v, R.id.foot, "Open Home", true, open(c, "home"));
+                    pill(c, v, R.id.foot, "Tasks", false, open(c, "plan:tasks"));
                 }
                 break;
             }
@@ -405,7 +432,7 @@ public class Widgets {
                     pill(c, v, R.id.pills, "Home", true, open(c, "home"));
                     pill(c, v, R.id.pills, "Plan", false, open(c, "plan:tasks"));
                     pill(c, v, R.id.pills, "Calendar", false, open(c, "calendar:month"));
-                    pill(c, v, R.id.pills, "Track", false, open(c, "track:trackers"));
+                    pill(c, v, R.id.pills, "Learn", false, open(c, "learn:news"));
                 }
             }
         }

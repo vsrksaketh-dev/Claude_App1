@@ -1,14 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="dd_bg">#FFFFFF</color>
-    <color name="dd_inset">#F6EFE9</color>
-    <color name="dd_text">#232A3D</color>
-    <color name="dd_muted">#756F7C</color>
-    <color name="dd_accent">#3E5F94</color>
-    <color name="dd_tint">#F8DCC6</color>
-    <color name="dd_warn">#9A5A0A</color>
-    <color name="dd_warn_tint">#FCEBC9</color>
-    <color name="dd_bad">#B23B2E</color>
-    <color name="dd_bad_tint">#FADCD6</color>
+    <!-- Frosted look: the pane is mostly opaque white so text stays readable on any wallpaper, with a bright rim and hairlines. -->
+    <color name="dd_bg">#E6FFFFFF</color>
+    <color name="dd_inset">#99F7EEE6</color>
+    <color name="dd_hair">#2B3B5C99</color>
+    <color name="dd_rim">#CCFFFFFF</color>
+    <color name="dd_text">#1A2135</color>
+    <color name="dd_muted">#4F566B</color>
+    <color name="dd_accent">#2F5188</color>
+    <color name="dd_tint">#F6D6BB</color>
+    <color name="dd_warn">#7A4300</color>
+    <color name="dd_warn_tint">#FBE3A9</color>
+    <color name="dd_bad">#9C2A24</color>
+    <color name="dd_bad_tint">#F9C9C1</color>
     <color name="dd_on_accent">#FFFFFF</color>
 </resources>

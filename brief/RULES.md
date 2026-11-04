@@ -31,7 +31,9 @@ Write the brief JSON in the shape documented in the README. Per inbox item inclu
 ## News
 News is public, so it is not kept on the private page. Each morning the routine writes `data/news.json` to the repo (shape `{date, generated, items:[{cat,title,summary,why,src,url,kind?}]; `url` is the link to the article itself (from the search result, https only), so a tap on the card in the app opens it}`) and the app reads it from GitHub.
 
-How to search: use WebSearch in **extended** mode, one query per category (International, Indian, Business, Tech), with today's full date and specific topic words in the query. Do not use `allowed_domains`, because most major outlets block the crawler and the call fails. Quick (standard) mode returns stale pages. Use only results dated today (or clearly dated within the last 3 days, and say so in the summary). Report only what sources say, name the source, and mark early or conflicting figures as provisional. If nothing credible is found for a category, leave it out. Never write stories from memory.
+How many: the app shows a News tab with a lead story per category, so aim for **5 to 6 stories per category (International, Indian, Business, Tech) plus 3 facts overall**, fewer only when nothing credible exists. To get that many, run **two** searches per category with different topic words (for example one on politics or markets, one on companies or policy).
+
+How to search: use WebSearch in **extended** mode, with today's full date and specific topic words in each query. Do not use `allowed_domains`, because most major outlets block the crawler and the call fails. Quick (standard) mode returns stale pages. Use only results dated today (or clearly dated within the last 3 days, and say so in the summary). Report only what sources say, name the source, and mark early or conflicting figures as provisional. If nothing credible is found for a category, leave it out. Never write stories from memory.
 
 ## Email to calendar (what reaches the app)
 The app cannot read email. A routine turns important mail into private calendar items, which the app reads through the secret iCal address:

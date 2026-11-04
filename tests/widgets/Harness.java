@@ -84,6 +84,13 @@ public class Harness {
     // tiny and large calendar sizes both draw
     for (int h : new int[]{200, 280, 360, 520}) { AppWidgetManager.height = h; Widgets.handle(c, "cmode", "month", ""); Widgets.handle(c, "ctoday", "", ""); }
     ok("calendar draws at every height", AppWidgetManager.drawn.size() == 7);
+    // news sync and date labels
+    String body = "{\"date\":\"2030-01-02\",\"items\":[{\"cat\":\"Tech\",\"title\":\"T1\",\"summary\":\"S\",\"why\":\"W\",\"src\":\"X\",\"url\":\"https://e.com/a\"},{\"cat\":\"Tech\",\"kind\":\"fact\",\"title\":\"F\"},{\"cat\":\"Indian\",\"title\":\"T2\",\"url\":\"javascript:x\"}]}";
+    ok("news sync swaps in the stories and skips facts", NewsSync.apply(c, body) && Widgets.load(c).getJSONArray("news").length() == 2 && Widgets.load(c).getString("newsDate").equals("2030-01-02"));
+    ok("only web links are kept", Widgets.load(c).getJSONArray("news").getJSONObject(1).getString("url").isEmpty());
+    ok("the same news again is not a change", !NewsSync.apply(c, body));
+    ok("the News widget lists the synced stories", WidgetRows.build(c, Widgets.NEWS).size() >= 2);
+    ok("due labels come from the date, not from the last snapshot", Widgets.dueLabel(Widgets.dayKey(-1), "").equals("Overdue") && Widgets.dueLabel(Widgets.dayKey(0), "").equals("Today") && Widgets.dueLabel(Widgets.dayKey(1), "").equals("Tomorrow") && Widgets.dueLabel("", "x").equals("x"));
     // empty snapshot
     Widgets.save(c, "{}"); List<WidgetRows.Row> e = WidgetRows.build(c, 0); ok("empty snapshot shows the open-the-app note", e.size() == 1 && e.get(0).a.startsWith("Open Daily Driver"));
     System.out.println(fails == 0 ? "ALL PASS" : fails + " FAILED");

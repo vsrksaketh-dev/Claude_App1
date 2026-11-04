@@ -20,7 +20,7 @@
             android:layout_weight="1"
             android:maxLines="1"
             android:textColor="@color/dd_accent"
-            android:textSize="11sp"
+            android:textSize="12sp"
             android:textStyle="bold" />
         <TextView
             android:id="@+id/read"
@@ -34,7 +34,7 @@
             android:paddingBottom="3dp"
             android:text="Read"
             android:textColor="@color/dd_accent"
-            android:textSize="11sp"
+            android:textSize="12sp"
             android:textStyle="bold" />
     </LinearLayout>
     <TextView
@@ -64,5 +64,5 @@
         android:ellipsize="end"
         android:maxLines="2"
         android:textColor="@color/dd_muted"
-        android:textSize="11sp" />
+        android:textSize="12sp" />
 </LinearLayout>

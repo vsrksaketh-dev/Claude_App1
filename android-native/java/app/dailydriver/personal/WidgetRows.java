@@ -97,13 +97,13 @@ final class WidgetRows {
         r.flag = false;
         r.o = new JSONObject();
         try { r.o.put("pct", done * 100 / total); } catch (Exception ignored) { }
-        r.target = "track:trackers";
+        r.target = "home";
     }
 
     private static void stats(List<Row> out, JSONObject s) {
         Row r = add(out, T_STATS);
         r.o = s;
-        r.target = "track:mind:focus";
+        r.target = "plan:tasks";
     }
 
     private static void attention(List<Row> out, JSONObject s, int max) {
@@ -151,13 +151,13 @@ final class WidgetRows {
         boolean head = false;
         for (int i = 0; i < hl.size() && i < max; i++) {
             JSONObject h = hl.get(i);
-            if (!head) { section(out, "Tap to tick off", "track:trackers"); head = true; }
+            if (!head) { section(out, "Tap to tick off", "home"); head = true; }
             Row r = add(out, T_HABIT);
             r.a = h.optString("name");
             r.done = h.optBoolean("done");
             r.act = "habit";
             r.id = h.optString("id");
-            r.target = "track:trackers";
+            r.target = "home";
         }
     }
 
@@ -165,7 +165,7 @@ final class WidgetRows {
         Row r = add(out, T_TASK);
         r.a = x.optString("title");
         r.done = x.optInt("dn") == 1;
-        String due = x.optString("due");
+        String due = Widgets.dueLabel(x.optString("dd"), x.optString("due"));
         r.due = due;
         r.style = due.equals("Overdue") || due.equals("Today") ? "bad" : due.equals("Tomorrow") ? "warn" : "";
         if (detail) {
@@ -242,7 +242,7 @@ final class WidgetRows {
             JSONObject x = t.optJSONObject(i);
             if (x == null) continue;
             if (x.optInt("dn") == 1) { finished.add(x); continue; }
-            String due = x.optString("due");
+            String due = Widgets.dueLabel(x.optString("dd"), x.optString("due"));
             if (tf.equals("soon") && !(due.equals("Overdue") || due.equals("Today") || due.equals("Tomorrow"))) continue;
             String q = x.optString("q");
             if (!q.equals(lastQ)) {
@@ -277,7 +277,7 @@ final class WidgetRows {
             r.done = h.optBoolean("done");
             r.act = "habit";
             r.id = h.optString("id");
-            r.target = "track:trackers";
+            r.target = "home";
         }
         stats(out, s);
     }
@@ -517,10 +517,10 @@ final class WidgetRows {
         JSONObject s = r.o == null ? new JSONObject() : r.o;
         JSONObject h = s.optJSONObject("habits");
         RemoteViews v = new RemoteViews(c.getPackageName(), R.layout.row_stats);
-        v.setTextViewText(R.id.n1, s.optInt("focusMin") + "m");
-        v.setTextViewText(R.id.l1, "focus today");
-        v.setTextViewText(R.id.n2, s.optInt("learn") + "/5");
-        v.setTextViewText(R.id.l2, "learning");
+        v.setTextViewText(R.id.n1, String.valueOf(s.optInt("taskCount")));
+        v.setTextViewText(R.id.l1, "open tasks");
+        v.setTextViewText(R.id.n2, String.valueOf(Widgets.dueSoon(s)));
+        v.setTextViewText(R.id.l2, "due soon");
         v.setTextViewText(R.id.n3, String.valueOf(h == null ? 0 : h.optInt("streak")));
         v.setTextViewText(R.id.l3, "day streak");
         v.setOnClickFillInIntent(R.id.strroot, fill("open", "", r.target));

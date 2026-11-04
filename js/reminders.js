@@ -1,7 +1,7 @@
 // Builds the list of local notifications from the current state. Pure: scheduling happens in native.js.
 import { S } from './core.js';
-import { addDays, today, parse } from './util.js';
-import { openTasks, dueCards } from './logic.js';
+import { addDays, parse } from './util.js';
+import { openTasks } from './logic.js';
 import { upcomingTimed } from './calendar.js';
 
 const MAX = 60;   // Android keeps notification alarms cheap; the list is rebuilt every time the app is used
@@ -12,8 +12,8 @@ export function buildReminders(now = new Date()) {
   const out = [];
   const at = (key, h = 8, m = 0) => { const d = parse(key); d.setHours(h, m, 0, 0); return d; };
   const [mh, mm] = R.morning.split(':').map(Number), [eh, em] = R.evening.split(':').map(Number);
-  out.push({ id: 1, title: 'Plan your day', body: 'Pick your top 3 and run through your habits.', schedule: { on: { hour: mh, minute: mm }, allowWhileIdle: true } });
-  out.push({ id: 2, title: 'Close the day', body: 'Two minutes: reflect and set tomorrow\'s top 3.', schedule: { on: { hour: eh, minute: em }, allowWhileIdle: true } });
+  out.push({ id: 1, title: 'Your day', body: 'Check your tasks and today\'s schedule.', schedule: { on: { hour: mh, minute: mm }, allowWhileIdle: true } });
+  out.push({ id: 2, title: 'Tomorrow', body: 'A quick look at what is due and scheduled tomorrow.', schedule: { on: { hour: eh, minute: em }, allowWhileIdle: true } });
 
   const timed = [];
   if (R.deadlines) {
@@ -25,10 +25,6 @@ export function buildReminders(now = new Date()) {
     });
   }
   if (R.events) upcomingTimed(48).forEach(e => timed.push([new Date(e.start - 15 * 6e4), e.title, 'Starts in 15 minutes' + (e.where ? ' · ' + e.where : '')]));
-  if (R.cards && dueCards().length) {
-    const d = at(today(), 18);
-    timed.push([d > now ? d : at(addDays(today(), 1), 18), 'Flashcards due', `${dueCards().length} waiting for review.`]);
-  }
   timed.filter(x => x[0] > now).sort((a, b) => a[0] - b[0]).slice(0, MAX)
     .forEach(([when, title, body], i) => out.push({ id: 100 + i, title, body, schedule: { at: when, allowWhileIdle: true } }));
   return out;

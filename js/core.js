@@ -1,6 +1,6 @@
 // App shell: shared state, the view/section registry and render loop.
 // Feature modules call register() with { id, label, nav, enabled, render, actions, forms, inputs }.
-// A view with a numeric `nav` appears in the bottom bar; one without (Settings) is opened from a link.
+// A view with a numeric `nav` appears in the bottom bar (four of them); one without (Settings) is opened from a link.
 // Extension points other modules can push into: app.nudgeSources, app.taskSources, app.todayCards.
 import { get, save } from './store.js';
 
@@ -32,6 +32,7 @@ export function register(m) {
 export function applyTheme() {
   const r = document.documentElement;
   if (!S.theme || S.theme === 'system') r.removeAttribute('data-theme'); else r.setAttribute('data-theme', S.theme);
+  if (S.glass === false) r.setAttribute('data-glass', 'off'); else r.removeAttribute('data-glass');   // glass is on unless switched off in Settings
 }
 // The bottom bar is built from the registry: views with a `nav` order, hidden when their module is off.
 function renderNav() {
@@ -66,7 +67,6 @@ export function render() {
   if (app.pop) { const k = app.pop; app.pop = ''; [...$('#view').querySelectorAll('[data-flip]')].find(e => e.dataset.flip === k)?.classList.add('popped'); }
   lastView = ui.view;
   renderNav();
-  document.body.classList.toggle('deep', S.timer.running && S.timer.mode === 'focus');
 }
 export const commit = () => { save(); render(); if (app.afterCommit) app.afterCommit(); };
 export const go = (view, sub) => { ui.view = view; if (sub) Object.assign(ui.sub, sub); render(); window.scrollTo(0, 0); };

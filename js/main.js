@@ -9,11 +9,6 @@ import './views/home.js';
 import './views/learn.js';
 import './views/plan.js';
 import './views/calendar.js';
-import './views/track.js';
-import './sections/focus.js';
-import './sections/money.js';
-import './sections/body.js';
-import './sections/career.js';
 import './sections/settings.js';
 
 Object.assign(app.actions, {
@@ -38,6 +33,8 @@ document.addEventListener('submit', e => {
   e.preventDefault();
   app.forms[form.dataset.form](Object.fromEntries(new FormData(form)), form);
   commit();
+  // Quick-add bars keep the keyboard open so several tasks can be typed in a row.
+  if (form.hasAttribute('data-keep')) { const again = document.querySelector(`[data-form="${form.dataset.form}"] input`); if (again) again.focus({ preventScroll: true }); }
 });
 document.addEventListener('input', e => {
   const h = app.inputs[e.target.dataset.bind];
@@ -74,5 +71,7 @@ async function loadNews() {
   window.addEventListener('widgetOpen', syncFromWidgets);
   document.addEventListener('visibilitychange', () => { if (!document.hidden) syncFromWidgets(); });
   initBackButton(() => ui.view === 'home', () => go('home'));
+  // Reopening the app after a while: refresh the news and the widgets so neither shows yesterday.
+  document.addEventListener('visibilitychange', () => { if (!document.hidden) loadNews().then(() => { if (!typing()) render(); pushSoon(); }); });
   if ('serviceWorker' in navigator && !isNative()) navigator.serviceWorker.register('sw.js').catch(() => {});
 })();

@@ -32,5 +32,5 @@
         android:layout_marginStart="8dp"
         android:maxLines="1"
         android:textColor="@color/dd_muted"
-        android:textSize="11sp" />
+        android:textSize="12sp" />
 </LinearLayout>
