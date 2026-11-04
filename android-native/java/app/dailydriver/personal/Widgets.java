@@ -133,6 +133,24 @@ public class Widgets {
 
     static String dayKey(int offset) { return plusDays(key(Calendar.getInstance()), offset); }
 
+    private static boolean validDay(String k) {
+        if (k == null || !k.matches("\\d{4}-\\d{2}-\\d{2}")) return false;
+        try { return Math.abs(dayDiff(dayKey(0), k)) <= 900; } catch (Exception e) { return false; }
+    }
+
+    /**
+     * The calendar widget's state as { mode, selected day, anchor }. Anything missing, garbled or wandering more than about
+     * two years away is reset to today, so one bad value can never leave the widget stuck on a page that cannot be left.
+     */
+    static String[] calState(Context c) {
+        String mode = prefs(c).getString("cmode", "month");
+        if (!"month".equals(mode) && !"week".equals(mode) && !"agenda".equals(mode)) mode = "month";
+        String sel = prefs(c).getString("csel", null), anchor = prefs(c).getString("canchor", null);
+        if (!validDay(sel)) sel = dayKey(0);
+        if (!validDay(anchor)) anchor = sel;
+        return new String[] { mode, sel, anchor };
+    }
+
     static String relative(long start, long now) {
         long min = Math.max(0, (start - now) / 60000);
         if (min < 1) return "starting now";
@@ -187,29 +205,36 @@ public class Widgets {
                 case "ncat": e.putString("ncat", id); break;
                 case "tf": e.putString("tf", id); break;
                 case "cmode": {
-                    String sel = prefs(c).getString("csel", dayKey(0));
-                    e.putString("cmode", id).putString("canchor", "agenda".equals(id) ? dayKey(0) : sel);
+                    String[] st = calState(c);
+                    e.putString("cmode", id).putString("csel", st[1]).putString("canchor", "agenda".equals(id) ? dayKey(0) : st[1]);
                     break;
                 }
                 case "ctoday": e.putString("csel", dayKey(0)).putString("canchor", dayKey(0)); break;
                 case "csel": {
-                    String anchor = prefs(c).getString("canchor", dayKey(0));
+                    String[] st = calState(c);
+                    if (!validDay(id)) break;
                     e.putString("csel", id);
-                    if ("month".equals(prefs(c).getString("cmode", "month")) && !id.substring(0, 7).equals(anchor.substring(0, 7))) e.putString("canchor", id);
+                    // the month or week on show follows the day that was picked, so what is highlighted is always what is drawn
+                    if ("month".equals(st[0]) && !id.substring(0, 7).equals(st[2].substring(0, 7))) e.putString("canchor", id);
+                    else if ("week".equals(st[0]) && !weekStart(id).equals(weekStart(st[2]))) e.putString("canchor", id);
                     break;
                 }
                 case "cnav": {
-                    int dir = Integer.parseInt(id);
-                    String mode = prefs(c).getString("cmode", "month");
-                    String anchor = prefs(c).getString("canchor", dayKey(0));
-                    String sel = prefs(c).getString("csel", dayKey(0));
-                    if ("month".equals(mode)) {
-                        String a = plusMonths(anchor, dir);
+                    int dir = "-1".equals(id) ? -1 : 1;
+                    String[] st = calState(c);
+                    if ("month".equals(st[0])) {
+                        String a = plusMonths(st[2], dir);
+                        if (!validDay(a)) break;
                         e.putString("canchor", a).putString("csel", a.substring(0, 7).equals(dayKey(0).substring(0, 7)) ? dayKey(0) : a);
-                    } else if ("week".equals(mode)) {
-                        e.putString("canchor", plusDays(anchor, 7 * dir)).putString("csel", plusDays(sel, 7 * dir));
+                    } else if ("week".equals(st[0])) {
+                        String a = plusDays(st[2], 7 * dir), sl = plusDays(st[1], 7 * dir);
+                        if (!validDay(a) || !validDay(sl)) break;
+                        e.putString("canchor", a).putString("csel", sl);
                     } else {
-                        e.putString("canchor", plusDays(anchor, 14 * dir));
+                        // the agenda starts at today and moves a week at a time, never into the past
+                        String a = plusDays(st[2], 7 * dir);
+                        if (dayDiff(dayKey(0), a) < 0 || !validDay(a)) a = dayKey(0);
+                        e.putString("canchor", a);
                     }
                     break;
                 }
@@ -218,7 +243,8 @@ public class Widgets {
         } catch (Exception ignored) { }
         e.apply();
         save(c, s.toString());
-        refreshAll(c);
+        // Calendar taps only need the calendar widgets redrawn: quicker, and far less to send to the home screen.
+        if (type.startsWith("c") && !type.equals("capture")) refreshKind(c, CALENDAR); else refreshAll(c);
     }
 
     /** Reflect a tick in the calendar entries too, so the widget shows it at once. */
@@ -257,6 +283,14 @@ public class Widgets {
     }
 
     // ---------- refreshing ----------
+    private static final Class<?>[] KINDS() { return new Class<?>[] { OverviewWidget.class, ScheduleWidget.class, TasksWidget.class, NewsWidget.class, null, CalendarWidget.class, HabitsWidget.class, NextWidget.class, QuickWidget.class, ProblemWidget.class, DeadlinesWidget.class }; }
+
+    static void refreshKind(Context c, int kind) {
+        AppWidgetManager m = AppWidgetManager.getInstance(c);
+        int[] ids = m.getAppWidgetIds(new ComponentName(c, KINDS()[kind]));
+        if (ids.length > 0) update(c, m, ids, kind);
+    }
+
     static void refreshAll(Context c) {
         AppWidgetManager m = AppWidgetManager.getInstance(c);
         Class<?>[] kinds = { OverviewWidget.class, ScheduleWidget.class, TasksWidget.class, NewsWidget.class, null, CalendarWidget.class, HabitsWidget.class, NextWidget.class, QuickWidget.class, ProblemWidget.class, DeadlinesWidget.class };
@@ -333,7 +367,7 @@ public class Widgets {
         i.setData(Uri.parse("dd://act/" + type + "/" + Uri.encode(id)));
         i.putExtra("type", type);
         i.putExtra("id", id);
-        return PendingIntent.getBroadcast(c, 0, i, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
+        return PendingIntent.getBroadcast(c, (type + "/" + id).hashCode() & 0x7fffffff, i, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
     }
 
     /** One template per widget: every row in the list "fills in" what it means (open a tab, tick, flip a day, open a link). */
@@ -385,7 +419,7 @@ public class Widgets {
     private static void showFoot(RemoteViews v) { v.setViewVisibility(R.id.foot, View.VISIBLE); }
 
     // ---------- the widgets ----------
-    private static RemoteViews build(Context c, int kind, JSONObject s, int hDp, int wDp, int widgetId) {
+    static RemoteViews build(Context c, int kind, JSONObject s, int hDp, int wDp, int widgetId) {
         if (kind == CALENDAR) return buildCalendar(c, s, hDp, wDp, widgetId);
         if (kind == QUICK) return buildQuick(c);
         RemoteViews v = new RemoteViews(pkg(c), R.layout.widget_card);
@@ -493,9 +527,8 @@ public class Widgets {
     private static RemoteViews buildCalendar(Context c, JSONObject s, int hDp, int wDp, int widgetId) {
         RemoteViews v = new RemoteViews(pkg(c), R.layout.widget_calendar);
         String todayKey = dayKey(0);
-        String mode = prefs(c).getString("cmode", "month");
-        String sel = prefs(c).getString("csel", todayKey);
-        String anchor = prefs(c).getString("canchor", sel);
+        String[] st = calState(c);
+        String mode = st[0], sel = st[1], anchor = st[2];
         v.setOnClickPendingIntent(R.id.root, open(c, "calendar:" + mode));
         v.removeAllViews(R.id.cmodes);
         v.removeAllViews(R.id.calgrid);
@@ -504,7 +537,7 @@ public class Widgets {
         // title and navigation
         String title = "month".equals(mode) ? fmt(wDp >= 300 ? "MMMM yyyy" : "MMM yyyy", cal(anchor).getTimeInMillis())
             : "week".equals(mode) ? fmt("d MMM", cal(weekStart(anchor)).getTimeInMillis()) + " – " + fmt("d MMM", cal(plusDays(weekStart(anchor), 6)).getTimeInMillis())
-            : "Agenda";
+            : fmt("d MMM", cal(anchor).getTimeInMillis()) + " – " + fmt("d MMM", cal(plusDays(anchor, 41)).getTimeInMillis());
         v.setTextViewText(R.id.ctitle, title);
         v.setOnClickPendingIntent(R.id.ctitle, open(c, "calendar:" + mode));
         v.setOnClickPendingIntent(R.id.cprev, act(c, "cnav", "-1"));
@@ -546,9 +579,8 @@ public class Widgets {
         bindList(c, v, CALENDAR, widgetId);
         if ("week".equals(mode)) {
             List<WidgetRows.Row> rows = WidgetRows.build(c, CALENDAR);
-            int at = WidgetRows.headingIndex(rows, sel);
-            if (at > 0) v.setScrollPosition(R.id.list, at);
-        }
+            v.setScrollPosition(R.id.list, WidgetRows.headingIndex(rows, sel));
+        } else v.setScrollPosition(R.id.list, 0);
         return v;
     }
 
@@ -557,9 +589,10 @@ public class Widgets {
         RemoteViews v = new RemoteViews(pkg(c), R.layout.cal_cell);
         v.setTextViewText(R.id.dn, String.valueOf(Integer.parseInt(key.substring(8))));
         boolean today = key.equals(todayKey);
-        if (today) { v.setInt(R.id.dn, "setBackgroundResource", R.drawable.cal_today); v.setTextColor(R.id.dn, color(c, R.color.dd_on_accent)); }
-        else v.setTextColor(R.id.dn, color(c, outside ? R.color.dd_muted : R.color.dd_text));
-        if (key.equals(sel)) v.setInt(R.id.cellroot, "setBackgroundResource", R.drawable.cell_sel_bg);
+        // every cell states its look both ways, so a launcher that reuses the old views can never keep a stale highlight
+        v.setInt(R.id.dn, "setBackgroundResource", today ? R.drawable.cal_today : 0);
+        v.setTextColor(R.id.dn, today ? color(c, R.color.dd_on_accent) : color(c, outside ? R.color.dd_muted : R.color.dd_text));
+        v.setInt(R.id.cellroot, "setBackgroundResource", key.equals(sel) ? R.drawable.cell_sel_bg : 0);
         List<JSONObject> items = WidgetRows.itemsOn(s, key);
         if (small || items.isEmpty()) v.setViewVisibility(R.id.dots, small ? View.GONE : View.INVISIBLE);
         else {

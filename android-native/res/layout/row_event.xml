@@ -16,20 +16,22 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
         <TextView
+        android:fontFamily="sans-serif-medium"
             android:id="@+id/tm"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:maxLines="1"
             android:textColor="@color/dd_text"
-            android:textSize="14sp"
+            android:textSize="15sp"
             android:textStyle="bold" />
         <TextView
+        android:fontFamily="sans-serif-medium"
             android:id="@+id/tm2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:maxLines="1"
             android:textColor="@color/dd_muted"
-            android:textSize="12sp" />
+            android:textSize="13sp" />
     </LinearLayout>
     <FrameLayout
         android:id="@+id/bar"
@@ -44,20 +46,22 @@
         android:layout_weight="1"
         android:orientation="vertical">
         <TextView
+        android:fontFamily="sans-serif-medium"
             android:id="@+id/ev"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ellipsize="end"
             android:maxLines="1"
             android:textColor="@color/dd_text"
-            android:textSize="14sp" />
+            android:textSize="15sp" />
         <TextView
+        android:fontFamily="sans-serif-medium"
             android:id="@+id/ev2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ellipsize="end"
             android:maxLines="1"
             android:textColor="@color/dd_muted"
-            android:textSize="12sp" />
+            android:textSize="13sp" />
     </LinearLayout>
 </LinearLayout>

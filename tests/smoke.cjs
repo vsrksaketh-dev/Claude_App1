@@ -13,7 +13,7 @@ const ok = (name, cond) => { console.log((cond ? 'PASS ' : 'FAIL ') + name); if 
   const nav = n => p.click(`#nav [data-nav=${n}]`);
 
   ok('home leads with the to-do list and the schedule, not news', /To do/.test(await view()) && /Today's schedule/.test(await view()) && !(await p.locator('.story').count()));
-  ok('bottom bar has four tabs and no Track', (await p.locator('#nav button').count()) === 4 && (await p.locator('#nav [data-nav=track]').count()) === 0);
+  ok('bottom bar has five tabs (Home, Tasks, Notes, Calendar, Learn) and no Track or Plan', (await p.locator('#nav button').count()) === 5 && (await p.locator('#nav [data-nav=plan]').count()) === 0 && (await p.locator('#nav [data-nav=track]').count()) === 0);
   ok('the page glass wash and frosted panes are on', await p.evaluate(() => !document.documentElement.hasAttribute('data-glass') && getComputedStyle(document.querySelector('.card')).backdropFilter !== 'none'));
 
   // Learn: News first (all categories), then Cases
@@ -55,29 +55,55 @@ const ok = (name, cond) => { console.log((cond ? 'PASS ' : 'FAIL ') + name); if 
   ok('habits are one tick-able strip', /1\/3 today/.test(await view()) && await p.locator('.habit-chip.done').count() === 1);
 
   // Plan: one list grouped by date
-  await nav('plan');
-  ok('Plan has no goals, applications, network or stories', !/Goals|Applications|Network|Stories/.test(await p.textContent('#nav') + await view()) && await p.locator('.matrix, .kanban').count() === 0);
+  await nav('tasks');
+  ok('Tasks has no goals, applications, network or stories', !/Goals|Applications|Network|Stories/.test(await p.textContent('#nav') + await view()) && await p.locator('.matrix, .kanban').count() === 0);
   ok('captured tasks are listed under No date', /Prepare marketing case/.test(await p.textContent('h3.group-h:has-text("No date") + ul')));
   await p.fill('[data-form=task] [name=title]', 'Sheet task'); await p.selectOption('[data-form=task] [name=when]', '0'); await p.click('[data-form=task] button.primary');
   ok('a task due today lands under Today', /Sheet task/.test(await p.textContent('h3.group-h:has-text("Today") + ul')));
   await p.click('li:has-text("Sheet task") [data-act=taskStar]'); ok('priority toggles', await p.locator('li:has-text("Sheet task") .pri.on').count() === 1);
   ok('what was ticked today shows under Done today', /Call the placement cell/.test(await p.textContent('.card:has(h2:has-text("Done today"))')));
 
-  // Notes: capture, pin, turn into a task, delete; talking points from the news
-  await p.click('[data-act=sub][data-group=plan][data-id=notes]');
-  ok('Notes tab shows an empty state', /Notes you save show up here/.test(await view()));
-  await p.fill('[data-form=note] [name=text]', 'Idea: ask about change adoption metrics\nhttps://example.com/hcot'); await p.click('[data-form=note] button.primary');
-  ok('a note is saved and links are clickable', /change adoption metrics/.test(await view()) && await p.locator('.note a[href="https://example.com/hcot"]').count() === 1);
-  ok('the note box keeps focus for the next one', await p.evaluate(() => document.activeElement && document.activeElement.name === 'text'));
-  await p.click('.note [data-act=notePin]'); ok('a note can be pinned', await p.locator('.note.pinned').count() === 1);
-  await p.click('.note [data-act=noteTask]'); await p.click('[data-act=sub][data-group=plan][data-id=tasks]');
-  ok('Make task turns the first line into a task', /Idea: ask about change adoption metrics/.test(await view()));
+  // Notes: books, pages and the block editor
+  await nav('notes');
+  ok('Notes is its own tab with an empty state and starter books', /Nothing here yet/.test(await view()) && await p.locator('[data-act=bookStarter]').count() === 4);
+  await p.fill('[data-form=jot] [name=text]', 'Idea: ask about change adoption metrics'); await p.click('[data-form=jot] button.primary');
+  ok('a quick jot becomes a page in the Inbox', /change adoption metrics/.test(await view()) && /Inbox/.test(await p.textContent('.bookbar')));
+  ok('the jot box keeps focus for the next one', await p.evaluate(() => document.activeElement && document.activeElement.name === 'text'));
+  await p.click('[data-act=bookNew]'); await p.fill('[data-form=book] [name=name]', 'Interview prep'); await p.click('[data-form=book] button.primary');
+  ok('a book can be created and opened', /Interview prep/.test(await p.textContent('.bookbar button.on')));
+  await p.click('[data-act=pageNew]');
+  ok('a new page opens in the editor inside the current book with the title focused', await p.locator('.pg-title').count() === 1 && await p.evaluate(() => document.activeElement && document.activeElement.classList.contains('pg-title')) && (await p.inputValue('.pg-info select')) !== '');
+  await p.fill('.pg-title', 'Deloitte HCOT questions');
+  await p.click('.blk textarea'); await p.keyboard.type('- Why HCOT'); 
+  ok('typing "- " turns the line into a bullet', await p.locator('.blk.t-b').count() === 1 && (await p.inputValue('.blk.t-b textarea')) === 'Why HCOT');
+  await p.keyboard.type(' now'); await p.keyboard.press('Enter'); await p.keyboard.type('Case approach');
+  ok('Enter continues the list with a new bullet', await p.locator('.blk.t-b').count() === 2 && (await p.inputValue('.blk.t-b >> nth=1 >> textarea')) === 'Case approach');
+  await p.keyboard.press('Enter'); await p.keyboard.press('Enter');
+  ok('Enter on an empty bullet ends the list', await p.locator('.blk.t-b').count() === 2 && await p.locator('.blk.t-p').count() === 1);
+  await p.keyboard.type('[] Read the Kroll note'); await p.keyboard.press('Enter'); await p.keyboard.type('Prepare two stories');
+  ok('"[] " makes a checklist that continues on Enter', await p.locator('.blk.t-c').count() === 2);
+  await p.click('.blk.t-c >> nth=0 >> .tick');
+  ok('a checkbox can be ticked and the page shows progress', await p.locator('.blk.t-c.done').count() === 1 && /1\/2 done/.test(await p.textContent('.pg-info')));
+  await p.click('.blk.t-c >> nth=1 >> textarea'); await p.click('[data-act=blkType][data-t=n]');
+  ok('the format bar changes the current line to a numbered line', await p.locator('.blk.t-n .mk').first().textContent() === '1.');
+  await p.click('[data-act=blkIndent][data-d="1"]'); ok('a line can be indented', await p.locator('.blk.t-n[style*="--lv:1"]').count() === 1);
+  await p.click('[data-act=blkType][data-t=c]'); await p.click('[data-act=pageTasks]');
+  ok('open checklist items can become tasks', await p.evaluate(async () => (await import('/js/core.js')).S.tasks.some(t => t.title === 'Prepare two stories')));
+  await p.click('[data-act=pagePin] >> nth=0'); await p.click('[data-act=pageClose]');
+  ok('closing the page returns to the list with the page pinned and titled', /Deloitte HCOT questions/.test(await p.textContent('h3.group-h:has-text("Pinned") + ul')));
+  await p.fill('[data-bind=noteSearch]', 'kroll'); ok('search narrows the pages', await p.locator('[data-pg]:visible').count() === 1);
+  await p.fill('[data-bind=noteSearch]', 'zzzz'); ok('and shows none for no match', await p.locator('[data-pg]:visible').count() === 0); await p.fill('[data-bind=noteSearch]', '');
+  await p.click('[data-act=noteBook][data-id=all]'); ok('All shows every page', await p.locator('[data-pg]').count() === 2);
+  await p.click('[data-act=pageOpen] >> nth=0'); await p.click('[data-act=pageDel]'); ok('deleting asks twice', await p.locator('.editor').count() === 1); await p.click('[data-act=pageDel]');
+  ok('a page can be deleted', await p.locator('[data-pg]').count() === 1);
   await nav('learn'); await p.click('[data-act=talkPoint] >> nth=0');
-  ok('Talking point saves a note and marks the story', await p.locator('.chip.ok:has-text("Saved to notes")').count() === 1);
-  await nav('plan'); await p.click('[data-act=sub][data-group=plan][data-id=notes]');
-  ok('the talking point has what happened, why it matters and a blank for my view', /Talking point:/.test(await view()) && /What happened:/.test(await view()) && /Why it matters:/.test(await view()) && /My view:/.test(await view()));
-  await p.click('.note:has-text("Talking point") [data-act=noteDel]'); ok('a note can be deleted', !/Talking point:/.test(await view()));
-  await p.click('[data-act=sub][data-group=plan][data-id=tasks]');
+  ok('Talking point saves a page and marks the story', await p.locator('.chip.ok:has-text("In Notes")').count() === 1);
+  await nav('notes');
+  ok('the talking point sits in its own book with what happened, why it matters and my view', /Talking points/.test(await p.textContent('.bookbar')));
+  await p.click('.pg:has(.chip:has-text("Talking points")) [data-act=pageOpen]');
+  ok('and has the three headed sections', await p.locator('.blk.t-h').count() === 3 && /What happened/.test(await p.inputValue('.blk.t-h >> nth=0 >> textarea')));
+  await p.click('[data-act=pageClose]'); await p.click('[data-act=noteBook][data-id=all]');
+  await p.evaluate(async () => { const c = await import('/js/core.js'); c.S.pages = []; c.S.books = []; c.commit(); });
 
   // Home: the ring and the next-up card
   await nav('home');
@@ -100,7 +126,7 @@ const ok = (name, cond) => { console.log((cond ? 'PASS ' : 'FAIL ') + name); if 
   await nav('home'); ok('a start date adds a countdown to the hero', /40\s*days to Deloitte/.test(await p.textContent('.hero')));
 
   // Reminders: settings form saves, and the built list has the daily pair plus deadline items
-  await nav('plan');
+  await nav('tasks');
   const tomorrow = new Date(Date.now() + 36 * 36e5).toISOString().slice(0, 10);
   await p.fill('[data-form=task] [name=title]', 'Marketing exam'); await p.selectOption('[data-form=task] [name=when]', '1'); await p.click('[data-form=task] button.primary');
   await nav('home'); await p.click('[data-nav=settings]');
@@ -183,7 +209,13 @@ const ok = (name, cond) => { console.log((cond ? 'PASS ' : 'FAIL ') + name); if 
   await ctx.addInitScript(() => { localStorage.setItem('daily-driver-v1', JSON.stringify({ routineItems: [{ id: 'r1', label: 'Old habit' }], routineLog: {}, deadlines: [{ id: 'd1', title: 'Old exam', date: '2030-01-01', kind: 'Exam' }], tasks: [], apps: [], contacts: [], stars: [], subs: [], expenses: [], budget: 0 })); });
   const q = await ctx.newPage(); await q.goto(`http://localhost:${port}/`); await q.waitForSelector('h1');
   await q.click('#nav [data-nav=home]'); ok('v1 habits migrated', /Old habit/.test(await q.textContent('#view')));
-  await q.click('#nav [data-nav=plan]'); ok('v1 deadlines became tasks', /Old exam/.test(await q.textContent('#view')));
+  await q.click('#nav [data-nav=tasks]'); ok('v1 deadlines became tasks', /Old exam/.test(await q.textContent('#view')));
+  // Old flat notes (saved before the notes app) become pages, talking points in their own book
+  const octx = await b.newContext({ viewport: { width: 390, height: 844 } });
+  await octx.addInitScript(() => { if (!localStorage.getItem('daily-driver-v2')) localStorage.setItem('daily-driver-v2', JSON.stringify({ v: 2, notes: [{ id: 'o1', text: 'Kroll idea\nsecond line', at: 1700000000000, pinned: true }, { id: 'o2', text: 'Talking point: Rates\nWhat happened: cut\nMy view: ', at: 1700000001000, tp: true, src: 'Rates' }] })); });
+  const o = await octx.newPage(); await o.goto(`http://localhost:${port}/`); await o.waitForSelector('h1');
+  const mig = await o.evaluate(async () => { const c = await import('/js/core.js'); return { pages: c.S.pages.map(x => [x.title, x.pinned, x.bookId && c.S.books.find(b => b.id === x.bookId)?.name, x.blocks.map(b => b.x).join('|')]), notes: c.S.notes.length }; });
+  ok('old notes migrate into pages without losing text', mig.notes === 0 && mig.pages.length === 2 && mig.pages[0][0] === 'Kroll idea' && mig.pages[0][1] === true && mig.pages[0][3] === 'second line' && mig.pages[1][0] === 'Rates' && mig.pages[1][2] === 'Talking points' && /What happened: cut\|My view:/.test(mig.pages[1][3]));
   // Android shell simulation: the app must use window.Capacitor.Plugins (no registerPlugin) for HTTP, share and notifications
   const fakeIcs = ['BEGIN:VCALENDAR', 'BEGIN:VEVENT', 'UID:n1', 'DTSTART:' + stamp(Date.now() + 3 * 36e5), 'DTEND:' + stamp(Date.now() + 4 * 36e5), 'SUMMARY:Native bridge event', 'END:VEVENT', 'END:VCALENDAR', ''].join('\r\n');
   const nctx = await b.newContext({ viewport: { width: 390, height: 844 } });
@@ -217,13 +249,13 @@ const ok = (name, cond) => { console.log((cond ? 'PASS ' : 'FAIL ') + name); if 
   ok('things ticked on a widget are applied', await n.evaluate(async () => { const c = await import('/js/core.js'); return c.S.tasks.find(x => x.id === 'wtask').done && !!Object.values(c.S.habitLog)[0]?.[window.__hid]; }));
   await n.evaluate(() => { window.__take = { ops: '[]', target: 'plan:tasks:add' }; window.dispatchEvent(new Event('widgetOpen')); });
   await n.waitForTimeout(300);
-  ok('a widget can open Plan with the add bar focused', await n.locator('h1:has-text("Plan")').count() === 1 && await n.evaluate(() => document.activeElement && document.activeElement.name === 'title'));
+  ok('a widget can open Tasks with the add bar focused', await n.locator('h1:has-text("Tasks")').count() === 1 && await n.evaluate(() => document.activeElement && document.activeElement.name === 'title'));
   await n.evaluate(() => { window.__take = { ops: JSON.stringify([{ t: 'capture', id: 'Read the Kroll note\nhttps://example.com/kroll' }]), target: 'plan:tasks' }; window.dispatchEvent(new Event('widgetOpen')); });
   await n.waitForTimeout(400);
-  ok('text shared into the app becomes a task and a note', await n.evaluate(async () => { const c = await import('/js/core.js'); return c.S.tasks.some(t => t.title === 'Read the Kroll note') && c.S.notes.some(x => x.shared && /kroll/.test(x.text)); }));
+  ok('text shared into the app becomes a task and a note', await n.evaluate(async () => { const c = await import('/js/core.js'); return c.S.tasks.some(t => t.title === 'Read the Kroll note') && c.S.pages.some(x => x.shared && /Kroll/.test(x.title + JSON.stringify(x.blocks))); }));
   await n.evaluate(() => { window.__take = { ops: '[]', target: 'plan:notes:add' }; window.dispatchEvent(new Event('widgetOpen')); });
   await n.waitForTimeout(300);
-  ok('the quick-add widget can open the note box', await n.locator('[data-form=note] textarea').count() === 1 && await n.evaluate(() => document.activeElement && document.activeElement.tagName === 'TEXTAREA'));
+  ok('the quick-add widget can open the notes jot box', await n.locator('[data-form=jot] input').count() === 1 && await n.evaluate(() => document.activeElement && document.activeElement.name === 'text'));
   ok('the snapshot carries the practice problems and flags calendar items', await n.evaluate(async () => { const w = await import('/js/widgets.js'); const s = w.buildSnapshot(); return s.problems.length >= 8 && s.cal.some(e => e.o === 1); }));
   await n.evaluate(() => { window.__take = { ops: '[]', target: 'calendar:week' }; window.dispatchEvent(new Event('widgetOpen')); });
   await n.waitForTimeout(300);

@@ -13,13 +13,14 @@ Host the folder on GitHub Pages, Netlify or Cloudflare Pages to use it from your
 
 ## What is in it
 
-Four tabs, each a focused screen (Home, Learn, Plan, Calendar). The look is frosted glass over a soft colour wash, in the spirit of ColorOS 17; light and dark are chosen in Settings, and the glass can be switched off there for solid panes.
+Five tabs, each a focused screen (Home, Tasks, Notes, Calendar, Learn). Settings is the round button at the top right. The look is frosted glass over a soft colour wash, in the spirit of ColorOS 17; light and dark are chosen in Settings, and the glass can be switched off there for solid panes.
 
 | Tab | What it does |
 | --- | --- |
 | Home | A glass hero with a progress ring, a countdown to your start date and a line that reacts to how the day is going, a Next up card with a live countdown, on Sundays and Mondays a recap of your week, with today's counts, one capture bar, your to-do list ranked by urgency (ticked items sink to the bottom and can be unticked), what needs you today (calendar items titled "Action:" or "Due:", important mail facts; hidden when there is nothing), today's schedule and a one-line habit strip. Settings opens from the button at the top |
 | Learn | News (a lead story and the rest, filtered by World, India, Business or Tech) and Cases (with a practice streak): a practice problem of the day with a suggested approach, the problem-solving playbook, a case library, a toolkit of change and organisation frameworks and a map of HR technology, aimed at HR transformation consulting |
-| Plan | Tasks: one list grouped by when it is due (Overdue, Today, Next 7 days, Later, No date), with a one-line add bar and a priority toggle. Notes: ideas, links and talking points, pinned or turned into tasks in one tap. Text shared into the app from any other app lands here too |
+| Tasks | One list grouped by when it is due (Overdue, Today, Next 7 days, Later, No date), with a one-line add bar and a priority toggle. |
+| Notes | A notes app: books and pages, lines that are text, headings, bullets, numbers or checkboxes, pinning, search, quick jot, checklist items into tasks. Links shared from other apps and talking points from the news land here. |
 | Calendar | Everything dated, like Google Calendar: month grid with dots, a week and day time grid, and an agenda list. Each day lists its events, deadlines ("Due:"), things to do ("Action:"), email key facts ("Mail:") and tasks that fall due, with ticks and an add-event form |
 
 Every news story has a Talking point button that saves an interview-style note (what happened, why it matters, your view). The Track, Goals, Career and Money screens were removed. Their data (journal, goals, applications, expenses and so on) is still kept in the data file and in backups, only the screens are gone. Habits are managed in Settings and ticked on Home.

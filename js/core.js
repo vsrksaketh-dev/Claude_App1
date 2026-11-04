@@ -1,6 +1,6 @@
 // App shell: shared state, the view/section registry and render loop.
 // Feature modules call register() with { id, label, nav, enabled, render, actions, forms, inputs }.
-// A view with a numeric `nav` appears in the bottom bar (four of them); one without (Settings) is opened from a link.
+// A view with a numeric `nav` appears in the bottom bar (five of them); one without (Settings) is opened from a link.
 // Extension points other modules can push into: app.nudgeSources, app.taskSources, app.todayCards.
 import { get, save } from './store.js';
 
@@ -17,6 +17,7 @@ export const app = {
   nudgeSources: [], // () => string[]            lines for "Needs attention"
   taskSources: [],  // () => task[]              derived tasks shown in the matrix
   todayCards: [],   // () => html string         extra cards on Home
+  after: [],        // () => void               run after every screen is drawn (notes editor: sizing and caret)
   afterCommit: null, // () => void               called after every saved change (used to refresh widgets)
   pop: '',          // data-flip key of the checkbox just ticked, so it can bounce after the re-render
 };
@@ -69,8 +70,9 @@ export function render() {
   if (app.pop) { const k = app.pop; app.pop = ''; [...$('#view').querySelectorAll('[data-flip]')].find(e => e.dataset.flip === k)?.classList.add('popped'); }
   lastView = ui.view;
   renderNav();
+  app.after.forEach(f => f());
 }
 export const commit = () => { save(); render(); if (app.afterCommit) app.afterCommit(); };
-export const go = (view, sub) => { ui.view = view; if (sub) Object.assign(ui.sub, sub); render(); window.scrollTo(0, 0); };
+export const go = (view, sub) => { ui.view = view === 'plan' ? 'tasks' : view; if (sub) Object.assign(ui.sub, sub); render(); window.scrollTo(0, 0); };
 export const byId = (arr, id) => arr.find(x => x.id === id);
 export const remove = (key, id) => { S[key] = S[key].filter(x => x.id !== id); };

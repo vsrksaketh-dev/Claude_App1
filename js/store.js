@@ -15,7 +15,9 @@ export const blank = () => ({
   meta: { lastBackup: '', since: today() },   // since: first run, so the backup nudge waits a couple of weeks
   reminders: { on: false, morning: '07:30', evening: '21:00', briefing: true, wrap: true, comeback: true, weekly: true, backup: true, deadlines: true, cards: false, events: true },   // Android app only
   habits: DEFAULT_HABITS.map(([name, when]) => ({ id: uid(), name, when, days: [0, 1, 2, 3, 4, 5, 6], created: today() })),
-  notes: [],                   // { id, text, at, pinned, tp, src }  short notes and talking points (Plan > Notes)
+  books: [],                   // { id, name, at }  notebooks (pages with no book sit in the built-in Inbox)
+  pages: [],                   // { id, title, bookId, blocks[], pinned, at, upd, tp, src, shared }  blocks: { id, t: p|h|b|n|c, x, d, l }  (Notes)
+  notes: [],                   // legacy flat notes: converted to pages on load, kept empty afterwards
   habitLog: {},                // { date: { habitId: true } }
   mits: {},                    // { date: [{ id, text, done, taskId }] }  top three for the day
   tasks: [],                   // { id, title, due, important, done, doneAt, kind, goalId }  (triage is legacy: such tasks now count as ordinary open tasks)
@@ -48,6 +50,20 @@ function migrate(o) {
     ['routineItems', 'routineLog', 'deadlines', 'guess'].forEach(k => k === 'guess' ? 0 : delete o[k]);
   }
   const n = { ...base, ...o, v: SCHEMA };
+  // The old flat notes become pages (talking points go in their own book); nothing is dropped.
+  if (Array.isArray(o.notes) && o.notes.length) {
+    n.books = [...(o.books || [])]; n.pages = [...(o.pages || [])];
+    let tp = n.books.find(b => b.name === 'Talking points');
+    o.notes.forEach(x => {
+      if (x.tp && !tp) { tp = { id: uid(), name: 'Talking points', at: Date.now() }; n.books.push(tp); }
+      const lines = String(x.text || '').split('\n');
+      const hasTitle = lines[0].trim() && lines[0].length <= 80;
+      const first = hasTitle ? lines[0].replace(/^Talking point:\s*/, '') : '', body = hasTitle ? lines.slice(1) : lines;
+      n.pages.push({ id: x.id || uid(), title: first, bookId: x.tp ? tp.id : '', pinned: !!x.pinned, at: x.at || Date.now(), upd: x.at || Date.now(), tp: !!x.tp, src: x.src || '', shared: !!x.shared,
+        blocks: (body.length ? body : ['']).map(t => ({ id: uid(), t: 'p', x: t })) });
+    });
+    n.notes = [];
+  }
   ['profile', 'modules', 'meta', 'stats', 'timer', 'reminders'].forEach(k => { n[k] = { ...base[k], ...(o[k] || {}) }; });
   return n;
 }

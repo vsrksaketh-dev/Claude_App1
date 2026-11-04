@@ -1,6 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
-<shape xmlns:android="http://schemas.android.com/apk/res/android" android:shape="rectangle">
-    <solid android:color="@color/dd_bg" />
-    <stroke android:width="1dp" android:color="@color/dd_rim" />
-    <corners android:radius="30dp" />
-</shape>
+<!-- Frosted pane. A home-screen widget cannot blur what is behind it (only the system can), so the pane is almost opaque,
+     with a soft colour wash from top to bottom, a bright lit rim and a faint inner edge, which reads as frosted glass on any wallpaper. -->
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item>
+        <shape android:shape="rectangle">
+            <solid android:color="@color/dd_bg" />
+            <corners android:radius="30dp" />
+        </shape>
+    </item>
+    <item>
+        <shape android:shape="rectangle">
+            <gradient android:angle="300" android:startColor="@color/dd_wash1" android:endColor="@color/dd_wash2" />
+            <corners android:radius="30dp" />
+        </shape>
+    </item>
+    <item android:bottom="1dp" android:left="1dp" android:right="1dp" android:top="1dp">
+        <shape android:shape="rectangle">
+            <stroke android:width="1dp" android:color="@color/dd_inner" />
+            <corners android:radius="29dp" />
+        </shape>
+    </item>
+    <item>
+        <shape android:shape="rectangle">
+            <stroke android:width="1.5dp" android:color="@color/dd_rim" />
+            <corners android:radius="30dp" />
+        </shape>
+    </item>
+</layer-list>

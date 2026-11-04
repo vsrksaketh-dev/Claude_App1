@@ -8,7 +8,8 @@ import { syncAll, onCalendarChange } from './calendar.js';
 import { pushSoon, pushNow, syncFromWidgets, openTarget } from './widgets.js';
 import './views/home.js';
 import './views/learn.js';
-import './views/plan.js';
+import './views/tasks.js';
+import './views/notes.js';
 import './views/calendar.js';
 import './sections/settings.js';
 
@@ -71,7 +72,7 @@ async function loadNews() {
   pushSoon();
   window.addEventListener('widgetOpen', syncFromWidgets);
   document.addEventListener('visibilitychange', () => { if (!document.hidden) syncFromWidgets(); });
-  initBackButton(() => ui.view === 'home', () => go('home'));
+  initBackButton(() => ui.view === 'home' && !ui.nb.page, () => { if (ui.view === 'notes' && ui.nb.page) { ui.nb.page = null; render(); } else go('home'); });
   // Live countdowns (Next up on Home) tick without redrawing the page, so nothing being typed is disturbed.
   setInterval(() => document.querySelectorAll('[data-countdown]').forEach(el => { el.textContent = countdownText(Number(el.dataset.countdown)); }), 20000);
   // Reopening the app after a while: refresh the news and the widgets so neither shows yesterday.

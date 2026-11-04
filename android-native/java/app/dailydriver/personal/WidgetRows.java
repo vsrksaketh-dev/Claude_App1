@@ -412,9 +412,8 @@ final class WidgetRows {
     }
 
     private static void calendar(Context c, List<Row> out, JSONObject s, long now) {
-        String mode = Widgets.prefs(c).getString("cmode", "month");
-        String sel = Widgets.prefs(c).getString("csel", Widgets.dayKey(0));
-        String anchor = Widgets.prefs(c).getString("canchor", sel);
+        String[] st = Widgets.calState(c);
+        String mode = st[0], sel = st[1], anchor = st[2];
         if ("month".equals(mode)) {
             Row h = add(out, T_SECTION);
             h.a = dayHeading(sel);

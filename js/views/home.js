@@ -1,7 +1,7 @@
 // Home: what needs you today. The to-do list first, then anything waiting on you, today's schedule and a one-line habit strip.
 import { S, app, register, remove, render as rerender } from '../core.js';
 import { today, addDays, daysFromToday, esc, fmtDay, uid, pick, countdownText, clock12 } from '../util.js';
-import { empty, chip, check } from '../ui.js';
+import { empty, chip, check, me } from '../ui.js';
 import { getSources, hasCalendars, lastSync, syncAll } from '../calendar.js';
 import { dayItems, pendingActions } from '../schedule.js';
 import { habitsOn, habitDone, openTasks, dayStreak, byRank, doneToday, doneLast, uncompleteTask, dayProgress, practiceStreak } from '../logic.js';
@@ -82,7 +82,7 @@ function render() {
   const hasAttention = acts.length || briefMail.length || nd.length;
   const outstanding = acts.some(e => !e.done) || briefMail.length || nd.length;
   return `
-  <section class="hero">${ring(prog)}<div class="hero-top"><p class="hero-date">${esc(fmtDay(t))}</p><button class="pill" data-nav="settings">Settings</button></div>
+  <section class="hero">${ring(prog)}<div class="hero-top"><p class="hero-date">${esc(fmtDay(t))}</p>${me()}</div>
     <h1>${hello}${S.profile.name ? ', ' + esc(S.profile.name) : ''}</h1>
     <p class="hero-motto">${esc(heroLine(prog))}</p>
     <div class="hero-stats"><span class="stat"><b>${todos.length}</b>to do</span><span class="stat"><b>${finished.length}</b>done today</span>${evs.length ? `<span class="stat"><b>${evs.length}</b>on today</span>` : ''}${badge()}</div></section>
@@ -90,7 +90,7 @@ function render() {
   <form data-form="quick" data-keep class="capture"><input name="text" placeholder="Add a task" aria-label="Add a task" maxlength="140" required><button class="primary">Add</button></form>
 
   <section class="card"><div class="row between"><h2 style="margin:0">To do</h2>${todos.length ? chip(todos.length + ' left') : chip('all done', 'ok')}</div>
-    <div style="margin-top:12px">${todos.length || finished.length ? `<ul class="list">${todos.slice(0, SHOW).map(todoRow).join('')}${finished.map(doneRow).join('')}</ul>${todos.length > SHOW ? `<div class="todo-more"><button class="ghost" data-nav="plan">+${todos.length - SHOW} more in Plan</button></div>` : ''}` : empty('Nothing to do. Add something above, or enjoy it.')}</div>
+    <div style="margin-top:12px">${todos.length || finished.length ? `<ul class="list">${todos.slice(0, SHOW).map(todoRow).join('')}${finished.map(doneRow).join('')}</ul>${todos.length > SHOW ? `<div class="todo-more"><button class="ghost" data-nav="tasks">+${todos.length - SHOW} more in Tasks</button></div>` : ''}` : empty('Nothing to do. Add something above, or enjoy it.')}</div>
   </section>
 
   ${recapCard()}

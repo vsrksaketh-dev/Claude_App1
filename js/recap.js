@@ -11,7 +11,7 @@ export function weekRecap() {
   const now = Date.now();
   const sessions = days.reduce((a, k) => a + agendaOn(k).filter(e => e.kind === 'event' && !e.allDay && e.end < now).length, 0);
   const practice = days.filter(k => practiceDays().has(k)).length;
-  const notes = S.notes.filter(n => n.at >= parse(days[0]).getTime()).length;
+  const notes = S.pages.filter(n => n.at >= parse(days[0]).getTime()).length;
   const ahead = [1, 2, 3, 4, 5, 6, 7].reduce((a, i) => a + agendaOn(addDays(today(), i)).filter(e => e.kind === 'due' || e.kind === 'action').length, 0);
   const aheadTasks = S.tasks.filter(t => !t.done && t.due && t.due > today() && t.due <= addDays(today(), 7)).length;
   return { tasks, bestDay: best[1] ? fmtDay(best[0]) : '', bestN: best[1], sessions, practice, notes, ahead: ahead + aheadTasks };

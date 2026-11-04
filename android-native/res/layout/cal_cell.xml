@@ -10,15 +10,17 @@
     android:orientation="vertical"
     android:paddingTop="1dp">
     <TextView
+        android:fontFamily="sans-serif-medium"
         android:id="@+id/dn"
         android:layout_width="24dp"
         android:layout_height="24dp"
         android:gravity="center"
         android:maxLines="1"
         android:textColor="@color/dd_text"
-        android:textSize="12sp"
+        android:textSize="13sp"
         android:textStyle="bold" />
     <TextView
+        android:fontFamily="sans-serif-medium"
         android:id="@+id/dots"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

@@ -11,6 +11,7 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal">
         <TextView
+        android:fontFamily="sans-serif-medium"
             android:id="@+id/pl"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -19,12 +20,13 @@
             android:textColor="@color/dd_text"
             android:textSize="13sp" />
         <TextView
+        android:fontFamily="sans-serif-medium"
             android:id="@+id/pv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:maxLines="1"
             android:textColor="@color/dd_muted"
-            android:textSize="12sp" />
+            android:textSize="13sp" />
     </LinearLayout>
     <ProgressBar
         android:id="@+id/pb"

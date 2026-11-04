@@ -86,6 +86,51 @@ public class Harness {
     // tiny and large calendar sizes both draw
     for (int h : new int[]{200, 280, 360, 520}) { AppWidgetManager.height = h; Widgets.handle(c, "cmode", "month", ""); Widgets.handle(c, "ctoday", "", ""); }
     ok("calendar draws at every height", AppWidgetManager.drawn.size() == 10);
+    // calendar fuzz: hundreds of random taps (arrows, days, modes, Today) must never break the state or the drawing
+    {
+      Widgets.save(c, snap);
+      Random rnd = new Random(7);
+      String[] modes = {"month", "week", "agenda"};
+      boolean noThrow = true, oneSel = true, inRange = true, titled = true, agendaFwd = true, wentBack = false; String why = "";
+      Widgets.handle(c, "ctoday", "", "");
+      for (int step = 0; step < 800; step++) {
+        int r = rnd.nextInt(10);
+        String[] st0 = Widgets.calState(c);
+        if (r < 4) Widgets.handle(c, "cnav", rnd.nextBoolean() ? "1" : "-1", "");
+        else if (r < 7) Widgets.handle(c, "csel", Widgets.plusDays(Widgets.weekStart(st0[2]), rnd.nextInt(35) - 3), "");
+        else if (r < 9) Widgets.handle(c, "cmode", modes[rnd.nextInt(3)], "");
+        else Widgets.handle(c, "ctoday", "", "");
+        String[] st = Widgets.calState(c);
+        if (Math.abs(Widgets.dayDiff(Widgets.dayKey(0), st[2])) > 900 || Math.abs(Widgets.dayDiff(Widgets.dayKey(0), st[1])) > 900) { inRange = false; why = st[1] + "/" + st[2]; }
+        if (st[0].equals("agenda") && Widgets.dayDiff(Widgets.dayKey(0), st[2]) < 0) agendaFwd = false;
+        for (int h : new int[]{240, 340, 520}) {
+          try {
+            RemoteViews v = Widgets.build(c, Widgets.CALENDAR, new JSONObject(snap), h, 300, 1);
+            if (v.texts.get(R.id.ctitle) == null || v.texts.get(R.id.ctitle).length() == 0) titled = false;
+            List<RemoteViews> gcells = new ArrayList<>();
+            if (st[0].equals("month")) for (RemoteViews row : v.kids.get(R.id.calgrid)) gcells.addAll(row.kids.get(R.id.crow));
+            if (st[0].equals("week")) for (RemoteViews row : v.kids.get(R.id.calweek)) gcells.addAll(row.kids.get(R.id.crow));
+            if (!st[0].equals("agenda")) {
+              int selected = 0, selDay = -1;
+              for (RemoteViews cell : gcells) if (cell.ints.get(R.id.cellroot + ":setBackgroundResource") == R.drawable.cell_sel_bg) { selected++; selDay = Integer.parseInt(cell.texts.get(R.id.dn).toString()); }
+              boolean shown = gcells.size() > 0;
+              boolean inGrid = false; { String first = st[0].equals("month") ? st[2].substring(0, 8) + "01" : Widgets.weekStart(st[2]); String start = Widgets.weekStart(first); for (int i = 0; i < gcells.size(); i++) if (Widgets.plusDays(start, i).equals(st[1])) inGrid = true; }
+              if (inGrid && (selected != 1 || selDay != Integer.parseInt(st[1].substring(8)))) { oneSel = false; why = st[0] + " sel " + st[1] + " anchor " + st[2] + " highlighted " + selected + " day " + selDay; }
+              if (!inGrid && selected != 0) { oneSel = false; why = "highlight outside grid " + st[1]; }
+            }
+            WidgetRows.build(c, Widgets.CALENDAR);
+          } catch (Throwable t) { noThrow = false; why = st[0] + " " + st[1] + " " + st[2] + " " + t; }
+        }
+      }
+      ok("800 random calendar taps never leave an unreadable state", inRange && agendaFwd);
+      ok("and the calendar always draws (" + why + ")", noThrow && titled);
+      ok("exactly the picked day is highlighted, whichever way it was reached (" + why + ")", oneSel);
+      // a garbled saved state heals itself
+      c.p.m.put("csel", "garbage"); c.p.m.put("canchor", "2099-99-99"); c.p.m.put("cmode", "weird");
+      String[] healed = Widgets.calState(c);
+      ok("a garbled saved state resets to today", healed[0].equals("month") && healed[1].equals(Widgets.dayKey(0)));
+      Widgets.handle(c, "ctoday", "", "");
+    }
     // the Java calendar reader must agree with the JavaScript one on the same file
     if (a.length >= 5) {
       String text = new String(Files.readAllBytes(Paths.get(a[1])));

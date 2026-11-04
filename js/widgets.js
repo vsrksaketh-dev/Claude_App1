@@ -8,6 +8,7 @@ import { openTasks, taskQuadrant, habitsOn, habitDone, dayStreak, completeTask, 
 import { widgetPush, widgetTake } from './native.js';
 import { nativeSources } from './calendar.js';
 import { PRACTICE } from './casebook.js';
+import { quickNote } from './notes.js';
 
 const RANK = { UI: 0, I: 1, U: 2, '': 3 };
 const dueLabel = d => { if (!d) return ''; const n = daysFromToday(d); return n < 0 ? 'Overdue' : n === 0 ? 'Today' : n === 1 ? 'Tomorrow' : fmtDay(d); };
@@ -56,7 +57,7 @@ export function applyOps(ops) {
     // Text shared into the app from another app: the first line becomes a task, and the whole text is kept as a note when there is more to it.
     if (o.t === 'capture') {
       const lines = String(o.id || '').split('\n').map(x => x.trim()).filter(Boolean), title = (lines[0] || '').slice(0, 140);
-      if (title) { S.tasks.push({ id: uid(), title, due: '', important: false, done: false, kind: 'Task' }); if (lines.length > 1 || (lines[0] || '').length > 140) S.notes.push({ id: uid(), at: Date.now(), text: lines.join('\n'), shared: true }); }
+      if (title) { S.tasks.push({ id: uid(), title, due: '', important: false, done: false, kind: 'Task' }); if (lines.length > 1 || (lines[0] || '').length > 140) quickNote(lines.join('\n'), { shared: true }); }
     }
   });
 }
@@ -67,12 +68,12 @@ export function openTarget(target) {
   if (!target) return;
   let [view, a, b] = target.split(':');
   if (view === 'track') view = 'home';
+  if (view === 'plan') view = a === 'notes' ? 'notes' : 'tasks';   // the old Plan tab is now Tasks and Notes
   if (!app.views[view]) return;
   if (view === 'learn' && ['news', 'cases'].includes(a)) ui.sub.learn = a;
-  if (view === 'plan' && ['tasks', 'notes'].includes(a)) ui.sub.plan = a;
   if (view === 'calendar') { if (['month', 'week', 'day', 'agenda'].includes(a)) ui.sub.calMode = a; if (/^\d{4}-\d{2}-\d{2}$/.test(b || a || '')) { ui.sub.calSel = ui.sub.calAnchor = b || a; if (!ui.sub.calMode) ui.sub.calMode = 'month'; } }
   go(view);
-  if ((view === 'home' && a === 'capture') || (view === 'plan' && b === 'add')) setTimeout(() => document.querySelector('[data-form=quick] input, [data-form=task] input, [data-form=note] textarea')?.focus(), 80);
+  if ((view === 'home' && a === 'capture') || ((view === 'tasks' || view === 'notes') && b === 'add')) setTimeout(() => document.querySelector('[data-form=quick] input, [data-form=task] input, [data-form=jot] input')?.focus(), 80);
 }
 
 export async function syncFromWidgets() {
