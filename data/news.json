@@ -1,69 +1,68 @@
 {
- "date": "2026-11-03",
- "generated": "2026-11-03T06:25:00+05:30",
+ "date": "2026-11-04",
+ "generated": "2026-11-04T10:45:00+05:30",
  "items": [
   {
    "cat": "International",
-   "title": "US midterms today as Iran offers to reopen Hormuz on strict conditions",
-   "summary": "US midterm elections are scheduled for 3 November. Reports from 2 November say Iran offered to reopen the Strait of Hormuz under strict conditions, including sanctions relief and release of frozen assets, which Washington is unlikely to accept, and that oil fell sharply on Monday on hopes of a deal. Several reports also say a new US operation against Iran could follow soon after the vote; that is unconfirmed and provisional.",
-   "why": "Gulf diplomacy and US politics drive oil prices, which feed into corporate budgets, hiring and marketing spend.",
-   "src": "Yahoo News, CBS News, Times of Israel",
-   "url": "https://www.yahoo.com/news/politics/articles/iran-offers-open-strait-hormuz-201319460.html"
+   "title": "US midterms: early results arrive after strikes on Iran's Qeshm Island on the eve of the vote",
+   "summary": "Live pages from CBC and CNBC say polls closed on 3 November with control of the House and Senate in the balance, and Democrats had won the first Senate race reported. CBS and Foreign Policy report US air strikes on Qeshm Island in the Strait of Hormuz on Monday, which US officials called defensive. Trump told the Financial Times he has no immediate plans for renewed strikes, and Iran's foreign minister said mediated talks were proceeding intensively. No final outcome was available at search time, so everything here is provisional.",
+   "why": "US political control and Gulf tension drive oil and market sentiment, which shape corporate budgets and hiring.",
+   "src": "CBS News, CNBC, CBC, Foreign Policy",
+   "url": "https://www.cbsnews.com/live-updates/iran-war-us-trump-negotiations-midterms/"
   },
   {
    "cat": "International",
    "kind": "fact",
-   "title": "Ukraine and Russia both said their emergency alert apps were hacked overnight",
-   "summary": "A search summary says both countries reported false air-raid, chemical and nuclear warnings sent through their alert apps, and that Ukrainian emergency services said a Russian strike on a school in Zaporizhzhia region killed 24 people on Monday. These come from a single aggregated summary, so treat them as provisional.",
-   "why": "A reminder of how crisis communication and trust in official channels can be attacked.",
-   "src": "Search summary (Morning Recap)"
+   "title": "Hungary is not blocking Ukraine's EU accession, Kyiv's envoy says",
+   "summary": "Euronews reported the statement from Ukraine's envoy. It comes from a single headline in the search results, so treat it as provisional.",
+   "why": "EU enlargement decisions affect where European firms expand and hire.",
+   "src": "Euronews"
   },
   {
    "cat": "Indian",
-   "title": "Rupee steadies near 95 per dollar as RBI measures support it",
-   "summary": "TradingView and other market reports put the rupee around 94.90 to 95.30 per dollar, recovering from about 96.79 earlier, helped by RBI curbs on rebooking cancelled forex derivatives and a special FX window for state refiners. Analysts still expect pressure, with S&P Global seeing about 97 by end-2026. Nothing specific to 3 November turned up, so figures are provisional.",
-   "why": "A weak rupee raises the cost of imports and overseas education and squeezes company margins.",
-   "src": "TradingView, CNBC",
+   "title": "Rupee holds near 94.90 per dollar as RBI measures support it",
+   "summary": "TradingView, about a day old, says the rupee firmed to roughly 94.90 per dollar helped by an RBI special FX window for state oil refiners and its FCNR(B) deposit scheme. A CNBC piece from 16 October quotes analysts expecting pressure into March 2027, with a possible slide toward 100. Nothing dated 4 November turned up, so these are the latest available figures.",
+   "why": "A weak rupee raises import and overseas-education costs and squeezes company margins.",
+   "src": "TradingView, CNBC (16 Oct), Finimize",
    "url": "https://www.tradingview.com/news/te_news:597116:0-rupee-rebounds-on-rbi-support/"
   },
   {
    "cat": "Business",
-   "title": "Sensex up 1.7% to about 75,693 and Nifty near 23,441 on 2 November, a third straight gain",
-   "summary": "Business Standard and Kotak Neo report the Sensex closing around 75,692.78 and the Nifty 50 around 23,440, both up about 1.7%, with Reliance Industries jumping 12% on results and lower crude helping. One data site shows a different Sensex level, likely an earlier-session figure, so the numbers are provisional.",
+   "title": "Sensex jumps 1,225 points to 76,918 and Nifty reclaims 23,800 on 3 November, a fourth straight gain",
+   "summary": "Business Standard reports the Nifty 50 up 1.58% at 23,810.85 and the Sensex up 1.62% at 76,917.85, both at two-month highs and up about 5% over four sessions. Earnings and lower crude are credited, and FMCG led with about 3%. BusinessToday's intraday check had slightly different levels, so figures are provisional.",
    "why": "Rising markets lift recruiters' risk appetite and campus-hiring plans.",
-   "src": "Business Standard, Kotak Neo",
-   "url": "https://www.business-standard.com/markets/news/stock-market-live-november-2-nse-bse-sensex-today-nifty50-gift-nifty-crude-oil-prices-q2-results-jio-share-price-ipo-today-126110200053_1.html"
+   "src": "Business Standard, TradingView, BusinessToday",
+   "url": "https://www.business-standard.com/amp/markets/news/stock-market-live-november-3-nse-bse-sensex-today-nifty50-gift-nifty-crude-oil-prices-q2-results-ipo-today-126110300101_1.html"
   },
   {
    "cat": "Business",
    "kind": "fact",
-   "title": "Oil fell sharply on Monday on hopes of a Gulf deal",
-   "summary": "One summary says oil dropped more than 7% on Monday, while a market report says crude was down more than 2% in early Indian trade. The sources differ on size, so treat the move as provisional.",
-   "why": "Oil prices shape India's inflation, rupee and corporate costs.",
-   "src": "Search summaries"
+   "title": "IT, metals and pharma lagged the 3 November rally",
+   "summary": "Market reports say banks, financials, FMCG, autos, cement and realty led, while IT, metals and pharma traded lower and investors moved away from global AI-linked trades.",
+   "why": "Sector rotation shows which industries may hire more or less aggressively.",
+   "src": "TradingView, IBTimes India"
   },
   {
    "cat": "Tech",
-   "title": "Anthropic's amended IPO filing raises its Google hosting commitment to about 121 billion dollars",
-   "summary": "A 2 November AI roundup reports the amended filing lifts Anthropic's minimum spend under a Google hosting agreement to about 121.3 billion dollars through July 2033, and says it expects to pay SpaceX's AI unit about 3.1 billion dollars a month from December 2026. The detail comes from an aggregator, so it is provisional.",
-   "why": "Shows how AI vendors' infrastructure bills shape pricing and the tools employers adopt.",
-   "src": "FourWeekMBA roundup",
-   "url": "https://fourweekmba.com/ai-daily-roundup-2-nov-2026-anthropic-17b-quarter-895b/"
+   "title": "OpenAI merges ChatGPT's Chat and Work tabs and plans to push for AI 'speed limits'",
+   "summary": "A tech-news listing says OpenAI is merging the Chat and Work tabs, and plans to lobby for speed limits on the most powerful models when Congress returns on 9 November. It also reports OpenAI hired a former Army Secretary for a national security role. The text was cut off in places, so details are provisional.",
+   "why": "Product and policy moves shape which AI tools employers adopt and how they are regulated.",
+   "src": "Tech news aggregator listing"
   },
   {
    "cat": "Tech",
-   "title": "OpenAI funding reports still conflict, and it announced four Abu Dhabi agreements",
-   "summary": "One source says OpenAI trimmed its round to 20 billion dollars at a 1.25 trillion valuation, another that it secured about 11 billion in commitments against a 30 billion target. A separate report lists four OpenAI agreements announced in Abu Dhabi on 2 November. Figures conflict, so all are provisional.",
-   "why": "Investor appetite decides which AI vendors employers can rely on.",
-   "src": "AI news aggregators"
+   "title": "Google reportedly curbs AI in school accounts after backlash",
+   "summary": "Search results say Google had told schools that switching off its AI tools would also remove Search access, drew criticism, and the Wall Street Journal later reported it curbed AI in school accounts. No exact date was given, so this is provisional.",
+   "why": "A case study in platform bundling, trust and how brands handle backlash.",
+   "src": "Tech news aggregator listing"
   },
   {
    "cat": "Tech",
    "kind": "fact",
-   "title": "Apple reportedly testing Alibaba's Qwen in Apple Intelligence for China",
-   "summary": "Aggregator feeds report Apple is starting tests of Apple Intelligence in China using Alibaba's Qwen model. This is unconfirmed by a primary source.",
-   "why": "Local AI partnerships show how global brands adapt products to regulated markets.",
-   "src": "AI news aggregators"
+   "title": "Apple Intelligence reportedly starts testing in China with Alibaba's Qwen on Wednesday",
+   "summary": "One source says Apple starts testing Apple Intelligence in China using Alibaba's Qwen model on Wednesday. It is not confirmed by a primary source.",
+   "why": "Shows how global brands adapt products through local partners in regulated markets.",
+   "src": "Tech news aggregator listing"
   }
  ]
 }
