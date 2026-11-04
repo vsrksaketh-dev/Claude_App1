@@ -3,8 +3,8 @@ import { ui, S } from './core.js';
 import { esc } from './util.js';
 
 // Screen header: big title, optional subtitle, optional control on the right.
-// The round button at the right opens Settings from every screen, so Settings needs no space of its own.
-export const me = () => `<button class="me" data-nav="settings" aria-label="Settings">${esc((S.profile.name || 'D').trim().charAt(0).toUpperCase() || 'D')}</button>`;
+// Three quiet dots at the top right open Settings from every screen, so Settings needs no space of its own.
+export const me = () => `<button class="me" data-nav="settings" aria-label="Settings and more"><i></i><i></i><i></i></button>`;
 export const head = (title, subtitle = '', right = '') => `<header class="top"><div><h1>${title}</h1>${subtitle ? `<p class="sub">${subtitle}</p>` : ''}</div><div class="top-r">${right}${ui.view === 'settings' ? '' : me()}</div></header>`;
 export const field = (label, name, attrs = '') => `<label>${label}<input name="${name}" ${attrs}></label>`;
 export const empty = msg => `<p class="muted">${msg}</p>`;

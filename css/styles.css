@@ -380,3 +380,10 @@ body.editing main { padding-bottom: 110px; }
 .wk-hist i.met { background: var(--accent); }
 .hedit { display: grid; gap: 12px; margin-top: 14px; padding-top: 14px; border-top: 1px solid var(--hair); }
 .hedit .days { display: flex; flex-wrap: wrap; gap: 6px 14px; }
+
+/* three quiet dots instead of a button: Settings stays one tap away without sitting on the page */
+button.me { width: 44px; height: 36px; border-radius: var(--r-pill); background: transparent; -webkit-backdrop-filter: none; backdrop-filter: none; border: 0; box-shadow: none; display: flex; align-items: center; justify-content: center; gap: 4px; margin-right: -8px; }
+button.me i { width: 5px; height: 5px; border-radius: 50%; background: var(--muted); display: block; }
+button.me:hover, button.me:active { background: var(--accent-soft); }
+html[data-glass="off"] button.me { background: transparent; }
+.hero-top button.me { margin-top: -4px; }
