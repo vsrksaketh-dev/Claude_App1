@@ -16,12 +16,12 @@ import org.json.JSONObject;
  * and the "fill-in" intent built here says what was tapped: open a tab, tick something, flip a day, open a link.
  */
 final class WidgetRows {
-    static final int T_SECTION = 0, T_EVENT = 1, T_TASK = 2, T_HABIT = 3, T_NEWS = 4, T_NEXT = 5, T_PROGRESS = 6, T_STATS = 7, T_TEXT = 8, TYPES = 9;
+    static final int T_SECTION = 0, T_EVENT = 1, T_TASK = 2, T_HABIT = 3, T_NEWS = 4, T_NEXT = 5, T_PROGRESS = 6, T_STATS = 7, T_TEXT = 8, T_DEADLINE = 9, TYPES = 10;
 
     static class Row {
         final int type;
         JSONObject o;
-        String a = "", b = "", due = "", style = "", act = "", id = "", target = "";
+        String a = "", b = "", c = "", due = "", style = "", act = "", id = "", target = "";
         boolean flag, done;
         Row(int type) { this.type = type; }
     }
@@ -370,14 +370,15 @@ final class WidgetRows {
         String today = Widgets.dayKey(0);
         for (int i = 0; i < items.size() && i < 20; i++) {
             JSONObject e = items.get(i);
-            Row r = add(out, T_TASK);
+            Row r = add(out, T_DEADLINE);
             r.a = e.optString("t");
             boolean task = "task".equals(e.optString("k"));
             r.act = task ? "task" : "act";
             r.id = e.optString("id");
             r.target = "calendar:day:" + e.optString("d");
             int n = Widgets.dayDiff(today, e.optString("d"));
-            r.due = n < 0 ? "Late" : n == 0 ? "Today" : n == 1 ? "Tomorrow" : "in " + n + " d";
+            r.due = n < 0 ? "Late" : n == 0 ? "Today" : String.valueOf(n);       // the big number in the tile
+            r.c = n <= 0 ? "" : n == 1 ? "day" : "days";                           // and its unit
             r.style = n <= 0 ? "bad" : n <= 2 ? "warn" : "";
             String when = Widgets.fmt("EEE d MMM", Widgets.cal(e.optString("d")).getTimeInMillis());
             r.b = e.optInt("a") == 1 ? when : when + "  ·  " + Widgets.fmt("h:mm a", e.optLong("s"));
@@ -471,6 +472,7 @@ final class WidgetRows {
             case T_HABIT: return habitView(c, r);
             case T_NEWS: return newsView(c, r);
             case T_NEXT: return nextView(c, r);
+            case T_DEADLINE: return deadlineView(c, r);
             case T_PROGRESS: return progressView(c, r);
             case T_STATS: return statsView(c, r);
             default: return textView(c, r);
@@ -559,6 +561,23 @@ final class WidgetRows {
         return v;
     }
 
+    private static RemoteViews deadlineView(Context c, Row r) {
+        RemoteViews v = new RemoteViews(c.getPackageName(), R.layout.row_deadline);
+        v.setTextViewText(R.id.dln, r.due);
+        v.setTextViewText(R.id.dlu, r.c);
+        v.setViewVisibility(R.id.dlu, r.c.isEmpty() ? View.GONE : View.VISIBLE);
+        int fg = Widgets.color(c, "bad".equals(r.style) ? R.color.dd_bad : "warn".equals(r.style) ? R.color.dd_warn : R.color.dd_accent);
+        v.setInt(R.id.dlcount, "setBackgroundResource", "bad".equals(r.style) ? R.drawable.tile_bad_bg : "warn".equals(r.style) ? R.drawable.tile_warn_bg : R.drawable.tile_accent_bg);
+        v.setTextColor(R.id.dln, fg);
+        v.setTextColor(R.id.dlu, fg);
+        v.setTextViewText(R.id.dlt, r.a);
+        v.setTextViewText(R.id.dlw, r.b);
+        v.setImageViewResource(R.id.ring, R.drawable.ring);
+        if (!r.act.isEmpty() && !r.id.isEmpty()) v.setOnClickFillInIntent(R.id.ring, fill(r.act, r.id, ""));
+        v.setOnClickFillInIntent(R.id.dlroot, fill("open", "", r.target));
+        return v;
+    }
+
     private static RemoteViews nextView(Context c, Row r) {
         RemoteViews v = new RemoteViews(c.getPackageName(), R.layout.row_next);
         long now = System.currentTimeMillis();
@@ -567,11 +586,14 @@ final class WidgetRows {
             v.setTextViewText(R.id.nl, "NEXT UP");
             v.setTextViewText(R.id.nn, "Clear for now");
             v.setTextViewText(R.id.nm, "Nothing else on the calendar. Use the gap well.");
+            v.setViewVisibility(R.id.nc, View.GONE);
         } else {
             boolean live = e.optLong("s") <= now;
             v.setTextViewText(R.id.nl, live ? "HAPPENING NOW" : "NEXT UP");
             v.setTextViewText(R.id.nn, e.optString("t"));
-            v.setTextViewText(R.id.nm, live ? "until " + Widgets.fmt("h:mm a", e.optLong("e")) : Widgets.fmt("EEE h:mm a", e.optLong("s")) + "  ·  " + Widgets.relative(e.optLong("s"), now));
+            String where = e.optString("w");
+            v.setTextViewText(R.id.nm, (live ? "until " + Widgets.fmt("h:mm a", e.optLong("e")) : Widgets.fmt("EEE h:mm a", e.optLong("s"))) + (where.isEmpty() ? "" : "  ·  " + where));
+            v.setTextViewText(R.id.nc, live ? "Now" : Widgets.relative(e.optLong("s"), now).replace("in ", ""));
         }
         v.setOnClickFillInIntent(R.id.nxroot, fill("open", "", r.target));
         return v;

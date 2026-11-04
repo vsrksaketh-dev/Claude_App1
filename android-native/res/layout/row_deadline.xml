@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/dlroot"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center_vertical"
+    android:orientation="horizontal"
+    android:paddingTop="5dp"
+    android:paddingBottom="5dp">
+    <LinearLayout
+        android:id="@+id/dlcount"
+        android:layout_width="54dp"
+        android:layout_height="54dp"
+        android:background="@drawable/pill_bg"
+        android:gravity="center"
+        android:orientation="vertical">
+        <TextView
+            android:id="@+id/dln"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="sans-serif-medium"
+            android:maxLines="1"
+            android:textColor="@color/dd_accent"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+        <TextView
+            android:id="@+id/dlu"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="sans-serif-medium"
+            android:maxLines="1"
+            android:textColor="@color/dd_accent"
+            android:textSize="11sp" />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="12dp"
+        android:layout_weight="1"
+        android:orientation="vertical">
+        <TextView
+            android:id="@+id/dlt"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:fontFamily="sans-serif-medium"
+            android:maxLines="2"
+            android:textColor="@color/dd_text"
+            android:textSize="15sp" />
+        <TextView
+            android:id="@+id/dlw"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="sans-serif-medium"
+            android:maxLines="1"
+            android:textColor="@color/dd_muted"
+            android:textSize="13sp" />
+    </LinearLayout>
+    <ImageView
+        android:id="@+id/ring"
+        android:layout_width="40dp"
+        android:layout_height="34dp"
+        android:paddingStart="10dp"
+        android:paddingTop="8dp"
+        android:paddingEnd="4dp"
+        android:paddingBottom="8dp"
+        android:src="@drawable/ring" />
+</LinearLayout>

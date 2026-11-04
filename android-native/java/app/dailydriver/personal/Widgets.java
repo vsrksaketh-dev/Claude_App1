@@ -421,7 +421,7 @@ public class Widgets {
     // ---------- the widgets ----------
     static RemoteViews build(Context c, int kind, JSONObject s, int hDp, int wDp, int widgetId) {
         if (kind == CALENDAR) return buildCalendar(c, s, hDp, wDp, widgetId);
-        if (kind == QUICK) return buildQuick(c);
+        if (kind == QUICK) return buildQuick(c, hDp);
         RemoteViews v = new RemoteViews(pkg(c), R.layout.widget_card);
         long now = System.currentTimeMillis();
         String name = s.optString("name", ""), date = fmt("EEEE d MMMM", now);
@@ -458,12 +458,12 @@ public class Widgets {
             case TASKS: {
                 String tf = prefs(c).getString("tf", "all");
                 int soon = dueSoon(s);
-                head(v, "Tasks", soon > 0 ? soon + " due soon" : "Nothing urgent", empty ? "" : s.optInt("taskCount") + " open");
+                head(v, "Tasks", (soon > 0 ? soon + " due soon" : "Nothing urgent") + (empty ? "" : "  ·  " + s.optInt("taskCount") + " open"), empty ? "" : "+ Add");
+                v.setOnClickPendingIntent(R.id.tag, open(c, "plan:tasks:add"));
                 if (!empty) {
                     showPills(v);
                     pill(c, v, R.id.pills, "All", tf.equals("all"), act(c, "tf", "all"));
                     pill(c, v, R.id.pills, "Due soon", tf.equals("soon"), act(c, "tf", "soon"));
-                    pill(c, v, R.id.pills, "+ Add task", false, open(c, "plan:tasks:add"));
                 }
                 break;
             }
@@ -510,16 +510,40 @@ public class Widgets {
                 head(v, greeting(name), date, "");
             }
         }
+        // Header extras: a thin progress bar for lists that have a "done of total", and a tighter layout when the widget is short.
+        int[] pr = progressFor(kind, s);
+        boolean compact = hDp < 150;
+        if (pr != null && !empty && !compact) { v.setViewVisibility(R.id.hprog, View.VISIBLE); v.setProgressBar(R.id.hprog, 100, pr[0], false); }
+        if (compact) { v.setViewVisibility(R.id.sub, View.GONE); v.setViewVisibility(R.id.pills, View.GONE); v.setViewVisibility(R.id.foot, View.GONE); }
         bindList(c, v, kind, widgetId);
         return v;
     }
 
+    /** { percent done } for the widgets that show a bar under the title, or null. */
+    static int[] progressFor(int kind, JSONObject s) {
+        if (kind == TASKS) {
+            JSONArray ts = arr(s, "tasks");
+            int done = 0;
+            for (int i = 0; i < ts.length(); i++) { JSONObject x = ts.optJSONObject(i); if (x != null && x.optInt("dn") == 1) done++; }
+            return ts.length() == 0 ? null : new int[] { done * 100 / ts.length() };
+        }
+        if (kind == HABITS) {
+            JSONObject h = s.optJSONObject("habits");
+            return h == null || h.optInt("total") == 0 ? null : new int[] { h.optInt("done") * 100 / h.optInt("total") };
+        }
+        return null;
+    }
+
     // ---------- the quick-add widget ----------
-    private static RemoteViews buildQuick(Context c) {
+    private static RemoteViews buildQuick(Context c, int hDp) {
         RemoteViews v = new RemoteViews(pkg(c), R.layout.widget_quick);
         v.setOnClickPendingIntent(R.id.root, open(c, "plan:tasks:add"));
         v.setOnClickPendingIntent(R.id.qtask, open(c, "plan:tasks:add"));
         v.setOnClickPendingIntent(R.id.qnote, open(c, "plan:notes:add"));
+        v.setOnClickPendingIntent(R.id.qcal, open(c, "calendar:month"));
+        v.setOnClickPendingIntent(R.id.qprac, open(c, "learn:cases"));
+        // one row of two tiles when the widget is short, two rows when it is tall enough
+        v.setViewVisibility(R.id.qrow2, hDp >= 120 ? View.VISIBLE : View.GONE);
         return v;
     }
 

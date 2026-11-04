@@ -4,51 +4,68 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/widget_bg"
-    android:gravity="center_vertical"
-    android:orientation="horizontal"
-    android:paddingStart="18dp"
-    android:paddingTop="8dp"
-    android:paddingEnd="10dp"
-    android:paddingBottom="8dp">
-    <TextView
-        android:fontFamily="sans-serif-medium"
-        android:id="@+id/qhint"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="10dp">
+    <LinearLayout
+        android:id="@+id/qrow1"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
         android:layout_weight="1"
-        android:ellipsize="end"
-        android:maxLines="1"
-        android:text="What is on your mind?"
-        android:textColor="@color/dd_muted"
-        android:textSize="15sp" />
-    <TextView
-        android:fontFamily="sans-serif-medium"
-        android:id="@+id/qnote"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:background="@drawable/pill_off_bg"
-        android:paddingStart="14dp"
-        android:paddingTop="8dp"
-        android:paddingEnd="14dp"
-        android:paddingBottom="8dp"
-        android:text="Note"
-        android:textColor="@color/dd_accent"
-        android:textSize="13sp"
-        android:textStyle="bold" />
-    <TextView
-        android:fontFamily="sans-serif-medium"
-        android:id="@+id/qtask"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:background="@drawable/pill_bg"
-        android:paddingStart="14dp"
-        android:paddingTop="8dp"
-        android:paddingEnd="14dp"
-        android:paddingBottom="8dp"
-        android:text="Task"
-        android:textColor="@color/dd_accent"
-        android:textSize="13sp"
-        android:textStyle="bold" />
+        android:orientation="horizontal">
+        <LinearLayout
+            android:id="@+id/qtask"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_margin="3dp"
+            android:layout_weight="1"
+            android:background="@drawable/tile_accent_bg"
+            android:gravity="center"
+            android:orientation="vertical">
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:fontFamily="sans-serif-medium" android:text="+ Task" android:textColor="@color/dd_accent" android:textSize="17sp" android:textStyle="bold" />
+            <TextView android:id="@+id/qtaskn" android:layout_width="wrap_content" android:layout_height="wrap_content" android:fontFamily="sans-serif-medium" android:text="Add to your list" android:textColor="@color/dd_muted" android:textSize="12sp" />
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/qnote"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_margin="3dp"
+            android:layout_weight="1"
+            android:background="@drawable/tile_bg"
+            android:gravity="center"
+            android:orientation="vertical">
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:fontFamily="sans-serif-medium" android:text="+ Note" android:textColor="@color/dd_text" android:textSize="17sp" android:textStyle="bold" />
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:fontFamily="sans-serif-medium" android:text="Jot it down" android:textColor="@color/dd_muted" android:textSize="12sp" />
+        </LinearLayout>
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/qrow2"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="horizontal">
+        <LinearLayout
+            android:id="@+id/qcal"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_margin="3dp"
+            android:layout_weight="1"
+            android:background="@drawable/tile_bg"
+            android:gravity="center"
+            android:orientation="vertical">
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:fontFamily="sans-serif-medium" android:text="Calendar" android:textColor="@color/dd_text" android:textSize="17sp" android:textStyle="bold" />
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:fontFamily="sans-serif-medium" android:text="See your day" android:textColor="@color/dd_muted" android:textSize="12sp" />
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/qprac"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_margin="3dp"
+            android:layout_weight="1"
+            android:background="@drawable/tile_bg"
+            android:gravity="center"
+            android:orientation="vertical">
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:fontFamily="sans-serif-medium" android:text="Practice" android:textColor="@color/dd_text" android:textSize="17sp" android:textStyle="bold" />
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:fontFamily="sans-serif-medium" android:text="One case problem" android:textColor="@color/dd_muted" android:textSize="12sp" />
+        </LinearLayout>
+    </LinearLayout>
 </LinearLayout>

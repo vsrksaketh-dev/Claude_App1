@@ -86,6 +86,18 @@ public class Harness {
     // tiny and large calendar sizes both draw
     for (int h : new int[]{200, 280, 360, 520}) { AppWidgetManager.height = h; Widgets.handle(c, "cmode", "month", ""); Widgets.handle(c, "ctoday", "", ""); }
     ok("calendar draws at every height", AppWidgetManager.drawn.size() == 10);
+    // layout checks for the redesigned widgets
+    {
+      Widgets.save(c, snap);
+      boolean tile = false; for (WidgetRows.Row r : WidgetRows.build(c, Widgets.DEADLINES)) if (r.type == WidgetRows.T_DEADLINE) { RemoteViews v = WidgetRows.view(c, r); tile = v.layout == R.layout.row_deadline && v.texts.get(R.id.dln) != null && !r.due.isEmpty() && v.texts.get(R.id.dlt).length() > 0; }
+      ok("Deadlines rows are countdown tiles with a big number", tile);
+      RemoteViews q = Widgets.build(c, Widgets.QUICK, new JSONObject(snap), 100, 300, 1), q2 = Widgets.build(c, Widgets.QUICK, new JSONObject(snap), 200, 300, 1);
+      ok("Quick add shows one row of tiles when short and two when tall", q.vis.get(R.id.qrow2) == android.view.View.GONE && q2.vis.get(R.id.qrow2) == android.view.View.VISIBLE);
+      RemoteViews tl = Widgets.build(c, Widgets.TASKS, new JSONObject(snap), 300, 300, 1), ts = Widgets.build(c, Widgets.TASKS, new JSONObject(snap), 120, 300, 1);
+      ok("Tasks shows a progress bar when roomy and a compact header when short", tl.vis.get(R.id.hprog) != null && ts.vis.get(R.id.sub) == android.view.View.GONE);
+      boolean nx = false; for (WidgetRows.Row r : WidgetRows.build(c, Widgets.NEXT)) if (r.type == WidgetRows.T_NEXT) { RemoteViews v = WidgetRows.view(c, r); nx = v.texts.get(R.id.nn) != null; }
+      ok("Next up draws its big card", nx);
+    }
     // calendar fuzz: hundreds of random taps (arrows, days, modes, Today) must never break the state or the drawing
     {
       Widgets.save(c, snap);
@@ -189,10 +201,10 @@ public class Harness {
       ok("and is no longer in Needs you", Widgets.load(c).getJSONArray("actions").toString().indexOf("Fresh form") < 0);
       boolean nextHasFresh = false; for (WidgetRows.Row r : WidgetRows.build(c, Widgets.NEXT)) if (r.type == WidgetRows.T_NEXT && r.o != null && r.o.optString("t").equals("Fresh class")) nextHasFresh = true;
       ok("Next up shows the next class from the new calendar", nextHasFresh);
-      boolean dl = false; for (WidgetRows.Row r : WidgetRows.build(c, Widgets.DEADLINES)) if (r.type == WidgetRows.T_TASK && r.a.equals("Fresh form") || false) dl = true;
+      boolean dl = false; for (WidgetRows.Row r : WidgetRows.build(c, Widgets.DEADLINES)) if (r.type == WidgetRows.T_DEADLINE && r.a.equals("Fresh form") || false) dl = true;
       ok("Deadlines lists the new due item... or it is ticked away", !dl);
       Widgets.save(c, snap);
-      boolean dl2 = false; for (WidgetRows.Row r : WidgetRows.build(c, Widgets.DEADLINES)) if (r.type == WidgetRows.T_TASK && (r.a.startsWith("Infosys") || r.a.equals("Marketing case submission"))) dl2 = true;
+      boolean dl2 = false; for (WidgetRows.Row r : WidgetRows.build(c, Widgets.DEADLINES)) if (r.type == WidgetRows.T_DEADLINE && (r.a.startsWith("Infosys") || r.a.equals("Marketing case submission"))) dl2 = true;
       ok("Deadlines lists due items and dated tasks with countdowns", dl2);
       boolean problem = false; for (WidgetRows.Row r : WidgetRows.build(c, Widgets.PROBLEM)) if (r.type == WidgetRows.T_TEXT && r.flag && r.a.length() > 40) problem = true;
       ok("the Problem of the day widget shows a question", problem);
