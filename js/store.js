@@ -8,13 +8,14 @@ export const SCHEMA = 2;
 
 export const blank = () => ({
   v: SCHEMA,
-  profile: { name: '', roll: '' },
+  profile: { name: '', roll: '', company: '', joining: '' },   // company and joining date feed the countdown on Home
   theme: 'system',                            // 'light', 'dark' or 'system'
   glass: true,                                // frosted-glass look; false gives solid panes
   modules: { career: true, money: true },     // legacy: those screens were removed, the data below is kept untouched
   meta: { lastBackup: '', since: today() },   // since: first run, so the backup nudge waits a couple of weeks
-  reminders: { on: false, morning: '07:30', evening: '21:00', deadlines: true, cards: true, events: true },   // Android app only
+  reminders: { on: false, morning: '07:30', evening: '21:00', briefing: true, wrap: true, comeback: true, weekly: true, backup: true, deadlines: true, cards: false, events: true },   // Android app only
   habits: DEFAULT_HABITS.map(([name, when]) => ({ id: uid(), name, when, days: [0, 1, 2, 3, 4, 5, 6], created: today() })),
+  notes: [],                   // { id, text, at, pinned, tp, src }  short notes and talking points (Plan > Notes)
   habitLog: {},                // { date: { habitId: true } }
   mits: {},                    // { date: [{ id, text, done, taskId }] }  top three for the day
   tasks: [],                   // { id, title, due, important, done, doneAt, kind, goalId }  (triage is legacy: such tasks now count as ordinary open tasks)

@@ -32,6 +32,8 @@ export function register(m) {
 export function applyTheme() {
   const r = document.documentElement;
   if (!S.theme || S.theme === 'system') r.removeAttribute('data-theme'); else r.setAttribute('data-theme', S.theme);
+  const h = new Date().getHours();
+  r.setAttribute('data-part', h >= 5 && h < 11 ? 'morning' : h < 17 && h >= 11 ? 'day' : h >= 17 && h < 20 ? 'evening' : 'night');   // the colour wash follows the time of day
   if (S.glass === false) r.setAttribute('data-glass', 'off'); else r.removeAttribute('data-glass');   // glass is on unless switched off in Settings
 }
 // The bottom bar is built from the registry: views with a `nav` order, hidden when their module is off.

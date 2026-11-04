@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shortcuts xmlns:android="http://schemas.android.com/apk/res/android">
+    <shortcut android:shortcutId="add_task" android:enabled="true" android:icon="@mipmap/ic_launcher" android:shortcutShortLabel="@string/sc_task" android:shortcutLongLabel="@string/sc_task_long">
+        <intent android:action="android.intent.action.MAIN" android:targetPackage="app.dailydriver.personal" android:targetClass="app.dailydriver.personal.MainActivity">
+            <extra android:name="target" android:value="plan:tasks:add" />
+        </intent>
+    </shortcut>
+    <shortcut android:shortcutId="add_note" android:enabled="true" android:icon="@mipmap/ic_launcher" android:shortcutShortLabel="@string/sc_note" android:shortcutLongLabel="@string/sc_note_long">
+        <intent android:action="android.intent.action.MAIN" android:targetPackage="app.dailydriver.personal" android:targetClass="app.dailydriver.personal.MainActivity">
+            <extra android:name="target" android:value="plan:notes:add" />
+        </intent>
+    </shortcut>
+    <shortcut android:shortcutId="practice" android:enabled="true" android:icon="@mipmap/ic_launcher" android:shortcutShortLabel="@string/sc_problem" android:shortcutLongLabel="@string/sc_problem_long">
+        <intent android:action="android.intent.action.MAIN" android:targetPackage="app.dailydriver.personal" android:targetClass="app.dailydriver.personal.MainActivity">
+            <extra android:name="target" android:value="learn:cases" />
+        </intent>
+    </shortcut>
+    <shortcut android:shortcutId="calendar" android:enabled="true" android:icon="@mipmap/ic_launcher" android:shortcutShortLabel="@string/sc_calendar" android:shortcutLongLabel="@string/sc_calendar_long">
+        <intent android:action="android.intent.action.MAIN" android:targetPackage="app.dailydriver.personal" android:targetClass="app.dailydriver.personal.MainActivity">
+            <extra android:name="target" android:value="calendar:month" />
+        </intent>
+    </shortcut>
+</shortcuts>

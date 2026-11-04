@@ -6,6 +6,7 @@ public class Harness {
     public String getString(String k,String d){ Object o=m.get(k); return o==null?d:(String)o; } public int getInt(String k,int d){ Object o=m.get(k); return o==null?d:(Integer)o; }
     public Editor edit(){ return new Editor(){ public Editor putString(String k,String v){m.put(k,v);return this;} public Editor putInt(String k,int v){m.put(k,v);return this;} public Editor remove(String k){m.remove(k);return this;} public void apply(){} }; } }
   static class Ctx extends Context { Prefs p = new Prefs(); public String getPackageName(){return "app.dailydriver.personal";} public PackageManager getPackageManager(){ return new PackageManager(){ public Intent getLaunchIntentForPackage(String x){ return new Intent(); } }; } public SharedPreferences getSharedPreferences(String n,int m){return p;} }
+  static IcsReader.Inst mk(String t, long s, long e, boolean all, String w, String d) { IcsReader.Inst i = new IcsReader.Inst(); i.title = t; i.start = s; i.end = e; i.allDay = all; i.where = w; i.desc = d; return i; }
   static int fails = 0;
   static void ok(String n, boolean c){ System.out.println((c?"PASS ":"FAIL ")+n); if(!c) fails++; }
   public static void main(String[] a) throws Exception {
@@ -13,8 +14,9 @@ public class Harness {
     String snap = new String(Files.readAllBytes(Paths.get(a[0])));
     Widgets.save(c, snap);
     // every widget kind builds and every row turns into a view
-    String[] names = {"Overview","Schedule","Tasks","News","Everything","Calendar","Habits"};
-    for (int k = 0; k < 7; k++) {
+    String[] names = {"Overview","Schedule","Tasks","News","(removed)","Calendar","Habits","Next up","Quick add","Problem","Deadlines"};
+    for (int k = 0; k < 11; k++) {
+      if (k == 4 || k == Widgets.QUICK) continue;
       List<WidgetRows.Row> rows = WidgetRows.build(c, k);
       int views = 0; for (WidgetRows.Row r : rows) { RemoteViews v = WidgetRows.view(c, r); if (v != null) views++; }
       System.out.println(names[k] + ": " + rows.size() + " rows");
@@ -22,8 +24,8 @@ public class Harness {
     }
     // draw all widgets through the real update path
     AppWidgetManager.drawn.clear(); Widgets.refreshAll(c);
-    ok("refreshAll draws all seven widgets", AppWidgetManager.drawn.size() == 7);
-    for (RemoteViews v : AppWidgetManager.drawn.values()) ok("each widget binds a scrolling list and a tap template", v.adapter != null && v.template != null);
+    ok("refreshAll draws all ten widgets", AppWidgetManager.drawn.size() == 10);
+    for (RemoteViews v : AppWidgetManager.drawn.values()) if (v.layout != R.layout.widget_quick) ok("each list widget binds a scrolling list and a tap template", v.adapter != null && v.template != null);
     // calendar month grid
     RemoteViews cal = null; for (RemoteViews v : AppWidgetManager.drawn.values()) if (v.layout == R.layout.widget_calendar) cal = v;
     int cells = 0; for (RemoteViews row : cal.kids.get(R.id.calgrid)) cells += row.kids.get(R.id.crow).size();
@@ -83,7 +85,73 @@ public class Harness {
     ok("a task row opens Plan when tapped", opens);
     // tiny and large calendar sizes both draw
     for (int h : new int[]{200, 280, 360, 520}) { AppWidgetManager.height = h; Widgets.handle(c, "cmode", "month", ""); Widgets.handle(c, "ctoday", "", ""); }
-    ok("calendar draws at every height", AppWidgetManager.drawn.size() == 7);
+    ok("calendar draws at every height", AppWidgetManager.drawn.size() == 10);
+    // the Java calendar reader must agree with the JavaScript one on the same file
+    if (a.length >= 5) {
+      String text = new String(Files.readAllBytes(Paths.get(a[1])));
+      JSONArray exp = new JSONArray(new String(Files.readAllBytes(Paths.get(a[2]))));
+      List<IcsReader.Inst> got = IcsReader.parse(text, Long.parseLong(a[3]), Long.parseLong(a[4]));
+      boolean same = got.size() == exp.length();
+      StringBuilder diff = new StringBuilder();
+      for (int i = 0; i < Math.min(got.size(), exp.length()); i++) {
+        JSONArray x = exp.getJSONArray(i); IcsReader.Inst g = got.get(i);
+        boolean eq = g.start == x.getLong(0) && g.end == x.getLong(1) && g.title.equals(x.getString(2)) && g.where.equals(x.getString(3)) && (g.allDay ? 1 : 0) == x.getInt(4) && g.desc.equals(x.getString(5));
+        if (!eq) { same = false; diff.append(" #").append(i).append(' ').append(g.title).append(" got ").append(g.start).append(" want ").append(x.getLong(0)); }
+      }
+      ok("Java ICS reader matches the JavaScript one (" + got.size() + " instances vs " + exp.length() + ")" + (same ? "" : diff), same);
+    }
+    // calendar sync: the widgets refresh the calendar by themselves
+    {
+      Widgets.save(c, snap);
+      long t0 = System.currentTimeMillis();
+      List<IcsReader.Inst> got = new ArrayList<>();
+      got.add(mk("Fresh class", t0 + 3600000L, t0 + 7200000L, false, "CR 9", ""));
+      got.add(mk("Due: Fresh form", t0 + 7200000L, t0 + 9000000L, false, "", ""));
+      got.add(mk("Mail: Placement Chair · New facts", Widgets.cal(Widgets.dayKey(0)).getTimeInMillis(), Widgets.cal(Widgets.dayKey(1)).getTimeInMillis(), true, "", "Added from email."));
+      got.add(mk("Friend class", t0 + 3600000L, t0 + 7200000L, false, "", "Not mine - friend"));
+      ok("calendar sync reports a change", CalendarSync.apply(c, got, "not mine", t0));
+      JSONObject s2 = Widgets.load(c);
+      JSONArray cal2 = s2.getJSONArray("cal");
+      boolean fresh = false, oldGone = true, typedKept = false, taskKept = false, hiddenOut = true, dueKind = false, mailKind = false, sorted = true;
+      String prevDay = "";
+      for (int i = 0; i < cal2.length(); i++) {
+        JSONObject e = cal2.getJSONObject(i);
+        if (e.getString("d").compareTo(prevDay) < 0) sorted = false;
+        prevDay = e.getString("d");
+        if (e.getString("t").equals("Fresh class") && e.getInt("o") == 1 && e.getString("k").equals("event")) fresh = true;
+        if (e.getString("t").equals("Late class")) oldGone = false;
+        if (e.getString("t").equals("Team sync")) typedKept = true;
+        if (e.getString("k").equals("task")) taskKept = true;
+        if (e.getString("t").equals("Friend class")) hiddenOut = false;
+        if (e.getString("t").equals("Fresh form") && e.getString("k").equals("due") && e.getString("id").startsWith("cal|Due: Fresh form|")) dueKind = true;
+        if (e.getString("t").equals("Placement Chair · New facts") && e.getString("k").equals("mail")) mailKind = true;
+      }
+      ok("fresh calendar items arrive flagged as calendar-derived", fresh);
+      ok("old calendar items are replaced", oldGone);
+      ok("typed events and tasks are left alone", typedKept && taskKept);
+      ok("events with a hidden word are left out", hiddenOut);
+      ok("Due: and Mail: titles become deadline and email items", dueKind && mailKind);
+      ok("the calendar list stays in day order", sorted);
+      JSONArray acts = s2.getJSONArray("actions");
+      boolean aDue = false, aMail = false; for (int i = 0; i < acts.length(); i++) { JSONObject x = acts.getJSONObject(i); if (x.getString("title").equals("Fresh form") && !x.getBoolean("mail")) aDue = true; if (x.getString("title").equals("Placement Chair · New facts") && x.getBoolean("mail")) aMail = true; }
+      ok("the Needs you list is rebuilt from the new calendar", aDue && aMail);
+      String key = null; for (int i = 0; i < cal2.length(); i++) if (cal2.getJSONObject(i).getString("t").equals("Fresh form")) key = cal2.getJSONObject(i).getString("id");
+      Widgets.handle(c, "act", key, ""); Widgets.takeOps(c);
+      CalendarSync.apply(c, got, "not mine", t0);
+      boolean stillDone = false; JSONArray cal3 = Widgets.load(c).getJSONArray("cal");
+      for (int i = 0; i < cal3.length(); i++) if (cal3.getJSONObject(i).getString("t").equals("Fresh form") && cal3.getJSONObject(i).getInt("x") == 1) stillDone = true;
+      ok("something ticked on a widget stays ticked after a sync", stillDone);
+      ok("and is no longer in Needs you", Widgets.load(c).getJSONArray("actions").toString().indexOf("Fresh form") < 0);
+      boolean nextHasFresh = false; for (WidgetRows.Row r : WidgetRows.build(c, Widgets.NEXT)) if (r.type == WidgetRows.T_NEXT && r.o != null && r.o.optString("t").equals("Fresh class")) nextHasFresh = true;
+      ok("Next up shows the next class from the new calendar", nextHasFresh);
+      boolean dl = false; for (WidgetRows.Row r : WidgetRows.build(c, Widgets.DEADLINES)) if (r.type == WidgetRows.T_TASK && r.a.equals("Fresh form") || false) dl = true;
+      ok("Deadlines lists the new due item... or it is ticked away", !dl);
+      Widgets.save(c, snap);
+      boolean dl2 = false; for (WidgetRows.Row r : WidgetRows.build(c, Widgets.DEADLINES)) if (r.type == WidgetRows.T_TASK && (r.a.startsWith("Infosys") || r.a.equals("Marketing case submission"))) dl2 = true;
+      ok("Deadlines lists due items and dated tasks with countdowns", dl2);
+      boolean problem = false; for (WidgetRows.Row r : WidgetRows.build(c, Widgets.PROBLEM)) if (r.type == WidgetRows.T_TEXT && r.flag && r.a.length() > 40) problem = true;
+      ok("the Problem of the day widget shows a question", problem);
+    }
     // news sync and date labels
     String body = "{\"date\":\"2030-01-02\",\"items\":[{\"cat\":\"Tech\",\"title\":\"T1\",\"summary\":\"S\",\"why\":\"W\",\"src\":\"X\",\"url\":\"https://e.com/a\"},{\"cat\":\"Tech\",\"kind\":\"fact\",\"title\":\"F\"},{\"cat\":\"Indian\",\"title\":\"T2\",\"url\":\"javascript:x\"}]}";
     ok("news sync swaps in the stories and skips facts", NewsSync.apply(c, body) && Widgets.load(c).getJSONArray("news").length() == 2 && Widgets.load(c).getString("newsDate").equals("2030-01-02"));

@@ -173,6 +173,29 @@ details.ref > * + * { margin-top: 10px; }
 .habit-chip.done { color: var(--muted); }
 .habit-chip.done span { text-decoration: line-through; }
 
+/* ---- ring, next-up, recap, notes ---- */
+.hero .ring { position: absolute; right: 18px; top: 66px; width: 68px; height: 68px; z-index: 1; display: grid; place-items: center; }
+.hero .ring svg { position: absolute; inset: 0; transform: rotate(-90deg); }
+.ring circle { fill: none; stroke-width: 4.5; stroke-linecap: round; }
+.ring .rt { stroke: var(--hair); } .ring .rv { stroke: var(--accent); transition: stroke-dashoffset .8s cubic-bezier(.3, 1, .4, 1); }
+.ring b { font: 600 .82rem/1 var(--display); color: var(--ink); }
+.hero h1 { padding-right: 76px; }
+.next { display: flex; align-items: center; gap: 12px; padding: 14px 18px; border-radius: 26px; background: var(--glass); -webkit-backdrop-filter: var(--blur); backdrop-filter: var(--blur); border: 1px solid var(--line); box-shadow: var(--rim), var(--shadow); }
+.next p { margin: 0; } .next .eyebrow { font: 600 .72rem/1.3 var(--font); color: var(--accent); }
+.next .title { font: 600 1.05rem/1.3 var(--display); }
+.next .count { font: 600 .84rem/1 var(--font); color: var(--accent); background: var(--accent-soft); padding: 8px 14px; border-radius: var(--r-pill); white-space: nowrap; }
+html[data-glass="off"] .next { -webkit-backdrop-filter: none; backdrop-filter: none; background: var(--solid); }
+.recap-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
+.recap-grid > div { background: var(--inset); border: 1px solid var(--hair); border-radius: 18px; padding: 10px 6px; display: grid; justify-items: center; gap: 2px; text-align: center; }
+.recap-grid b { font: 600 1.4rem/1.1 var(--display); color: var(--accent); }
+.recap-grid span { font: 600 .66rem/1.2 var(--font); color: var(--muted); }
+.notebox { display: grid; gap: 10px; margin: 0; padding: 14px; border-radius: var(--r-card); background: var(--glass); -webkit-backdrop-filter: var(--blur); backdrop-filter: var(--blur); border: 1px solid var(--line); box-shadow: var(--rim), var(--shadow); }
+.notebox textarea { min-height: 64px; }
+.notebox button { justify-self: end; }
+.note.pinned { border-color: color-mix(in srgb, var(--accent) 45%, var(--line)); }
+.note-text { white-space: pre-wrap; margin: 0 0 8px; }
+.storylink { color: inherit; text-decoration: none; }
+
 /* ---- news ---- */
 .story { display: block; color: inherit; text-decoration: none; background: var(--inset); border: 1px solid var(--hair); border-radius: var(--r-inner); padding: 16px; box-shadow: var(--rim); }
 .story > * + * { margin-top: 8px; }
@@ -266,6 +289,10 @@ main.enter > *:nth-child(5) { animation-delay: .2s; } main.enter > *:nth-child(n
 @media (prefers-reduced-motion: reduce) { * { transition: none !important; animation: none !important; } }
 
 /* ---- solid look: Settings > Appearance > Glass off, or the phone asks for less transparency ---- */
+body::before { transition: filter 1.2s; }
+:root[data-part="morning"] body::before { filter: saturate(1.15) hue-rotate(-8deg); }
+:root[data-part="evening"] body::before { filter: saturate(1.1) hue-rotate(-32deg); }
+:root[data-part="night"] body::before { filter: saturate(.85) hue-rotate(26deg) brightness(.92); }
 html[data-glass="off"] body::before { display: none; }
 html[data-glass="off"] .card, html[data-glass="off"] .tabs, html[data-glass="off"] .seg.pills, html[data-glass="off"] .capture, html[data-glass="off"] #nav,
 html[data-glass="off"] button.pill, html[data-glass="off"] .cal-tg, html[data-glass="off"] .hero { -webkit-backdrop-filter: none; backdrop-filter: none; background: var(--solid); }

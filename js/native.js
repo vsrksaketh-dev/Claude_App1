@@ -51,10 +51,19 @@ export async function scheduleAll(list) {
   if (list.length) await n.schedule({ notifications: list });
 }
 
+// A notification a few seconds from now, so the phone's notification and battery settings can be checked on the spot.
+export async function notifyTest() {
+  if (!isNative()) return false;
+  const n = plugin('LocalNotifications');
+  if (!(await notifyPermission())) return false;
+  await n.schedule({ notifications: [{ id: 9, title: 'Daily Driver', body: 'This is how your nudges will look.', schedule: { at: new Date(Date.now() + 4000), allowWhileIdle: true } }] });
+  return true;
+}
+
 // Hands the widget snapshot to the native side, which stores it and redraws the home-screen widgets.
-export async function widgetPush(json) {
+export async function widgetPush(json, ics) {
   if (!isNative()) return;
-  try { await plugin('WidgetBridge').update({ json }); } catch { /* widgets not available in this build */ }
+  try { await plugin('WidgetBridge').update({ json, ics }); } catch { /* widgets not available in this build */ }
 }
 
 // What the home-screen widgets queued while the app was closed (ticked tasks, habits) and which tab was tapped.

@@ -19,6 +19,8 @@ const listeners = [];
 export const onCalendarChange = f => listeners.push(f);
 export const getSources = () => sources.map(s => ({ ...s, ...(cache[s.id] || {}), count: (cache[s.id]?.events || []).length }));
 export const hasCalendars = () => sources.length > 0;
+// What the Android widgets need to refresh the calendar by themselves. Stays on the phone: it goes to the app's private storage and nowhere else.
+export const nativeSources = () => JSON.stringify({ sources: sources.map(s => ({ name: s.name, url: s.url })), hidden: getHidden() });
 export const lastSync = () => Math.max(0, ...sources.map(s => cache[s.id]?.at || 0));
 
 export function normalizeUrl(raw) {

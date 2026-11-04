@@ -12,6 +12,8 @@ public class WidgetBridgePlugin extends Plugin {
     @PluginMethod
     public void update(PluginCall call) {
         String json = call.getString("json");
+        String ics = call.getString("ics");          // the private calendar addresses, kept in this app's own storage so widgets can refresh them alone
+        if (ics != null) Widgets.prefs(getContext()).edit().putString("ics", ics).apply();
         if (json != null) {
             Widgets.save(getContext(), json);
             Widgets.refreshAll(getContext());

@@ -60,6 +60,25 @@ jobs:
           cp assets/ic_stat_notify.xml android/app/src/main/res/drawable/ic_stat_notify.xml
           grep -q POST_NOTIFICATIONS android/app/src/main/AndroidManifest.xml || sed -i 's#<application#<uses-permission android:name="android.permission.POST_NOTIFICATIONS" />\n    <application#' android/app/src/main/AndroidManifest.xml
 
+      - name: Share target and icon shortcuts
+        run: |
+          python3 - <<'PY'
+          p = 'android/app/src/main/AndroidManifest.xml'
+          s = open(p).read()
+          add = '''        <intent-filter>
+                      <action android:name="android.intent.action.SEND" />
+                      <category android:name="android.intent.category.DEFAULT" />
+                      <data android:mimeType="text/plain" />
+                  </intent-filter>
+                  <meta-data android:name="android.app.shortcuts" android:resource="@xml/shortcuts" />
+          '''
+          i = s.index('</activity>')
+          s = s[:i] + add + '      ' + s[i:]
+          open(p, 'w').write(s)
+          PY
+          grep -c "android.intent.action.SEND" android/app/src/main/AndroidManifest.xml
+          grep -n 'allowBackup' android/app/src/main/AndroidManifest.xml || true
+
       - name: Home-screen widgets
         run: |
           APP=android/app/src/main

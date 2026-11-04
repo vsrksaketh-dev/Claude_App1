@@ -30,7 +30,7 @@ const ok = (name, cond) => { console.log((cond ? 'PASS ' : 'FAIL ') + name); if 
   await p.click('[data-act=sub][data-group=casepage][data-id=tech]'); ok('HR tech map', /Workday/.test(await view()));
   await p.click('[data-act=sub][data-group=learn][data-id=news]');
   await p.evaluate(async () => { const c = await import('/js/core.js'); c.app.news.items.forEach(n => { n.url = 'https://example.com/a'; }); c.render(); });
-  ok('news with a link opens in a browser', await p.locator('a.story[target=_blank]').count() >= 1);
+  ok('news with a link opens in a browser', await p.locator('a.storylink[target=_blank]').count() >= 1);
   await nav('home');
 
   // Home: one capture bar, a ranked to-do list, ticked rows sink
@@ -63,6 +63,29 @@ const ok = (name, cond) => { console.log((cond ? 'PASS ' : 'FAIL ') + name); if 
   await p.click('li:has-text("Sheet task") [data-act=taskStar]'); ok('priority toggles', await p.locator('li:has-text("Sheet task") .pri.on').count() === 1);
   ok('what was ticked today shows under Done today', /Call the placement cell/.test(await p.textContent('.card:has(h2:has-text("Done today"))')));
 
+  // Notes: capture, pin, turn into a task, delete; talking points from the news
+  await p.click('[data-act=sub][data-group=plan][data-id=notes]');
+  ok('Notes tab shows an empty state', /Notes you save show up here/.test(await view()));
+  await p.fill('[data-form=note] [name=text]', 'Idea: ask about change adoption metrics\nhttps://example.com/hcot'); await p.click('[data-form=note] button.primary');
+  ok('a note is saved and links are clickable', /change adoption metrics/.test(await view()) && await p.locator('.note a[href="https://example.com/hcot"]').count() === 1);
+  ok('the note box keeps focus for the next one', await p.evaluate(() => document.activeElement && document.activeElement.name === 'text'));
+  await p.click('.note [data-act=notePin]'); ok('a note can be pinned', await p.locator('.note.pinned').count() === 1);
+  await p.click('.note [data-act=noteTask]'); await p.click('[data-act=sub][data-group=plan][data-id=tasks]');
+  ok('Make task turns the first line into a task', /Idea: ask about change adoption metrics/.test(await view()));
+  await nav('learn'); await p.click('[data-act=talkPoint] >> nth=0');
+  ok('Talking point saves a note and marks the story', await p.locator('.chip.ok:has-text("Saved to notes")').count() === 1);
+  await nav('plan'); await p.click('[data-act=sub][data-group=plan][data-id=notes]');
+  ok('the talking point has what happened, why it matters and a blank for my view', /Talking point:/.test(await view()) && /What happened:/.test(await view()) && /Why it matters:/.test(await view()) && /My view:/.test(await view()));
+  await p.click('.note:has-text("Talking point") [data-act=noteDel]'); ok('a note can be deleted', !/Talking point:/.test(await view()));
+  await p.click('[data-act=sub][data-group=plan][data-id=tasks]');
+
+  // Home: the ring and the next-up card
+  await nav('home');
+  ok('the hero has a progress ring', await p.locator('.hero .ring').count() === 1);
+  await p.evaluate(async () => { const c = await import('/js/core.js'); const u = await import('/js/util.js'); c.S.events.push({ id: 'later', title: 'Late seminar', date: u.today(), time: '23:59', where: 'Aud 1' }); c.commit(); });
+  ok('Next up shows the next event with a live countdown', /Late seminar/.test(await p.textContent('.next')) && await p.locator('.next [data-countdown]').count() === 1);
+  await p.evaluate(async () => { const c = await import('/js/core.js'); c.S.events = c.S.events.filter(e => e.id !== 'later'); c.commit(); });
+
   // Settings: theme, glass, habits
   await nav('home'); await p.click('[data-nav=settings]');
   await p.click('[data-act=theme][data-id=dark]'); ok('dark theme applies', (await p.evaluate(() => document.documentElement.dataset.theme)) === 'dark');
@@ -73,6 +96,8 @@ const ok = (name, cond) => { console.log((cond ? 'PASS ' : 'FAIL ') + name); if 
   ok('no module switches any more', await p.locator('[data-act=module]').count() === 0);
   await p.fill('[data-form=habit] [name=name]', 'Workout'); await p.click('[data-form=habit] button.primary'); ok('habit added in Settings', /Workout/.test(await view()));
   await nav('home'); ok('and it shows on Home', /Workout/.test(await p.textContent('.habit-row')));
+  await p.click('[data-nav=settings]'); await p.fill('[data-form=profile] [name=company]', 'Deloitte'); await p.fill('[data-form=profile] [name=joining]', new Date(Date.now() + 40 * 864e5).toLocaleDateString('en-CA')); await p.click('[data-form=profile] button');
+  await nav('home'); ok('a start date adds a countdown to the hero', /40\s*days to Deloitte/.test(await p.textContent('.hero')));
 
   // Reminders: settings form saves, and the built list has the daily pair plus deadline items
   await nav('plan');
@@ -81,7 +106,9 @@ const ok = (name, cond) => { console.log((cond ? 'PASS ' : 'FAIL ') + name); if 
   await nav('home'); await p.click('[data-nav=settings]');
   await p.check('[data-form=reminders] [name=on]'); await p.click('[data-form=reminders] button.primary');
   const list = await p.evaluate(async () => (await import('/js/reminders.js')).buildReminders().map(n => n.title));
-  ok('daily morning and evening reminders', list.includes('Your day') && list.includes('Tomorrow'));
+  ok('morning briefing, evening wrap-up, comeback and weekly nudges are built', list.some(t => /Good morning|Fresh day|Rise and plan|Here is your day|New day/.test(t)) && list.includes('Wrap up the day') && list.includes('Your list is waiting') && list.includes('Your week in review'));
+  const briefing = await p.evaluate(async () => { const r = await import('/js/reminders.js'); const c = await import('/js/core.js'); const u = await import('/js/util.js'); c.S.events.push({ id: 'brief1', title: 'Neuro Mktg C', date: u.addDays(u.today(), 1), time: '12:00', where: 'CR 12' }); return r.buildReminders().filter(n => /CR 12/.test(n.body)).length; });
+  ok('the morning briefing names the day\'s class, time and room', briefing >= 1);
   ok('deadline reminder for the exam', list.some(t => t === 'Due tomorrow' || t === 'Due today'));
   ok('no flashcard reminder any more', !list.includes('Flashcards due'));
   await p.click('[data-form=reminders] [name=on]'); await p.click('[data-form=reminders] button.primary');
@@ -167,7 +194,7 @@ const ok = (name, cond) => { console.log((cond ? 'PASS ' : 'FAIL ') + name); if 
       Filesystem: { writeFile: async o => ({ uri: 'file:///cache/' + o.path }) },
       Share: { share: async o => { window.__shared.push(o.url); } },
       App: { addListener: async () => ({ remove() {} }), exitApp: async () => {} },
-      WidgetBridge: { update: async o => { window.__widget = JSON.parse(o.json); }, take: async () => { const r = window.__take || { ops: '[]', target: '' }; window.__take = null; return r; } },
+      WidgetBridge: { update: async o => { window.__widget = JSON.parse(o.json); window.__ics = o.ics; }, take: async () => { const r = window.__take || { ops: '[]', target: '' }; window.__take = null; return r; } },
       LocalNotifications: { checkPermissions: async () => ({ display: 'granted' }), requestPermissions: async () => ({ display: 'granted' }), getPending: async () => ({ notifications: [] }), cancel: async () => {}, schedule: async o => { window.__scheduled.push(...o.notifications); } },
     } };
   }, fakeIcs);
@@ -191,6 +218,13 @@ const ok = (name, cond) => { console.log((cond ? 'PASS ' : 'FAIL ') + name); if 
   await n.evaluate(() => { window.__take = { ops: '[]', target: 'plan:tasks:add' }; window.dispatchEvent(new Event('widgetOpen')); });
   await n.waitForTimeout(300);
   ok('a widget can open Plan with the add bar focused', await n.locator('h1:has-text("Plan")').count() === 1 && await n.evaluate(() => document.activeElement && document.activeElement.name === 'title'));
+  await n.evaluate(() => { window.__take = { ops: JSON.stringify([{ t: 'capture', id: 'Read the Kroll note\nhttps://example.com/kroll' }]), target: 'plan:tasks' }; window.dispatchEvent(new Event('widgetOpen')); });
+  await n.waitForTimeout(400);
+  ok('text shared into the app becomes a task and a note', await n.evaluate(async () => { const c = await import('/js/core.js'); return c.S.tasks.some(t => t.title === 'Read the Kroll note') && c.S.notes.some(x => x.shared && /kroll/.test(x.text)); }));
+  await n.evaluate(() => { window.__take = { ops: '[]', target: 'plan:notes:add' }; window.dispatchEvent(new Event('widgetOpen')); });
+  await n.waitForTimeout(300);
+  ok('the quick-add widget can open the note box', await n.locator('[data-form=note] textarea').count() === 1 && await n.evaluate(() => document.activeElement && document.activeElement.tagName === 'TEXTAREA'));
+  ok('the snapshot carries the practice problems and flags calendar items', await n.evaluate(async () => { const w = await import('/js/widgets.js'); const s = w.buildSnapshot(); return s.problems.length >= 8 && s.cal.some(e => e.o === 1); }));
   await n.evaluate(() => { window.__take = { ops: '[]', target: 'calendar:week' }; window.dispatchEvent(new Event('widgetOpen')); });
   await n.waitForTimeout(300);
   ok('a widget can open the calendar on a chosen view', await n.locator('.seg.pills button.on:has-text("Week")').count() === 1 && await n.locator('.cal-col').count() === 7);
@@ -199,7 +233,10 @@ const ok = (name, cond) => { console.log((cond ? 'PASS ' : 'FAIL ') + name); if 
   ok('a widget can open the calendar on a chosen day', /Friday 25 December/.test(await n.textContent('.cal-nav')));
   await n.evaluate(async () => { const c = await import('/js/core.js'); c.go('home'); });
   await n.click('[data-nav=settings]');
-  ok('native notifications get scheduled', (await n.evaluate(() => window.__scheduled.map(x => x.title))).includes('Your day'));
+  ok('native notifications get scheduled', (await n.evaluate(() => window.__scheduled.map(x => x.title))).includes('Wrap up the day'));
+  ok('widgets get the calendar addresses to refresh by themselves', await n.evaluate(() => { const j = window.__ics ? JSON.parse(window.__ics) : null; return !!j && j.sources.length === 1 && /ical/.test(j.sources[0].url) && typeof j.hidden === 'string'; }));
+  await n.click('[data-act=nudgeTest]'); await n.waitForTimeout(300);
+  ok('a test nudge can be sent', (await n.evaluate(() => window.__scheduled.map(x => x.title))).includes('Daily Driver'));
   await n.click('[data-act=export]'); await n.waitForTimeout(400);
   ok('native backup opens the share sheet', (await n.evaluate(() => window.__shared)).some(u => /daily-driver-.*\.json$/.test(u)));
   ok('no page errors in the native simulation', nerrs.length === 0); if (nerrs.length) console.log(nerrs);

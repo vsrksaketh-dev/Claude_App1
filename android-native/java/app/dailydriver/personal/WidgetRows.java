@@ -42,7 +42,10 @@ final class WidgetRows {
                 case Widgets.NEWS: news(c, out, s); break;
                 case Widgets.HABITS: habits(c, out, s); break;
                 case Widgets.CALENDAR: calendar(c, out, s, now); break;
-                default: everything(c, out, s, now);
+                case Widgets.NEXT: nextUp(out, s, now); break;
+                case Widgets.PROBLEM: problem(out, s); break;
+                case Widgets.DEADLINES: deadlines(out, s, now); break;
+                default: overview(c, out, s, now);
             }
         } catch (Exception e) {
             out.clear();
@@ -282,32 +285,103 @@ final class WidgetRows {
         stats(out, s);
     }
 
-    private static void everything(Context c, List<Row> out, JSONObject s, long now) {
+    // ---------- next up, the problem of the day, deadlines ----------
+    private static void nextUp(List<Row> out, JSONObject s, long now) {
         next(out, s, now);
-        stats(out, s);
-        attention(out, s, 6);
+        JSONObject ne = nextEvent(s, now);
         String today = Widgets.dayKey(0);
-        boolean head = false;
+        int shown = 0;
         for (JSONObject e : itemsOn(s, today)) {
-            if (!isSchedule(e.optString("k"))) continue;
-            if (e.optInt("a") == 0 && e.optLong("e") <= now) continue;
-            if (!head) { section(out, "Today's schedule", "calendar:day:" + today); head = true; }
+            if (!isSchedule(e.optString("k")) || e.optInt("a") == 1 || e.optLong("e") <= now || e == ne) continue;
+            if (ne != null && e.optLong("s") <= ne.optLong("s")) continue;
+            if (shown == 0) section(out, "Later today", "calendar:day:" + today);
             eventRow(out, e, false);
+            if (++shown >= 3) break;
+        }
+        if (shown == 0) {
+            String tomorrow = Widgets.dayKey(1);
+            int t = 0;
+            for (JSONObject e : itemsOn(s, tomorrow)) {
+                if (!isSchedule(e.optString("k"))) continue;
+                if (t == 0) section(out, "Tomorrow", "calendar:day:" + tomorrow);
+                eventRow(out, e, false);
+                if (++t >= 2) break;
+            }
         }
         JSONArray tk = Widgets.arr(s, "tasks");
-        head = false;
-        int shownTasks = 0;
-        for (int i = 0; i < tk.length() && shownTasks < 10; i++) {
+        int n = 0;
+        for (int i = 0; i < tk.length() && n < 2; i++) {
             JSONObject x = tk.optJSONObject(i);
             if (x == null || x.optInt("dn") == 1) continue;
-            if (!head) { section(out, "Tasks", "plan:tasks"); head = true; }
+            if (n == 0) section(out, "Tasks", "plan:tasks");
             taskRow(out, x, false);
-            shownTasks++;
+            n++;
         }
-        habitRows(out, s, 14);
-        int before = out.size();
-        newsRows(out, s, "", 6);
-        if (out.size() > before) out.add(before, sectionRow("News", "learn:news"));
+    }
+
+    private static void problem(List<Row> out, JSONObject s) {
+        JSONArray ps = Widgets.arr(s, "problems");
+        if (ps.length() == 0) { text(out, "Open Daily Driver once to load the practice problems."); return; }
+        int day = java.util.Calendar.getInstance().get(java.util.Calendar.DAY_OF_MONTH);
+        Row r = add(out, T_TEXT);
+        r.a = ps.optString(day % ps.length());
+        r.flag = true;                         // a long text: show it in full, in the main text colour
+        r.target = "learn:cases";
+        Row hint = add(out, T_TEXT);
+        hint.a = "Write your structure first, then open the suggested approach.";
+        hint.target = "learn:cases";
+    }
+
+    /** Deadline-like things from today on: due and to-do items from the calendar, and tasks with a date (late ones included). */
+    private static List<JSONObject> deadlineItems(JSONObject s, long now) {
+        List<JSONObject> list = new ArrayList<>();
+        String today = Widgets.dayKey(0);
+        JSONArray cal = Widgets.arr(s, "cal");
+        for (int i = 0; i < cal.length(); i++) {
+            JSONObject e = cal.optJSONObject(i);
+            if (e == null || e.optInt("x") == 1) continue;
+            String k = e.optString("k");
+            if (!("due".equals(k) || "action".equals(k)) || e.optString("d").compareTo(today) < 0) continue;
+            if (e.optInt("a") == 0 && e.optLong("e") < now - 15 * 60000L) continue;
+            if (Widgets.dayDiff(today, e.optString("d")) > 45) continue;
+            list.add(e);
+        }
+        JSONArray tk = Widgets.arr(s, "tasks");
+        for (int i = 0; i < tk.length(); i++) {
+            JSONObject x = tk.optJSONObject(i);
+            if (x == null || x.optInt("dn") == 1 || x.optString("dd").length() < 10) continue;
+            try {
+                String dd = x.optString("dd").substring(0, 10);
+                if (Widgets.dayDiff(today, dd) > 45) continue;
+                list.add(new JSONObject().put("t", x.optString("title")).put("d", dd).put("s", Widgets.cal(dd).getTimeInMillis()).put("a", 1).put("k", "task").put("id", x.optString("id")));
+            } catch (Exception ignored) { }
+        }
+        java.util.Collections.sort(list, new java.util.Comparator<JSONObject>() {
+            @Override public int compare(JSONObject a, JSONObject b) { return Long.compare(a.optLong("s"), b.optLong("s")); }
+        });
+        return list;
+    }
+
+    static int deadlineCount(JSONObject s, long now) { return deadlineItems(s, now).size(); }
+
+    private static void deadlines(List<Row> out, JSONObject s, long now) {
+        List<JSONObject> items = deadlineItems(s, now);
+        if (items.isEmpty()) { text(out, "No deadlines coming up. Nice."); return; }
+        String today = Widgets.dayKey(0);
+        for (int i = 0; i < items.size() && i < 20; i++) {
+            JSONObject e = items.get(i);
+            Row r = add(out, T_TASK);
+            r.a = e.optString("t");
+            boolean task = "task".equals(e.optString("k"));
+            r.act = task ? "task" : "act";
+            r.id = e.optString("id");
+            r.target = "calendar:day:" + e.optString("d");
+            int n = Widgets.dayDiff(today, e.optString("d"));
+            r.due = n < 0 ? "Late" : n == 0 ? "Today" : n == 1 ? "Tomorrow" : "in " + n + " d";
+            r.style = n <= 0 ? "bad" : n <= 2 ? "warn" : "";
+            String when = Widgets.fmt("EEE d MMM", Widgets.cal(e.optString("d")).getTimeInMillis());
+            r.b = e.optInt("a") == 1 ? when : when + "  ·  " + Widgets.fmt("h:mm a", e.optLong("s"));
+        }
     }
 
     private static Row sectionRow(String title, String target) { Row r = new Row(T_SECTION); r.a = title; r.target = target; return r; }
@@ -414,7 +488,8 @@ final class WidgetRows {
     private static RemoteViews textView(Context c, Row r) {
         RemoteViews v = new RemoteViews(c.getPackageName(), R.layout.row_text);
         v.setTextViewText(R.id.rt, r.a);
-        v.setTextColor(R.id.rt, Widgets.color(c, R.color.dd_muted));
+        v.setTextColor(R.id.rt, Widgets.color(c, r.flag ? R.color.dd_text : R.color.dd_muted));
+        if (r.flag) v.setInt(R.id.rt, "setMaxLines", 12);
         v.setTextViewText(R.id.rm, "");
         v.setOnClickFillInIntent(R.id.txroot, fill("open", "", r.target.isEmpty() ? "home" : r.target));
         return v;

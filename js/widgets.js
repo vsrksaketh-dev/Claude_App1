@@ -1,11 +1,13 @@
 // Home-screen widgets (Android). The app cannot be read by a widget directly, so after every change a small snapshot is
 // handed to the native side, which stores it and redraws the widgets. Nothing here runs in a browser.
 import { S, ui, app, go, render, commit } from './core.js';
-import { today, addDays, daysFromToday, fmtDay } from './util.js';
+import { today, addDays, daysFromToday, fmtDay, uid } from './util.js';
 import { pendingActions } from './schedule.js';
 import { agendaOn } from './agenda.js';
 import { openTasks, taskQuadrant, habitsOn, habitDone, dayStreak, completeTask, uncompleteTask, doneToday } from './logic.js';
 import { widgetPush, widgetTake } from './native.js';
+import { nativeSources } from './calendar.js';
+import { PRACTICE } from './casebook.js';
 
 const RANK = { UI: 0, I: 1, U: 2, '': 3 };
 const dueLabel = d => { if (!d) return ''; const n = daysFromToday(d); return n < 0 ? 'Overdue' : n === 0 ? 'Today' : n === 1 ? 'Tomorrow' : fmtDay(d); };
@@ -18,7 +20,7 @@ export function buildSnapshot() {
   const cal = [];
   for (let i = -CAL_BACK; i <= CAL_FWD && cal.length < CAL_MAX; i++) {
     const k = addDays(t, i);
-    agendaOn(k).forEach(e => cal.push({ d: k, s: e.start, e: e.end, t: e.title, w: e.where || '', a: e.allDay ? 1 : 0, k: e.kind, id: e.kind === 'task' ? e.id : (e.key || ''), x: e.done ? 1 : 0, dv: e.derived ? 1 : 0 }));
+    agendaOn(k).forEach(e => cal.push({ d: k, s: e.start, e: e.end, t: e.title, w: e.where || '', a: e.allDay ? 1 : 0, k: e.kind, id: e.kind === 'task' ? e.id : (e.key || ''), x: e.done ? 1 : 0, dv: e.derived ? 1 : 0, o: e.cal ? 1 : 0 }));
   }
   const open = openTasks().sort((a, b) => (RANK[taskQuadrant(a)] - RANK[taskQuadrant(b)]) || (a.due || '9').localeCompare(b.due || '9'));
   const hs = habitsOn(t);
@@ -36,10 +38,11 @@ export function buildSnapshot() {
     habits: { done: hs.filter(h => habitDone(h, t)).length, total: hs.length, streak: dayStreak() },
     news,
     newsDate: app.news.date || '',
+    problems: PRACTICE.map(p => p.q),            // the Problem of the day widget picks one by the date
   };
 }
 
-export const pushNow = () => widgetPush(JSON.stringify(buildSnapshot()));
+export const pushNow = () => widgetPush(JSON.stringify(buildSnapshot()), nativeSources());
 let timer;
 export const pushSoon = () => { clearTimeout(timer); timer = setTimeout(pushNow, 700); };
 
@@ -50,6 +53,11 @@ export function applyOps(ops) {
     if (o.t === 'task') { const x = S.tasks.find(y => y.id === o.id); if (x) { if (o.on === false) uncompleteTask(o.id); else if (!x.done) completeTask(o.id); } }
     if (o.t === 'act') S.inboxDone[o.id] = !S.inboxDone[o.id];
     if (o.t === 'habit') { const l = (S.habitLog[t] ||= {}); l[o.id] = !l[o.id]; }
+    // Text shared into the app from another app: the first line becomes a task, and the whole text is kept as a note when there is more to it.
+    if (o.t === 'capture') {
+      const lines = String(o.id || '').split('\n').map(x => x.trim()).filter(Boolean), title = (lines[0] || '').slice(0, 140);
+      if (title) { S.tasks.push({ id: uid(), title, due: '', important: false, done: false, kind: 'Task' }); if (lines.length > 1 || (lines[0] || '').length > 140) S.notes.push({ id: uid(), at: Date.now(), text: lines.join('\n'), shared: true }); }
+    }
   });
 }
 
@@ -61,9 +69,10 @@ export function openTarget(target) {
   if (view === 'track') view = 'home';
   if (!app.views[view]) return;
   if (view === 'learn' && ['news', 'cases'].includes(a)) ui.sub.learn = a;
+  if (view === 'plan' && ['tasks', 'notes'].includes(a)) ui.sub.plan = a;
   if (view === 'calendar') { if (['month', 'week', 'day', 'agenda'].includes(a)) ui.sub.calMode = a; if (/^\d{4}-\d{2}-\d{2}$/.test(b || a || '')) { ui.sub.calSel = ui.sub.calAnchor = b || a; if (!ui.sub.calMode) ui.sub.calMode = 'month'; } }
   go(view);
-  if ((view === 'home' && a === 'capture') || (view === 'plan' && b === 'add')) setTimeout(() => document.querySelector('[data-form=quick] input, [data-form=task] input')?.focus(), 80);
+  if ((view === 'home' && a === 'capture') || (view === 'plan' && b === 'add')) setTimeout(() => document.querySelector('[data-form=quick] input, [data-form=task] input, [data-form=note] textarea')?.focus(), 80);
 }
 
 export async function syncFromWidgets() {

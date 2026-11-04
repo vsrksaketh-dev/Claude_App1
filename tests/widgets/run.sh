@@ -13,4 +13,6 @@ cp tests/widgets/Harness.java "$W/src/app/dailydriver/personal/"
 python3 tests/widgets/gen-r.py "$W/src"
 node tests/widgets/snap.cjs "$PW" "$W/snapshot.json" "$PORT"
 javac -cp "$JSON" -d "$W/out" $(find "$W/src" -name '*.java') $(ls android-native/java/app/dailydriver/personal/*.java | grep -v "MainActivity\|WidgetBridgePlugin") 2>&1 | grep -v JAVA_TOOL || true
-java -cp "$W/out:$JSON" app.dailydriver.personal.Harness "$W/snapshot.json"
+WA=$(TZ=Asia/Kolkata node -e "console.log(new Date('2026-10-20T00:00:00+05:30').getTime())"); WB=$(TZ=Asia/Kolkata node -e "console.log(new Date('2027-01-20T00:00:00+05:30').getTime())")
+TZ=Asia/Kolkata node tests/widgets/ics-expected.mjs tests/fixtures/sample.ics "$WA" "$WB" > "$W/expected.json" 2>/dev/null
+TZ=Asia/Kolkata java -cp "$W/out:$JSON" app.dailydriver.personal.Harness "$W/snapshot.json" tests/fixtures/sample.ics "$W/expected.json" "$WA" "$WB"

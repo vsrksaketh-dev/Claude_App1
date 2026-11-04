@@ -1,8 +1,9 @@
 // Learn: the daily news, and a casebook for thinking like a consultant (aimed at HR transformation work).
 import { S, ui, app, register } from '../core.js';
-import { today, esc, pick, fmtDay } from '../util.js';
+import { today, esc, pick, fmtDay, uid } from '../util.js';
 import { empty, chip, tabs, pills, subOf, head } from '../ui.js';
 import { FRAMEWORKS, MENTAL_MODELS } from '../data.js';
+import { practiceStreak } from '../logic.js';
 import { PLAYBOOK, MINDSET, TOOLKIT, CASES, PRACTICE, HR_TECH } from '../casebook.js';
 
 const TABS = [['news', 'News'], ['cases', 'Cases']];
@@ -11,16 +12,17 @@ const CATS = [['All', 'All'], ['International', 'World'], ['Indian', 'India'], [
 // ---- news ----
 const story = (n, lead) => {
   const link = /^https?:\/\//.test(n.url || '');
-  const open = link ? `<a class="story${lead ? ' lead' : ''}" href="${esc(n.url)}" target="_blank" rel="noopener noreferrer">` : `<div class="story${lead ? ' lead' : ''}">`;
-  return `${open}<div class="row"><span class="chip">${esc(n.cat)}</span>${n.kind === 'fact' ? '<span class="chip plain">Fact</span>' : ''}</div>
-    <span class="title">${esc(n.title)}</span><p${link ? ' class="clamp"' : ''}>${esc(n.summary)}</p>
+  const saved = S.notes.some(x => x.src === n.title);
+  const title = `<span class="title">${esc(n.title)}</span>`;
+  return `<div class="story${lead ? ' lead' : ''}"><div class="row"><span class="chip">${esc(n.cat)}</span>${n.kind === 'fact' ? '<span class="chip plain">Fact</span>' : ''}</div>
+    ${link ? `<a class="storylink" href="${esc(n.url)}" target="_blank" rel="noopener noreferrer">${title}</a>` : title}<p${link ? ' class="clamp"' : ''}>${esc(n.summary)}</p>
     <p class="why"><b>Why it matters.</b> ${esc(n.why)}</p>
-    <div class="row between"><span class="muted">${esc(n.src)}</span>${link ? '<span class="chip">Read</span>' : ''}</div>${link ? '</a>' : '</div>'}`;
+    <div class="row between"><span class="muted">${esc(n.src)}</span><span class="row" style="gap:6px">${saved ? '<span class="chip ok">Saved to notes</span>' : `<button class="ghost" data-act="talkPoint" data-i="${n.i}">Talking point</button>`}${link ? `<a class="chip" href="${esc(n.url)}" target="_blank" rel="noopener noreferrer">Read</a>` : ''}</span></div></div>`;
 };
 function newsTab() {
   const cat = CATS.some(c => c[0] === ui.sub.newsCat) ? ui.sub.newsCat : 'All';
   const items = app.news.items || [];
-  const list = items.filter(n => cat === 'All' || n.cat === cat);
+  const list = items.map((n, i) => ({ ...n, i })).filter(n => cat === 'All' || n.cat === cat);
   const stories = list.filter(n => n.kind !== 'fact'), facts = list.filter(n => n.kind === 'fact');
   const stale = app.news.date && app.news.date !== today();
   return `<div class="tabs">${CATS.map(([id, l]) => `<button class="${cat === id ? 'on' : ''}" data-act="newsCat" data-id="${id}">${l}</button>`).join('')}</div>
@@ -38,7 +40,7 @@ function practicePage() {
   const p = PRACTICE[idx];
   const key = today() + ':' + idx, gs = S.guess[key] || { text: '', revealed: false };
   const kv = (k, v) => `<div><b>${k}</b>${v}</div>`;
-  return `<div class="card"><div class="row between"><h2 style="margin:0">Problem of the day</h2><button class="ghost" data-act="nextProblem">Another</button></div>
+  return `<div class="card"><div class="row between"><h2 style="margin:0">Problem of the day ${practiceStreak() > 1 ? chip(practiceStreak() + '-day streak', 'ok') : ''}</h2><button class="ghost" data-act="nextProblem">Another</button></div>
     <p class="title" style="margin-top:12px">${esc(p.q)}</p>
     <p class="muted">Write how you would structure it before you look. Two minutes is enough.</p>
     <textarea data-bind="guess" data-key="${esc(key)}" aria-label="Your approach" placeholder="Clarify, structure, hypothesis, data, recommendation...">${esc(gs.text)}</textarea>
@@ -80,6 +82,13 @@ register({
     newsCat: d => { ui.sub.newsCat = d.id; },
     reveal: d => { (S.guess[d.key] ||= { text: '' }).revealed = true; },
     nextProblem: () => { ui.sub.pOff = (ui.sub.pOff || 0) + 1; },
+    // Turns a story into a note with the shape of an interview answer: what happened, why it matters, and a blank for your own view.
+    talkPoint: d => {
+      const n = (app.news.items || [])[Number(d.i)];
+      if (!n || S.notes.some(x => x.src === n.title)) return;
+      const first = (n.summary || '').split(/(?<=[.!?])\s/)[0];
+      S.notes.push({ id: uid(), at: Date.now(), tp: true, src: n.title, text: `Talking point: ${n.title}\nWhat happened: ${first}\nWhy it matters: ${n.why}\nMy view: ` });
+    },
   },
   inputs: {
     guess: el => { (S.guess[el.dataset.key] ||= { revealed: false }).text = el.value; },

@@ -1,6 +1,7 @@
 // Entry point: loads modules, wires events, boots the app.
 import { ui, app, render, commit, go } from './core.js';
 import { save } from './store.js';
+import { countdownText } from './util.js';
 import { isNative, initBackButton } from './native.js';
 import { refreshReminders } from './reminders-run.js';
 import { syncAll, onCalendarChange } from './calendar.js';
@@ -34,7 +35,7 @@ document.addEventListener('submit', e => {
   app.forms[form.dataset.form](Object.fromEntries(new FormData(form)), form);
   commit();
   // Quick-add bars keep the keyboard open so several tasks can be typed in a row.
-  if (form.hasAttribute('data-keep')) { const again = document.querySelector(`[data-form="${form.dataset.form}"] input`); if (again) again.focus({ preventScroll: true }); }
+  if (form.hasAttribute('data-keep')) { const again = document.querySelector(`[data-form="${form.dataset.form}"] input, [data-form="${form.dataset.form}"] textarea`); if (again) again.focus({ preventScroll: true }); }
 });
 document.addEventListener('input', e => {
   const h = app.inputs[e.target.dataset.bind];
@@ -71,6 +72,8 @@ async function loadNews() {
   window.addEventListener('widgetOpen', syncFromWidgets);
   document.addEventListener('visibilitychange', () => { if (!document.hidden) syncFromWidgets(); });
   initBackButton(() => ui.view === 'home', () => go('home'));
+  // Live countdowns (Next up on Home) tick without redrawing the page, so nothing being typed is disturbed.
+  setInterval(() => document.querySelectorAll('[data-countdown]').forEach(el => { el.textContent = countdownText(Number(el.dataset.countdown)); }), 20000);
   // Reopening the app after a while: refresh the news and the widgets so neither shows yesterday.
   document.addEventListener('visibilitychange', () => { if (!document.hidden) loadNews().then(() => { if (!typing()) render(); pushSoon(); }); });
   if ('serviceWorker' in navigator && !isNative()) navigator.serviceWorker.register('sw.js').catch(() => {});

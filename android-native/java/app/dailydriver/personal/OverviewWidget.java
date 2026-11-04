@@ -9,9 +9,10 @@ public class OverviewWidget extends AppWidgetProvider {
     @Override
     public void onUpdate(Context c, AppWidgetManager m, int[] ids) {
         Widgets.update(c, m, ids, Widgets.OVERVIEW);
+        Widgets.backgroundRefresh(c, goAsync(), false, true);
     }
 
-    // Resizing the widget re-lays it out: a bigger widget shows more, and more detail.
+    // Resizing the widget re-lays it out: a bigger widget shows more.
     @Override
     public void onAppWidgetOptionsChanged(Context c, AppWidgetManager m, int id, Bundle options) {
         Widgets.update(c, m, new int[] { id }, Widgets.OVERVIEW);

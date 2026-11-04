@@ -3,7 +3,7 @@ import { S, register, commit, byId, remove } from '../core.js';
 import { today, esc, uid } from '../util.js';
 import { field, chip, head } from '../ui.js';
 import { exportJSON, importJSON, reset, SCHEMA } from '../store.js';
-import { saveBackup, isNative, notifyPermission } from '../native.js';
+import { saveBackup, isNative, notifyPermission, notifyTest } from '../native.js';
 import { refreshReminders } from '../reminders-run.js';
 import { pushNow } from '../widgets.js';
 import { getSources, addSource, removeSource, syncAll, getHidden, setHidden } from '../calendar.js';
@@ -19,8 +19,8 @@ function render() {
   <div class="card"><h2>Habits</h2>${S.habits.filter(h => !h.archived).length ? `<ul class="list">${S.habits.filter(h => !h.archived).map(h => `<li><div class="grow"><span class="title">${esc(h.name)}</span><div class="muted">${h.days.length === 7 ? 'Every day' : h.days.map(d => DAYS[d]).join(', ')}</div></div><button class="ghost danger" data-act="habitDel" data-id="${h.id}">Remove</button></li>`).join('')}</ul>` : '<p class="muted">No habits. They show as a small strip on Home.</p>'}
     <form data-form="habit" class="capture" style="margin-top:12px"><input name="name" placeholder="New habit" aria-label="New habit" maxlength="60" required><button class="primary">Add</button></form></div>
 
-  <div class="card"><h2>Profile</h2><form data-form="profile" class="inline">${field('Your name', 'name', `value="${esc(S.profile.name)}"`)}${field('Roll number', 'roll', `value="${esc(S.profile.roll)}"`)}<button>Save</button></form>
-    <p class="muted">Your name appears in the greeting. Name and roll number build the CV file names.</p></div>
+  <div class="card"><h2>Profile</h2><form data-form="profile" class="inline">${field('Your name', 'name', `value="${esc(S.profile.name)}"`)}${field('Roll number', 'roll', `value="${esc(S.profile.roll)}"`)}${field('Starting at (optional)', 'company', `value="${esc(S.profile.company)}" placeholder="e.g. Deloitte"`)}${field('Start date (optional)', 'joining', `type="date" value="${esc(S.profile.joining)}"`)}<button>Save</button></form>
+    <p class="muted">Your name appears in the greeting. A start date adds a countdown to Home.</p></div>
 
   <div class="card"><h2>Google Calendar</h2>
     ${getSources().length ? `<ul class="list">${getSources().map(s => `<li><div class="grow"><span class="title">${esc(s.name)}</span><div class="muted">${s.error ? esc(s.error) : s.at ? `${s.count} events synced ${Math.max(0, Math.round((Date.now() - s.at) / 6e4))} min ago` : 'Not synced yet'}</div></div><button class="ghost danger" data-act="calRemove" data-id="${s.id}">Remove</button></li>`).join('')}</ul><div class="row" style="margin-top:10px"><button data-act="calSync">Sync now</button></div>` : '<p class="muted">Not connected yet.</p>'}
@@ -31,16 +31,22 @@ function render() {
       <p class="muted">Repeat for each calendar, for example your college account. Anyone with this address can read that calendar, so keep it private. It stays on this phone only and is left out of backups. You can reset it in the same Google Calendar screen.</p>
       <p class="muted">Tip: an event titled "Action: ..." or "Due: ..." shows up under "Needs your attention" on Home.</p></details></div>
 
-  <div class="card"><h2>Reminders</h2>${isNative() ? '' : '<p class="muted">Reminders work in the Android app. This is the browser version, so they will not fire here.</p>'}
-    <form data-form="reminders"><label class="check"><input type="checkbox" name="on" ${S.reminders.on ? 'checked' : ''}> Turn reminders on</label>
-      <div class="inline">${field('Morning plan', 'morning', `type="time" value="${S.reminders.morning}"`)}${field('Evening look-ahead', 'evening', `type="time" value="${S.reminders.evening}"`)}</div>
+  <div class="card"><h2>Nudges</h2>${isNative() ? '' : '<p class="muted">Nudges work in the Android app. This is the browser version, so they will not fire here.</p>'}
+    <form data-form="reminders"><label class="check"><input type="checkbox" name="on" ${S.reminders.on ? 'checked' : ''}> <span><b>Turn nudges on</b><div class="muted">Short, kind notifications: your day in the morning, a wrap-up at night, and a gentle hello if you have been away.</div></span></label>
+      <div class="inline">${field('Morning briefing', 'morning', `type="time" value="${S.reminders.morning}"`)}${field('Evening wrap-up', 'evening', `type="time" value="${S.reminders.evening}"`)}</div>
+      <label class="check"><input type="checkbox" name="briefing" ${S.reminders.briefing !== false ? 'checked' : ''}> Morning briefing with your classes and tasks</label>
+      <label class="check"><input type="checkbox" name="wrap" ${S.reminders.wrap !== false ? 'checked' : ''}> Evening wrap-up with what is next</label>
+      <label class="check"><input type="checkbox" name="comeback" ${S.reminders.comeback !== false ? 'checked' : ''}> A gentle hello if I have been away for two or five days</label>
+      <label class="check"><input type="checkbox" name="weekly" ${S.reminders.weekly !== false ? 'checked' : ''}> Weekly review on Sunday evening</label>
+      <label class="check"><input type="checkbox" name="backup" ${S.reminders.backup !== false ? 'checked' : ''}> Remind me to back up when it has been a while</label>
       <label class="check"><input type="checkbox" name="deadlines" ${S.reminders.deadlines ? 'checked' : ''}> Deadlines: the day before, the day of, and 3 hours before an application closes</label>
       <label class="check"><input type="checkbox" name="events" ${S.reminders.events ? 'checked' : ''}> Calendar events: 15 minutes before</label>
-      <div class="row"><button class="primary">Save reminders</button></div></form></div>
+      <div class="row"><button class="primary">Save nudges</button>${isNative() ? '<button type="button" data-act="nudgeTest">Send a test nudge</button>' : ''}</div></form>
+    ${isNative() ? '<p class="muted">If a test nudge does not arrive, allow notifications for Daily Driver in Android settings, and set its battery to Unrestricted.</p>' : ''}</div>
 
   <div class="card"><h2>Home screen widgets</h2>${isNative() ? '' : '<p class="muted">Widgets are part of the Android app. This is the browser version.</p>'}
-    <p>Touch and hold an empty spot on your home screen, tap Widgets, then find Daily Driver. There are seven: Overview, Schedule, Tasks, News, Calendar, Habits and Everything (the large one).</p>
-    <p class="muted">The News widget fetches fresh stories by itself about every half hour. The rest show what the app last sent, so open the app now and then. Tap any widget to open the app.</p>
+    <p>Touch and hold an empty spot on your home screen, tap Widgets, then find Daily Driver. There are ten: Overview, Schedule, Tasks, News, Calendar, Habits, Next up, Quick add, Problem of the day and Deadlines.</p>
+    <p class="muted">The News widget fetches fresh stories, and the calendar widgets re-read your Google calendars, by themselves about every half hour. For that, your private calendar addresses are also kept in this app's private storage on the phone (never uploaded anywhere else). Tasks and habits show what the app last sent, so open the app now and then. Tap any widget to open the app.</p>
     <p class="muted">If widgets stop refreshing, allow background activity: Android settings, Apps, Daily Driver, Battery, then Unrestricted (on OnePlus also allow Auto-launch).</p>
     <div class="row" style="margin-top:10px"><button data-act="widgetsNow">Update widgets now</button></div></div>
 
@@ -54,6 +60,7 @@ register({
   actions: {
     theme: d => { S.theme = d.id; },
     widgetsNow: () => { pushNow(); },
+    nudgeTest: () => { notifyTest().then(ok => alert(ok ? 'A test nudge will arrive in a few seconds.' : 'Notifications are blocked. Allow them for Daily Driver in Android settings.')); },
     glass: () => { S.glass = S.glass === false; },
     habitDel: d => { remove('habits', d.id); },
     calSync: () => { syncAll(true).then(() => commit()); },
@@ -77,9 +84,9 @@ register({
       syncAll(true).then(() => commit());
     },
     habit: f => { const n = (f.name || '').trim(); if (n) S.habits.push({ id: uid(), name: n, when: 'anytime', days: [0, 1, 2, 3, 4, 5, 6], created: today() }); },
-    profile: f => { S.profile.name = f.name.trim(); S.profile.roll = f.roll.trim(); },
+    profile: f => { S.profile.name = f.name.trim(); S.profile.roll = f.roll.trim(); S.profile.company = (f.company || '').trim(); S.profile.joining = f.joining || ''; },
     reminders: f => {
-      S.reminders = { on: !!f.on, morning: f.morning || '07:30', evening: f.evening || '21:00', deadlines: !!f.deadlines, cards: false, events: !!f.events };
+      S.reminders = { on: !!f.on, morning: f.morning || '07:30', evening: f.evening || '21:00', briefing: !!f.briefing, wrap: !!f.wrap, comeback: !!f.comeback, weekly: !!f.weekly, backup: !!f.backup, deadlines: !!f.deadlines, cards: false, events: !!f.events };
       if (S.reminders.on && isNative()) notifyPermission().then(ok => { if (!ok) alert('Notifications are blocked. Allow them for Daily Driver in Android settings.'); });
       refreshReminders();
     },

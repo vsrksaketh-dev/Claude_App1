@@ -14,7 +14,7 @@ export function agendaOn(k) {
   const out = [];
   calEventsOn(k).forEach(e => {
     const kind = kindOf(e.title);
-    const it = { kind, title: kind === 'event' ? e.title : stripKind(e.title), start: e.start, end: e.end, allDay: !!e.allDay, where: e.where || '', src: e.cal || '', desc: (e.desc || '').replace(/\s*Added from email\.?/i, '').trim() };
+    const it = { cal: true, kind, title: kind === 'event' ? e.title : stripKind(e.title), start: e.start, end: e.end, allDay: !!e.allDay, where: e.where || '', src: e.cal || '', desc: (e.desc || '').replace(/\s*Added from email\.?/i, '').trim() };
     if (kind !== 'event') { it.key = actionKey(e); it.done = !!S.inboxDone[it.key]; }
     out.push(it);
   });

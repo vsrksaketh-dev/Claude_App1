@@ -1,10 +1,11 @@
 // Home: what needs you today. The to-do list first, then anything waiting on you, today's schedule and a one-line habit strip.
 import { S, app, register, remove, render as rerender } from '../core.js';
-import { today, addDays, daysFromToday, esc, fmtDay, uid, pick } from '../util.js';
+import { today, addDays, daysFromToday, esc, fmtDay, uid, pick, countdownText, clock12 } from '../util.js';
 import { empty, chip, check } from '../ui.js';
 import { getSources, hasCalendars, lastSync, syncAll } from '../calendar.js';
 import { dayItems, pendingActions } from '../schedule.js';
-import { habitsOn, habitDone, openTasks, dayStreak, byRank, doneToday, doneLast, uncompleteTask } from '../logic.js';
+import { habitsOn, habitDone, openTasks, dayStreak, byRank, doneToday, doneLast, uncompleteTask, dayProgress, practiceStreak } from '../logic.js';
+import { weekRecap, isRecapDay } from '../recap.js';
 
 const when = ms => new Date(ms).toLocaleString('en-IN', { weekday: 'short', hour: 'numeric', minute: '2-digit', hour12: true });
 const ago = ms => { const m = Math.round((Date.now() - ms) / 6e4); return m < 1 ? 'just now' : m < 60 ? m + ' min ago' : Math.round(m / 60) + ' h ago'; };
@@ -23,6 +24,44 @@ const todoRow = x => x.derived
   ? `<li data-flip="t:${esc(x.id)}"><div class="grow"><span class="title">${esc(x.title)}</span><div class="meta">${dueChip(x)}<span class="muted">${esc(x.left || '')}${x.due ? ' due ' + esc(fmtDay(x.due)) : ''}</span></div></div></li>`
   : `<li data-flip="t:${esc(x.id)}">${check('taskDone', x.id, false)}<div class="grow"><span class="title">${esc(x.title)}</span>${x.due ? `<div class="meta">${dueChip(x)}<span class="muted">${esc(fmtDay(x.due))}</span></div>` : ''}</div><button class="ghost danger x" data-act="delTask" data-id="${esc(x.id)}" aria-label="Remove">×</button></li>`;
 const doneRow = x => `<li class="done" data-flip="t:${esc(x.id)}">${check('taskUndo', x.id, true)}<div class="grow"><span class="title">${esc(x.title)}</span></div><button class="ghost danger x" data-act="delTask" data-id="${esc(x.id)}" aria-label="Remove">×</button></li>`;
+
+// The line under the greeting reacts to how the day is going; it only falls back to a motto when there is nothing to say.
+function heroLine(prog) {
+  const t = today();
+  if (prog.due === 0 && prog.done > 0) return 'Everything due today is done. Nice work.';
+  if (openTasks().some(x => x.due && x.due < t)) return 'Start with the overdue one. The rest gets easier.';
+  if (prog.done > 0) return `${prog.done} done, ${prog.due} to go.`;
+  return pick(MOTTOS);
+}
+// One badge in the hero: the countdown to a start date if one is set, otherwise a streak.
+function badge() {
+  const j = S.profile.joining;
+  if (j && /^\d{4}-\d{2}-\d{2}$/.test(j)) {
+    const n = daysFromToday(j);
+    if (n === 0) return `<span class="stat"><b>Day one</b>is today</span>`;
+    if (n > 0) return `<span class="stat"><b>${n}</b>day${n === 1 ? '' : 's'} to ${esc(S.profile.company || 'day one')}</span>`;
+  }
+  if (practiceStreak() > 1) return `<span class="stat"><b>${practiceStreak()}</b>day practice streak</span>`;
+  if (dayStreak() > 1) return `<span class="stat"><b>${dayStreak()}</b>day streak</span>`;
+  return '';
+}
+const ring = p => { const C = 2 * Math.PI * 18; return `<div class="ring" role="img" aria-label="${p.done} of ${p.total} finished today"><svg viewBox="0 0 44 44"><circle class="rt" cx="22" cy="22" r="18"/><circle class="rv" cx="22" cy="22" r="18" stroke-dasharray="${C.toFixed(1)}" stroke-dashoffset="${((1 - (p.total ? p.pct : 1)) * C).toFixed(1)}"/></svg><b>${p.total ? `${p.done}/${p.total}` : 'Clear'}</b></div>`; };
+function nextUp(t) {
+  const now = Date.now();
+  let n = dayItems(t).find(e => !e.allDay && e.end > now), later = false;
+  if (!n) { n = dayItems(addDays(t, 1)).find(e => !e.allDay); later = !!n; }
+  if (!n) return '';
+  const live = n.start <= now;
+  return `<section class="next"><div class="grow"><p class="eyebrow">${live ? 'Happening now' : later ? 'Tomorrow' : 'Next up'}</p><p class="title">${esc(n.title)}</p><p class="muted">${esc(clock12(n.start))}${n.where ? ' · ' + esc(n.where) : ''}</p></div><span class="count" data-countdown="${n.start}">${live ? 'now' : countdownText(n.start)}</span></section>`;
+}
+function recapCard() {
+  if (!isRecapDay()) return '';
+  const r = weekRecap();
+  if (!r.tasks && !r.sessions && !r.practice) return '';
+  const cell = (n, l) => `<div><b>${n}</b><span>${l}</span></div>`;
+  return `<section class="card recap"><h2>Your week</h2><div class="recap-grid">${cell(r.tasks, 'tasks done')}${cell(r.sessions, 'sessions')}${cell(r.practice, 'practice days')}${cell(r.ahead, 'due this week')}</div>${r.bestDay ? `<p class="muted">Best day: ${esc(r.bestDay)}, ${r.bestN} done.</p>` : ''}</section>`;
+}
+
 const SHOW = 6;
 
 function render() {
@@ -38,19 +77,23 @@ function render() {
   const hs = habitsOn(t);
   const todos = openTasks().sort(byRank);
   const finished = doneToday();
+  const prog = dayProgress();
   const habitsDone = hs.filter(x => habitDone(x, t)).length;
   const hasAttention = acts.length || briefMail.length || nd.length;
   const outstanding = acts.some(e => !e.done) || briefMail.length || nd.length;
   return `
-  <section class="hero"><div class="hero-top"><p class="hero-date">${esc(fmtDay(t))}</p><button class="pill" data-nav="settings">Settings</button></div>
+  <section class="hero">${ring(prog)}<div class="hero-top"><p class="hero-date">${esc(fmtDay(t))}</p><button class="pill" data-nav="settings">Settings</button></div>
     <h1>${hello}${S.profile.name ? ', ' + esc(S.profile.name) : ''}</h1>
-    <p class="hero-motto">${esc(pick(MOTTOS))}</p>
-    <div class="hero-stats"><span class="stat"><b>${todos.length}</b>to do</span><span class="stat"><b>${finished.length}</b>done today</span>${evs.length ? `<span class="stat"><b>${evs.length}</b>on today</span>` : ''}${dayStreak() > 1 ? `<span class="stat"><b>${dayStreak()}</b>day streak</span>` : ''}</div></section>
+    <p class="hero-motto">${esc(heroLine(prog))}</p>
+    <div class="hero-stats"><span class="stat"><b>${todos.length}</b>to do</span><span class="stat"><b>${finished.length}</b>done today</span>${evs.length ? `<span class="stat"><b>${evs.length}</b>on today</span>` : ''}${badge()}</div></section>
+  ${nextUp(t)}
   <form data-form="quick" data-keep class="capture"><input name="text" placeholder="Add a task" aria-label="Add a task" maxlength="140" required><button class="primary">Add</button></form>
 
   <section class="card"><div class="row between"><h2 style="margin:0">To do</h2>${todos.length ? chip(todos.length + ' left') : chip('all done', 'ok')}</div>
     <div style="margin-top:12px">${todos.length || finished.length ? `<ul class="list">${todos.slice(0, SHOW).map(todoRow).join('')}${finished.map(doneRow).join('')}</ul>${todos.length > SHOW ? `<div class="todo-more"><button class="ghost" data-nav="plan">+${todos.length - SHOW} more in Plan</button></div>` : ''}` : empty('Nothing to do. Add something above, or enjoy it.')}</div>
   </section>
+
+  ${recapCard()}
 
   ${hasAttention ? `<section class="card ${outstanding ? 'alert' : ''}"><h2>Needs your attention</h2><ul class="list">
       ${doneLast(acts, e => e.done).map(e => `<li data-flip="a:${esc(e.key)}" class="${e.done ? 'done' : e.dueToday ? 'due-today' : ''}">${check('actToggle', e.key, e.done)}<div class="grow"><span class="title">${esc(e.label)}</span><div class="muted">${e.mail ? esc(e.note || 'Important email') : esc(when(e.start)) + (e.cal ? ' · ' + esc(e.cal) : '')}</div></div>${e.done ? chip('Done', 'ok') : e.mail ? chip(esc(new Date(e.start).toLocaleDateString('en-IN', { day: 'numeric', month: 'short' })), 'plain') : chip(e.dueToday ? 'Today' : esc(when(e.start)), e.dueToday ? 'bad' : 'warn')}</li>`).join('')}

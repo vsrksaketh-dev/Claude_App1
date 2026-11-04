@@ -63,3 +63,21 @@ export function completeTask(id) {
   t.doneAt = today();
   S.stats.tasksDone[today()] = (S.stats.tasksDone[today()] || 0) + 1;
 }
+
+// ---- practice streak (Learn > Cases) ----
+// A day counts when a written approach of at least 20 characters was saved for that day's problem (keys look like "2026-11-04:5").
+export const practiceDays = () => new Set(Object.entries(S.guess).filter(([k, g]) => k.includes(':') && ((g && g.text) || '').trim().length >= 20).map(([k]) => k.slice(0, 10)));
+export function practiceStreak() {
+  const d = practiceDays();
+  let n = 0;
+  for (let i = 0; i < 400; i++) { if (d.has(addDays(today(), -i))) n++; else if (i > 0) break; }
+  return n;
+}
+
+// ---- today's ring: what was finished against what is due today or late ----
+export function dayProgress() {
+  const t = today();
+  const done = doneToday().length;
+  const due = openTasks().filter(x => x.due && x.due <= t).length;
+  return { done, due, total: done + due, pct: done + due ? done / (done + due) : 0 };
+}

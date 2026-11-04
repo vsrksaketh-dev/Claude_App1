@@ -26,6 +26,16 @@ public class MainActivity extends BridgeActivity {
     }
 
     private void capture(Intent intent) {
+        // Text shared into the app from another app (a link, a message, a note): the page turns it into a task.
+        if (intent != null && Intent.ACTION_SEND.equals(intent.getAction()) && intent.getStringExtra(Intent.EXTRA_TEXT) != null) {
+            String text = intent.getStringExtra(Intent.EXTRA_TEXT).trim();
+            String subject = intent.getStringExtra(Intent.EXTRA_SUBJECT);
+            if (!text.isEmpty()) {
+                Widgets.enqueue(this, "capture", (subject == null || subject.trim().isEmpty() ? "" : subject.trim() + "\n") + text);
+                Widgets.setTarget(this, "plan:tasks");
+            }
+            intent.setAction(Intent.ACTION_MAIN);
+        }
         if (intent != null && intent.hasExtra("target")) {
             Widgets.setTarget(this, intent.getStringExtra("target"));
             intent.removeExtra("target");

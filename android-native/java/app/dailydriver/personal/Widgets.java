@@ -30,7 +30,8 @@ import org.json.JSONObject;
  * the next time it opens. The calendar widget adds a month grid or week strip above its list.
  */
 public class Widgets {
-    static final int OVERVIEW = 0, SCHEDULE = 1, TASKS = 2, NEWS = 3, EVERYTHING = 4, CALENDAR = 5, HABITS = 6;
+    // Kind numbers are internal. 4 used to be the "Everything" widget, which was removed (Overview covers it).
+    static final int OVERVIEW = 0, SCHEDULE = 1, TASKS = 2, NEWS = 3, CALENDAR = 5, HABITS = 6, NEXT = 7, QUICK = 8, PROBLEM = 9, DEADLINES = 10;
     private static final String PREFS = "widgets";
     private static final String[] CATS = { "International", "Indian", "Business", "Tech" };
     private static final String[] CAT_SHORT = { "World", "India", "Business", "Tech" };
@@ -61,6 +62,9 @@ public class Widgets {
     }
 
     private static void queue(Context c, String type, String id) { queue(c, type, id, null); }
+
+    /** Lets other native entry points (sharing text into the app) hand something to the page the same way widget ticks do. */
+    static synchronized void enqueue(Context c, String type, String id) { queue(c, type, id, null); }
 
     // on: for a task, whether it was ticked (true) or put back (false); the app applies it in order.
     private static void queue(Context c, String type, String id, Boolean on) {
@@ -255,11 +259,34 @@ public class Widgets {
     // ---------- refreshing ----------
     static void refreshAll(Context c) {
         AppWidgetManager m = AppWidgetManager.getInstance(c);
-        Class<?>[] kinds = { OverviewWidget.class, ScheduleWidget.class, TasksWidget.class, NewsWidget.class, EverythingWidget.class, CalendarWidget.class, HabitsWidget.class };
+        Class<?>[] kinds = { OverviewWidget.class, ScheduleWidget.class, TasksWidget.class, NewsWidget.class, null, CalendarWidget.class, HabitsWidget.class, NextWidget.class, QuickWidget.class, ProblemWidget.class, DeadlinesWidget.class };
         for (int k = 0; k < kinds.length; k++) {
+            if (kinds[k] == null) continue;
             int[] ids = m.getAppWidgetIds(new ComponentName(c, kinds[k]));
             if (ids.length > 0) update(c, m, ids, k);
         }
+    }
+
+    /**
+     * The system asks each widget to refresh about every half hour. Besides redrawing, fetch fresh news and/or the calendars on a
+     * background thread (the app need not be open), then redraw everything if anything changed. Never throws.
+     */
+    static void backgroundRefresh(final Context c, final android.content.BroadcastReceiver.PendingResult pending, final boolean news, final boolean calendar) {
+        final Context app = c.getApplicationContext();
+        new Thread(new Runnable() {
+            @Override public void run() {
+                try {
+                    boolean changed = false;
+                    if (calendar && CalendarSync.refresh(app, false)) changed = true;
+                    if (news && NewsSync.refresh(app)) changed = true;
+                    if (changed) refreshAll(app);
+                } catch (Throwable ignored) {
+                    // a failed refresh just leaves the last good data on screen
+                } finally {
+                    if (pending != null) pending.finish();
+                }
+            }
+        }).start();
     }
 
     static void update(Context c, AppWidgetManager m, int[] ids, int kind) {
@@ -360,6 +387,7 @@ public class Widgets {
     // ---------- the widgets ----------
     private static RemoteViews build(Context c, int kind, JSONObject s, int hDp, int wDp, int widgetId) {
         if (kind == CALENDAR) return buildCalendar(c, s, hDp, wDp, widgetId);
+        if (kind == QUICK) return buildQuick(c);
         RemoteViews v = new RemoteViews(pkg(c), R.layout.widget_card);
         long now = System.currentTimeMillis();
         String name = s.optString("name", ""), date = fmt("EEEE d MMMM", now);
@@ -425,18 +453,39 @@ public class Widgets {
                 }
                 break;
             }
+            case NEXT: {
+                JSONObject ne = WidgetRows.nextEvent(s, now);
+                head(v, "Next up", date, ne == null ? "" : relative(ne.optLong("s"), now).replace("in ", ""));
+                break;
+            }
+            case PROBLEM: {
+                head(v, "Problem of the day", "Think like a consultant", "");
+                if (!empty) {
+                    showFoot(v);
+                    pill(c, v, R.id.foot, "Try it", true, open(c, "learn:cases"));
+                    pill(c, v, R.id.foot, "Another", false, open(c, "learn:cases"));
+                }
+                break;
+            }
+            case DEADLINES: {
+                int n = WidgetRows.deadlineCount(s, now);
+                head(v, "Deadlines", empty ? "" : n == 0 ? "Nothing coming up" : n + " coming up", "");
+                break;
+            }
             default: {
                 head(v, greeting(name), date, "");
-                if (!empty) {
-                    showPills(v);
-                    pill(c, v, R.id.pills, "Home", true, open(c, "home"));
-                    pill(c, v, R.id.pills, "Plan", false, open(c, "plan:tasks"));
-                    pill(c, v, R.id.pills, "Calendar", false, open(c, "calendar:month"));
-                    pill(c, v, R.id.pills, "Learn", false, open(c, "learn:news"));
-                }
             }
         }
         bindList(c, v, kind, widgetId);
+        return v;
+    }
+
+    // ---------- the quick-add widget ----------
+    private static RemoteViews buildQuick(Context c) {
+        RemoteViews v = new RemoteViews(pkg(c), R.layout.widget_quick);
+        v.setOnClickPendingIntent(R.id.root, open(c, "plan:tasks:add"));
+        v.setOnClickPendingIntent(R.id.qtask, open(c, "plan:tasks:add"));
+        v.setOnClickPendingIntent(R.id.qnote, open(c, "plan:notes:add"));
         return v;
     }
 

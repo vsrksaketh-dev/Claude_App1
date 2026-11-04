@@ -23,3 +23,7 @@ export const until = iso => {
   const h = Math.floor(ms / 36e5);
   return h < 1 ? Math.max(1, Math.round(ms / 6e4)) + 'm' : h < 48 ? h + 'h' : Math.floor(h / 24) + 'd';
 };
+// "in 25 min", "in 3 h", "in 2 d" (or "now" once it has started). Used by the countdown on Home.
+export const countdownText = ms => { const d = ms - Date.now(); if (d <= 0) return 'now'; if (d < 36e5) return 'in ' + Math.max(1, Math.round(d / 6e4)) + ' min'; if (d < 864e5) return 'in ' + Math.floor(d / 36e5) + ' h' + (Math.round(d / 6e4) % 60 >= 15 ? ' ' + (Math.round(d / 6e4) % 60) + ' min' : ''); return 'in ' + Math.round(d / 864e5) + ' d'; };
+export const clock12 = ms => new Date(ms).toLocaleTimeString('en-IN', { hour: 'numeric', minute: '2-digit', hour12: true }).replace(' ', '').toLowerCase();
+export const rot = (arr, key) => arr[Math.abs([...String(key)].reduce((a, c) => a * 31 + c.charCodeAt(0), 7)) % arr.length];   // a steady choice per key, so copy varies by day but never flickers

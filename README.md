@@ -17,12 +17,12 @@ Four tabs, each a focused screen (Home, Learn, Plan, Calendar). The look is fros
 
 | Tab | What it does |
 | --- | --- |
-| Home | A glass hero with today's counts, one capture bar, your to-do list ranked by urgency (ticked items sink to the bottom and can be unticked), what needs you today (calendar items titled "Action:" or "Due:", important mail facts; hidden when there is nothing), today's schedule and a one-line habit strip. Settings opens from the button at the top |
-| Learn | News (a lead story and the rest, filtered by World, India, Business or Tech) and Cases: a practice problem of the day with a suggested approach, the problem-solving playbook, a case library, a toolkit of change and organisation frameworks and a map of HR technology, aimed at HR transformation consulting |
-| Plan | One list of every task grouped by when it is due (Overdue, Today, Next 7 days, Later, No date), with a one-line add bar and a priority toggle |
+| Home | A glass hero with a progress ring, a countdown to your start date and a line that reacts to how the day is going, a Next up card with a live countdown, on Sundays and Mondays a recap of your week, with today's counts, one capture bar, your to-do list ranked by urgency (ticked items sink to the bottom and can be unticked), what needs you today (calendar items titled "Action:" or "Due:", important mail facts; hidden when there is nothing), today's schedule and a one-line habit strip. Settings opens from the button at the top |
+| Learn | News (a lead story and the rest, filtered by World, India, Business or Tech) and Cases (with a practice streak): a practice problem of the day with a suggested approach, the problem-solving playbook, a case library, a toolkit of change and organisation frameworks and a map of HR technology, aimed at HR transformation consulting |
+| Plan | Tasks: one list grouped by when it is due (Overdue, Today, Next 7 days, Later, No date), with a one-line add bar and a priority toggle. Notes: ideas, links and talking points, pinned or turned into tasks in one tap. Text shared into the app from any other app lands here too |
 | Calendar | Everything dated, like Google Calendar: month grid with dots, a week and day time grid, and an agenda list. Each day lists its events, deadlines ("Due:"), things to do ("Action:"), email key facts ("Mail:") and tasks that fall due, with ticks and an add-event form |
 
-The Track, Goals, Career and Money screens were removed. Their data (journal, goals, applications, expenses and so on) is still kept in the data file and in backups, only the screens are gone. Habits are managed in Settings and ticked on Home.
+Every news story has a Talking point button that saves an interview-style note (what happened, why it matters, your view). The Track, Goals, Career and Money screens were removed. Their data (journal, goals, applications, expenses and so on) is still kept in the data file and in backups, only the screens are gone. Habits are managed in Settings and ticked on Home.
 
 ### Google Calendar sync
 

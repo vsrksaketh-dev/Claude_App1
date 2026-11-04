@@ -4,7 +4,18 @@
     <string name="w_schedule">Daily Driver: Schedule</string>
     <string name="w_tasks">Daily Driver: Tasks</string>
     <string name="w_news">Daily Driver: News</string>
-    <string name="w_everything">Daily Driver: Everything</string>
     <string name="w_calendar">Daily Driver: Calendar</string>
     <string name="w_habits">Daily Driver: Habits</string>
+    <string name="w_next">Daily Driver: Next up</string>
+    <string name="w_quick">Daily Driver: Quick add</string>
+    <string name="w_problem">Daily Driver: Problem of the day</string>
+    <string name="w_deadlines">Daily Driver: Deadlines</string>
+    <string name="sc_task">Add task</string>
+    <string name="sc_task_long">Add a task</string>
+    <string name="sc_note">Add note</string>
+    <string name="sc_note_long">Add a note</string>
+    <string name="sc_problem">Practice</string>
+    <string name="sc_problem_long">Problem of the day</string>
+    <string name="sc_calendar">Calendar</string>
+    <string name="sc_calendar_long">Open the calendar</string>
 </resources>
