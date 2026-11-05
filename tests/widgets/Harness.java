@@ -4,13 +4,20 @@ import org.json.*; import java.nio.file.*; import java.util.*;
 public class Harness {
   static class Prefs implements SharedPreferences { Map<String,Object> m = new HashMap<>();
     public String getString(String k,String d){ Object o=m.get(k); return o==null?d:(String)o; } public int getInt(String k,int d){ Object o=m.get(k); return o==null?d:(Integer)o; } public boolean getBoolean(String k,boolean d){ Object o=m.get(k); return o==null?d:(Boolean)o; }
-    public Editor edit(){ return new Editor(){ public Editor putString(String k,String v){m.put(k,v);return this;} public Editor putInt(String k,int v){m.put(k,v);return this;} public Editor putBoolean(String k,boolean v){m.put(k,v);return this;} public Editor remove(String k){m.remove(k);return this;} public void apply(){} }; } }
+    public Editor edit(){ return new Editor(){ public Editor putString(String k,String v){m.put(k,v);return this;} public Editor putInt(String k,int v){m.put(k,v);return this;} public Editor putBoolean(String k,boolean v){m.put(k,v);return this;} public Editor remove(String k){m.remove(k);return this;} public void apply(){} public boolean commit(){return true;} }; } }
   static class Ctx extends Context { Prefs p = new Prefs(); public String getPackageName(){return "app.dailydriver.personal";} public PackageManager getPackageManager(){ return new PackageManager(){ public Intent getLaunchIntentForPackage(String x){ return new Intent(); } }; } public SharedPreferences getSharedPreferences(String n,int m){return p;} }
   static IcsReader.Inst mk(String t, long s, long e, boolean all, String w, String d) { IcsReader.Inst i = new IcsReader.Inst(); i.title = t; i.start = s; i.end = e; i.allDay = all; i.where = w; i.desc = d; return i; }
   static int fails = 0;
+  static Ctx C;
+  static WidgetRows.Taps T(int kind) { return Widgets.taps(C, kind, 1); }
+  static RemoteViews V(WidgetRows.Row r) { return WidgetRows.view(C, r, T(Widgets.TASKS)); }
+  static int vis(RemoteViews v, int id) { Integer x = v.vis.get(id); return x == null ? android.view.View.VISIBLE : x; }
+  static Integer bg(RemoteViews v, int id) { return v.ints.get(id + ":setBackgroundResource"); }
+  /** The day cells on show: { cell index } for the visible grid rows. */
+  static List<Integer> cells(RemoteViews v) { List<Integer> out = new ArrayList<>(); if (vis(v, R.id.cgrid) == android.view.View.GONE) return out; for (int r = 0; r < 6; r++) if (vis(v, Widgets.ROWS[r]) != android.view.View.GONE) for (int d = 0; d < 7; d++) out.add(r * 7 + d); return out; }
   static void ok(String n, boolean c){ System.out.println((c?"PASS ":"FAIL ")+n); if(!c) fails++; }
   public static void main(String[] a) throws Exception {
-    Ctx c = new Ctx();
+    Ctx c = new Ctx(); C = c;
     String snap = new String(Files.readAllBytes(Paths.get(a[0])));
     Widgets.save(c, snap);
     // every widget kind builds and every row turns into a view
@@ -18,17 +25,17 @@ public class Harness {
     for (int k = 0; k < 12; k++) {
       if (k == 4 || k == Widgets.QUICK) continue;
       List<WidgetRows.Row> rows = WidgetRows.build(c, k);
-      int views = 0; for (WidgetRows.Row r : rows) { RemoteViews v = WidgetRows.view(c, r); if (v != null) views++; }
+      int views = 0; for (WidgetRows.Row r : rows) { RemoteViews v = V(r); if (v != null) views++; }
       System.out.println(names[k] + ": " + rows.size() + " rows");
       ok(names[k] + " builds rows and views", rows.size() > 0 && views == rows.size());
     }
     // draw all widgets through the real update path
     AppWidgetManager.drawn.clear(); Widgets.refreshAll(c);
     ok("refreshAll draws all eleven widgets", AppWidgetManager.drawn.size() == 11);
-    for (RemoteViews v : AppWidgetManager.drawn.values()) if (v.layout != R.layout.widget_quick) ok("each list widget binds a scrolling list and a tap template", v.adapter != null && v.template != null);
+    for (RemoteViews v : AppWidgetManager.drawn.values()) if (v.layout != R.layout.widget_quick) ok("each list widget places its rows straight into the widget, no list service", v.adapter == null && v.template == null && v.kids.get(R.id.rows) != null && v.kids.get(R.id.rows).size() > 0);
     // calendar month grid
     RemoteViews cal = null; for (RemoteViews v : AppWidgetManager.drawn.values()) if (v.layout == R.layout.widget_calendar) cal = v;
-    int cells = 0; for (RemoteViews row : cal.kids.get(R.id.calgrid)) cells += row.kids.get(R.id.crow).size();
+    int cells = cells(cal).size();
     ok("month grid has whole weeks of seven days", cells % 7 == 0 && cells >= 28 && cells <= 42);
     ok("month mode lists the selected day", WidgetRows.build(c, 5).get(0).type == WidgetRows.T_SECTION && WidgetRows.build(c, 5).get(0).a.startsWith("Today"));
     // calendar interactions
@@ -81,7 +88,7 @@ public class Harness {
     Widgets.handle(c, "tf", "soon", "");
     ok("task filter works", WidgetRows.build(c, Widgets.TASKS).size() <= before);
     // a row tap says what it means
-    boolean opens = false; for (WidgetRows.Row r : WidgetRows.build(c, Widgets.TASKS)) if (r.type == WidgetRows.T_TASK) { RemoteViews v = WidgetRows.view(c, r); for (Intent i : v.fills.values()) if ("open".equals(i.getStringExtra("type")) && i.getStringExtra("target").startsWith("tasks:task:")) opens = true; }
+    boolean opens = false; for (WidgetRows.Row r : WidgetRows.build(c, Widgets.TASKS)) if (r.type == WidgetRows.T_TASK) { RemoteViews v = V(r); android.app.PendingIntent p = v.clicks.get(R.id.rowroot); if (p != null && "activity".equals(p.kind) && String.valueOf(p.intent.getStringExtra("target")).startsWith("tasks:task:")) opens = true; }
     ok("a task row opens that task in the app", opens);
     // tiny and large calendar sizes both draw
     for (int h : new int[]{200, 280, 360, 520}) { AppWidgetManager.height = h; Widgets.handle(c, "cmode", "month", ""); Widgets.handle(c, "ctoday", "", ""); }
@@ -89,17 +96,17 @@ public class Harness {
     // layout checks for the redesigned widgets
     {
       Widgets.save(c, snap);
-      boolean tile = false; for (WidgetRows.Row r : WidgetRows.build(c, Widgets.DEADLINES)) if (r.type == WidgetRows.T_DEADLINE) { RemoteViews v = WidgetRows.view(c, r); tile = v.layout == R.layout.row_deadline && v.texts.get(R.id.dln) != null && !r.due.isEmpty() && v.texts.get(R.id.dlt).length() > 0; }
+      boolean tile = false; for (WidgetRows.Row r : WidgetRows.build(c, Widgets.DEADLINES)) if (r.type == WidgetRows.T_DEADLINE) { RemoteViews v = V(r); tile = v.layout == R.layout.row_deadline && v.texts.get(R.id.dln) != null && !r.due.isEmpty() && v.texts.get(R.id.dlt).length() > 0; }
       ok("Deadlines rows are countdown tiles with a big number", tile);
       RemoteViews q = Widgets.build(c, Widgets.QUICK, new JSONObject(snap), 100, 300, 1), q2 = Widgets.build(c, Widgets.QUICK, new JSONObject(snap), 200, 300, 1);
       ok("Quick add shows one row of tiles when short and two when tall", q.vis.get(R.id.qrow2) == android.view.View.GONE && q2.vis.get(R.id.qrow2) == android.view.View.VISIBLE);
       RemoteViews tl = Widgets.build(c, Widgets.TASKS, new JSONObject(snap), 300, 300, 1), ts = Widgets.build(c, Widgets.TASKS, new JSONObject(snap), 120, 300, 1);
       ok("Tasks shows a progress bar when roomy and a compact header when short", tl.vis.get(R.id.hprog) != null && ts.vis.get(R.id.sub) == android.view.View.GONE);
-      boolean nx = false; for (WidgetRows.Row r : WidgetRows.build(c, Widgets.NEXT)) if (r.type == WidgetRows.T_NEXT) { RemoteViews v = WidgetRows.view(c, r); nx = v.texts.get(R.id.nn) != null; }
+      boolean nx = false; for (WidgetRows.Row r : WidgetRows.build(c, Widgets.NEXT)) if (r.type == WidgetRows.T_NEXT) { RemoteViews v = V(r); nx = v.texts.get(R.id.nn) != null; }
       ok("Next up draws its big card", nx);
     }
     {
-      boolean hst = false; for (WidgetRows.Row r : WidgetRows.build(c, Widgets.HABITS)) if (r.type == WidgetRows.T_HABIT) { RemoteViews v = WidgetRows.view(c, r); if (v.texts.get(R.id.hs) != null) hst = true; }
+      boolean hst = false; for (WidgetRows.Row r : WidgetRows.build(c, Widgets.HABITS)) if (r.type == WidgetRows.T_HABIT) { RemoteViews v = V(r); if (v.texts.get(R.id.hs) != null) hst = true; }
       ok("Habits rows draw with their status line", hst);
       boolean lead = false; for (WidgetRows.Row r : WidgetRows.build(c, Widgets.NEWS)) if (r.type == WidgetRows.T_NEWS && r.flag) lead = true;
       ok("the News widget leads with one bigger story", lead);
@@ -110,7 +117,7 @@ public class Harness {
       Widgets.handle(c, "ctoday", "", ""); Widgets.handle(c, "cmode", "week", "");
       String pick = Widgets.dayKey(2); Widgets.handle(c, "csel", pick, "");
       RemoteViews wv = Widgets.build(c, Widgets.CALENDAR, new JSONObject(snap), 420, 300, 1);
-      int hi = 0; for (RemoteViews row : wv.kids.get(R.id.calweek)) for (RemoteViews cell : row.kids.get(R.id.crow)) if (cell.ints.get(R.id.cellroot + ":setBackgroundResource") == R.drawable.cell_sel_bg) hi++;
+      int hi = 0; for (int n : cells(wv)) if (bg(wv, Widgets.CELL[n]) == R.drawable.cell_sel_bg) hi++;
       ok("week strip highlights exactly the picked day", hi == 1 || Widgets.weekStart(pick).compareTo(Widgets.dayKey(0)) > 0 && hi >= 0);
       List<WidgetRows.Row> wl = WidgetRows.build(c, Widgets.CALENDAR);
       int wheads = 0; for (WidgetRows.Row r : wl) if (r.type == WidgetRows.T_SECTION) wheads++;
@@ -118,7 +125,7 @@ public class Harness {
       Widgets.handle(c, "cmode", "day", ""); Widgets.handle(c, "cnav", "1", "");
       ok("day mode moves one day at a time", Widgets.dayDiff(pick, c.p.getString("csel", "")) == 1);
       RemoteViews dv = Widgets.build(c, Widgets.CALENDAR, new JSONObject(snap), 420, 300, 1);
-      ok("day mode hides the grid and has an add button", dv.vis.get(R.id.calgrid) == android.view.View.GONE && dv.texts.get(R.id.ctitle) != null);
+      ok("day mode hides the grid and has an add button", vis(dv, R.id.cgrid) == android.view.View.GONE && dv.texts.get(R.id.ctitle) != null);
       Widgets.handle(c, "ctoday", "", ""); Widgets.handle(c, "cmode", "month", "");
     }
     // widgets that catch up with the app: notes, saved stories, task steps, priority filter, links on tasks
@@ -132,9 +139,9 @@ public class Harness {
       List<WidgetRows.Row> nr = WidgetRows.build(c, Widgets.NOTES);
       boolean noteOk = false; for (WidgetRows.Row r : nr) if (r.type == WidgetRows.T_NOTE && r.a.equals("HCOT questions") && r.target.equals("notes:page:n1") && r.c.contains("1/2")) noteOk = true;
       ok("Notes widget lists pinned pages first and opens the page", noteOk && nr.get(0).type == WidgetRows.T_SECTION && nr.get(0).a.equals("Pinned"));
-      for (WidgetRows.Row r : nr) if (r.type == WidgetRows.T_NOTE) WidgetRows.view(c, r);
+      for (WidgetRows.Row r : nr) if (r.type == WidgetRows.T_NOTE) V(r);
       RemoteViews nv = Widgets.build(c, Widgets.NOTES, sn, 300, 300, 1);
-      ok("Notes widget has New page and Jot buttons", nv.kids.get(R.id.pills) != null && nv.kids.get(R.id.pills).size() == 3);
+      ok("Notes widget has New page and Jot buttons", vis(nv, R.id.pills) == android.view.View.VISIBLE && vis(nv, Widgets.PILLS[2]) == android.view.View.VISIBLE && vis(nv, Widgets.PILLS[3]) == android.view.View.GONE);
       Widgets.handle(c, "ncat", "Saved", "");
       boolean sv = false; for (WidgetRows.Row r : WidgetRows.build(c, Widgets.NEWS)) if (r.type == WidgetRows.T_NEWS && r.o.optString("title").equals("Saved story")) sv = true;
       ok("News widget shows saved stories", sv);
@@ -168,26 +175,25 @@ public class Harness {
       Widgets.handle(c, "ctoday", "", "");
       for (int step = 0; step < 800; step++) {
         int r = rnd.nextInt(10);
-        String[] st0 = Widgets.calState(c);
+        String[] st0 = Widgets.calState(c, 0);
         if (r < 4) Widgets.handle(c, "cnav", rnd.nextBoolean() ? "1" : "-1", "");
         else if (r < 7) Widgets.handle(c, "csel", Widgets.plusDays(Widgets.weekStart(st0[2]), rnd.nextInt(35) - 3), "");
         else if (r < 9) Widgets.handle(c, "cmode", modes[rnd.nextInt(4)], "");
         else Widgets.handle(c, "ctoday", "", "");
-        String[] st = Widgets.calState(c);
+        String[] st = Widgets.calState(c, 0);
         if (Math.abs(Widgets.dayDiff(Widgets.dayKey(0), st[2])) > 900 || Math.abs(Widgets.dayDiff(Widgets.dayKey(0), st[1])) > 900) { inRange = false; why = st[1] + "/" + st[2]; }
         if (st[0].equals("agenda") && Widgets.dayDiff(Widgets.dayKey(0), st[2]) < 0) agendaFwd = false;
         for (int h : new int[]{240, 340, 520}) {
           try {
             RemoteViews v = Widgets.build(c, Widgets.CALENDAR, new JSONObject(snap), h, 300, 1);
             if (v.texts.get(R.id.ctitle) == null || v.texts.get(R.id.ctitle).length() == 0) titled = false;
-            List<RemoteViews> gcells = new ArrayList<>();
-            if (st[0].equals("month")) for (RemoteViews row : v.kids.get(R.id.calgrid)) gcells.addAll(row.kids.get(R.id.crow));
-            if (st[0].equals("week")) for (RemoteViews row : v.kids.get(R.id.calweek)) gcells.addAll(row.kids.get(R.id.crow));
+            List<Integer> gcells = cells(v);
             if (st[0].equals("month") || st[0].equals("week")) {
               int selected = 0, selDay = -1;
-              for (RemoteViews cell : gcells) if (cell.ints.get(R.id.cellroot + ":setBackgroundResource") == R.drawable.cell_sel_bg) { selected++; selDay = Integer.parseInt(cell.texts.get(R.id.dn).toString()); }
-              boolean shown = gcells.size() > 0;
-              boolean inGrid = false; { String first = st[0].equals("month") ? st[2].substring(0, 8) + "01" : Widgets.weekStart(st[2]); String start = Widgets.weekStart(first); for (int i = 0; i < gcells.size(); i++) if (Widgets.plusDays(start, i).equals(st[1])) inGrid = true; }
+              for (int n : gcells) if (bg(v, Widgets.CELL[n]) == R.drawable.cell_sel_bg) { selected++; selDay = Integer.parseInt(v.texts.get(Widgets.CELL_NUM[n]).toString()); }
+              if (gcells.isEmpty()) { oneSel = false; why = "no grid in " + st[0]; }
+              boolean inGrid = false; { String first = st[0].equals("month") ? st[2].substring(0, 8) + "01" : Widgets.weekStart(st[1]); String start = Widgets.weekStart(first); for (int i = 0; i < gcells.size(); i++) if (Widgets.plusDays(start, i).equals(st[1])) inGrid = true; }
+              if (st[0].equals("week") && !inGrid) { oneSel = false; why = "week does not hold the picked day " + st[1]; }
               if (inGrid && (selected != 1 || selDay != Integer.parseInt(st[1].substring(8)))) { oneSel = false; why = st[0] + " sel " + st[1] + " anchor " + st[2] + " highlighted " + selected + " day " + selDay; }
               if (!inGrid && selected != 0) { oneSel = false; why = "highlight outside grid " + st[1]; }
             }
@@ -200,7 +206,7 @@ public class Harness {
       ok("exactly the picked day is highlighted, whichever way it was reached (" + why + ")", oneSel);
       // a garbled saved state heals itself
       c.p.m.put("csel", "garbage"); c.p.m.put("canchor", "2099-99-99"); c.p.m.put("cmode", "weird");
-      String[] healed = Widgets.calState(c);
+      String[] healed = Widgets.calState(c, 0);
       ok("a garbled saved state resets to today", healed[0].equals("month") && healed[1].equals(Widgets.dayKey(0)));
       Widgets.handle(c, "ctoday", "", "");
     }
@@ -283,42 +289,94 @@ public class Harness {
     ok("due labels come from the date, not from the last snapshot", Widgets.dueLabel(Widgets.dayKey(-1), "").equals("Overdue") && Widgets.dueLabel(Widgets.dayKey(0), "").equals("Today") && Widgets.dueLabel(Widgets.dayKey(1), "").equals("Tomorrow") && Widgets.dueLabel("", "x").equals("x"));
     // empty snapshot
     Widgets.save(c, "{}"); List<WidgetRows.Row> e = WidgetRows.build(c, 0); ok("empty snapshot shows the open-the-app note", e.size() == 1 && e.get(0).a.startsWith("Open Daily Driver"));
-    // fail-safes: every widget-changing tap is an activity (broadcasts get held back on some phones), never a broadcast
-    { c.p.m.clear(); Widgets.save(c, snap); AppWidgetManager.height = 400; AppWidgetManager.drawn.clear(); Widgets.refreshAll(c);
-      int acts = 0, bcasts = 0;
+    // taps: in-place changes are broadcasts to the widget's own provider; opening the app or a link is a direct activity
+    { c.p.m.clear(); Widgets.save(c, snap); AppWidgetManager.height = 420; AppWidgetManager.drawn.clear(); Widgets.refreshAll(c);
+      int toProvider = 0, elsewhere = 0, opensN = 0; String bad = "";
       for (RemoteViews v : AppWidgetManager.drawn.values()) {
         Deque<RemoteViews> q = new ArrayDeque<>(); q.add(v);
-        while (!q.isEmpty()) { RemoteViews x = q.poll(); for (android.app.PendingIntent p : x.clicks.values()) { if ("broadcast".equals(p.kind)) bcasts++; else if ("WidgetRouteActivity".equals(p.intent.extras.get("_cls"))) acts++; }
+        while (!q.isEmpty()) { RemoteViews x = q.poll();
+          for (android.app.PendingIntent p : x.clicks.values()) {
+            if ("broadcast".equals(p.kind)) { if (String.valueOf(p.intent.extras.get("_cls")).endsWith("Widget") && Widgets.TAP.equals(p.intent.getAction()) && p.intent.getIntExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, 0) != 0) toProvider++; else { elsewhere++; bad = p.intent.toString(); } }
+            else if ("activity".equals(p.kind)) opensN++;
+          }
           for (List<RemoteViews> l : x.kids.values()) q.addAll(l); }
       }
-      ok("no widget button relies on a broadcast", bcasts == 0);
-      ok("widget buttons and days go through the route activity", acts > 40);
-      RemoteViews cal2 = null; for (RemoteViews v : AppWidgetManager.drawn.values()) if (v.layout == R.layout.widget_calendar) cal2 = v;
-      List<RemoteViews> mb = cal2.kids.get(R.id.cmodes);
-      ok("calendar shows all four mode buttons", mb != null && mb.size() == 4 && "Agenda".contentEquals(mb.get(3).texts.get(R.id.cmode)));
-      android.app.PendingIntent wkBtn = mb.get(1).clicks.get(R.id.cmode);
-      ok("Week button carries its mode", "cmode".equals(wkBtn.intent.extras.get("type")) && "week".equals(wkBtn.intent.extras.get("id")));
-      // a tap through the real route path (what the phone does) switches the mode
-      Widgets.handle(c, (String) wkBtn.intent.extras.get("type"), (String) wkBtn.intent.extras.get("id"), "");
-      ok("tapping Week switches to week", "week".equals(Widgets.calState(c)[0]));
-      // a short month widget has no room for a list: a picked day opens in Day view rather than vanishing
-      Widgets.handle(c, "cmode", "month", ""); AppWidgetManager.height = 150; AppWidgetManager.drawn.clear(); Widgets.refreshAll(c);
-      String other = Widgets.plusDays(Widgets.dayKey(0), 3);
-      Widgets.handle(c, "csel", other, "");
-      ok("short month: picked day opens in Day view", "day".equals(Widgets.calState(c)[0]) && other.equals(Widgets.calState(c)[1]));
-      AppWidgetManager.height = 520; Widgets.handle(c, "cmode", "month", ""); AppWidgetManager.drawn.clear(); Widgets.refreshAll(c);
-      Widgets.handle(c, "csel", other, "");
-      ok("tall month: picked day stays in month and lists it", "month".equals(Widgets.calState(c)[0]) && other.equals(Widgets.calState(c)[1]) && WidgetRows.build(c, 5).size() > 0);
+      ok("every in-place tap goes to the widget's own provider with its widget id (" + toProvider + ")" + bad, elsewhere == 0 && toProvider > 60);
+      ok("opening the app or a link is a direct tap (" + opensN + ")", opensN > 20);
+      ok("nothing is routed through an invisible activity", !new java.io.File("android-native/java/app/dailydriver/personal/WidgetRouteActivity.java").exists());
+      // the calendar, through the same path the phone uses: the broadcast reaches CalendarWidget.onReceive
+      RemoteViews cv = null; String cid = null; for (Map.Entry<String, RemoteViews> en : AppWidgetManager.drawn.entrySet()) if (en.getValue().layout == R.layout.widget_calendar) { cv = en.getValue(); cid = en.getKey(); }
+      int wid = Integer.parseInt(cid);
+      for (int i = 0; i < 4; i++) {
+        android.app.PendingIntent p = cv.clicks.get(Widgets.MODE_BTN[i]);
+        AppWidgetManager.drawn.clear();
+        new CalendarWidget().onReceive(c, p.intent);
+        String want = new String[]{"month", "week", "day", "agenda"}[i];
+        RemoteViews after = AppWidgetManager.drawn.get(cid);
+        ok("tapping " + want + " switches that calendar and redraws only it", want.equals(Widgets.calState(c, wid)[0]) && AppWidgetManager.drawn.size() == 1 && after != null && bg(after, Widgets.MODE_BTN[i]) == R.drawable.join_bg);
+        cv = after;
+      }
+      // month: tap a day that is not today; it is highlighted, its list shows, today keeps its circle
+      new CalendarWidget().onReceive(c, cv.clicks.get(Widgets.MODE_BTN[0]).intent); cv = AppWidgetManager.drawn.get(cid);
+      String other = Widgets.plusDays(Widgets.dayKey(0), Widgets.dayKey(0).endsWith("-01") ? 1 : -1);
+      int idx = -1; String start = Widgets.weekStart(Widgets.dayKey(0).substring(0, 8) + "01"); for (int n : cells(cv)) if (Widgets.plusDays(start, n).equals(other)) idx = n;
+      new CalendarWidget().onReceive(c, cv.clicks.get(Widgets.CELL[idx]).intent); cv = AppWidgetManager.drawn.get(cid);
+      int sel = 0, todayCircles = 0; for (int n : cells(cv)) { if (bg(cv, Widgets.CELL[n]) == R.drawable.cell_sel_bg) sel++; if (bg(cv, Widgets.CELL_NUM[n]) == R.drawable.cal_today) todayCircles++; }
+      ok("picking another day highlights exactly it, today keeps its circle", sel == 1 && bg(cv, Widgets.CELL[idx]) == R.drawable.cell_sel_bg && todayCircles == 1 && other.equals(Widgets.calState(c, wid)[1]));
+      boolean listed = false; for (RemoteViews r : cv.kids.get(R.id.rows)) if (r.layout == R.layout.widget_section && String.valueOf(r.texts.get(R.id.st)).contains(Widgets.fmt("d MMM", Widgets.cal(other).getTimeInMillis()))) listed = true;
+      ok("and the rows under the grid are that day's", listed);
+      // arrows and Today
+      new CalendarWidget().onReceive(c, cv.clicks.get(R.id.cnext).intent); cv = AppWidgetManager.drawn.get(cid);
+      ok("the next arrow shows next month", Widgets.calState(c, wid)[2].substring(0, 7).equals(Widgets.plusMonths(Widgets.dayKey(0), 1).substring(0, 7)) && cells(cv).size() >= 28);
+      new CalendarWidget().onReceive(c, cv.clicks.get(R.id.ctoday).intent); cv = AppWidgetManager.drawn.get(cid);
+      ok("Today comes back", Widgets.calState(c, wid)[1].equals(Widgets.dayKey(0)));
+      // two calendar widgets keep their own modes
+      Widgets.handle(c, Widgets.CALENDAR, 777, "cmode", "agenda");
+      ok("a second calendar widget keeps its own mode", "agenda".equals(Widgets.calState(c, 777)[0]) && "month".equals(Widgets.calState(c, wid)[0]));
+      // a short month widget has no room for rows: a picked day opens in Day view instead of vanishing
+      AppWidgetManager.height = 240; Widgets.refreshKind(c, Widgets.CALENDAR); cv = AppWidgetManager.drawn.get(cid);
+      ok("a short month widget hides the rows", vis(cv, R.id.rows) == android.view.View.GONE);
+      new CalendarWidget().onReceive(c, cv.clicks.get(Widgets.CELL[idx]).intent);
+      ok("and a picked day opens in Day view", "day".equals(Widgets.calState(c, wid)[0]) && other.equals(Widgets.calState(c, wid)[1]));
+      cv = AppWidgetManager.drawn.get(cid);
+      ok("which shows that day's rows", vis(cv, R.id.cgrid) == android.view.View.GONE && cv.kids.get(R.id.rows) != null && cv.kids.get(R.id.rows).size() > 0);
+      AppWidgetManager.height = 420;
+      // a tick redraws the widgets that show tasks, not all eleven, and the ring fills at once
+      RemoteViews tv = null; String tid = null; for (Map.Entry<String, RemoteViews> en : AppWidgetManager.drawn.entrySet()) if (en.getValue().layout == R.layout.widget_card && "Tasks".equals(String.valueOf(en.getValue().texts.get(R.id.head)))) { tv = en.getValue(); tid = en.getKey(); }
+      if (tv == null) { Widgets.refreshKind(c, Widgets.TASKS); for (Map.Entry<String, RemoteViews> en : AppWidgetManager.drawn.entrySet()) if ("Tasks".equals(String.valueOf(en.getValue().texts.get(R.id.head)))) { tv = en.getValue(); tid = en.getKey(); } }
+      RemoteViews firstTask = null; for (RemoteViews r : tv.kids.get(R.id.rows)) if (r.layout == R.layout.row_task) { firstTask = r; break; }
+      AppWidgetManager.drawn.clear();
+      new TasksWidget().onReceive(c, firstTask.clicks.get(R.id.ring).intent);
+      ok("ticking a task redraws only the widgets that show tasks (" + AppWidgetManager.drawn.size() + ")", AppWidgetManager.drawn.size() >= 1 && AppWidgetManager.drawn.size() <= 6 && AppWidgetManager.drawn.containsKey(tid));
+      boolean ringDone = false; for (RemoteViews r : AppWidgetManager.drawn.get(tid).kids.get(R.id.rows)) if (r.layout == R.layout.row_task && r.texts.get(R.id.tk).toString().equals(firstTask.texts.get(R.id.tk).toString()) && Integer.valueOf(R.drawable.ring_done).equals(r.imgs.get(R.id.ring))) ringDone = true;
+      ok("and the ticked task shows a filled ring straight away", ringDone);
+      Widgets.takeOps(c);
+      // long lists get page arrows, and every row is reachable
+      List<WidgetRows.Row> all = WidgetRows.build(c, Widgets.OVERVIEW, 1);
+      List<int[]> pg = Widgets.pages(all, 180);
+      int covered = 0; for (int[] r : pg) covered += r[1] - r[0];
+      ok("rows split into pages that cover every row (" + pg.size() + " pages)", covered == all.size() && pg.size() > 1);
+      boolean orphan = false; for (int[] r : pg) if (r[1] - r[0] > 1 && r[1] < all.size() && all.get(r[1] - 1).type == WidgetRows.T_SECTION) orphan = true;
+      ok("a heading is never left alone at the bottom of a page", !orphan);
+      AppWidgetManager.height = 200; AppWidgetManager.drawn.clear(); Widgets.refreshKind(c, Widgets.OVERVIEW);
+      RemoteViews ov = AppWidgetManager.drawn.values().iterator().next(); String oid = AppWidgetManager.drawn.keySet().iterator().next();
+      ok("a short widget shows page arrows", vis(ov, R.id.pgnext) == android.view.View.VISIBLE && String.valueOf(ov.texts.get(R.id.pginfo)).startsWith("1 of"));
+      new OverviewWidget().onReceive(c, ov.clicks.get(R.id.pgnext).intent);
+      ok("and the next arrow turns the page", String.valueOf(AppWidgetManager.drawn.get(oid).texts.get(R.id.pginfo)).startsWith("2 of"));
+      AppWidgetManager.height = 420;
+      // the widget fills the height it is really given (upright phones: the maximum height), not the minimum
+      ok("size reads the maximum height", Widgets.size(AppWidgetManager.inst, 1)[1] == 420);
       // a widget whose drawing throws is replaced by a plain card that opens the app, and the error is kept for the app's log
-      AppWidgetManager.drawn.clear(); c.p.m.put("cmode", "month");
+      AppWidgetManager.drawn.clear();
       Widgets.save(c, "{not json");
       try { Widgets.refreshAll(c); } catch (Throwable t) { ok("refresh never throws", false); }
       ok("a broken snapshot still draws every widget", AppWidgetManager.drawn.size() == 11);
       Widgets.save(c, snap); AppWidgetManager.drawn.clear(); Widgets.refreshAll(c);
       ok("widgets recover once the snapshot is good", AppWidgetManager.drawn.size() == 11);
-      String errs = Widgets.takeErrors(c);
-      ok("errors are handed to the app and cleared", errs.startsWith("[") && Widgets.takeErrors(c).equals("[]"));
-      AppWidgetManager.height = 400;
+      Widgets.takeErrors(c);
+      ok("errors are handed to the app once and cleared", Widgets.takeErrors(c).equals("[]"));
+      new CalendarWidget().onDeleted(c, new int[] { 777 });
+      ok("a removed widget's settings are forgotten", !c.p.m.containsKey("cmode.777"));
     }
     System.out.println(fails == 0 ? "ALL PASS" : fails + " FAILED");
     System.exit(fails == 0 ? 0 : 1);

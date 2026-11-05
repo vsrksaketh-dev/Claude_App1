@@ -1,19 +1,6 @@
 package app.dailydriver.personal;
 
-import android.appwidget.AppWidgetManager;
-import android.appwidget.AppWidgetProvider;
-import android.content.Context;
-import android.os.Bundle;
-
-public class HabitsWidget extends AppWidgetProvider {
-    @Override
-    public void onUpdate(Context c, AppWidgetManager m, int[] ids) {
-        Widgets.update(c, m, ids, Widgets.HABITS);
-    }
-
-    // Resizing the widget re-lays it out: a bigger widget shows more.
-    @Override
-    public void onAppWidgetOptionsChanged(Context c, AppWidgetManager m, int id, Bundle options) {
-        Widgets.update(c, m, new int[] { id }, Widgets.HABITS);
-    }
+/** The habits widget. Drawing and taps live in Widgets and WidgetProvider. */
+public class HabitsWidget extends WidgetProvider {
+    @Override int kind() { return Widgets.HABITS; }
 }

@@ -1,19 +1,6 @@
 package app.dailydriver.personal;
 
-import android.appwidget.AppWidgetManager;
-import android.appwidget.AppWidgetProvider;
-import android.content.Context;
-import android.os.Bundle;
-
-public class ProblemWidget extends AppWidgetProvider {
-    @Override
-    public void onUpdate(Context c, AppWidgetManager m, int[] ids) {
-        Widgets.update(c, m, ids, Widgets.PROBLEM);
-    }
-
-    // Resizing the widget re-lays it out: a bigger widget shows more.
-    @Override
-    public void onAppWidgetOptionsChanged(Context c, AppWidgetManager m, int id, Bundle options) {
-        Widgets.update(c, m, new int[] { id }, Widgets.PROBLEM);
-    }
+/** The problem widget. Drawing and taps live in Widgets and WidgetProvider. */
+public class ProblemWidget extends WidgetProvider {
+    @Override int kind() { return Widgets.PROBLEM; }
 }

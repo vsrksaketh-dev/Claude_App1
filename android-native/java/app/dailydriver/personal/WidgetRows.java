@@ -1,7 +1,6 @@
 package app.dailydriver.personal;
 
 import android.content.Context;
-import android.content.Intent;
 import android.view.View;
 import android.widget.RemoteViews;
 import java.util.ArrayList;
@@ -11,11 +10,30 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 /**
- * The scrolling part of every widget. Each widget kind turns the last snapshot into a flat list of rows, and each row
- * becomes a RemoteViews for the widget's ListView. Taps on a row go through one pending-intent template (see Widgets.template)
- * and the "fill-in" intent built here says what was tapped: open a tab, tick something, flip a day, open a link.
+ * The rows of every widget. Each widget kind turns the last snapshot into a flat list of rows; each row becomes a small
+ * RemoteViews that Widgets places straight into the widget (no list service, so what is drawn is always what was just worked
+ * out). Every tappable part asks the Taps it is given for its own direct action: open a tab, tick something, open a link.
  */
 final class WidgetRows {
+    /** Gives one part of a row its tap: "open" (a tab of the app), "url" (a link) or an in-place action (task, act, habit). */
+    interface Taps { void bind(RemoteViews v, int viewId, String type, String id, String target); }
+
+    /** How tall a row is drawn, in dp, rounded up, so a page never holds more than fits. */
+    static int height(Row r) {
+        switch (r.type) {
+            case T_SECTION: return 30;
+            case T_EVENT: return (r.o != null && r.o.optString("u").startsWith("http")) ? 62 : 54;
+            case T_TASK: return 44 + (r.b.isEmpty() ? 0 : 18) + (r.u.startsWith("http") ? 30 : 0);
+            case T_HABIT: return 50;
+            case T_NEWS: return r.flag ? 190 : 118;
+            case T_NEXT: return 132;
+            case T_PROGRESS: return 50;
+            case T_STATS: return 72;
+            case T_DEADLINE: return 62;
+            case T_NOTE: return r.b.isEmpty() ? 52 : 70;
+            default: return r.flag ? 170 : 36;
+        }
+    }
     static final int T_SECTION = 0, T_EVENT = 1, T_TASK = 2, T_HABIT = 3, T_NEWS = 4, T_NEXT = 5, T_PROGRESS = 6, T_STATS = 7, T_TEXT = 8, T_DEADLINE = 9, T_NOTE = 10, TYPES = 11;
 
     static class Row {
@@ -29,24 +47,26 @@ final class WidgetRows {
     private WidgetRows() { }
 
     // ---------- building the list for a widget ----------
-    static List<Row> build(Context c, int kind) {
+    static List<Row> build(Context c, int kind) { return build(c, kind, 0); }
+
+    static List<Row> build(Context c, int kind, int wid) {
         List<Row> out = new ArrayList<>();
         JSONObject s = Widgets.load(c);
         long now = System.currentTimeMillis();
         try {
             if (s.length() == 0) { text(out, "Open Daily Driver once and I will fill this in."); return out; }
             switch (kind) {
-                case Widgets.OVERVIEW: overview(c, out, s, now); break;
-                case Widgets.SCHEDULE: schedule(c, out, s, now); break;
-                case Widgets.TASKS: tasks(c, out, s); break;
-                case Widgets.NEWS: news(c, out, s); break;
-                case Widgets.HABITS: habits(c, out, s); break;
-                case Widgets.CALENDAR: calendar(c, out, s, now); break;
+                case Widgets.OVERVIEW: overview(c, wid, out, s, now); break;
+                case Widgets.SCHEDULE: schedule(c, wid, out, s, now); break;
+                case Widgets.TASKS: tasks(c, wid, out, s); break;
+                case Widgets.NEWS: news(c, wid, out, s); break;
+                case Widgets.HABITS: habits(c, wid, out, s); break;
+                case Widgets.CALENDAR: calendar(c, wid, out, s, now); break;
                 case Widgets.NEXT: nextUp(out, s, now); break;
                 case Widgets.PROBLEM: problem(out, s); break;
                 case Widgets.DEADLINES: deadlines(out, s, now); break;
                 case Widgets.NOTES: notes(out, s); break;
-                default: overview(c, out, s, now);
+                default: overview(c, wid, out, s, now);
             }
         } catch (Exception e) {
             out.clear();
@@ -212,7 +232,7 @@ final class WidgetRows {
     }
 
     // ---------- the widgets ----------
-    private static void overview(Context c, List<Row> out, JSONObject s, long now) {
+    private static void overview(Context c, int wid, List<Row> out, JSONObject s, long now) {
         next(out, s, now);
         habitProgress(out, s);
         stats(out, s);
@@ -231,8 +251,8 @@ final class WidgetRows {
         habitRows(out, s, 14);
     }
 
-    private static void schedule(Context c, List<Row> out, JSONObject s, long now) {
-        int day = Widgets.prefs(c).getInt("day", 0);
+    private static void schedule(Context c, int wid, List<Row> out, JSONObject s, long now) {
+        int day = Widgets.getI(c, "day", wid, 0);
         String key = Widgets.dayKey(day);
         int shown = 0;
         long prevEnd = day == 0 ? now : 0;
@@ -252,8 +272,8 @@ final class WidgetRows {
         if (shown == 0) text(out, day == 0 ? "Nothing left today. A free stretch is a good time to focus." : "Nothing planned. A clear day.");
     }
 
-    private static void tasks(Context c, List<Row> out, JSONObject s) {
-        String tf = Widgets.prefs(c).getString("tf", "all");
+    private static void tasks(Context c, int wid, List<Row> out, JSONObject s) {
+        String tf = Widgets.getS(c, "tf", wid, "all");
         JSONArray t = Widgets.arr(s, "tasks");
         String lastQ = null;
         int shown = 0;
@@ -280,14 +300,14 @@ final class WidgetRows {
         }
     }
 
-    private static void news(Context c, List<Row> out, JSONObject s) {
-        String cat = Widgets.prefs(c).getString("ncat", "");
+    private static void news(Context c, int wid, List<Row> out, JSONObject s) {
+        String cat = Widgets.getS(c, "ncat", wid, "");
         int before = out.size();
         newsRows(out, s, cat, 24);
         if (out.size() == before) text(out, "No headlines here yet. They land every morning.");
     }
 
-    private static void habits(Context c, List<Row> out, JSONObject s) {
+    private static void habits(Context c, int wid, List<Row> out, JSONObject s) {
         habitProgress(out, s);
         List<JSONObject> hl = habitOrder(Widgets.arr(s, "habitList"));
         if (hl.isEmpty()) { text(out, "No habits scheduled today."); return; }
@@ -424,12 +444,13 @@ final class WidgetRows {
         }
     }
 
-    private static RemoteViews noteView(Context c, Row r) {
+    private static RemoteViews noteView(Context c, Row r, Taps taps) {
         RemoteViews v = new RemoteViews(c.getPackageName(), R.layout.row_note);
         v.setTextViewText(R.id.ntt, r.a);
-        if (r.b.isEmpty()) v.setViewVisibility(R.id.ntp, View.GONE); else v.setTextViewText(R.id.ntp, r.b);
+        v.setTextViewText(R.id.ntp, r.b);
+        v.setViewVisibility(R.id.ntp, r.b.isEmpty() ? View.GONE : View.VISIBLE);
         v.setTextViewText(R.id.ntm, r.c);
-        v.setOnClickFillInIntent(R.id.ntroot, fill("open", "", r.target));
+        taps.bind(v, R.id.ntroot, "open", "", r.target);
         return v;
     }
 
@@ -462,8 +483,8 @@ final class WidgetRows {
         r.uk = e.optString("uk");
     }
 
-    private static void calendar(Context c, List<Row> out, JSONObject s, long now) {
-        String[] st = Widgets.calState(c);
+    private static void calendar(Context c, int wid, List<Row> out, JSONObject s, long now) {
+        String[] st = Widgets.calState(c, wid);
         String mode = st[0], sel = st[1], anchor = st[2];
         if (!"agenda".equals(mode)) {
             // month, week and day all show the picked day, as the app's day card does
@@ -495,84 +516,80 @@ final class WidgetRows {
     }
 
     // ---------- turning a row into a view ----------
-    private static Intent fill(String type, String id, String target) {
-        Intent i = new Intent();
-        i.putExtra("type", type);
-        i.putExtra("id", id == null ? "" : id);
-        i.putExtra("target", target == null ? "" : target);
-        return i;
-    }
-
-    static RemoteViews view(Context c, Row r) {
+    static RemoteViews view(Context c, Row r, Taps taps) {
         switch (r.type) {
-            case T_SECTION: return sectionView(c, r);
-            case T_EVENT: return eventView(c, r);
-            case T_TASK: return taskView(c, r);
-            case T_HABIT: return habitView(c, r);
-            case T_NEWS: return newsView(c, r);
-            case T_NEXT: return nextView(c, r);
-            case T_DEADLINE: return deadlineView(c, r);
-            case T_NOTE: return noteView(c, r);
-            case T_PROGRESS: return progressView(c, r);
-            case T_STATS: return statsView(c, r);
-            default: return textView(c, r);
+            case T_SECTION: return sectionView(c, r, taps);
+            case T_EVENT: return eventView(c, r, taps);
+            case T_TASK: return taskView(c, r, taps);
+            case T_HABIT: return habitView(c, r, taps);
+            case T_NEWS: return newsView(c, r, taps);
+            case T_NEXT: return nextView(c, r, taps);
+            case T_DEADLINE: return deadlineView(c, r, taps);
+            case T_NOTE: return noteView(c, r, taps);
+            case T_PROGRESS: return progressView(c, r, taps);
+            case T_STATS: return statsView(c, r, taps);
+            default: return textView(c, r, taps);
         }
     }
 
-    private static RemoteViews sectionView(Context c, Row r) {
+    private static RemoteViews sectionView(Context c, Row r, Taps taps) {
         RemoteViews v = new RemoteViews(c.getPackageName(), R.layout.widget_section);
         v.setTextViewText(R.id.st, r.a);
-        v.setOnClickFillInIntent(R.id.st, r.act.isEmpty() ? fill("open", "", r.target) : fill(r.act, r.id, ""));
+        if (r.act.isEmpty()) taps.bind(v, R.id.st, "open", "", r.target); else taps.bind(v, R.id.st, r.act, r.id, "");
         return v;
     }
 
-    private static RemoteViews textView(Context c, Row r) {
+    private static RemoteViews textView(Context c, Row r, Taps taps) {
         RemoteViews v = new RemoteViews(c.getPackageName(), R.layout.row_text);
         v.setTextViewText(R.id.rt, r.a);
         v.setTextColor(R.id.rt, Widgets.color(c, r.flag ? R.color.dd_text : R.color.dd_muted));
-        if (r.flag) v.setInt(R.id.rt, "setMaxLines", 12);
+        v.setInt(R.id.rt, "setMaxLines", r.flag ? 12 : 2);
         v.setTextViewText(R.id.rm, "");
-        v.setOnClickFillInIntent(R.id.txroot, fill("open", "", r.target.isEmpty() ? "home" : r.target));
+        taps.bind(v, R.id.txroot, "open", "", r.target.isEmpty() ? "home" : r.target);
         return v;
     }
 
-    private static RemoteViews taskView(Context c, Row r) {
+    private static RemoteViews taskView(Context c, Row r, Taps taps) {
         RemoteViews v = new RemoteViews(c.getPackageName(), R.layout.row_task);
         v.setTextViewText(R.id.tk, r.a);
         v.setTextColor(R.id.tk, Widgets.color(c, r.done ? R.color.dd_muted : R.color.dd_text));
-        if (!r.b.isEmpty()) { v.setTextViewText(R.id.tk2, r.b); v.setViewVisibility(R.id.tk2, View.VISIBLE); }
+        v.setTextViewText(R.id.tk2, r.b);
+        v.setViewVisibility(R.id.tk2, r.b.isEmpty() ? View.GONE : View.VISIBLE);
         v.setImageViewResource(R.id.ring, r.done ? R.drawable.ring_done : R.drawable.ring);
-        if (r.due.isEmpty()) v.setViewVisibility(R.id.due, View.GONE);
-        else {
+        v.setViewVisibility(R.id.due, r.due.isEmpty() ? View.GONE : View.VISIBLE);
+        v.setInt(R.id.due, "setBackgroundResource", R.drawable.pill_bg);
+        v.setTextColor(R.id.due, Widgets.color(c, R.color.dd_accent));
+        if (!r.due.isEmpty()) {
             v.setTextViewText(R.id.due, r.due);
             if ("bad".equals(r.style)) { v.setInt(R.id.due, "setBackgroundResource", R.drawable.pill_bad_bg); v.setTextColor(R.id.due, Widgets.color(c, R.color.dd_bad)); }
             else if ("warn".equals(r.style)) { v.setInt(R.id.due, "setBackgroundResource", R.drawable.pill_warn_bg); v.setTextColor(R.id.due, Widgets.color(c, R.color.dd_warn)); }
         }
-        if (!r.act.isEmpty() && !r.id.isEmpty()) v.setOnClickFillInIntent(R.id.ring, fill(r.act, r.id, ""));
-        if (r.u.startsWith("http")) { v.setViewVisibility(R.id.lk, View.VISIBLE); v.setTextViewText(R.id.lk, Links.label(r.uk)); linkStyle(c, v, r.uk); v.setOnClickFillInIntent(R.id.lk, fill("url", r.u, "")); }
+        if (!r.act.isEmpty() && !r.id.isEmpty()) taps.bind(v, R.id.ring, r.act, r.id, "");
+        if (r.u.startsWith("http")) { v.setViewVisibility(R.id.lk, View.VISIBLE); v.setTextViewText(R.id.lk, Links.label(r.uk)); linkStyle(c, v, r.uk); taps.bind(v, R.id.lk, "url", r.u, ""); }
         else v.setViewVisibility(R.id.lk, View.GONE);
-        v.setOnClickFillInIntent(R.id.rowroot, fill("open", "", r.target));
+        taps.bind(v, R.id.rowroot, "open", "", r.target);
         return v;
     }
 
-    private static RemoteViews habitView(Context c, Row r) {
+    private static RemoteViews habitView(Context c, Row r, Taps taps) {
         RemoteViews v = new RemoteViews(c.getPackageName(), R.layout.row_habit);
         v.setTextViewText(R.id.hb, r.a);
         v.setTextColor(R.id.hb, Widgets.color(c, r.done ? R.color.dd_muted : R.color.dd_text));
         v.setTextViewText(R.id.hs, r.done ? (r.b.isEmpty() ? "Done" : "Done  ·  " + r.b) : r.b);
         v.setImageViewResource(R.id.ring, r.done ? R.drawable.ring_done : R.drawable.ring);
-        v.setOnClickFillInIntent(R.id.ring, fill("habit", r.id, ""));
-        v.setOnClickFillInIntent(R.id.rowroot, fill("open", "", r.target));
+        taps.bind(v, R.id.ring, "habit", r.id, "");
+        taps.bind(v, R.id.rowroot, "open", "", r.target);
         return v;
     }
 
-    private static RemoteViews eventView(Context c, Row r) {
+    private static RemoteViews eventView(Context c, Row r, Taps taps) {
         JSONObject e = r.o;
         long now = System.currentTimeMillis();
         long s = e.optLong("s"), en = e.optLong("e");
         boolean all = e.optInt("a") == 1, live = !all && s <= now && en > now;
         String k = e.optString("k");
         RemoteViews v = new RemoteViews(c.getPackageName(), R.layout.row_event);
+        v.setTextColor(R.id.tm, Widgets.color(c, R.color.dd_text));
         if (all) { v.setTextViewText(R.id.tm, "All day"); v.setTextViewText(R.id.tm2, ""); }
         else if (live) { v.setTextViewText(R.id.tm, "Now"); v.setTextViewText(R.id.tm2, "until " + Widgets.fmt("h:mm", en)); v.setTextColor(R.id.tm, Widgets.color(c, R.color.dd_accent)); }
         else { v.setTextViewText(R.id.tm, Widgets.fmt("h:mm", s)); v.setTextViewText(R.id.tm2, Widgets.fmt("a", s)); }
@@ -581,29 +598,37 @@ final class WidgetRows {
         String where = e.optString("w");
         String meta = all ? "" : Widgets.fmt("h:mm", s) + " to " + Widgets.fmt("h:mm a", en);
         if (!where.isEmpty()) meta = meta.isEmpty() ? where : meta + "  ·  " + where;
-        if (meta.isEmpty()) v.setViewVisibility(R.id.ev2, View.GONE); else v.setTextViewText(R.id.ev2, meta);
-        if (live) v.setInt(R.id.evroot, "setBackgroundResource", R.drawable.now_bg);
+        v.setTextViewText(R.id.ev2, meta);
+        v.setViewVisibility(R.id.ev2, meta.isEmpty() ? View.GONE : View.VISIBLE);
+        v.setInt(R.id.evroot, "setBackgroundResource", live ? R.drawable.now_bg : 0);
         v.setInt(R.id.bar, "setBackgroundResource", Widgets.barFor(k, all));
         String lu = e.optString("u");
-        if (lu.startsWith("http")) { v.setViewVisibility(R.id.lk, View.VISIBLE); v.setTextViewText(R.id.lk, Links.label(e.optString("uk"))); linkStyle(c, v, e.optString("uk")); v.setOnClickFillInIntent(R.id.lk, fill("url", lu, "")); }
+        if (lu.startsWith("http")) { v.setViewVisibility(R.id.lk, View.VISIBLE); v.setTextViewText(R.id.lk, Links.label(e.optString("uk"))); linkStyle(c, v, e.optString("uk")); taps.bind(v, R.id.lk, "url", lu, ""); }
         else v.setViewVisibility(R.id.lk, View.GONE);
-        v.setOnClickFillInIntent(R.id.evroot, fill("open", "", r.target));
+        taps.bind(v, R.id.evroot, "open", "", r.target);
         return v;
     }
 
-    private static RemoteViews newsView(Context c, Row r) {
+    private static RemoteViews newsView(Context c, Row r, Taps taps) {
         JSONObject n = r.o;
         RemoteViews v = new RemoteViews(c.getPackageName(), R.layout.row_news);
         v.setTextViewText(R.id.cat, (n.optString("cat") + (n.optString("src").isEmpty() ? "" : "  ·  " + n.optString("src"))).toUpperCase(Locale.ENGLISH));
         v.setTextViewText(R.id.nt, n.optString("title"));
-        if (r.flag) v.setTextViewTextSize(R.id.nt, android.util.TypedValue.COMPLEX_UNIT_SP, 19);
-        if (!n.optString("summary").isEmpty()) { v.setTextViewText(R.id.ns, n.optString("summary")); v.setInt(R.id.ns, "setMaxLines", r.flag ? 5 : 3); }
-        else v.setViewVisibility(R.id.ns, View.GONE);
-        if (!n.optString("why").isEmpty()) v.setTextViewText(R.id.nw, "Why it matters: " + n.optString("why"));
-        else v.setViewVisibility(R.id.nw, View.GONE);
+        v.setTextViewTextSize(R.id.nt, android.util.TypedValue.COMPLEX_UNIT_SP, r.flag ? 18 : 15);
+        v.setInt(R.id.nt, "setMaxLines", r.flag ? 3 : 2);
+        String sum = n.optString("summary");
+        v.setTextViewText(R.id.ns, sum);
+        v.setInt(R.id.ns, "setMaxLines", r.flag ? 3 : 2);
+        v.setViewVisibility(R.id.ns, sum.isEmpty() ? View.GONE : View.VISIBLE);
+        // the "why it matters" line only on the lead story, so every row has a predictable height
+        String why = r.flag ? n.optString("why") : "";
+        v.setTextViewText(R.id.nw, why.isEmpty() ? "" : "Why it matters: " + why);
+        v.setInt(R.id.nw, "setMaxLines", 2);
+        v.setViewVisibility(R.id.nw, why.isEmpty() ? View.GONE : View.VISIBLE);
         String url = n.optString("url");
-        if (url.startsWith("http")) v.setOnClickFillInIntent(R.id.read, fill("url", url, "")); else v.setViewVisibility(R.id.read, View.GONE);
-        v.setOnClickFillInIntent(R.id.rowroot, fill("open", "", r.target));
+        v.setViewVisibility(R.id.read, url.startsWith("http") ? View.VISIBLE : View.GONE);
+        if (url.startsWith("http")) taps.bind(v, R.id.read, "url", url, "");
+        taps.bind(v, R.id.rowroot, "open", "", r.target);
         return v;
     }
 
@@ -614,7 +639,7 @@ final class WidgetRows {
         v.setTextColor(R.id.lk, Widgets.color(c, meet ? R.color.dd_on_accent : R.color.dd_accent));
     }
 
-    private static RemoteViews deadlineView(Context c, Row r) {
+    private static RemoteViews deadlineView(Context c, Row r, Taps taps) {
         RemoteViews v = new RemoteViews(c.getPackageName(), R.layout.row_deadline);
         v.setTextViewText(R.id.dln, r.due);
         v.setTextViewText(R.id.dlu, r.c);
@@ -626,12 +651,12 @@ final class WidgetRows {
         v.setTextViewText(R.id.dlt, r.a);
         v.setTextViewText(R.id.dlw, r.b);
         v.setImageViewResource(R.id.ring, R.drawable.ring);
-        if (!r.act.isEmpty() && !r.id.isEmpty()) v.setOnClickFillInIntent(R.id.ring, fill(r.act, r.id, ""));
-        v.setOnClickFillInIntent(R.id.dlroot, fill("open", "", r.target));
+        if (!r.act.isEmpty() && !r.id.isEmpty()) taps.bind(v, R.id.ring, r.act, r.id, "");
+        taps.bind(v, R.id.dlroot, "open", "", r.target);
         return v;
     }
 
-    private static RemoteViews nextView(Context c, Row r) {
+    private static RemoteViews nextView(Context c, Row r, Taps taps) {
         RemoteViews v = new RemoteViews(c.getPackageName(), R.layout.row_next);
         long now = System.currentTimeMillis();
         JSONObject e = r.o;
@@ -649,24 +674,24 @@ final class WidgetRows {
             v.setTextViewText(R.id.nm, (live ? "until " + Widgets.fmt("h:mm a", e.optLong("e")) : Widgets.fmt("EEE h:mm a", e.optLong("s"))) + (where.isEmpty() ? "" : "  ·  " + where));
             v.setTextViewText(R.id.nc, live ? "Now" : Widgets.relative(e.optLong("s"), now).replace("in ", ""));
             String lu = e.optString("u");
-            if (lu.startsWith("http")) { v.setViewVisibility(R.id.njoin, View.VISIBLE); v.setTextViewText(R.id.njoin, Links.label(e.optString("uk"))); v.setInt(R.id.njoin, "setBackgroundResource", R.drawable.join_bg); v.setTextColor(R.id.njoin, Widgets.color(c, R.color.dd_on_accent)); v.setOnClickFillInIntent(R.id.njoin, fill("url", lu, "")); }
+            if (lu.startsWith("http")) { v.setViewVisibility(R.id.njoin, View.VISIBLE); v.setTextViewText(R.id.njoin, Links.label(e.optString("uk"))); v.setInt(R.id.njoin, "setBackgroundResource", R.drawable.join_bg); v.setTextColor(R.id.njoin, Widgets.color(c, R.color.dd_on_accent)); taps.bind(v, R.id.njoin, "url", lu, ""); }
             else v.setViewVisibility(R.id.njoin, View.GONE);
         }
-        v.setOnClickFillInIntent(R.id.nxroot, fill("open", "", r.target));
+        taps.bind(v, R.id.nxroot, "open", "", r.target);
         return v;
     }
 
-    private static RemoteViews progressView(Context c, Row r) {
+    private static RemoteViews progressView(Context c, Row r, Taps taps) {
         RemoteViews v = new RemoteViews(c.getPackageName(), R.layout.row_progress);
         v.setTextViewText(R.id.pl, r.a);
         v.setTextViewText(R.id.pv, r.b);
         int pct = r.o == null ? 0 : r.o.optInt("pct");
         v.setProgressBar(R.id.pb, 100, Math.max(0, Math.min(100, pct)), false);
-        v.setOnClickFillInIntent(R.id.pgroot, fill("open", "", r.target));
+        taps.bind(v, R.id.pgroot, "open", "", r.target);
         return v;
     }
 
-    private static RemoteViews statsView(Context c, Row r) {
+    private static RemoteViews statsView(Context c, Row r, Taps taps) {
         JSONObject s = r.o == null ? new JSONObject() : r.o;
         JSONObject h = s.optJSONObject("habits");
         RemoteViews v = new RemoteViews(c.getPackageName(), R.layout.row_stats);
@@ -676,7 +701,7 @@ final class WidgetRows {
         v.setTextViewText(R.id.l2, "due soon");
         v.setTextViewText(R.id.n3, String.valueOf(h == null ? 0 : h.optInt("streak")));
         v.setTextViewText(R.id.l3, "day streak");
-        v.setOnClickFillInIntent(R.id.strroot, fill("open", "", r.target));
+        taps.bind(v, R.id.strroot, "open", "", r.target);
         return v;
     }
 }

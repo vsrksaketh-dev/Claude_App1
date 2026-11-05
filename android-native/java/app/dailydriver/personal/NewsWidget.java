@@ -1,20 +1,8 @@
 package app.dailydriver.personal;
 
-import android.appwidget.AppWidgetManager;
-import android.appwidget.AppWidgetProvider;
-import android.content.Context;
-import android.os.Bundle;
+/** The news widget. Drawing and taps live in Widgets and WidgetProvider. */
+public class NewsWidget extends WidgetProvider {
+    @Override int kind() { return Widgets.NEWS; }
 
-public class NewsWidget extends AppWidgetProvider {
-    @Override
-    public void onUpdate(Context c, AppWidgetManager m, int[] ids) {
-        Widgets.update(c, m, ids, Widgets.NEWS);
-        Widgets.backgroundRefresh(c, goAsync(), true, false);
-    }
-
-    // Resizing the widget re-lays it out: a bigger widget shows more.
-    @Override
-    public void onAppWidgetOptionsChanged(Context c, AppWidgetManager m, int id, Bundle options) {
-        Widgets.update(c, m, new int[] { id }, Widgets.NEWS);
-    }
+    @Override boolean readsNews() { return true; }
 }
