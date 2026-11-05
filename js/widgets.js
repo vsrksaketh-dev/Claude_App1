@@ -10,6 +10,7 @@ import { nativeSources } from './calendar.js';
 import { PRACTICE } from './casebook.js';
 import { quickNote, pageTitle, pagePreview, bookName, checkProgress, addPage } from './notes.js';
 import { extractLinks } from './links.js';
+import { logProblem } from './log.js';
 
 const RANK = { UI: 0, I: 1, U: 2, '': 3 };
 const clock12 = hm => { const [h, m] = hm.split(':').map(Number); return `${h % 12 || 12}:${String(m).padStart(2, '0')} ${h < 12 ? 'AM' : 'PM'}`; };
@@ -99,7 +100,9 @@ export function openTarget(target) {
 }
 
 export async function syncFromWidgets() {
-  const { ops, target } = await widgetTake();
+  const { ops, target, errors = [] } = await widgetTake();
+  // problems the widgets met while the app was closed go to the problem log in Settings
+  for (const e of errors) logProblem('widget', { message: e.msg || 'widget error', stack: e.stack || '' }, e.where || 'widget');
   if (ops.length) { applyOps(ops); commit(); }
   if (target) openTarget(target);
   if (ops.length || target) pushSoon();

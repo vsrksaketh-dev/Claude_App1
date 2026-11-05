@@ -1,0 +1,2 @@
+package android.content;
+public abstract class Context { public abstract String getPackageName(); public abstract android.content.pm.PackageManager getPackageManager(); public abstract SharedPreferences getSharedPreferences(String n,int m); public Context getApplicationContext(){return this;} public static final int MODE_PRIVATE=0; }

@@ -104,8 +104,12 @@ export async function widgetPush(json, ics) {
 
 // What the home-screen widgets queued while the app was closed (ticked tasks, habits) and which tab was tapped.
 export async function widgetTake() {
-  if (!isNative()) return { ops: [], target: '' };
-  try { const r = await plugin('WidgetBridge').take(); return { ops: JSON.parse(r.ops || '[]'), target: r.target || '' }; } catch { return { ops: [], target: '' }; }
+  if (!isNative()) return { ops: [], target: '', errors: [] };
+  try {
+    const r = await plugin('WidgetBridge').take();
+    let errors = []; try { errors = JSON.parse(r.errors || '[]'); } catch { errors = []; }
+    return { ops: JSON.parse(r.ops || '[]'), target: r.target || '', errors };
+  } catch { return { ops: [], target: '', errors: [] }; }
 }
 
 // Hardware back button: go to Today first, then leave the app.

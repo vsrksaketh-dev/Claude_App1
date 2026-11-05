@@ -217,6 +217,8 @@ public class Widgets {
                     String[] st = calState(c);
                     if (!validDay(id)) break;
                     e.putString("csel", id);
+                    // a month grid with no room for a list: show the picked day in Day view, where its items fit
+                    if ("month".equals(st[0]) && prefs(c).getBoolean("cnolist", false)) { e.putString("cmode", "day").putString("canchor", id); break; }
                     // the month or week on show follows the day that was picked, so what is highlighted is always what is drawn
                     if ("month".equals(st[0]) && !id.substring(0, 7).equals(st[2].substring(0, 7))) e.putString("canchor", id);
                     else if (("week".equals(st[0]) || "day".equals(st[0])) && !weekStart(id).equals(weekStart(st[2]))) e.putString("canchor", id);
@@ -247,7 +249,7 @@ public class Widgets {
                 }
                 default: break;
             }
-        } catch (Exception ignored) { }
+        } catch (Exception err) { logError(c, "tap " + type, err); }
         e.apply();
         save(c, s.toString());
         // Calendar taps only need the calendar widgets redrawn: quicker, and far less to send to the home screen.
@@ -336,10 +338,34 @@ public class Widgets {
             Bundle o = m.getAppWidgetOptions(id);
             int h = o == null ? 250 : o.getInt(AppWidgetManager.OPTION_APPWIDGET_MIN_HEIGHT, 250);
             int w = o == null ? 250 : o.getInt(AppWidgetManager.OPTION_APPWIDGET_MIN_WIDTH, 250);
-            try { m.updateAppWidget(id, build(c, kind, s, h, w, id)); } catch (Exception ignored) { }
+            try { m.updateAppWidget(id, build(c, kind, s, h, w, id)); }
+            catch (Throwable t) {
+                // Never leave a widget frozen on an old picture: record what went wrong and draw a plain card that opens the app.
+                logError(c, "widget " + kind, t);
+                try {
+                    if (kind == CALENDAR) prefs(c).edit().remove("cmode").remove("csel").remove("canchor").apply();   // reset a state that may have caused it
+                    RemoteViews v = new RemoteViews(pkg(c), R.layout.widget_card);
+                    head(v, "Daily Driver", "Tap to open. The widget will redraw itself.", "");
+                    v.setViewVisibility(R.id.pills, View.GONE); v.setViewVisibility(R.id.foot, View.GONE); v.setViewVisibility(R.id.list, View.GONE);
+                    v.setOnClickPendingIntent(R.id.root, open(c, "home"));
+                    m.updateAppWidget(id, v);
+                } catch (Throwable ignored) { }
+            }
         }
         try { m.notifyAppWidgetViewDataChanged(ids, R.id.list); } catch (Exception ignored) { }
     }
+
+    /** The last few widget errors, handed to the app (WidgetBridge.take) for its problem log. */
+    static synchronized void logError(Context c, String where, Throwable t) {
+        try {
+            JSONArray a = new JSONArray(prefs(c).getString("werr", "[]"));
+            a.put(new JSONObject().put("at", System.currentTimeMillis()).put("where", where).put("msg", String.valueOf(t)).put("stack", t.getStackTrace().length > 0 ? String.valueOf(t.getStackTrace()[0]) : ""));
+            while (a.length() > 20) a.remove(0);
+            prefs(c).edit().putString("werr", a.toString()).apply();
+        } catch (Exception ignored) { }
+    }
+
+    static synchronized String takeErrors(Context c) { String e = prefs(c).getString("werr", "[]"); prefs(c).edit().remove("werr").apply(); return e; }
 
     // ---------- helpers ----------
     static String pkg(Context c) { return c.getPackageName(); }
@@ -369,12 +395,19 @@ public class Widgets {
         return PendingIntent.getActivity(c, 100 + (target.hashCode() & 0xffff), i, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
     }
 
+    /**
+     * A tap that changes the widget (a mode, an arrow, a day, a tick, a filter). It goes through WidgetRouteActivity, an invisible
+     * activity in its own task, rather than a broadcast: phone makers' battery managers (ColorOS among them) often hold back
+     * broadcasts to an app that is not running, which left the calendar's buttons dead. An activity started by a tap is always delivered.
+     */
     private static PendingIntent act(Context c, String type, String id) {
-        Intent i = new Intent(c, WidgetActionReceiver.class);
+        Intent i = new Intent(c, WidgetRouteActivity.class);
+        i.setAction("app.dailydriver.personal.ACT");
         i.setData(Uri.parse("dd://act/" + type + "/" + Uri.encode(id)));
         i.putExtra("type", type);
         i.putExtra("id", id);
-        return PendingIntent.getBroadcast(c, (type + "/" + id).hashCode() & 0x7fffffff, i, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
+        i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_NO_ANIMATION | Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS);
+        return PendingIntent.getActivity(c, (type + "/" + id).hashCode() & 0x7fffffff, i, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
     }
 
     /** One template per widget: every row in the list "fills in" what it means (open a tab, tick, flip a day, open a link). */
@@ -590,7 +623,15 @@ public class Widgets {
         v.setOnClickPendingIntent(R.id.cprev, act(c, "cnav", "-1"));
         v.setOnClickPendingIntent(R.id.cnext, act(c, "cnav", "1"));
         v.setOnClickPendingIntent(R.id.ctoday, act(c, "ctoday", ""));
-        for (int i = 0; i < MODES.length; i++) pill(c, v, R.id.cmodes, MODE_NAMES[i], MODES[i].equals(mode), act(c, "cmode", MODES[i]));
+        for (int i = 0; i < MODES.length; i++) {
+            RemoteViews b = new RemoteViews(pkg(c), R.layout.cal_mode);
+            boolean on = MODES[i].equals(mode);
+            b.setTextViewText(R.id.cmode, MODE_NAMES[i]);
+            b.setInt(R.id.cmode, "setBackgroundResource", on ? R.drawable.join_bg : R.drawable.pill_off_bg);
+            b.setTextColor(R.id.cmode, color(c, on ? R.color.dd_on_accent : R.color.dd_text));
+            b.setOnClickPendingIntent(R.id.cmode, act(c, "cmode", MODES[i]));
+            v.addView(R.id.cmodes, b);
+        }
 
         boolean grid = "month".equals(mode) || "week".equals(mode);
         v.setViewVisibility(R.id.cwk, grid ? View.VISIBLE : View.GONE);
@@ -617,6 +658,7 @@ public class Widgets {
                 v.addView(R.id.calgrid, row);
             }
             if (!showList) v.setViewVisibility(R.id.list, View.GONE);
+            prefs(c).edit().putBoolean("cnolist", !showList).apply();   // too short for a list: a tapped day opens in Day view instead
         } else if ("week".equals(mode)) {
             String start = weekStart(anchor);
             RemoteViews row = new RemoteViews(pkg(c), R.layout.cal_row_w);

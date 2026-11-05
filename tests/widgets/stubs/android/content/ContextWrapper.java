@@ -1,0 +1,2 @@
+package android.content;
+public class ContextWrapper extends Context { public String getPackageName(){return "";} public android.content.pm.PackageManager getPackageManager(){return null;} public SharedPreferences getSharedPreferences(String n,int m){return null;} }

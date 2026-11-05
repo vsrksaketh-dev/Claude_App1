@@ -1,0 +1,3 @@
+package android.app;
+import android.content.*;
+public class PendingIntent { public static final int FLAG_UPDATE_CURRENT=1,FLAG_IMMUTABLE=2,FLAG_MUTABLE=4; public String kind; public Intent intent; static PendingIntent mk(String k, Intent i){ PendingIntent p=new PendingIntent(); p.kind=k; p.intent=i; return p; } public static PendingIntent getActivity(Context c,int r,Intent i,int f){return mk("activity",i);} public static PendingIntent getBroadcast(Context c,int r,Intent i,int f){return mk("broadcast",i);} }

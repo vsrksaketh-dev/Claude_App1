@@ -1,0 +1,8 @@
+package android.widget;
+import android.app.PendingIntent; import android.content.Intent; import java.util.*;
+public class RemoteViews { public final String pkg; public final int layout; public RemoteViews(String p,int l){pkg=p;layout=l;}
+ public Map<Integer,CharSequence> texts=new LinkedHashMap<>(); public Map<Integer,Intent> fills=new LinkedHashMap<>(); public Map<Integer,Integer> vis=new LinkedHashMap<>(); public Map<Integer,List<RemoteViews>> kids=new LinkedHashMap<>(); public Intent adapter; public PendingIntent template; public int scroll=-1;
+ public void setTextViewText(int id,CharSequence t){texts.put(id,t);} public void setTextColor(int id,int c){} public void setTextViewTextSize(int id,int unit,float sz){} public Map<String,Integer> ints=new LinkedHashMap<>(); public void setInt(int id,String m,int v){ints.put(id+":"+m,v);} public void setViewVisibility(int id,int v){vis.put(id,v);}
+ public Map<Integer,PendingIntent> clicks=new LinkedHashMap<>(); public void setOnClickPendingIntent(int id,PendingIntent p){clicks.put(id,p);} public void setOnClickFillInIntent(int id,Intent i){fills.put(id,i);} public void setProgressBar(int id,int max,int p,boolean ind){}
+ public void setImageViewResource(int id,int r){} public void setRemoteAdapter(int id,Intent i){adapter=i;} public void setPendingIntentTemplate(int id,PendingIntent p){template=p;}
+ public void addView(int id,RemoteViews v){kids.computeIfAbsent(id,k->new ArrayList<>()).add(v);} public void removeAllViews(int id){kids.remove(id);} public void setScrollPosition(int id,int pos){scroll=pos;} }

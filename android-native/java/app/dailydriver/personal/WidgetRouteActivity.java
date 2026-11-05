@@ -31,8 +31,9 @@ public class WidgetRouteActivity extends Activity {
             } else if (type != null) {
                 Widgets.handle(this, type, id, "");
             }
-        } catch (Exception ignored) {
-            // a tap that cannot be handled should never crash the home screen
+        } catch (Exception err) {
+            // a tap that cannot be handled should never crash the home screen; note it for the app's problem log
+            Widgets.logError(this, "route " + type, err);
         }
         finish();
         overridePendingTransition(0, 0);

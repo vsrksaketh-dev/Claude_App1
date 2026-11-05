@@ -3,8 +3,8 @@ import android.content.*; import android.content.pm.PackageManager; import andro
 import org.json.*; import java.nio.file.*; import java.util.*;
 public class Harness {
   static class Prefs implements SharedPreferences { Map<String,Object> m = new HashMap<>();
-    public String getString(String k,String d){ Object o=m.get(k); return o==null?d:(String)o; } public int getInt(String k,int d){ Object o=m.get(k); return o==null?d:(Integer)o; }
-    public Editor edit(){ return new Editor(){ public Editor putString(String k,String v){m.put(k,v);return this;} public Editor putInt(String k,int v){m.put(k,v);return this;} public Editor remove(String k){m.remove(k);return this;} public void apply(){} }; } }
+    public String getString(String k,String d){ Object o=m.get(k); return o==null?d:(String)o; } public int getInt(String k,int d){ Object o=m.get(k); return o==null?d:(Integer)o; } public boolean getBoolean(String k,boolean d){ Object o=m.get(k); return o==null?d:(Boolean)o; }
+    public Editor edit(){ return new Editor(){ public Editor putString(String k,String v){m.put(k,v);return this;} public Editor putInt(String k,int v){m.put(k,v);return this;} public Editor putBoolean(String k,boolean v){m.put(k,v);return this;} public Editor remove(String k){m.remove(k);return this;} public void apply(){} }; } }
   static class Ctx extends Context { Prefs p = new Prefs(); public String getPackageName(){return "app.dailydriver.personal";} public PackageManager getPackageManager(){ return new PackageManager(){ public Intent getLaunchIntentForPackage(String x){ return new Intent(); } }; } public SharedPreferences getSharedPreferences(String n,int m){return p;} }
   static IcsReader.Inst mk(String t, long s, long e, boolean all, String w, String d) { IcsReader.Inst i = new IcsReader.Inst(); i.title = t; i.start = s; i.end = e; i.allDay = all; i.where = w; i.desc = d; return i; }
   static int fails = 0;
@@ -283,6 +283,43 @@ public class Harness {
     ok("due labels come from the date, not from the last snapshot", Widgets.dueLabel(Widgets.dayKey(-1), "").equals("Overdue") && Widgets.dueLabel(Widgets.dayKey(0), "").equals("Today") && Widgets.dueLabel(Widgets.dayKey(1), "").equals("Tomorrow") && Widgets.dueLabel("", "x").equals("x"));
     // empty snapshot
     Widgets.save(c, "{}"); List<WidgetRows.Row> e = WidgetRows.build(c, 0); ok("empty snapshot shows the open-the-app note", e.size() == 1 && e.get(0).a.startsWith("Open Daily Driver"));
+    // fail-safes: every widget-changing tap is an activity (broadcasts get held back on some phones), never a broadcast
+    { c.p.m.clear(); Widgets.save(c, snap); AppWidgetManager.height = 400; AppWidgetManager.drawn.clear(); Widgets.refreshAll(c);
+      int acts = 0, bcasts = 0;
+      for (RemoteViews v : AppWidgetManager.drawn.values()) {
+        Deque<RemoteViews> q = new ArrayDeque<>(); q.add(v);
+        while (!q.isEmpty()) { RemoteViews x = q.poll(); for (android.app.PendingIntent p : x.clicks.values()) { if ("broadcast".equals(p.kind)) bcasts++; else if ("WidgetRouteActivity".equals(p.intent.extras.get("_cls"))) acts++; }
+          for (List<RemoteViews> l : x.kids.values()) q.addAll(l); }
+      }
+      ok("no widget button relies on a broadcast", bcasts == 0);
+      ok("widget buttons and days go through the route activity", acts > 40);
+      RemoteViews cal2 = null; for (RemoteViews v : AppWidgetManager.drawn.values()) if (v.layout == R.layout.widget_calendar) cal2 = v;
+      List<RemoteViews> mb = cal2.kids.get(R.id.cmodes);
+      ok("calendar shows all four mode buttons", mb != null && mb.size() == 4 && "Agenda".contentEquals(mb.get(3).texts.get(R.id.cmode)));
+      android.app.PendingIntent wkBtn = mb.get(1).clicks.get(R.id.cmode);
+      ok("Week button carries its mode", "cmode".equals(wkBtn.intent.extras.get("type")) && "week".equals(wkBtn.intent.extras.get("id")));
+      // a tap through the real route path (what the phone does) switches the mode
+      Widgets.handle(c, (String) wkBtn.intent.extras.get("type"), (String) wkBtn.intent.extras.get("id"), "");
+      ok("tapping Week switches to week", "week".equals(Widgets.calState(c)[0]));
+      // a short month widget has no room for a list: a picked day opens in Day view rather than vanishing
+      Widgets.handle(c, "cmode", "month", ""); AppWidgetManager.height = 150; AppWidgetManager.drawn.clear(); Widgets.refreshAll(c);
+      String other = Widgets.plusDays(Widgets.dayKey(0), 3);
+      Widgets.handle(c, "csel", other, "");
+      ok("short month: picked day opens in Day view", "day".equals(Widgets.calState(c)[0]) && other.equals(Widgets.calState(c)[1]));
+      AppWidgetManager.height = 520; Widgets.handle(c, "cmode", "month", ""); AppWidgetManager.drawn.clear(); Widgets.refreshAll(c);
+      Widgets.handle(c, "csel", other, "");
+      ok("tall month: picked day stays in month and lists it", "month".equals(Widgets.calState(c)[0]) && other.equals(Widgets.calState(c)[1]) && WidgetRows.build(c, 5).size() > 0);
+      // a widget whose drawing throws is replaced by a plain card that opens the app, and the error is kept for the app's log
+      AppWidgetManager.drawn.clear(); c.p.m.put("cmode", "month");
+      Widgets.save(c, "{not json");
+      try { Widgets.refreshAll(c); } catch (Throwable t) { ok("refresh never throws", false); }
+      ok("a broken snapshot still draws every widget", AppWidgetManager.drawn.size() == 11);
+      Widgets.save(c, snap); AppWidgetManager.drawn.clear(); Widgets.refreshAll(c);
+      ok("widgets recover once the snapshot is good", AppWidgetManager.drawn.size() == 11);
+      String errs = Widgets.takeErrors(c);
+      ok("errors are handed to the app and cleared", errs.startsWith("[") && Widgets.takeErrors(c).equals("[]"));
+      AppWidgetManager.height = 400;
+    }
     System.out.println(fails == 0 ? "ALL PASS" : fails + " FAILED");
     System.exit(fails == 0 ? 0 : 1);
   }

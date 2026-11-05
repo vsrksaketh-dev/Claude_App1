@@ -407,6 +407,9 @@ const ok = (name, cond) => { console.log((cond ? 'PASS ' : 'FAIL ') + name); if 
   await n.evaluate(() => { window.__take = { ops: '[]', target: 'plan:tasks:add' }; window.dispatchEvent(new Event('widgetOpen')); });
   await n.waitForTimeout(300);
   ok('a widget can open Tasks with the add bar focused', await n.locator('h1:has-text("Tasks")').count() === 1 && await n.evaluate(() => document.activeElement && document.activeElement.name === 'title'));
+  await n.evaluate(() => { window.__take = { ops: '[]', target: '', errors: JSON.stringify([{ at: 1, where: 'widget 5', msg: 'java.lang.IllegalStateException: cal boom', stack: 'Widgets.java:1' }]) }; window.dispatchEvent(new Event('widgetOpen')); });
+  await n.waitForTimeout(300);
+  ok('errors met by the widgets reach the problem log', await n.evaluate(async () => (await import('/js/log.js')).readLog().some(x => x.kind === 'widget' && /cal boom/.test(x.msg))));
   await n.evaluate(() => { window.__take = { ops: JSON.stringify([{ t: 'capture', id: 'Read the Kroll note\nhttps://example.com/kroll' }]), target: 'plan:tasks' }; window.dispatchEvent(new Event('widgetOpen')); });
   await n.waitForTimeout(400);
   ok('a link shared into the app goes to Learn > Saved to read later', await n.evaluate(async () => { const c = await import('/js/core.js'); return c.S.saved.some(x => x.url === 'https://example.com/kroll' && x.title === 'Read the Kroll note') && !c.S.tasks.some(t => t.title === 'Read the Kroll note'); }));

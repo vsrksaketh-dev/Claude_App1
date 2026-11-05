@@ -26,6 +26,7 @@ public class WidgetBridgePlugin extends Plugin {
         JSObject out = new JSObject();
         out.put("ops", Widgets.takeOps(getContext()));
         out.put("target", Widgets.takeTarget(getContext()));
+        out.put("errors", Widgets.takeErrors(getContext()));
         call.resolve(out);
     }
 }

@@ -2,7 +2,7 @@
 // kept in their own storage key so they survive a broken state. Settings shows them and can share them in one tap.
 const KEY = 'daily-driver-log';
 const MAX = 60;
-export const VERSION = '2026.11.05';
+export const VERSION = '2026.11.05b';
 export function readLog() { try { return JSON.parse(localStorage.getItem(KEY)) || []; } catch { return []; } }
 export function logProblem(kind, err, where = '') {
   try {
