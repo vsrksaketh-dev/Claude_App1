@@ -95,7 +95,7 @@ function render() {
   const hasAttention = acts.length || briefMail.length || nd.length;
   const outstanding = acts.some(e => !e.done) || briefMail.length || nd.length;
   return `
-  <section class="hero">${ring(prog)}<div class="hero-top"><p class="hero-date">${esc(fmtDay(t))}</p>${me()}</div>
+  <section class="hero">${ring(prog)}<div class="hero-top"><p class="hero-date">${esc(fmtDay(t))}</p><span class="top-r">${me()}</span></div>
     <h1>${hello}${S.profile.name ? ', ' + esc(S.profile.name) : ''}</h1>
     <p class="hero-motto">${esc(heroLine(prog))}</p>
     <div class="hero-stats"><span class="stat"><b>${todos.length}</b>to do</span><span class="stat"><b>${finished.length}</b>done today</span>${evs.length ? `<span class="stat"><b>${evs.length}</b>on today</span>` : ''}${badge()}</div></section>
@@ -141,6 +141,6 @@ register({
   },
   forms: {
     quick: f => { const t = (f.text || '').trim(); if (t) S.tasks.push({ id: uid(), title: t, due: '', important: false, done: false, kind: 'Task' }); },
-    event: f => S.events.push({ id: uid(), title: f.title, date: f.date, time: f.time, mins: Number(f.mins) || 60, where: f.where || '', link: (f.link || '').trim() }),
+    event: f => { S.events.push({ id: uid(), title: (f.title || '').trim(), date: f.date, time: f.time, mins: Number(f.mins) || 60, repeat: f.repeat || '', where: (f.where || '').trim(), link: (f.link || '').trim() }); ui.sub.calAdd = false; },
   },
 });

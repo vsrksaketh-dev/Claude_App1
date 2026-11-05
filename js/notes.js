@@ -3,7 +3,7 @@
 import { S } from './core.js';
 import { uid } from './util.js';
 
-export const TYPES = { p: 'Text', h: 'Heading', b: 'Bullet', n: 'Number', c: 'Checklist' };
+export const TYPES = { p: 'Text', h: 'Heading', b: 'Bullet', n: 'Number', c: 'Checklist', q: 'Quote' };
 export const blk = (t = 'p', x = '', l = 0) => ({ id: uid(), t, x, d: false, l });
 export const page = id => S.pages.find(p => p.id === id);
 export const book = id => S.books.find(b => b.id === id);
@@ -31,14 +31,16 @@ export function blocksFromText(text) {
     return blk('p', line);
   });
 }
+// A quick jot: a short first line becomes the title; a long one stays whole in the page (the list shows its start), so nothing is cut off.
 export function quickNote(text, extra = {}) {
   const lines = String(text || '').split('\n').filter(l => l.trim());
   if (!lines.length) return null;
-  const one = lines.length === 1 && lines[0].length <= 80;
-  return addPage({ title: lines[0].replace(/^Talking point:\s*/, '').slice(0, 80), blocks: one ? [blk()] : blocksFromText(lines.slice(1).join('\n')), ...extra });
+  const first = lines[0].replace(/^Talking point:\s*/, '');
+  if (first.length <= 80) return addPage({ title: first, blocks: lines.length > 1 ? blocksFromText(lines.slice(1).join('\n')) : [blk()], ...extra });
+  return addPage({ title: '', blocks: blocksFromText(lines.join('\n')), ...extra });
 }
-export const pageText = p => [p.title, ...p.blocks.map(b => ({ b: '- ', c: b.d ? '[x] ' : '[ ] ', h: '# ' }[b.t] || '') + b.x)].filter(x => x !== '').join('\n');
-export const pageTitle = p => (p.title || '').trim() || (p.blocks.find(b => b.x.trim())?.x.trim().slice(0, 60)) || 'Untitled';
+export const pageText = p => [p.title, ...p.blocks.map(b => ({ b: '- ', c: b.d ? '[x] ' : '[ ] ', h: '# ', q: '> ' }[b.t] || '') + b.x)].filter(x => x !== '').join('\n');
+export const pageTitle = p => (p.title || '').trim() || (p.blocks.find(b => b.x.trim())?.x.trim()) || 'Untitled';
 export const pagePreview = p => p.blocks.filter(b => b.x.trim()).slice(p.title.trim() ? 0 : 1, p.title.trim() ? 2 : 3).map(b => b.x.trim()).join(' · ');
 export const checkProgress = p => { const c = p.blocks.filter(b => b.t === 'c'); return c.length ? { done: c.filter(b => b.d).length, total: c.length } : null; };
 export const wordCount = p => (pageText(p).match(/\S+/g) || []).length;

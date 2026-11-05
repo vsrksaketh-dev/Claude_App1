@@ -23,6 +23,24 @@ export async function saveBackup(name, text) {
   return true;
 }
 
+// Automatic backups: one file a day in the app's private storage on the phone (not in the browser storage, so they survive
+// the web view's data being cleared), the last seven kept. Restoring one is in Settings.
+const BK = 'backups';
+export async function autoBackup(name, text, keep = 7) {
+  if (!isNative()) return false;
+  const fs = plugin('Filesystem');
+  try { await fs.mkdir({ path: BK, directory: 'DATA', recursive: true }); } catch { /* already there */ }
+  await fs.writeFile({ path: `${BK}/${name}`, data: text, directory: 'DATA', encoding: 'utf8' });
+  const names = await listAutoBackups();
+  for (const old of names.slice(keep)) { try { await fs.deleteFile({ path: `${BK}/${old}`, directory: 'DATA' }); } catch { /* gone */ } }
+  return true;
+}
+export async function listAutoBackups() {
+  if (!isNative()) return [];
+  try { const r = await plugin('Filesystem').readdir({ path: BK, directory: 'DATA' }); return (r.files || []).map(f => typeof f === 'string' ? f : f.name).filter(n => /^dd-\d{4}-\d{2}-\d{2}\.json$/.test(n)).sort().reverse(); } catch { return []; }
+}
+export async function readAutoBackup(name) { const r = await plugin('Filesystem').readFile({ path: `${BK}/${name}`, directory: 'DATA', encoding: 'utf8' }); return typeof r.data === 'string' ? r.data : String(r.data); }
+
 // Plain GET that works for calendar links. Browsers block these (no CORS), the Android app's native HTTP does not.
 export async function httpGetText(url) {
   if (isNative()) {

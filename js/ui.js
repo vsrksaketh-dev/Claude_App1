@@ -1,11 +1,11 @@
 // Shared HTML snippets.
-import { ui, S } from './core.js';
+import { ui, S, commit } from './core.js';
 import { esc } from './util.js';
 import { LABEL } from './links.js';
 
 // Screen header: big title, optional subtitle, optional control on the right.
 // Three quiet dots at the top right open Settings from every screen, so Settings needs no space of its own.
-export const me = () => `<button class="me" data-nav="settings" aria-label="Settings and more"><i></i><i></i><i></i></button>`;
+export const me = () => `${ui.view === 'search' ? '' : '<button class="srch" data-nav="search" aria-label="Search everything">Search</button>'}<button class="me" data-nav="settings" aria-label="Settings and more"><i></i><i></i><i></i></button>`;
 export const head = (title, subtitle = '', right = '') => `<header class="top"><div><h1>${title}</h1>${subtitle ? `<p class="sub">${subtitle}</p>` : ''}</div><div class="top-r">${right}${ui.view === 'settings' ? '' : me()}</div></header>`;
 export const field = (label, name, attrs = '') => `<label>${label}<input name="${name}" ${attrs}></label>`;
 export const empty = msg => `<p class="muted">${msg}</p>`;
@@ -21,3 +21,14 @@ export const pills = (group, items) => { const cur = subOf(group, items); return
 export const check = (act, id, on, extra = '') => `<input type="checkbox" class="tick" data-act="${act}" data-id="${esc(id)}" ${extra} ${on ? 'checked' : ''}>`;
 // Small buttons on the side of an event or task: Join a class, Open a document, see the Mail it came from.
 export const linkBtns = links => (links && links.length ? `<span class="lks">${links.map(l => `<a class="lk lk-${l.kind}" href="${esc(l.url)}" target="_blank" rel="noopener noreferrer">${LABEL[l.kind]}</a>`).join('')}</span>` : '');
+// A short message above the bottom bar, with an optional Undo. It is plain DOM, so it survives the screen being redrawn.
+let toastTimer;
+export function toast(text, undo) {
+  let el = document.getElementById('toast');
+  if (!el) { el = document.createElement('div'); el.id = 'toast'; el.setAttribute('role', 'status'); document.body.appendChild(el); }
+  el.innerHTML = `<span>${esc(text)}</span>${undo ? '<button class="ghost" type="button">Undo</button>' : ''}`;
+  const b = el.querySelector('button');
+  if (b) b.onclick = () => { undo(); el.classList.remove('on'); commit(); };
+  el.classList.add('on');
+  clearTimeout(toastTimer); toastTimer = setTimeout(() => el.classList.remove('on'), 6000);
+}

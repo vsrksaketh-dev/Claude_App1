@@ -8,27 +8,28 @@ import { addPage, blk, ensureBook } from '../notes.js';
 import { PLAYBOOK, MINDSET, TOOLKIT, CASES, PRACTICE, HR_TECH } from '../casebook.js';
 
 const TABS = [['news', 'News'], ['cases', 'Cases']];
-const CATS = [['All', 'All'], ['International', 'World'], ['Indian', 'India'], ['Business', 'Business'], ['Tech', 'Tech']];
+const CATS = [['All', 'All'], ['International', 'World'], ['Indian', 'India'], ['Business', 'Business'], ['Tech', 'Tech'], ['Saved', 'Saved']];
+const isSaved = n => S.saved.some(x => x.title === n.title);
 
 // ---- news ----
 const story = (n, lead) => {
   const link = /^https?:\/\//.test(n.url || '');
-  const saved = S.pages.some(x => x.src === n.title);
+  const saved = S.pages.some(x => !x.trashed && x.src === n.title);
   const title = `<span class="title">${esc(n.title)}</span>`;
   return `<div class="story${lead ? ' lead' : ''}"><div class="row"><span class="chip">${esc(n.cat)}</span>${n.kind === 'fact' ? '<span class="chip plain">Fact</span>' : ''}</div>
     ${link ? `<a class="storylink" href="${esc(n.url)}" target="_blank" rel="noopener noreferrer">${title}</a>` : title}<p${link ? ' class="clamp"' : ''}>${esc(n.summary)}</p>
     <p class="why"><b>Why it matters.</b> ${esc(n.why)}</p>
-    <div class="row between"><span class="muted">${esc(n.src)}</span><span class="row" style="gap:6px">${saved ? '<span class="chip ok">In Notes</span>' : `<button class="ghost" data-act="talkPoint" data-i="${n.i}">Talking point</button>`}${link ? `<a class="chip" href="${esc(n.url)}" target="_blank" rel="noopener noreferrer">Read</a>` : ''}</span></div></div>`;
+    <div class="row between"><span class="muted">${esc(n.src)}</span><span class="row" style="gap:6px"><button class="ghost ${isSaved(n) ? 'on' : ''}" data-act="storySave" data-t="${esc(n.title)}" aria-pressed="${isSaved(n)}">${isSaved(n) ? 'Saved' : 'Save'}</button>${saved ? '<span class="chip ok">In Notes</span>' : n.i !== undefined ? `<button class="ghost" data-act="talkPoint" data-i="${n.i}">Talking point</button>` : ''}${link ? `<a class="chip" href="${esc(n.url)}" target="_blank" rel="noopener noreferrer">Read</a>` : ''}</span></div></div>`;
 };
 function newsTab() {
   const cat = CATS.some(c => c[0] === ui.sub.newsCat) ? ui.sub.newsCat : 'All';
   const items = app.news.items || [];
-  const list = items.map((n, i) => ({ ...n, i })).filter(n => cat === 'All' || n.cat === cat);
+  const list = cat === 'Saved' ? [...S.saved].sort((a, b) => b.at - a.at) : items.map((n, i) => ({ ...n, i })).filter(n => cat === 'All' || n.cat === cat);
   const stories = list.filter(n => n.kind !== 'fact'), facts = list.filter(n => n.kind === 'fact');
   const stale = app.news.date && app.news.date !== today();
   return `<div class="tabs">${CATS.map(([id, l]) => `<button class="${cat === id ? 'on' : ''}" data-act="newsCat" data-id="${id}">${l}</button>`).join('')}</div>
     <div class="row between" style="padding:0 6px"><span class="muted">${items.length ? `${stories.length} stories${facts.length ? ` and ${facts.length} facts` : ''}` : ''}</span>${app.news.date ? chip(stale ? 'Updated ' + fmtDay(app.news.date) : 'Updated today', stale ? 'warn' : 'ok') : ''}</div>
-    ${items.length ? (list.length ? `<div class="news-list">${[...stories, ...facts].map((n, i) => story(n, i === 0 && n.kind !== 'fact')).join('')}</div>` : `<div class="card">${empty('Nothing in this category today.')}</div>`) : `<div class="card">${empty('News is unavailable right now. It refreshes every morning.')}</div>`}`;
+    ${items.length ? (list.length ? `<div class="news-list">${[...stories, ...facts].map((n, i) => story(n, i === 0 && n.kind !== 'fact')).join('')}</div>` : `<div class="card">${empty(cat === 'Saved' ? 'Stories you save stay here after the daily news changes.' : 'Nothing in this category today.')}</div>`) : `<div class="card">${empty('News is unavailable right now. It refreshes every morning.')}</div>`}`;
 }
 
 // ---- cases ----
@@ -81,12 +82,17 @@ register({
   id: 'learn', label: 'Learn', nav: 5, render,
   actions: {
     newsCat: d => { ui.sub.newsCat = d.id; },
+    storySave: d => {
+      const i = S.saved.findIndex(x => x.title === d.t);
+      if (i >= 0) { S.saved.splice(i, 1); return; }
+      const n = (app.news.items || []).find(x => x.title === d.t); if (n) S.saved.push({ cat: n.cat, title: n.title, summary: n.summary, why: n.why, src: n.src, url: n.url || '', kind: n.kind || '', at: Date.now() });
+    },
     reveal: d => { (S.guess[d.key] ||= { text: '' }).revealed = true; },
     nextProblem: () => { ui.sub.pOff = (ui.sub.pOff || 0) + 1; },
     // Turns a story into a note with the shape of an interview answer: what happened, why it matters, and a blank for your own view.
     talkPoint: d => {
       const n = (app.news.items || [])[Number(d.i)];
-      if (!n || S.pages.some(x => x.src === n.title)) return;
+      if (!n || S.pages.some(x => !x.trashed && x.src === n.title)) return;
       const first = (n.summary || '').split(/(?<=[.!?])\s/)[0];
       addPage({ title: n.title.slice(0, 80), bookId: ensureBook('Talking points').id, tp: true, src: n.title, blocks: [blk('h', 'What happened'), blk('p', first), blk('h', 'Why it matters'), blk('p', n.why || ''), blk('h', 'My view'), blk('p', '')] });
     },

@@ -101,7 +101,10 @@ export function buildReminders(now = new Date()) {
       if (t.important) timed.push([new Date(when - 10 * 6e4), t.title, 'In 10 minutes']);
     });
   }
-  if (R.events) upcomingTimed(48).forEach(e => timed.push([new Date(e.start - 15 * 6e4), e.title, 'Starts in 15 minutes' + (e.where ? ' · ' + e.where : '')]));
+  if (R.events) {
+    upcomingTimed(48).forEach(e => timed.push([new Date(e.start - 15 * 6e4), e.title, 'Starts in 15 minutes' + (e.where ? ' · ' + e.where : '')]));
+    [today(), addDays(today(), 1)].forEach(k => agendaOn(k).filter(e => e.kind === 'event' && !e.cal && !e.allDay).forEach(e => timed.push([new Date(e.start - 15 * 6e4), e.title, 'Starts in 15 minutes' + (e.where ? ' · ' + e.where : '') + (e.links && e.links.length ? ' · tap to join' : '')])));
+  }
   timed.filter(x => x[0] > now).sort((a, b) => a[0] - b[0]).slice(0, MAX)
     .forEach(([when, title, body], i) => out.push({ id: 1000 + i, title, body, schedule: { at: when, allowWhileIdle: true } }));
   return out;

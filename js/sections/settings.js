@@ -1,9 +1,9 @@
 // Settings: appearance, habits, profile, calendar, reminders, widgets and backup. Opened from the button on Home.
-import { S, register, commit, byId, remove } from '../core.js';
+import { S, ui, register, commit, byId, remove } from '../core.js';
 import { today, esc, uid } from '../util.js';
 import { field, chip, head } from '../ui.js';
 import { exportJSON, importJSON, reset, SCHEMA } from '../store.js';
-import { saveBackup, isNative, notifyPermission, notifyTest } from '../native.js';
+import { saveBackup, isNative, notifyPermission, notifyTest, listAutoBackups, readAutoBackup } from '../native.js';
 import { refreshReminders } from '../reminders-run.js';
 import { pushNow } from '../widgets.js';
 import { getSources, addSource, removeSource, syncAll, getHidden, setHidden } from '../calendar.js';
@@ -51,6 +51,9 @@ function render() {
     <p class="muted">If widgets stop refreshing, allow background activity: Android settings, Apps, Daily Driver, Battery, then Unrestricted (on OnePlus also allow Auto-launch).</p>
     <div class="row" style="margin-top:10px"><button data-act="widgetsNow">Update widgets now</button></div></div>
 
+  ${isNative() ? `<div class="card"><h2>Automatic backups</h2><p class="muted">Once a day the app keeps a copy of everything in its private storage on this phone; the last seven are kept. Last one: ${esc(S.meta.autoAt || 'not yet')}.</p>
+    ${ui.sub.autoList ? (ui.sub.autoList.length ? `<ul class="list">${ui.sub.autoList.map(n => `<li><span class="grow title">${esc(n.slice(3, 13))}</span><button class="ghost" data-act="autoRestore" data-id="${esc(n)}">${ui.sub.autoConfirm === n ? 'Tap again to restore' : 'Restore'}</button></li>`).join('')}</ul><p class="muted">Restoring replaces what is on the phone now with that day's copy.</p>` : '<p class="muted">No automatic backups yet.</p>') : '<div class="row"><button data-act="autoShow">Show backups</button></div>'}</div>` : ''}
+
   <div class="card"><h2>Your data</h2><p class="muted">Everything lives on this device. Last backup: ${S.meta.lastBackup || 'never'}.</p>
     <div class="row" style="margin-top:10px"><button class="primary" data-act="export">Export backup</button><button data-act="import">Import backup</button><button class="danger" data-act="wipe">Erase everything</button></div></div>
   <p class="muted" style="text-align:center">Daily Driver · data format v${SCHEMA}</p>`;
@@ -70,6 +73,8 @@ register({
         .then(() => { S.meta.lastBackup = today(); commit(); })
         .catch(() => alert('Could not export the backup.'));
     },
+    autoShow: () => { listAutoBackups().then(l => { ui.sub.autoList = l; commit(); }); },
+    autoRestore: d => { if (ui.sub.autoConfirm !== d.id) { ui.sub.autoConfirm = d.id; return; } readAutoBackup(d.id).then(t => { importJSON(t); location.reload(); }).catch(() => alert('That backup could not be read.')); },
     import: () => {
       const i = document.createElement('input'); i.type = 'file'; i.accept = 'application/json';
       i.onchange = async () => { try { importJSON(await i.files[0].text()); location.reload(); } catch { alert('That file is not a valid backup.'); } };

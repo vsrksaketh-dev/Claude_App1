@@ -4,7 +4,7 @@ import { S, app } from './core.js';
 import { calEventsOn, kindOf, stripKind } from './calendar.js';
 import { actionKey } from './schedule.js';
 import { openTasks } from './logic.js';
-import { addDays, parse, today, daysFromToday } from './util.js';
+import { addDays, parse, today, daysFromToday, occursOn } from './util.js';
 import { extractLinks, stripLinks } from './links.js';
 
 const startOf = k => parse(k).getTime();
@@ -19,9 +19,9 @@ export function agendaOn(k) {
     if (kind !== 'event') { it.key = actionKey(e); it.done = !!S.inboxDone[it.key]; }
     out.push(it);
   });
-  [...(app.brief.events || []), ...S.events].filter(e => e.date === k).forEach(e => {
+  [...(app.brief.events || []), ...S.events].filter(e => occursOn(e, k)).forEach(e => {
     const s = e.time ? new Date(k + 'T' + e.time).getTime() : startOf(k);
-    out.push({ kind: 'event', title: e.title, start: s, end: e.time ? s + (Number(e.mins) || 60) * 6e4 : s + 864e5, allDay: !e.time, where: e.where || '', src: '', desc: '', links: extractLinks(e.link || ''), id: S.events.some(x => x.id === e.id) ? e.id : '', interview: !!e.interview });
+    out.push({ kind: 'event', title: e.title, start: s, end: e.time ? s + (Number(e.mins) || 60) * 6e4 : s + 864e5, allDay: !e.time, where: e.where || '', src: '', desc: '', links: extractLinks(e.link || ''), id: S.events.some(x => x.id === e.id) ? e.id : '', interview: !!e.interview, repeat: e.repeat || '' });
   });
   openTasks().filter(t => t.due === k).forEach(t => out.push({ kind: 'task', title: t.title, start: t.time ? new Date(k + 'T' + t.time).getTime() : startOf(k), end: t.time ? new Date(k + 'T' + t.time).getTime() + 18e5 : startOf(k) + 864e5, allDay: !t.time, where: '', src: [t.repeat ? 'repeats ' + t.repeat : '', t.kind && t.kind !== 'Task' ? t.kind : ''].filter(Boolean).join(' · '), desc: '', links: extractLinks(t.link || ''), id: t.id, derived: !!t.derived, view: t.view || '', section: t.section || '' }));
   S.tasks.filter(t => t.done && t.due === k).forEach(t => out.push({ kind: 'task', title: t.title, start: startOf(k), end: startOf(k) + 864e5, allDay: true, where: '', src: '', desc: '', id: t.id, done: true }));

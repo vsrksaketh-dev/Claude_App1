@@ -27,3 +27,15 @@ export const until = iso => {
 export const countdownText = ms => { const d = ms - Date.now(); if (d <= 0) return 'now'; if (d < 36e5) return 'in ' + Math.max(1, Math.round(d / 6e4)) + ' min'; if (d < 864e5) return 'in ' + Math.floor(d / 36e5) + ' h' + (Math.round(d / 6e4) % 60 >= 15 ? ' ' + (Math.round(d / 6e4) % 60) + ' min' : ''); return 'in ' + Math.round(d / 864e5) + ' d'; };
 export const clock12 = ms => new Date(ms).toLocaleTimeString('en-IN', { hour: 'numeric', minute: '2-digit', hour12: true }).replace(' ', '').toLowerCase();
 export const rot = (arr, key) => arr[Math.abs([...String(key)].reduce((a, c) => a * 31 + c.charCodeAt(0), 7)) % arr.length];   // a steady choice per key, so copy varies by day but never flickers
+// Does an event typed into the app happen on day k? Handles repeats: daily, weekdays, weekly (same weekday), monthly (same date).
+export const EV_REPEATS = [['', 'Does not repeat'], ['daily', 'Every day'], ['weekdays', 'Every weekday'], ['weekly', 'Every week'], ['monthly', 'Every month']];
+export function occursOn(e, k) {
+  if (!e.repeat) return e.date === k;
+  if (k < e.date || (e.until && k > e.until) || (e.skip || []).includes(k)) return false;
+  const d = parse(k).getDay();
+  if (e.repeat === 'daily') return true;
+  if (e.repeat === 'weekdays') return d > 0 && d < 6;
+  if (e.repeat === 'weekly') return d === parse(e.date).getDay();
+  if (e.repeat === 'monthly') return k.slice(8) === e.date.slice(8);
+  return e.date === k;
+}

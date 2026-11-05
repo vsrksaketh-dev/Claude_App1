@@ -1,8 +1,8 @@
 // Calendar: one place for everything dated. Month, week, day and agenda views over the same list the widgets use:
 // synced Google Calendar events, events typed in by hand, deadlines, things to do, email key facts and tasks that fall due.
-import { ui, register, render as rerender } from '../core.js';
-import { today, addDays, parse, dateKey, weekStart, esc } from '../util.js';
-import { chip, check, empty, head, linkBtns } from '../ui.js';
+import { S, ui, register, render as rerender } from '../core.js';
+import { today, addDays, parse, dateKey, weekStart, esc, EV_REPEATS, uid } from '../util.js';
+import { chip, check, empty, head, linkBtns, toast } from '../ui.js';
 import { getSources, hasCalendars, lastSync, syncAll } from '../calendar.js';
 import { agendaOn, monthSummary, dayWord, range, KIND_LABEL } from '../agenda.js';
 
@@ -27,16 +27,23 @@ function itemRow(it) {
   if (it.kind === 'task') lead = it.derived ? `<button data-act="openSource" data-view="${esc(it.view)}" data-section="${esc(it.section)}">Open</button>` : (it.done ? check('taskUndo', it.id, true) : check('taskDone', it.id, false));
   else if (it.key) lead = check('actToggle', it.key, it.done);
   else lead = `<span class="chip">${it.allDay ? 'All day' : clock(it.start)}</span>`;
-  const tag = it.kind === 'event' ? (it.interview ? chip('Interview', 'warn') : '') : chip(KIND_LABEL[it.kind], it.kind === 'due' ? 'bad' : it.kind === 'action' ? 'warn' : 'plain');
+  const tag = it.kind === 'event' ? (it.interview ? chip('Interview', 'warn') : it.repeat ? chip('Repeats', 'plain') : '') : chip(KIND_LABEL[it.kind], it.kind === 'due' ? 'bad' : it.kind === 'action' ? 'warn' : 'plain');
   const meta = [it.kind !== 'event' && time ? time : it.kind === 'event' && !it.allDay && it.end > it.start ? 'until ' + clock(it.end) : '', it.where, it.src, it.desc].filter(Boolean).join(' · ');
-  return `<li data-flip="c:${esc(it.id || it.key || it.title)}:${it.start}" class="cal-item k-${it.kind} ${it.done ? 'done' : ''}">${lead}<div class="grow"><span class="title">${esc(it.title)}</span> ${tag}${meta ? `<div class="muted">${esc(meta)}</div>` : ''}</div>${linkBtns(it.links)}${it.id && it.kind === 'event' ? `<button class="ghost danger" data-act="delEvent" data-id="${esc(it.id)}" aria-label="Remove event">×</button>` : ''}</li>`;
+  return `<li data-flip="c:${esc(it.id || it.key || it.title)}:${it.start}" class="cal-item k-${it.kind} ${it.done ? 'done' : ''}">${lead}<div class="grow"><span class="title">${esc(it.title)}</span> ${tag}${meta ? `<div class="muted">${esc(meta)}</div>` : ''}</div>${linkBtns(it.links)}${it.id && it.kind === 'event' ? `<button class="ghost" data-act="calEditEv" data-id="${esc(it.id)}">${ui.sub.calEdit === it.id ? 'Close' : 'Edit'}</button>` : ''}${it.id && it.kind === 'event' && ui.sub.calEdit === it.id ? evEditor(S.events.find(e => e.id === it.id), it.start) : ''}</li>`;
+}
+const evFields = (e, k) => `<label>Title<input name="title" required value="${esc(e.title || '')}"></label><label>Date<input name="date" type="date" required value="${esc(e.date || k)}"></label><label>Time<input name="time" type="time" value="${esc(e.time || '')}"></label>
+  <label>Length<select name="mins">${[[30, '30 min'], [60, '1 hour'], [90, '1.5 hours'], [120, '2 hours'], [180, '3 hours']].map(([v, l]) => `<option value="${v}" ${Number(e.mins || 60) === v ? 'selected' : ''}>${l}</option>`).join('')}</select></label>
+  <label>Repeat<select name="repeat">${EV_REPEATS.map(([v, l]) => `<option value="${v}" ${(e.repeat || '') === v ? 'selected' : ''}>${l}</option>`).join('')}</select></label>
+  <label>Place<input name="where" value="${esc(e.where || '')}" placeholder="Room or Online"></label><label>Link<input name="link" type="url" value="${esc(e.link || '')}" placeholder="Meeting or document link"></label>`;
+function evEditor(e, start) {
+  if (!e) return '';
+  const day = dateKey(new Date(start));
+  return `<form data-form="eventSave" data-id="${esc(e.id)}" class="inline ev-edit">${evFields(e, day)}<div class="row"><button class="primary">Save</button>
+    ${e.repeat ? `<button type="button" class="ghost danger" data-act="evSkip" data-id="${esc(e.id)}" data-d="${day}">Skip this one</button>` : ''}<button type="button" class="ghost danger" data-act="evDel" data-id="${esc(e.id)}">Delete${e.repeat ? ' all' : ''}</button></div></form>`;
 }
 const itemList = items => items.length ? `<ul class="list">${[...items.filter(i => !i.done), ...items.filter(i => i.done)].map(itemRow).join('')}</ul>` : empty('Nothing planned.');
 
-const addForm = k => `<details ${ui.sub.calAdd ? 'open' : ''}><summary>Add an event on this day</summary><form data-form="event" class="inline">
-  <label>Title<input name="title" required></label><label>Date<input name="date" type="date" required value="${k}"></label><label>Time<input name="time" type="time"></label>
-  <label>Length<select name="mins"><option value="30">30 min</option><option value="60" selected>1 hour</option><option value="90">1.5 hours</option><option value="120">2 hours</option></select></label>
-  <label>Place<input name="where" placeholder="Room or Online"></label><label>Link<input name="link" type="url" placeholder="Meeting or document link"></label><button class="primary">Add</button></form></details>`;
+const addForm = k => `<details ${ui.sub.calAdd ? 'open' : ''}><summary>Add an event on this day</summary><form data-form="event" class="inline">${evFields({}, k)}<button class="primary">Add</button></form></details>`;
 
 function dayCard(k) {
   const items = agendaOn(k);
@@ -144,7 +151,17 @@ register({
     calNext: () => step(mode(), 1),
     calToday: () => { ui.sub.calSel = today(); ui.sub.calAnchor = today(); },
     calPick: d => { ui.sub.calAdd = false; ui.sub.calSel = d.d; if (mode() === 'month' && d.d.slice(0, 7) !== firstOf(anchor()).slice(0, 7)) ui.sub.calAnchor = d.d; setTimeout(() => document.getElementById('cal-day')?.scrollIntoView({ behavior: 'smooth', block: 'nearest' }), 40); },
+    calEditEv: d => { ui.sub.calEdit = ui.sub.calEdit === d.id ? null : d.id; },
+    evSkip: d => { const e = S.events.find(x => x.id === d.id); if (e) { (e.skip ||= []).push(d.d); ui.sub.calEdit = null; toast('Skipped this one', () => { e.skip = e.skip.filter(x => x !== d.d); }); } },
+    evDel: d => { const i = S.events.findIndex(x => x.id === d.id); if (i < 0) return; const [e] = S.events.splice(i, 1); ui.sub.calEdit = null; toast(`Deleted "${e.title.slice(0, 40)}"`, () => { S.events.splice(i, 0, e); }); },
     calOpenDay: d => { ui.sub.calMode = 'day'; ui.sub.calSel = d.d; ui.sub.calAnchor = d.d; },
     calSync: () => { syncAll(true).then(() => rerender()); },
+  },
+  forms: {
+    eventSave: (f, form) => {
+      const e = S.events.find(x => x.id === form.dataset.id); if (!e) return;
+      Object.assign(e, { title: (f.title || e.title).trim() || e.title, date: f.date || e.date, time: f.time || '', mins: Number(f.mins) || 60, repeat: f.repeat || '', where: (f.where || '').trim(), link: (f.link || '').trim() });
+      ui.sub.calEdit = null;
+    },
   },
 });

@@ -2,7 +2,10 @@
 import { ui, app, render, commit, go } from './core.js';
 import { save } from './store.js';
 import { countdownText } from './util.js';
-import { isNative, initBackButton } from './native.js';
+import { isNative, initBackButton, autoBackup } from './native.js';
+import { exportJSON } from './store.js';
+import { S } from './core.js';
+import { today } from './util.js';
 import { refreshReminders } from './reminders-run.js';
 import { syncAll, onCalendarChange } from './calendar.js';
 import { pushSoon, pushNow, syncFromWidgets, openTarget } from './widgets.js';
@@ -11,6 +14,7 @@ import './views/learn.js';
 import './views/tasks.js';
 import './views/notes.js';
 import './views/routine.js';
+import './views/search.js';
 import './views/calendar.js';
 import './sections/settings.js';
 
@@ -78,5 +82,11 @@ async function loadNews() {
   setInterval(() => document.querySelectorAll('[data-countdown]').forEach(el => { el.textContent = countdownText(Number(el.dataset.countdown)); }), 20000);
   // Reopening the app after a while: refresh the news and the widgets so neither shows yesterday.
   document.addEventListener('visibilitychange', () => { if (!document.hidden) loadNews().then(() => { if (!typing()) render(); pushSoon(); }); });
+  // Once a day, keep a copy of everything in the phone's private storage (Settings > Automatic backups can restore it).
+  const daily = () => { if (S.meta.autoAt === today()) return; autoBackup(`dd-${today()}.json`, exportJSON()).then(ok => { if (ok) { S.meta.autoAt = today(); save(); } }).catch(() => {}); };
+  setTimeout(daily, 4000);
+  document.addEventListener('visibilitychange', () => { if (document.hidden) daily(); });
+  // Every minute, redraw the screens that show time (Home, Calendar) so "Next up", past events and the now line stay current; never while typing.
+  setInterval(() => { if (!document.hidden && !typing() && ['home', 'calendar'].includes(ui.view)) render(); }, 60e3);
   if ('serviceWorker' in navigator && !isNative()) navigator.serviceWorker.register('sw.js').catch(() => {});
 })();

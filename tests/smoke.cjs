@@ -20,7 +20,7 @@ const ok = (name, cond) => { console.log((cond ? 'PASS ' : 'FAIL ') + name); if 
   await nav('learn');
   ok('news shows in Learn, all categories first', await p.locator('.story').count() >= 1 && await p.locator('.tabs button.on:has-text("All")').count() === 1);
   ok('Learn has News and Cases only', (await p.locator('.stack > .tabs, #view > .tabs').first().locator('button').count()) === 2);
-  await p.click('[data-act=newsCat][data-id=Tech]'); ok('a category filters the stories', (await p.locator('.story .chip:not(.plain)').allTextContents()).every(t => /Tech/.test(t)));
+  await p.click('[data-act=newsCat][data-id=Tech]'); ok('a category filters the stories', (await p.locator('.story > .row:first-child .chip:not(.plain)').allTextContents()).every(t => /Tech/.test(t)));
   await p.click('[data-act=sub][data-group=learn][data-id=cases]');
   ok('Cases opens on a practice problem', /Problem of the day/.test(await view()) && /The playbook/.test(await view()));
   await p.fill('[data-bind=guess]', 'Clarify, then split into people, process and pay'); await p.click('[data-act=reveal]');
@@ -87,7 +87,7 @@ const ok = (name, cond) => { console.log((cond ? 'PASS ' : 'FAIL ') + name); if 
 
   // Notes: books, pages and the block editor
   await nav('notes');
-  ok('Notes is its own tab with an empty state and starter books', /Nothing here yet/.test(await view()) && await p.locator('[data-act=bookStarter]').count() === 4);
+  ok('Notes is its own tab with an empty state and starter books', /Nothing here yet/.test(await view()) && await p.locator('[data-act=bookStarter]').count() === 5);
   await p.fill('[data-form=jot] [name=text]', 'Idea: ask about change adoption metrics'); await p.click('[data-form=jot] button.primary');
   ok('a quick jot becomes a page in the Inbox', /change adoption metrics/.test(await view()) && /Inbox/.test(await p.textContent('.bookbar')));
   ok('the jot box keeps focus for the next one', await p.evaluate(() => document.activeElement && document.activeElement.name === 'text'));
@@ -251,6 +251,51 @@ const ok = (name, cond) => { console.log((cond ? 'PASS ' : 'FAIL ') + name); if 
   const rl = await p.evaluate(async () => (await import('/js/reminders.js')).buildReminders().filter(n => n.title === 'Timed reminder task').map(n => n.body));
   ok('a task with a time schedules a reminder at that time, and one ten minutes before for priority tasks', rl.length === 2 && rl.some(b => /Reminder/.test(b)) && rl.some(b => /10 minutes/.test(b)));
   await p.evaluate(async () => { const c = await import('/js/core.js'); c.S.tasks = c.S.tasks.filter(t => !['remt'].includes(t.id) && t.title !== 'Call the recruiter'); c.S.reminders.on = false; c.commit(); });
+  // Robustness pass: notes trash and wrapping, task steps/snooze/undo/filters, repeating events, search, saved news
+  await nav('notes');
+  await p.fill('[data-form=jot] [name=text]', 'Averyveryverylongwordwithoutspaces'.repeat(6)); await p.click('[data-form=jot] button.primary');
+  ok('a long jot keeps all its text and never spills past the screen', await p.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth + 1) && await p.evaluate(async () => (await import('/js/core.js')).S.pages.some(x => JSON.stringify(x).includes('Averyveryverylongwordwithoutspaces'.repeat(6)))));
+  ok('the bottom bar stays visible in Notes', await p.locator('#nav').isVisible());
+  await p.click('.pg:has-text("Averyvery") [data-act=pageOpen]');
+  ok('the bottom bar stays visible while editing a page', await p.locator('#nav').isVisible() && await p.locator('.fmtbar').isVisible());
+  await p.click('[data-act=pageDel]'); await p.click('[data-act=pageDel]');
+  ok('a deleted page goes to Trash', await p.locator('.bookbar .trash').count() === 1);
+  await p.click('.bookbar .trash'); await p.click('[data-act=pageRestore] >> nth=0');
+  ok('and can be restored', await p.locator('.pg:has-text("Averyvery")').count() === 1);
+  await p.evaluate(async () => { const c = await import('/js/core.js'); c.S.pages = []; c.S.books = []; c.commit(); });
+  await nav('tasks');
+  await p.fill('[data-form=task] [name=title]', 'Prepare HCOT case deck'); await p.click('[data-form=task] button.primary');
+  await p.click('li:has-text("Prepare HCOT case deck") [data-act=taskEditOpen] >> nth=0');
+  await p.fill('[data-form=subAdd] [name=x]', 'Outline'); await p.click('[data-form=subAdd] button.primary');
+  await p.fill('[data-form=subAdd] [name=x]', 'Slides'); await p.click('[data-form=subAdd] button.primary');
+  await p.click('.subs [data-act=subTick] >> nth=0');
+  ok('a task can have steps that tick off', /1\/2 steps/.test(await p.textContent('li:has-text("Prepare HCOT case deck")')));
+  await p.click('[data-act=taskSnooze][data-s=tom]');
+  ok('snooze moves a task to tomorrow', /tomorrow/.test(await p.textContent('li:has-text("Prepare HCOT case deck")')));
+  await p.click('[data-act=taskFilter][data-id=upcoming]'); ok('filters narrow the list', /Prepare HCOT case deck/.test(await view()));
+  await p.click('[data-act=taskFilter][data-id=someday]'); ok('and hide what does not fit', !/Prepare HCOT case deck/.test(await view()));
+  await p.click('[data-act=taskFilter][data-id=all]');
+  await p.click('li:has-text("Prepare HCOT case deck") [data-act=delTask]');
+  ok('deleting a task offers Undo', await p.locator('#toast.on button').count() === 1 && !/Prepare HCOT case deck/.test(await view()));
+  await p.click('#toast button'); ok('and Undo brings it back', /Prepare HCOT case deck/.test(await view()));
+  await p.evaluate(async () => { const c = await import('/js/core.js'); c.S.tasks = c.S.tasks.filter(t => t.title !== 'Prepare HCOT case deck'); c.commit(); });
+  await nav('calendar');
+  await p.click('#cal-day summary'); await p.fill('#cal-day [data-form=event] [name=title]', 'Gym class'); await p.fill('#cal-day [data-form=event] [name=time]', '07:00');
+  await p.selectOption('#cal-day [data-form=event] [name=repeat]', 'weekly'); await p.click('#cal-day [data-form=event] button.primary');
+  const occ = await p.evaluate(async () => { const a = await import('/js/agenda.js'); const u = await import('/js/util.js'); return [0, 7, 14, 3].map(n => a.agendaOn(u.addDays(u.today(), n)).some(e => e.title === 'Gym class')); });
+  ok('a weekly event shows every week and not on other days', JSON.stringify(occ) === '[true,true,true,false]');
+  await p.click('#cal-day li:has-text("Gym class") [data-act=calEditEv]'); await p.fill('#cal-day [data-form=eventSave] [name=title]', 'Gym: legs'); await p.click('#cal-day [data-form=eventSave] button.primary');
+  ok('an event typed into the app can be edited', /Gym: legs/.test(await view()));
+  await p.click('#cal-day li:has-text("Gym: legs") [data-act=calEditEv]'); await p.click('[data-act=evDel]');
+  ok('and deleted with Undo', !/Gym: legs/.test(await p.textContent('#cal-day')) && await p.locator('#toast.on').count() === 1);
+  await p.evaluate(async () => { const c = await import('/js/core.js'); c.S.events = c.S.events.filter(e => !/Gym/.test(e.title)); c.commit(); });
+  await p.click('[data-nav=search]'); await p.fill('[data-bind=srq]', 'kotter');
+  ok('search finds the casebook from any screen', /Kotter/.test(await p.textContent('#sres')));
+  await p.fill('[data-bind=srq]', 'Workout'); ok('and habits', /Habits/.test(await p.textContent('#sres')));
+  await nav('learn'); await p.click('[data-act=sub][data-group=learn][data-id=news]').catch(() => {});
+  await p.click('[data-act=storySave] >> nth=0'); await p.click('[data-act=newsCat][data-id=Saved]');
+  ok('a story can be saved and stays under Saved', await p.locator('.story').count() === 1);
+  await p.click('[data-act=newsCat][data-id=All]');
   // Old flat notes (saved before the notes app) become pages, talking points in their own book
   const octx = await b.newContext({ viewport: { width: 390, height: 844 } });
   await octx.addInitScript(() => { if (!localStorage.getItem('daily-driver-v2')) localStorage.setItem('daily-driver-v2', JSON.stringify({ v: 2, notes: [{ id: 'o1', text: 'Kroll idea\nsecond line', at: 1700000000000, pinned: true }, { id: 'o2', text: 'Talking point: Rates\nWhat happened: cut\nMy view: ', at: 1700000001000, tp: true, src: 'Rates' }] })); });

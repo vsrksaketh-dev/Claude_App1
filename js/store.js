@@ -12,17 +12,18 @@ export const blank = () => ({
   theme: 'system',                            // 'light', 'dark' or 'system'
   glass: true,                                // frosted-glass look; false gives solid panes
   modules: { career: true, money: true },     // legacy: those screens were removed, the data below is kept untouched
-  meta: { lastBackup: '', since: today() },   // since: first run, so the backup nudge waits a couple of weeks
+  meta: { lastBackup: '', since: today(), autoAt: '' },   // since: first run, so the backup nudge waits a couple of weeks
   reminders: { on: false, morning: '07:30', evening: '21:00', briefing: true, wrap: true, comeback: true, weekly: true, backup: true, deadlines: true, cards: false, events: true },   // Android app only
   habits: DEFAULT_HABITS.map(([name, when]) => ({ id: uid(), name, when, days: [0, 1, 2, 3, 4, 5, 6], created: today() })),
+  saved: [],                   // news stories kept by the user: { cat, title, summary, why, src, url, at }
   books: [],                   // { id, name, at }  notebooks (pages with no book sit in the built-in Inbox)
-  pages: [],                   // { id, title, bookId, blocks[], pinned, at, upd, tp, src, shared }  blocks: { id, t: p|h|b|n|c, x, d, l }  (Notes)
+  pages: [],                   // { id, title, bookId, blocks[], pinned, at, upd, tp, src, shared, trashed? }  blocks: { id, t: p|h|b|n|c|q, x, d, l }  (trashed: time it went to Trash; purged after 30 days)  (Notes)
   notes: [],                   // legacy flat notes: converted to pages on load, kept empty afterwards
   habitLog: {},                // { date: { habitId: true } }  done or not, per day
   habitInfo: {},               // { date: { habitId: { n, tag } } }  count so far and what was done (Push, Run...)
   // habits: { id, name, when, days, created, goal?: times a week, target?: count a day, time?: 'HH:MM' nudge, options?: ['Push','Pull'] }
   mits: {},                    // { date: [{ id, text, done, taskId }] }  top three for the day
-  tasks: [],                   // { id, title, due, time?: 'HH:MM' (a reminder fires then), repeat?: daily|weekdays|weekly|monthly, link?, important, done, doneAt, kind, goalId }  (triage is legacy: such tasks now count as ordinary open tasks)
+  tasks: [],                   // { id, title, due, time?: 'HH:MM' (a reminder fires then), repeat?: daily|weekdays|weekly|monthly, link?, note?, subs?: [{ id, x, d }], important, done, doneAt, kind, goalId }  (triage is legacy: such tasks now count as ordinary open tasks)
   // Legacy areas below have no screen any more (Track, Goals, Career, Money). Their data stays in the file and in backups, never dropped.
   goals: [],                   // { id, title, why, area, horizon, due, status, milestones[], habitIds[] }
   journal: {},                 // { date: { mood, energy, wins, lessons, grateful, tomorrow } }
@@ -36,7 +37,7 @@ export const blank = () => ({
   focus: {},                   // { date: minutes }
   focusTags: {},               // { date: { tag: minutes } }
   timer: { mode: 'focus', len: 25, remaining: 25 * 60, endsAt: null, running: false, tag: '' },
-  events: [], inboxDone: {},
+  events: [], inboxDone: {},   // events: { id, title, date, time, mins, repeat?, until?, skip?: [dates], where, link } typed into the app
   apps: [], contacts: [], stars: [],                  // career module
   subs: [], expenses: [], budget: 0,                  // money module
   workouts: [],                // { id, date, type, min, note }
