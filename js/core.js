@@ -3,6 +3,7 @@
 // A view with a numeric `nav` appears in the bottom bar (five of them); one without (Settings) is opened from a link.
 // Extension points other modules can push into: app.nudgeSources, app.taskSources, app.todayCards.
 import { get, save } from './store.js';
+import { logProblem } from './log.js';
 
 export const S = get();
 export const ui = { view: 'home', sub: {} };
@@ -62,7 +63,7 @@ export function render() {
   if (!v || (v.enabled && !v.enabled())) { ui.view = 'home'; v = app.views.home; }
   try { $('#view').innerHTML = v.render(); } catch (e) {
     // A broken screen must never leave the app stuck: forget the tab choices and offer a way back.
-    console.error(e); ui.sub = {};
+    console.error(e); logProblem('screen', e, ui.view); ui.sub = {};
     $('#view').innerHTML = '<section class="card"><h2>Something went wrong on this screen</h2><p class="muted">Your data is safe. Tap below to reopen it.</p><div class="row" style="margin-top:10px"><button class="primary" data-nav="' + ui.view + '">Reopen</button><button data-nav="home">Go to Home</button></div></section>';
   }
   $('#view').classList.toggle('enter', lastView !== ui.view && !calm());

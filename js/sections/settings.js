@@ -5,6 +5,7 @@ import { field, chip, head } from '../ui.js';
 import { exportJSON, importJSON, reset, SCHEMA } from '../store.js';
 import { saveBackup, isNative, notifyPermission, notifyTest, listAutoBackups, readAutoBackup } from '../native.js';
 import { refreshReminders } from '../reminders-run.js';
+import { readLog, clearLog, logText, VERSION } from '../log.js';
 import { pushNow } from '../widgets.js';
 import { getSources, addSource, removeSource, syncAll, getHidden, setHidden } from '../calendar.js';
 
@@ -56,7 +57,9 @@ function render() {
 
   <div class="card"><h2>Your data</h2><p class="muted">Everything lives on this device. Last backup: ${S.meta.lastBackup || 'never'}.</p>
     <div class="row" style="margin-top:10px"><button class="primary" data-act="export">Export backup</button><button data-act="import">Import backup</button><button class="danger" data-act="wipe">Erase everything</button></div></div>
-  <p class="muted" style="text-align:center">Daily Driver · data format v${SCHEMA}</p>`;
+  <div class="card"><h2>Problem log</h2><p class="muted">${readLog().length ? `${readLog().length} problem${readLog().length === 1 ? '' : 's'} recorded. Send them to Claude to get them fixed.` : 'No problems recorded. If something misbehaves, it is noted here automatically.'}</p>
+    ${readLog().length ? `<pre class="log">${esc(readLog().slice(-5).reverse().map(x => `${x.at.slice(5, 16).replace('T', ' ')} ${x.where ? x.where + ': ' : ''}${x.msg}`).join('\n'))}</pre><div class="row"><button class="primary" data-act="logShare">Share the log</button><button class="ghost" data-act="logClear">Clear</button></div>` : ''}</div>
+  <p class="muted" style="text-align:center">Daily Driver ${VERSION} · data format v${SCHEMA}</p>`;
 }
 
 register({
@@ -73,6 +76,8 @@ register({
         .then(() => { S.meta.lastBackup = today(); commit(); })
         .catch(() => alert('Could not export the backup.'));
     },
+    logShare: () => { const t = `Daily Driver ${VERSION} problem log\n\n${logText()}`; saveBackup(`daily-driver-log-${today()}.txt`, t).catch(() => { navigator.clipboard?.writeText(t); }); },
+    logClear: () => { clearLog(); },
     autoShow: () => { listAutoBackups().then(l => { ui.sub.autoList = l; commit(); }); },
     autoRestore: d => { if (ui.sub.autoConfirm !== d.id) { ui.sub.autoConfirm = d.id; return; } readAutoBackup(d.id).then(t => { importJSON(t); location.reload(); }).catch(() => alert('That backup could not be read.')); },
     import: () => {

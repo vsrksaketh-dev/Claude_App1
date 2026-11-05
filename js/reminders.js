@@ -10,7 +10,9 @@ import { openTasks, habitDue, habitDone, habitLabel, habitGoal } from './logic.j
 import { agendaOn } from './agenda.js';
 import { upcomingTimed } from './calendar.js';
 
-const MAX = 60;   // Android keeps notification alarms cheap; the list is rebuilt every time the app is used
+const MAX = 150;
+// How far ahead the daily notifications are laid out. Opening the app rebuilds them, so two weeks covers a long absence.
+const DAYS_AHEAD = 14;   // Android keeps notification alarms cheap; the list is rebuilt every time the app is used
 
 const OPENERS = ['Good morning', 'Fresh day', 'Rise and plan', 'Here is your day', 'New day, new list'];
 const QUIET = ['A clear day. Pick one thing worth finishing.', 'Nothing scheduled. A good day to get ahead.', 'Open day. Add the one thing you would be proud to finish.', 'Free to plan: what would make today a win?'];
@@ -41,7 +43,7 @@ export function buildReminders(now = new Date()) {
   let id = 200;
   const add = (title, body, when, extra = {}) => { if (when > now) out.push({ id: id++, title, body, schedule: { at: when, allowWhileIdle: true }, ...extra }); };
 
-  for (let i = 0; i < 7; i++) {
+  for (let i = 0; i < DAYS_AHEAD; i++) {
     const k = addDays(today(), i);
     if (R.briefing !== false) {
       const line = dayLine(k, i === 0 ? at(k, mh, mm).getTime() : 0);
@@ -61,7 +63,7 @@ export function buildReminders(now = new Date()) {
   if (R.habits !== false) {
     S.habits.filter(h => !h.archived && h.time && /^\d{2}:\d{2}$/.test(h.time)).forEach(h => {
       const [hh, hm] = h.time.split(':').map(Number);
-      for (let i = 0; i < 7; i++) {
+      for (let i = 0; i < DAYS_AHEAD; i++) {
         const k = addDays(today(), i);
         if (i === 0 ? !habitDue(h, k) || habitDone(h, k) : !h.days.includes(parse(k).getDay()) && !habitGoal(h)) continue;
         add('Time for ' + h.name, habitGoal(h) ? `${habitLabel(h, today())} this week so far. A small start counts.` : 'A small start counts.', at(k, hh, hm), i === 0 ? { actionTypeId: 'DD_HABIT', extra: { habit: h.id, day: k } } : {});

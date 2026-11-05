@@ -4,6 +4,7 @@ import { S, ui, register } from '../core.js';
 import { today, daysFromToday, esc, uid, fmtDay, addDays } from '../util.js';
 import { empty, chip, check, head, linkBtns, toast } from '../ui.js';
 import { extractLinks } from '../links.js';
+import { parseQuick, describe } from '../nlp.js';
 import { openTasks, byRank, completeTask, uncompleteTask, doneToday, REPEATS } from '../logic.js';
 
 const te = ui.te = { id: null, filter: 'all' };
@@ -48,7 +49,7 @@ function tasksPage() {
   const earlier = S.tasks.filter(t => t.done && t.doneAt !== today()).sort((a, b) => (b.doneAt || '').localeCompare(a.doneAt || ''));
   const groups = GROUPS.map(([id, name, f]) => [id, name, open.filter(f)]).filter(g => g[2].length);
   const count = id => all.filter(t => ({ all: true, today: t.due && daysFromToday(t.due) <= 0, upcoming: t.due && daysFromToday(t.due) > 0, priority: t.important, someday: !t.due }[id])).length;
-  return `<form data-form="task" data-keep class="capture wrap"><input name="title" placeholder="Add a task" aria-label="New task" maxlength="140" required>
+  return `<form data-form="task" data-keep class="capture wrap"><input name="title" placeholder="Add a task, try: Submit DHRM fri 5pm !" aria-label="New task" maxlength="160" required data-bind="nlp" autocomplete="off"><em class="parsed" hidden></em>
     <select name="when" aria-label="Due"><option value="">No date</option><option value="0">Today</option><option value="1">Tomorrow</option><option value="7">In a week</option></select><input name="time" type="time" aria-label="Reminder time" title="Optional: remind me at this time"><button class="primary">Add</button></form>
   <div class="seg pills" role="tablist" aria-label="Show">${FILTERS.map(([k, l]) => `<button role="tab" aria-selected="${te.filter === k}" class="${te.filter === k ? 'on' : ''}" data-act="taskFilter" data-id="${k}">${l} <i class="cnt">${count(k)}</i></button>`).join('')}</div>
   ${groups.length ? `<section class="card">${groups.map(([id, name, list]) => `<h3 class="group-h">${name} ${chip(String(list.length), id === 'over' ? 'bad' : 'plain')}</h3><ul class="list">${list.map(row).join('')}</ul>`).join('')}</section>` : `<section class="card">${empty(all.length ? 'Nothing in this view.' : 'Nothing to do. Add something above, or enjoy the quiet.')}</section>`}
@@ -94,6 +95,11 @@ register({
       te.id = null;
     },
     subAdd: (f, form) => { const t = S.tasks.find(x => x.id === form.dataset.id), x = (f.x || '').trim(); if (t && x) (t.subs ||= []).push({ id: uid(), x, d: false }); },
-    task: f => { const t = (f.title || '').trim(); if (t) S.tasks.push({ id: uid(), title: t, due: f.when === '' || f.when === undefined ? (f.time ? today() : '') : addDays(today(), Number(f.when)), time: f.time || '', repeat: '', important: false, done: false, kind: 'Task' }); },
+    // Typed words set the date, time, repeat and priority; the date picker and time box win when they are used.
+    task: f => {
+      const p = parseQuick(f.title || ''); if (!p.title) return;
+      const due = f.when !== '' && f.when !== undefined ? addDays(today(), Number(f.when)) : p.due || (f.time ? today() : '');
+      S.tasks.push({ id: uid(), title: p.title, due, time: f.time || p.time, repeat: p.repeat, important: p.important, done: false, kind: 'Task' });
+    },
   },
 });

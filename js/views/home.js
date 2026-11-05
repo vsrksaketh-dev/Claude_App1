@@ -6,6 +6,7 @@ import { getSources, hasCalendars, lastSync, syncAll } from '../calendar.js';
 import { dayItems, pendingActions } from '../schedule.js';
 import { habitsOn, habitDone, tapHabit, habitLabel, habitTarget, setHabit, openTasks, dayStreak, byRank, doneToday, doneLast, uncompleteTask, dayProgress, practiceStreak } from '../logic.js';
 import { weekRecap, isRecapDay } from '../recap.js';
+import { parseQuick } from '../nlp.js';
 
 const when = ms => new Date(ms).toLocaleString('en-IN', { weekday: 'short', hour: 'numeric', minute: '2-digit', hour12: true });
 const ago = ms => { const m = Math.round((Date.now() - ms) / 6e4); return m < 1 ? 'just now' : m < 60 ? m + ' min ago' : Math.round(m / 60) + ' h ago'; };
@@ -100,7 +101,7 @@ function render() {
     <p class="hero-motto">${esc(heroLine(prog))}</p>
     <div class="hero-stats"><span class="stat"><b>${todos.length}</b>to do</span><span class="stat"><b>${finished.length}</b>done today</span>${evs.length ? `<span class="stat"><b>${evs.length}</b>on today</span>` : ''}${badge()}</div></section>
   ${nextUp(t)}
-  <form data-form="quick" data-keep class="capture"><input name="text" placeholder="Add a task" aria-label="Add a task" maxlength="140" required><button class="primary">Add</button></form>
+  <form data-form="quick" data-keep class="capture"><input name="text" placeholder="Add a task, try: Submit DHRM fri 5pm !" aria-label="Add a task" maxlength="160" required data-bind="nlp" autocomplete="off"><em class="parsed" hidden></em><button class="primary">Add</button></form>
 
   <section class="card"><div class="row between"><h2 style="margin:0">To do</h2>${todos.length ? chip(todos.length + ' left') : chip('all done', 'ok')}</div>
     <div style="margin-top:12px">${todos.length || finished.length ? `<ul class="list">${todos.slice(0, SHOW).map(todoRow).join('')}${finished.map(doneRow).join('')}</ul>${todos.length > SHOW ? `<div class="todo-more"><button class="ghost" data-nav="tasks">+${todos.length - SHOW} more in Tasks</button></div>` : ''}` : empty('Nothing to do. Add something above, or enjoy it.')}</div>
@@ -140,7 +141,7 @@ register({
     },
   },
   forms: {
-    quick: f => { const t = (f.text || '').trim(); if (t) S.tasks.push({ id: uid(), title: t, due: '', important: false, done: false, kind: 'Task' }); },
+    quick: f => { const p = parseQuick(f.text || ''); if (p.title) S.tasks.push({ id: uid(), title: p.title, due: p.due, time: p.time, repeat: p.repeat, important: p.important, done: false, kind: 'Task' }); },
     event: f => { S.events.push({ id: uid(), title: (f.title || '').trim(), date: f.date, time: f.time, mins: Number(f.mins) || 60, repeat: f.repeat || '', where: (f.where || '').trim(), link: (f.link || '').trim() }); ui.sub.calAdd = false; },
   },
 });

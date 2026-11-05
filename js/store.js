@@ -12,7 +12,7 @@ export const blank = () => ({
   theme: 'system',                            // 'light', 'dark' or 'system'
   glass: true,                                // frosted-glass look; false gives solid panes
   modules: { career: true, money: true },     // legacy: those screens were removed, the data below is kept untouched
-  meta: { lastBackup: '', since: today(), autoAt: '' },   // since: first run, so the backup nudge waits a couple of weeks
+  meta: { lastBackup: '', since: today(), autoAt: '', savedAt: 0 },   // since: first run, so the backup nudge waits a couple of weeks
   reminders: { on: false, morning: '07:30', evening: '21:00', briefing: true, wrap: true, comeback: true, weekly: true, backup: true, deadlines: true, cards: false, events: true },   // Android app only
   habits: DEFAULT_HABITS.map(([name, when]) => ({ id: uid(), name, when, days: [0, 1, 2, 3, 4, 5, 6], created: today() })),
   saved: [],                   // news stories kept by the user: { cat, title, summary, why, src, url, at }
@@ -82,7 +82,24 @@ export const save = () => {
   clearTimeout(timeout);
   timeout = setTimeout(flush, 100);
 };
-export const flush = () => { try { localStorage.setItem(KEY, JSON.stringify(state)); } catch { /* storage unavailable */ } };
+// Every save also goes to a file in the app's private storage on the phone (see setMirror in main.js). The web view's storage
+// holds about 5 MB; the file has no such limit, and at start-up the newer of the two wins, so a full or cleared web view loses nothing.
+let mirror = null, mirrorTimer = 0;
+export let storageFull = false;
+export const setMirror = f => { mirror = f; };
+export const flush = () => {
+  state.meta.savedAt = Date.now();
+  const json = JSON.stringify(state);
+  try { localStorage.setItem(KEY, json); storageFull = false; } catch { storageFull = true; }
+  if (mirror) { clearTimeout(mirrorTimer); mirrorTimer = setTimeout(() => mirror(JSON.stringify(state)), storageFull ? 0 : 1500); }
+};
+// Take over a state read from elsewhere (the phone file) without replacing the object every module already holds.
+export function adopt(o) {
+  const n = migrate(o);
+  Object.keys(state).forEach(k => delete state[k]);
+  Object.assign(state, n);
+  try { localStorage.setItem(KEY, JSON.stringify(state)); } catch { storageFull = true; }
+}
 window.addEventListener('pagehide', flush);
 export const get = () => state;
 export const reset = () => { state = blank(); flush(); };

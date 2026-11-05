@@ -41,6 +41,10 @@ export async function listAutoBackups() {
 }
 export async function readAutoBackup(name) { const r = await plugin('Filesystem').readFile({ path: `${BK}/${name}`, directory: 'DATA', encoding: 'utf8' }); return typeof r.data === 'string' ? r.data : String(r.data); }
 
+// The mirror of the whole state in the app's private storage (see store.js).
+export async function writeStateFile(json) { if (!isNative()) return; try { await plugin('Filesystem').writeFile({ path: 'state.json', data: json, directory: 'DATA', encoding: 'utf8' }); } catch { /* next save tries again */ } }
+export async function readStateFile() { if (!isNative()) return null; try { const r = await plugin('Filesystem').readFile({ path: 'state.json', directory: 'DATA', encoding: 'utf8' }); return JSON.parse(typeof r.data === 'string' ? r.data : String(r.data)); } catch { return null; } }
+
 // Plain GET that works for calendar links. Browsers block these (no CORS), the Android app's native HTTP does not.
 export async function httpGetText(url) {
   if (isNative()) {

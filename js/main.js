@@ -2,9 +2,12 @@
 import { ui, app, render, commit, go } from './core.js';
 import { save } from './store.js';
 import { countdownText } from './util.js';
-import { isNative, initBackButton, autoBackup, initNotificationActions } from './native.js';
+import { parseQuick, describe } from './nlp.js';
+import { watchErrors, logProblem } from './log.js';
+watchErrors(() => ui.view);
+import { isNative, initBackButton, autoBackup, initNotificationActions, readStateFile, writeStateFile } from './native.js';
 import { completeTask, toggleHabit, habitDone } from './logic.js';
-import { exportJSON } from './store.js';
+import { exportJSON, setMirror, adopt } from './store.js';
 import { S } from './core.js';
 import { today, addDays } from './util.js';
 import { refreshReminders } from './reminders-run.js';
@@ -19,6 +22,8 @@ import './views/search.js';
 import './views/calendar.js';
 import './sections/settings.js';
 
+// Live preview under any quick-add box: what the typed words will set (date, time, priority, repeat).
+app.inputs.nlp = el => { const out = el.parentElement.querySelector('.parsed'); if (!out) return; const d = describe(parseQuick(el.value)); out.textContent = d; out.hidden = !d; };
 Object.assign(app.actions, {
   sub: d => { ui.sub[d.group] = d.id; },
   openSource: d => { ui.view = d.view; if (d.section) ui.sub[d.view] = d.section; },
@@ -32,14 +37,14 @@ document.addEventListener('click', e => {
   const el = e.target.closest('[data-act]');
   if (!el || !app.actions[el.dataset.act]) return;
   if (el.type === 'checkbox' && el.checked) app.pop = el.closest('[data-flip]')?.dataset.flip || '';
-  app.actions[el.dataset.act](el.dataset, el);
+  try { app.actions[el.dataset.act](el.dataset, el); } catch (err) { logProblem('action', err, `${ui.view} · ${el.dataset.act}`); }
   commit();
 });
 document.addEventListener('submit', e => {
   const form = e.target.closest('[data-form]');
   if (!form || !app.forms[form.dataset.form]) return;
   e.preventDefault();
-  app.forms[form.dataset.form](Object.fromEntries(new FormData(form)), form);
+  try { app.forms[form.dataset.form](Object.fromEntries(new FormData(form)), form); } catch (err) { logProblem('form', err, `${ui.view} · ${form.dataset.form}`); }
   commit();
   // Quick-add bars keep the keyboard open so several tasks can be typed in a row.
   if (form.hasAttribute('data-keep')) { const again = document.querySelector(`[data-form="${form.dataset.form}"] input, [data-form="${form.dataset.form}"] textarea`); if (again) again.focus({ preventScroll: true }); }
@@ -61,6 +66,13 @@ async function loadNews() {
 }
 
 (async function boot() {
+  // In the app, the phone file holds the newest copy if the web view's storage was full or cleared: take it before drawing anything.
+  if (isNative()) {
+    const file = await readStateFile();
+    if (file && (file.meta?.savedAt || 0) > (S.meta.savedAt || 0)) { adopt(file); logProblem('info', 'Loaded the newer copy from the phone file', 'boot'); }
+    setMirror(writeStateFile);
+    writeStateFile(exportJSON());
+  }
   try { app.brief = await (await fetch('data/brief.json', { cache: 'no-cache' })).json(); } catch { /* offline: render without brief */ }
   await loadNews();
   render();

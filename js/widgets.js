@@ -64,6 +64,14 @@ export function applyOps(ops) {
     // Text shared into the app from another app: the first line becomes a task, and the whole text is kept as a note when there is more to it.
     if (o.t === 'capture') {
       const lines = String(o.id || '').split('\n').map(x => x.trim()).filter(Boolean), title = (lines[0] || '').slice(0, 140);
+      // A shared article (some text plus one link, as browsers and news apps share) goes to Learn > Saved to read later.
+      const url = (String(o.id).match(/https?:\/\/\S+/) || [])[0], words = String(o.id).replace(/https?:\/\/\S+/g, '').trim();
+      if (url && words.split(/\s+/).filter(Boolean).length <= 30) {
+        const host = (url.match(/^https?:\/\/(?:www\.)?([^/]+)/) || [])[1] || 'Link';
+        if (!S.saved.some(x => x.url === url)) S.saved.push({ cat: 'Saved', title: (words.split('\n')[0] || host).slice(0, 160), summary: '', why: '', src: host, url, at: Date.now() });
+        ui.sub.learn = 'news'; ui.sub.newsCat = 'Saved';
+        return;
+      }
       if (title) { S.tasks.push({ id: uid(), title, due: '', important: false, done: false, kind: 'Task' }); if (lines.length > 1 || (lines[0] || '').length > 140) quickNote(lines.join('\n'), { shared: true }); }
     }
   });

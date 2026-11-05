@@ -308,6 +308,19 @@ const ok = (name, cond) => { console.log((cond ? 'PASS ' : 'FAIL ') + name); if 
   await p.evaluate(async () => { const c = await import('/js/core.js'); c.S.pages = []; c.S.books = []; c.commit(); });
   const gl = await p.evaluate(async () => { const m = await import('/js/calendar.js'); return [m.gcalLink('https://calendar.google.com/calendar/ical/me%40gmail.com/private-x/basic.ics', { uid: 'abc123@google.com', start: 0 }), m.gcalLink('https://example.com/cal.ics', { uid: 'abc@google.com' })]; });
   ok('a synced event links to itself in Google Calendar for editing', gl[0] === 'https://calendar.google.com/calendar/event?eid=' + Buffer.from('abc123 me@gmail.com').toString('base64').replace(/=+$/, '') && gl[1] === '');
+  // natural-language add and the problem log
+  await nav('tasks'); await p.fill('[data-form=task] [name=title]', 'Submit DHRM fri 5pm !');
+  ok('typing shows what the words will set', /5:00 pm/.test(await p.textContent('[data-form=task] .parsed')) && /Priority/.test(await p.textContent('[data-form=task] .parsed')));
+  await p.click('[data-form=task] button.primary');
+  const nl = await p.evaluate(async () => (await import('/js/core.js')).S.tasks.find(t => t.title === 'Submit DHRM'));
+  ok('natural-language add sets the date, time and priority', !!nl && nl.time === '17:00' && nl.important === true && !!nl.due);
+  await p.evaluate(async () => { const c = await import('/js/core.js'); c.S.tasks = c.S.tasks.filter(t => t.title !== 'Submit DHRM'); c.commit(); });
+  await p.evaluate(async () => { const c = await import('/js/core.js'); c.app.actions.__boom = () => { throw new Error('test boom'); }; });
+  await p.evaluate(() => { const b = document.createElement('button'); b.dataset.act = '__boom'; b.id = 'boom'; document.body.appendChild(b); });
+  await p.click('#boom');
+  ok('a failing action is caught and written to the problem log', await p.evaluate(async () => (await import('/js/log.js')).readLog().some(x => /test boom/.test(x.msg))));
+  await p.click('[data-nav=settings]'); ok('and Settings shows it with a Share button', /test boom/.test(await view()) && await p.locator('[data-act=logShare]').count() === 1);
+  await p.click('[data-act=logClear]'); await nav('home');
   // Old flat notes (saved before the notes app) become pages, talking points in their own book
   const octx = await b.newContext({ viewport: { width: 390, height: 844 } });
   await octx.addInitScript(() => { if (!localStorage.getItem('daily-driver-v2')) localStorage.setItem('daily-driver-v2', JSON.stringify({ v: 2, notes: [{ id: 'o1', text: 'Kroll idea\nsecond line', at: 1700000000000, pinned: true }, { id: 'o2', text: 'Talking point: Rates\nWhat happened: cut\nMy view: ', at: 1700000001000, tp: true, src: 'Rates' }] })); });
@@ -321,7 +334,7 @@ const ok = (name, cond) => { console.log((cond ? 'PASS ' : 'FAIL ') + name); if 
     window.__shared = []; window.__scheduled = [];
     window.Capacitor = { isNativePlatform: () => true, Plugins: {
       CapacitorHttp: { get: async () => ({ status: 200, data: ics }) },
-      Filesystem: { writeFile: async o => ({ uri: 'file:///cache/' + o.path }) },
+      Filesystem: { writeFile: async o => { (window.__fs ||= {})[o.directory + '/' + o.path] = o.data; return { uri: 'file:///cache/' + o.path }; }, readFile: async o => { const d = (window.__fs || {})[o.directory + '/' + o.path]; if (d === undefined) throw new Error('missing'); return { data: d }; }, mkdir: async () => {}, readdir: async () => ({ files: [] }), deleteFile: async () => {} },
       Share: { share: async o => { window.__shared.push(o.url); } },
       App: { addListener: async () => ({ remove() {} }), exitApp: async () => {} },
       WidgetBridge: { update: async o => { window.__widget = JSON.parse(o.json); window.__ics = o.ics; }, take: async () => { const r = window.__take || { ops: '[]', target: '' }; window.__take = null; return r; } },
@@ -350,7 +363,10 @@ const ok = (name, cond) => { console.log((cond ? 'PASS ' : 'FAIL ') + name); if 
   ok('a widget can open Tasks with the add bar focused', await n.locator('h1:has-text("Tasks")').count() === 1 && await n.evaluate(() => document.activeElement && document.activeElement.name === 'title'));
   await n.evaluate(() => { window.__take = { ops: JSON.stringify([{ t: 'capture', id: 'Read the Kroll note\nhttps://example.com/kroll' }]), target: 'plan:tasks' }; window.dispatchEvent(new Event('widgetOpen')); });
   await n.waitForTimeout(400);
-  ok('text shared into the app becomes a task and a note', await n.evaluate(async () => { const c = await import('/js/core.js'); return c.S.tasks.some(t => t.title === 'Read the Kroll note') && c.S.pages.some(x => x.shared && /Kroll/.test(x.title + JSON.stringify(x.blocks))); }));
+  ok('a link shared into the app goes to Learn > Saved to read later', await n.evaluate(async () => { const c = await import('/js/core.js'); return c.S.saved.some(x => x.url === 'https://example.com/kroll' && x.title === 'Read the Kroll note') && !c.S.tasks.some(t => t.title === 'Read the Kroll note'); }));
+  await n.evaluate(() => { window.__take = { ops: JSON.stringify([{ t: 'capture', id: 'Ask Ravi about the PPT\nHe has the template and the market sizing numbers from last term, and the speaker notes too' }]), target: 'plan:tasks' }; window.dispatchEvent(new Event('widgetOpen')); });
+  await n.waitForTimeout(400);
+  ok('shared text without a link becomes a task and a note', await n.evaluate(async () => { const c = await import('/js/core.js'); return c.S.tasks.some(t => t.title === 'Ask Ravi about the PPT') && c.S.pages.some(x => x.shared && /market sizing/.test(JSON.stringify(x.blocks))); }));
   await n.evaluate(() => { window.__take = { ops: '[]', target: 'plan:notes:add' }; window.dispatchEvent(new Event('widgetOpen')); });
   await n.waitForTimeout(300);
   ok('the quick-add widget can open the notes jot box', await n.locator('[data-form=jot] input').count() === 1 && await n.evaluate(() => document.activeElement && document.activeElement.name === 'text'));
@@ -363,6 +379,23 @@ const ok = (name, cond) => { console.log((cond ? 'PASS ' : 'FAIL ') + name); if 
   ok('a widget can open the calendar on a chosen day', /Friday 25 December/.test(await n.textContent('.cal-nav')));
   await n.evaluate(async () => { const c = await import('/js/core.js'); c.go('home'); });
   await n.click('[data-nav=settings]');
+  // the state is mirrored to a phone file, and a newer phone copy wins at start-up
+  await n.waitForTimeout(2000);
+  ok('every save is mirrored to the phone file', await n.evaluate(() => { const j = window.__fs && window.__fs['DATA/state.json']; return !!j && JSON.parse(j).v === 2; }));
+  const fctx = await b.newContext({ viewport: { width: 390, height: 844 } });
+  await fctx.addInitScript(() => {
+    const st = { v: 2, meta: { savedAt: Date.now() + 864e5 }, tasks: [{ id: 'pf', title: 'From the phone file', due: '', important: false, done: false, kind: 'Task' }] };
+    window.__fs = { 'DATA/state.json': JSON.stringify(st) };
+    window.Capacitor = { isNativePlatform: () => true, Plugins: {
+      Filesystem: { writeFile: async o => { window.__fs[o.directory + '/' + o.path] = o.data; return { uri: 'x' }; }, readFile: async o => { const d = window.__fs[o.directory + '/' + o.path]; if (d === undefined) throw new Error('missing'); return { data: d }; }, mkdir: async () => {}, readdir: async () => ({ files: [] }), deleteFile: async () => {} },
+      App: { addListener: async () => ({ remove() {} }), exitApp: async () => {} },
+      WidgetBridge: { update: async () => {}, take: async () => ({ ops: '[]', target: '' }) },
+      LocalNotifications: { checkPermissions: async () => ({ display: 'granted' }), requestPermissions: async () => ({ display: 'granted' }), getPending: async () => ({ notifications: [] }), cancel: async () => {}, schedule: async () => {}, registerActionTypes: async () => {}, addListener: () => ({ remove() {} }) },
+    } };
+  });
+  const fp = await fctx.newPage(); await fp.goto(`http://localhost:${port}/`); await fp.waitForSelector('h1');
+  ok('a newer copy in the phone file is loaded when the web storage is empty or older', /From the phone file/.test(await fp.textContent('#view')));
+  await fctx.close();
   // notification buttons: Done and Snooze on a task reminder
   ok('task reminders get Done and Snooze buttons', await n.evaluate(() => (window.__actionTypes || []).some(t => t.id === 'DD_TASK' && t.actions.map(a => a.id).join() === 'done,snooze')));
   await n.evaluate(async () => { const c = await import('/js/core.js'); c.S.tasks.push({ id: 'nt1', title: 'Notification task', due: '', important: false, done: false, kind: 'Task' }, { id: 'nt2', title: 'Snooze me', due: '', important: false, done: false, kind: 'Task' }); c.commit(); });
