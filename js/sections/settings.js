@@ -46,7 +46,7 @@ function render() {
     ${isNative() ? '<p class="muted">If a test nudge does not arrive, allow notifications for Daily Driver in Android settings, and set its battery to Unrestricted.</p>' : ''}</div>
 
   <div class="card"><h2>Home screen widgets</h2>${isNative() ? '' : '<p class="muted">Widgets are part of the Android app. This is the browser version.</p>'}
-    <p>Touch and hold an empty spot on your home screen, tap Widgets, then find Daily Driver. There are ten: Overview, Schedule, Tasks, News, Calendar, Habits, Next up, Quick add, Problem of the day and Deadlines.</p>
+    <p>Touch and hold an empty spot on your home screen, tap Widgets, then find Daily Driver. There are eleven: Overview, Schedule, Tasks, News, Calendar, Habits, Next up, Quick add, Problem of the day and Deadlines, Notes.</p>
     <p class="muted">The News widget fetches fresh stories, and the calendar widgets re-read your Google calendars, by themselves about every half hour. For that, your private calendar addresses are also kept in this app's private storage on the phone (never uploaded anywhere else). Tasks and habits show what the app last sent, so open the app now and then. Tap any widget to open the app.</p>
     <p class="muted">If widgets stop refreshing, allow background activity: Android settings, Apps, Daily Driver, Battery, then Unrestricted (on OnePlus also allow Auto-launch).</p>
     <div class="row" style="margin-top:10px"><button data-act="widgetsNow">Update widgets now</button></div></div>

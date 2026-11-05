@@ -15,7 +15,7 @@ export function agendaOn(k) {
   const out = [];
   calEventsOn(k).forEach(e => {
     const kind = kindOf(e.title);
-    const it = { cal: true, kind, title: kind === 'event' ? e.title : stripKind(e.title), start: e.start, end: e.end, allDay: !!e.allDay, where: /^https?:/i.test(e.where || '') ? '' : (e.where || ''), src: e.cal || '', desc: stripLinks((e.desc || '').replace(/\s*Added from email\.?/i, '').trim()), links: extractLinks(`${e.desc || ''} ${e.where || ''}`) };
+    const it = { cal: true, kind, title: kind === 'event' ? e.title : stripKind(e.title), start: e.start, end: e.end, allDay: !!e.allDay, where: /^https?:/i.test(e.where || '') ? '' : (e.where || ''), src: e.cal || '', desc: stripLinks((e.desc || '').replace(/\s*Added from email\.?/i, '').trim()), links: extractLinks(`${e.desc || ''} ${e.where || ''}`), gcal: e.gcal || '' };
     if (kind !== 'event') { it.key = actionKey(e); it.done = !!S.inboxDone[it.key]; }
     out.push(it);
   });

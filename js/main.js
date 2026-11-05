@@ -2,10 +2,11 @@
 import { ui, app, render, commit, go } from './core.js';
 import { save } from './store.js';
 import { countdownText } from './util.js';
-import { isNative, initBackButton, autoBackup } from './native.js';
+import { isNative, initBackButton, autoBackup, initNotificationActions } from './native.js';
+import { completeTask, toggleHabit, habitDone } from './logic.js';
 import { exportJSON } from './store.js';
 import { S } from './core.js';
-import { today } from './util.js';
+import { today, addDays } from './util.js';
 import { refreshReminders } from './reminders-run.js';
 import { syncAll, onCalendarChange } from './calendar.js';
 import { pushSoon, pushNow, syncFromWidgets, openTarget } from './widgets.js';
@@ -82,6 +83,16 @@ async function loadNews() {
   setInterval(() => document.querySelectorAll('[data-countdown]').forEach(el => { el.textContent = countdownText(Number(el.dataset.countdown)); }), 20000);
   // Reopening the app after a while: refresh the news and the widgets so neither shows yesterday.
   document.addEventListener('visibilitychange', () => { if (!document.hidden) loadNews().then(() => { if (!typing()) render(); pushSoon(); }); });
+  // Done / Snooze pressed on a notification.
+  initNotificationActions(({ action, extra }) => {
+    const t = extra.task && S.tasks.find(x => x.id === extra.task);
+    if (t && action === 'done') completeTask(t.id);
+    if (t && action === 'snooze') { const n = new Date(Date.now() + 36e5); t.due = today() < (t.due || '') ? t.due : today(); if (n.getDate() !== new Date().getDate()) t.due = addDays(today(), 1); t.time = `${String(n.getHours()).padStart(2, '0')}:${String(n.getMinutes()).padStart(2, '0')}`; }
+    const h = extra.habit && S.habits.find(x => x.id === extra.habit);
+    if (h && action === 'done' && !habitDone(h, extra.day || today())) toggleHabit(h, extra.day || today());
+    if (t && action === 'tap') go('tasks');
+    commit(); refreshReminders();
+  });
   // Once a day, keep a copy of everything in the phone's private storage (Settings > Automatic backups can restore it).
   const daily = () => { if (S.meta.autoAt === today()) return; autoBackup(`dd-${today()}.json`, exportJSON()).then(ok => { if (ok) { S.meta.autoAt = today(); save(); } }).catch(() => {}); };
   setTimeout(daily, 4000);

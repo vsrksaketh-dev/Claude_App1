@@ -8,6 +8,7 @@
         <receiver android:name=".QuickWidget" android:exported="false"><intent-filter><action android:name="android.appwidget.action.APPWIDGET_UPDATE" /></intent-filter><meta-data android:name="android.appwidget.provider" android:resource="@xml/quick_info" /></receiver>
         <receiver android:name=".ProblemWidget" android:exported="false"><intent-filter><action android:name="android.appwidget.action.APPWIDGET_UPDATE" /></intent-filter><meta-data android:name="android.appwidget.provider" android:resource="@xml/problem_info" /></receiver>
         <receiver android:name=".DeadlinesWidget" android:exported="false"><intent-filter><action android:name="android.appwidget.action.APPWIDGET_UPDATE" /></intent-filter><meta-data android:name="android.appwidget.provider" android:resource="@xml/deadlines_info" /></receiver>
+        <receiver android:name=".NotesWidget" android:exported="false"><intent-filter><action android:name="android.appwidget.action.APPWIDGET_UPDATE" /></intent-filter><meta-data android:name="android.appwidget.provider" android:resource="@xml/notes_info" /></receiver>
         <receiver android:name=".WidgetActionReceiver" android:exported="false" />
         <service android:name=".WidgetListService" android:exported="false" android:permission="android.permission.BIND_REMOTEVIEWS" />
         <activity android:name=".WidgetRouteActivity" android:exported="false" android:excludeFromRecents="true" android:noHistory="true" android:theme="@android:style/Theme.NoDisplay" />

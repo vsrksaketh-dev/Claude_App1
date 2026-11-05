@@ -5,9 +5,11 @@ import { S, ui, app, register, commit, render as rerender } from '../core.js';
 import { esc, uid, fmtDay, dateKey } from '../util.js';
 import { empty, chip, head, linkBtns } from '../ui.js';
 import { extractLinks } from '../links.js';
+import { saveFile, fileURL, openFile, removeFile, isImage, sizeText } from '../files.js';
+import { toast } from '../ui.js';
 import { blk, page, book, bookName, addPage, quickNote, pageText, pageTitle, pagePreview, checkProgress, wordCount, checklistToTasks, ensureBook } from '../notes.js';
 
-const nb = ui.nb = { book: 'all', page: null, q: '', blk: null, confirm: '', focus: null, newBook: false, sort: 'recent', more: false };
+const nb = ui.nb = { view: null, book: 'all', page: null, q: '', blk: null, confirm: '', focus: null, newBook: false, sort: 'recent', more: false };
 const STARTERS = ['Interview prep', 'Case notes', 'Class notes', 'Ideas', 'Reading list'];
 const TRASH_DAYS = 30;
 const when = ms => fmtDay(dateKey(new Date(ms)));
@@ -16,7 +18,8 @@ const cur = () => page(nb.page);
 const live = () => S.pages.filter(p => !p.trashed);
 const trash = () => S.pages.filter(p => p.trashed);
 // Pages left in Trash longer than 30 days are removed for good.
-const purge = () => { const lim = Date.now() - TRASH_DAYS * 864e5; if (S.pages.some(p => p.trashed && p.trashed < lim)) S.pages = S.pages.filter(p => !p.trashed || p.trashed >= lim); };
+const dropFiles = list => list.forEach(p => (p.files || []).forEach(removeFile));
+const purge = () => { const lim = Date.now() - TRASH_DAYS * 864e5; const old = S.pages.filter(p => p.trashed && p.trashed < lim); if (old.length) { dropFiles(old); S.pages = S.pages.filter(p => !old.includes(p)); } };
 
 const pageRow = p => { const pr = checkProgress(p);
   return `<li class="pg ${p.pinned ? 'pinned' : ''}" data-pg data-q="${esc((pageText(p) + ' ' + bookName(p.bookId)).toLowerCase())}" data-flip="p:${esc(p.id)}">
@@ -93,16 +96,25 @@ function pageView() {
       <span class="muted" data-words>${wordCount(p)} words · saved ${esc(ago(p.upd || p.at))}</span>${pr ? chip(`${pr.done}/${pr.total} done`, pr.done === pr.total ? 'ok' : '') : ''}</div>
     <div class="blocks">${p.blocks.map((b, i) => blockRow(b, p.blocks, i)).join('')}</div>
     <button class="ghost addline" data-act="blkAdd">+ Add a line</button>
+    <div class="pg-files">${(p.files || []).filter(isImage).map(f => `<button class="thumb" data-act="fileView" data-id="${esc(f.id)}" aria-label="Open ${esc(f.name)}"><img data-file="${esc(f.id)}" alt="${esc(f.name)}"></button>`).join('')}</div>
+    ${(p.files || []).filter(f => !isImage(f)).length ? `<ul class="list files">${p.files.filter(f => !isImage(f)).map(f => `<li><div class="grow"><span class="title">${esc(f.name)}</span><div class="muted">${esc(sizeText(f.size))}</div></div><button class="ghost" data-act="fileOpen" data-id="${esc(f.id)}">Open</button><button class="ghost danger x" data-act="fileDel" data-id="${esc(f.id)}" aria-label="Remove file">×</button></li>`).join('')}</ul>` : ''}
+    <label class="attach"><input type="file" data-bind="fileAdd" accept="image/*,application/pdf,.doc,.docx,.ppt,.pptx,.xls,.xlsx,.txt,.csv" multiple hidden><span>+ Photo or file</span></label>
     ${links.length ? `<div class="pg-links"><span class="muted">Links on this page</span>${linkBtns(links)}</div>` : ''}
     ${pr && pr.done < pr.total ? `<div class="row"><button data-act="pageTasks" data-id="${esc(p.id)}">Turn open checklist items into tasks</button></div>` : ''}</section>
   <div class="fmtbar" role="toolbar" aria-label="Format the current line">${fm('p', 'Text')}${fm('h', 'Heading')}${fm('b', 'Bullet')}${fm('n', 'Number')}${fm('c', 'Check')}${fm('q', 'Quote')}<span class="sep"></span>
     <button data-act="blkIndent" data-d="1">Indent</button><button data-act="blkIndent" data-d="-1">Outdent</button><span class="sep"></span><button data-act="blkMove" data-d="-1">Up</button><button data-act="blkMove" data-d="1">Down</button><button class="danger" data-act="blkDel">Remove</button></div>`;
 }
 
+// Full-screen view of an attached photo, with Remove.
+function viewer(p) {
+  const f = (p.files || []).find(x => x.id === nb.view); if (!f) return '';
+  return `<div class="viewer" role="dialog" aria-label="${esc(f.name)}"><img data-file="${esc(f.id)}" alt="${esc(f.name)}"><div class="row"><button class="pill" data-act="fileView" data-id="">Close</button><button class="pill" data-act="fileOpen" data-id="${esc(f.id)}">Share or open</button><button class="pill danger" data-act="fileDel" data-id="${esc(f.id)}">Remove</button></div></div>`;
+}
+
 function render() {
   if (nb.page && (!cur() || cur().trashed)) nb.page = null;
   document.body.classList.toggle('editing', !!nb.page);
-  return nb.page ? pageView() : listView();
+  return nb.page ? pageView() + viewer(cur()) : listView();
 }
 
 const touch = p => { p.upd = Date.now(); };
@@ -132,11 +144,14 @@ register({
     pagePin: d => { const p = page(d.id); if (p) p.pinned = !p.pinned; },
     pageDel: d => { if (nb.confirm !== 'p:' + d.id) { nb.confirm = 'p:' + d.id; return; } const p = page(d.id); if (p) p.trashed = Date.now(); nb.page = null; nb.confirm = ''; },
     pageRestore: d => { const p = page(d.id); if (p) delete p.trashed; if (!trash().length) nb.book = 'all'; },
-    pagePurge: d => { if (nb.confirm !== 'x:' + d.id) { nb.confirm = 'x:' + d.id; return; } S.pages = S.pages.filter(p => p.id !== d.id); nb.confirm = ''; if (!trash().length) nb.book = 'all'; },
-    trashEmpty: () => { if (nb.confirm !== 'trash') { nb.confirm = 'trash'; return; } S.pages = S.pages.filter(p => !p.trashed); nb.confirm = ''; nb.book = 'all'; },
+    pagePurge: d => { if (nb.confirm !== 'x:' + d.id) { nb.confirm = 'x:' + d.id; return; } dropFiles(S.pages.filter(p => p.id === d.id)); S.pages = S.pages.filter(p => p.id !== d.id); nb.confirm = ''; if (!trash().length) nb.book = 'all'; },
+    trashEmpty: () => { if (nb.confirm !== 'trash') { nb.confirm = 'trash'; return; } dropFiles(trash()); S.pages = S.pages.filter(p => !p.trashed); nb.confirm = ''; nb.book = 'all'; },
     pageCopy: d => { const p = page(d.id); if (p && navigator.clipboard) navigator.clipboard.writeText(pageText(p)).catch(() => {}); nb.more = false; },
     pageToTask: d => { const p = page(d.id); if (!p) return; const title = pageTitle(p).slice(0, 140); if (!S.tasks.some(t => !t.done && t.title === title)) S.tasks.push({ id: uid(), title, due: '', time: '', repeat: '', important: false, done: false, kind: 'Task', note: 'From the note "' + title + '"' }); nb.more = false; },
-    pageDup: d => { const p = page(d.id); if (!p) return; const c = addPage({ title: (p.title || pageTitle(p)) + ' (copy)', bookId: p.bookId, blocks: p.blocks.map(b => ({ ...b, id: uid() })) }); open(c.id); },
+    pageDup: d => { const p = page(d.id); if (!p) return; const c = addPage({ title: (p.title || pageTitle(p)) + ' (copy)', bookId: p.bookId, blocks: p.blocks.map(b => ({ ...b, id: uid() })), files: [] }); open(c.id); },
+    fileView: d => { nb.view = d.id || null; },
+    fileOpen: d => { const f = (cur()?.files || []).find(x => x.id === d.id); if (f) openFile(f).catch(() => toast('That file could not be opened.')); },
+    fileDel: d => { const p = cur(); const f = (p?.files || []).find(x => x.id === d.id); if (!f) return; p.files = p.files.filter(x => x.id !== f.id); nb.view = null; touch(p); toast(`Removed ${f.name}`, () => { p.files.push(f); }); setTimeout(() => { if (!p.files.some(x => x.id === f.id)) removeFile(f); }, 7000); },
     pageTasks: d => { const p = page(d.id); if (p) checklistToTasks(p); },
     blkAdd: () => { const p = cur(); if (!p) return; const last = p.blocks[p.blocks.length - 1]; const b = blk(last && ['b', 'n', 'c'].includes(last.t) ? last.t : 'p', '', last ? last.l || 0 : 0); p.blocks.push(b); nb.blk = b.id; nb.focus = { id: b.id, pos: 0 }; touch(p); },
     blkCheck: d => { const p = cur(), b = p?.blocks.find(x => x.id === d.id); if (b) { b.d = !b.d; touch(p); } },
@@ -156,6 +171,11 @@ register({
       document.querySelectorAll('#view section.card:has(.pages)').forEach(sec => { sec.hidden = !!q && !sec.querySelector('[data-pg]:not([hidden])'); });
       const n = document.querySelector('.nores'); if (n) n.hidden = !q || shown > 0;
     },
+    fileAdd: el => {
+      const p = cur(); if (!p || !el.files.length) return;
+      Promise.all([...el.files].map(f => saveFile(f).then(m => { (p.files ||= []).push(m); }).catch(e => toast(e.message || 'That file could not be saved.'))))
+        .then(() => { touch(p); commit(); });
+    },
     bookName: el => { const b = book(el.dataset.id); if (b) b.name = el.value.slice(0, 40) || b.name; },
     pageTitle: el => { const p = cur(); if (p) { p.title = el.value.replace(/\n/g, ' '); touch(p); grow(el); } },
     pageBook: el => { const p = cur(); if (p) { p.bookId = el.value; touch(p); } },
@@ -173,6 +193,7 @@ function grow(el) { el.style.height = 'auto'; el.style.height = el.scrollHeight 
 // After every draw: size the text boxes to their text, and put the caret where an edit asked for it.
 app.after.push(() => {
   if (ui.view !== 'notes') document.body.classList.remove('editing');
+  document.querySelectorAll('img[data-file]').forEach(img => { const f = (cur()?.files || []).find(x => x.id === img.dataset.file); if (f) fileURL(f).then(u => { img.src = u; }).catch(() => { img.alt = 'Missing file'; }); });
   document.querySelectorAll('textarea[data-grow]').forEach(grow);
   const f = nb.focus; nb.focus = null;
   if (!f || ui.view !== 'notes') return;

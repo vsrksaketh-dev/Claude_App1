@@ -31,7 +31,7 @@ import org.json.JSONObject;
  */
 public class Widgets {
     // Kind numbers are internal. 4 used to be the "Everything" widget, which was removed (Overview covers it).
-    static final int OVERVIEW = 0, SCHEDULE = 1, TASKS = 2, NEWS = 3, CALENDAR = 5, HABITS = 6, NEXT = 7, QUICK = 8, PROBLEM = 9, DEADLINES = 10;
+    static final int OVERVIEW = 0, SCHEDULE = 1, TASKS = 2, NEWS = 3, CALENDAR = 5, HABITS = 6, NEXT = 7, QUICK = 8, PROBLEM = 9, DEADLINES = 10, NOTES = 11;
     private static final String PREFS = "widgets";
     private static final String[] CATS = { "International", "Indian", "Business", "Tech" };
     private static final String[] CAT_SHORT = { "World", "India", "Business", "Tech" };
@@ -287,7 +287,7 @@ public class Widgets {
     }
 
     // ---------- refreshing ----------
-    private static final Class<?>[] KINDS() { return new Class<?>[] { OverviewWidget.class, ScheduleWidget.class, TasksWidget.class, NewsWidget.class, null, CalendarWidget.class, HabitsWidget.class, NextWidget.class, QuickWidget.class, ProblemWidget.class, DeadlinesWidget.class }; }
+    private static final Class<?>[] KINDS() { return new Class<?>[] { OverviewWidget.class, ScheduleWidget.class, TasksWidget.class, NewsWidget.class, null, CalendarWidget.class, HabitsWidget.class, NextWidget.class, QuickWidget.class, ProblemWidget.class, DeadlinesWidget.class, NotesWidget.class }; }
 
     static void refreshKind(Context c, int kind) {
         AppWidgetManager m = AppWidgetManager.getInstance(c);
@@ -297,7 +297,7 @@ public class Widgets {
 
     static void refreshAll(Context c) {
         AppWidgetManager m = AppWidgetManager.getInstance(c);
-        Class<?>[] kinds = { OverviewWidget.class, ScheduleWidget.class, TasksWidget.class, NewsWidget.class, null, CalendarWidget.class, HabitsWidget.class, NextWidget.class, QuickWidget.class, ProblemWidget.class, DeadlinesWidget.class };
+        Class<?>[] kinds = { OverviewWidget.class, ScheduleWidget.class, TasksWidget.class, NewsWidget.class, null, CalendarWidget.class, HabitsWidget.class, NextWidget.class, QuickWidget.class, ProblemWidget.class, DeadlinesWidget.class, NotesWidget.class };
         for (int k = 0; k < kinds.length; k++) {
             if (kinds[k] == null) continue;
             int[] ids = m.getAppWidgetIds(new ComponentName(c, kinds[k]));
@@ -430,7 +430,7 @@ public class Widgets {
         long now = System.currentTimeMillis();
         String name = s.optString("name", ""), date = fmt("EEEE d MMMM", now);
         boolean empty = s.length() == 0;
-        String target = kind == TASKS ? "plan:tasks" : kind == NEWS ? "learn:news" : "home";
+        String target = kind == TASKS ? "plan:tasks" : kind == NEWS ? "learn:news" : kind == NOTES ? "notes" : "home";
         v.setOnClickPendingIntent(R.id.root, open(c, target));
         v.removeAllViews(R.id.pills);
         v.removeAllViews(R.id.foot);
@@ -468,6 +468,7 @@ public class Widgets {
                     showPills(v);
                     pill(c, v, R.id.pills, "All", tf.equals("all"), act(c, "tf", "all"));
                     pill(c, v, R.id.pills, "Due soon", tf.equals("soon"), act(c, "tf", "soon"));
+                    pill(c, v, R.id.pills, "Priority", tf.equals("pri"), act(c, "tf", "pri"));
                 }
                 break;
             }
@@ -478,6 +479,7 @@ public class Widgets {
                     showPills(v);
                     pill(c, v, R.id.pills, "All", cat.isEmpty(), act(c, "ncat", ""));
                     for (int i = 0; i < CATS.length; i++) pill(c, v, R.id.pills, CAT_SHORT[i], cat.equals(CATS[i]), act(c, "ncat", CATS[i]));
+                    if (arr(s, "saved").length() > 0) pill(c, v, R.id.pills, "Saved", cat.equals("Saved"), act(c, "ncat", "Saved"));
                 }
                 break;
             }
@@ -502,6 +504,17 @@ public class Widgets {
                     showFoot(v);
                     pill(c, v, R.id.foot, "Try it", true, open(c, "learn:cases"));
                     pill(c, v, R.id.foot, "Another", false, open(c, "learn:cases"));
+                }
+                break;
+            }
+            case NOTES: {
+                int n = s.optInt("notesCount", arr(s, "notes").length());
+                head(v, "Notes", empty ? "" : n == 0 ? "Nothing saved yet" : n + " page" + (n == 1 ? "" : "s"), "");
+                if (!empty) {
+                    showPills(v);
+                    pill(c, v, R.id.pills, "+ New page", true, open(c, "notes:new"));
+                    pill(c, v, R.id.pills, "Jot", false, open(c, "notes:add"));
+                    pill(c, v, R.id.pills, "All notes", false, open(c, "notes"));
                 }
                 break;
             }

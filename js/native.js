@@ -69,6 +69,20 @@ export async function scheduleAll(list) {
   if (list.length) await n.schedule({ notifications: list });
 }
 
+// Buttons on notifications: Done and Snooze 1 hour on task reminders, Done on habit nudges. The handler gets
+// { action: 'done' | 'snooze' | 'tap', extra }. Android delivers a button press to the app, opening it if needed.
+export async function initNotificationActions(handler) {
+  if (!isNative()) return;
+  try {
+    const n = plugin('LocalNotifications');
+    await n.registerActionTypes({ types: [
+      { id: 'DD_TASK', actions: [{ id: 'done', title: 'Done' }, { id: 'snooze', title: 'Snooze 1 hour' }] },
+      { id: 'DD_HABIT', actions: [{ id: 'done', title: 'Done' }] },
+    ] });
+    n.addListener('localNotificationActionPerformed', ev => handler({ action: ev.actionId === 'tap' ? 'tap' : ev.actionId, extra: (ev.notification && ev.notification.extra) || {} }));
+  } catch { /* an older build without actions */ }
+}
+
 // A notification a few seconds from now, so the phone's notification and battery settings can be checked on the spot.
 export async function notifyTest() {
   if (!isNative()) return false;

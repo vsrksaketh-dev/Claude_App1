@@ -10,6 +10,7 @@
     <string name="w_quick">Daily Driver: Quick add</string>
     <string name="w_problem">Daily Driver: Problem of the day</string>
     <string name="w_deadlines">Daily Driver: Deadlines</string>
+    <string name="w_notes">Daily Driver: Notes</string>
     <string name="sc_task">Add task</string>
     <string name="sc_task_long">Add a task</string>
     <string name="sc_note">Add note</string>

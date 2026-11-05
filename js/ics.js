@@ -130,7 +130,7 @@ export function parseICS(text, winStart, winEnd) {
   const push = (e, startMs, endMs) => {
     if (endMs <= winStart && !(endMs === startMs && startMs >= winStart)) return;
     if (startMs >= winEnd) return;
-    instances.push({ uid: e.uid || '', title: e.title || '(No title)', where: e.where || '', desc: e.desc || '', allDay: e.start.allDay, start: startMs, end: endMs });
+    instances.push({ uid: e.uid || '', title: e.title || '(No title)', where: e.where || '', desc: e.desc || '', allDay: e.start.allDay, start: startMs, end: endMs, rec: !!(e.rule && !e.recId) });
   };
   const span = e => {   // [startMs, durationMs] for the first occurrence
     const s = toMs(e.start);

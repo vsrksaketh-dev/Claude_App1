@@ -14,8 +14,8 @@ public class Harness {
     String snap = new String(Files.readAllBytes(Paths.get(a[0])));
     Widgets.save(c, snap);
     // every widget kind builds and every row turns into a view
-    String[] names = {"Overview","Schedule","Tasks","News","(removed)","Calendar","Habits","Next up","Quick add","Problem","Deadlines"};
-    for (int k = 0; k < 11; k++) {
+    String[] names = {"Overview","Schedule","Tasks","News","(removed)","Calendar","Habits","Next up","Quick add","Problem","Deadlines","Notes"};
+    for (int k = 0; k < 12; k++) {
       if (k == 4 || k == Widgets.QUICK) continue;
       List<WidgetRows.Row> rows = WidgetRows.build(c, k);
       int views = 0; for (WidgetRows.Row r : rows) { RemoteViews v = WidgetRows.view(c, r); if (v != null) views++; }
@@ -24,7 +24,7 @@ public class Harness {
     }
     // draw all widgets through the real update path
     AppWidgetManager.drawn.clear(); Widgets.refreshAll(c);
-    ok("refreshAll draws all ten widgets", AppWidgetManager.drawn.size() == 10);
+    ok("refreshAll draws all eleven widgets", AppWidgetManager.drawn.size() == 11);
     for (RemoteViews v : AppWidgetManager.drawn.values()) if (v.layout != R.layout.widget_quick) ok("each list widget binds a scrolling list and a tap template", v.adapter != null && v.template != null);
     // calendar month grid
     RemoteViews cal = null; for (RemoteViews v : AppWidgetManager.drawn.values()) if (v.layout == R.layout.widget_calendar) cal = v;
@@ -81,11 +81,11 @@ public class Harness {
     Widgets.handle(c, "tf", "soon", "");
     ok("task filter works", WidgetRows.build(c, Widgets.TASKS).size() <= before);
     // a row tap says what it means
-    boolean opens = false; for (WidgetRows.Row r : WidgetRows.build(c, Widgets.TASKS)) if (r.type == WidgetRows.T_TASK) { RemoteViews v = WidgetRows.view(c, r); for (Intent i : v.fills.values()) if ("open".equals(i.getStringExtra("type")) && i.getStringExtra("target").equals("plan:tasks")) opens = true; }
-    ok("a task row opens Plan when tapped", opens);
+    boolean opens = false; for (WidgetRows.Row r : WidgetRows.build(c, Widgets.TASKS)) if (r.type == WidgetRows.T_TASK) { RemoteViews v = WidgetRows.view(c, r); for (Intent i : v.fills.values()) if ("open".equals(i.getStringExtra("type")) && i.getStringExtra("target").startsWith("tasks:task:")) opens = true; }
+    ok("a task row opens that task in the app", opens);
     // tiny and large calendar sizes both draw
     for (int h : new int[]{200, 280, 360, 520}) { AppWidgetManager.height = h; Widgets.handle(c, "cmode", "month", ""); Widgets.handle(c, "ctoday", "", ""); }
-    ok("calendar draws at every height", AppWidgetManager.drawn.size() == 10);
+    ok("calendar draws at every height", AppWidgetManager.drawn.size() == 11);
     // layout checks for the redesigned widgets
     {
       Widgets.save(c, snap);
@@ -120,6 +120,34 @@ public class Harness {
       RemoteViews dv = Widgets.build(c, Widgets.CALENDAR, new JSONObject(snap), 420, 300, 1);
       ok("day mode hides the grid and has an add button", dv.vis.get(R.id.calgrid) == android.view.View.GONE && dv.texts.get(R.id.ctitle) != null);
       Widgets.handle(c, "ctoday", "", ""); Widgets.handle(c, "cmode", "month", "");
+    }
+    // widgets that catch up with the app: notes, saved stories, task steps, priority filter, links on tasks
+    {
+      JSONObject sn = new JSONObject(snap);
+      sn.put("notes", new JSONArray().put(new JSONObject().put("id", "n1").put("t", "HCOT questions").put("p", "Why HCOT · Case approach").put("b", "Interview prep").put("pin", 1).put("at", System.currentTimeMillis()).put("ck", "1/2")).put(new JSONObject().put("id", "n2").put("t", "Idea").put("p", "").put("b", "Inbox").put("pin", 0).put("at", 0).put("ck", "")));
+      sn.put("notesCount", 2);
+      sn.put("saved", new JSONArray().put(new JSONObject().put("cat", "Tech").put("title", "Saved story").put("summary", "S").put("why", "W").put("src", "X").put("url", "https://e.com/s")));
+      JSONArray tk = sn.getJSONArray("tasks"); tk.getJSONObject(0).put("st", "1/3").put("imp", 1).put("u", "https://drive.google.com/file/d/1/view").put("uk", "doc");
+      Widgets.save(c, sn.toString());
+      List<WidgetRows.Row> nr = WidgetRows.build(c, Widgets.NOTES);
+      boolean noteOk = false; for (WidgetRows.Row r : nr) if (r.type == WidgetRows.T_NOTE && r.a.equals("HCOT questions") && r.target.equals("notes:page:n1") && r.c.contains("1/2")) noteOk = true;
+      ok("Notes widget lists pinned pages first and opens the page", noteOk && nr.get(0).type == WidgetRows.T_SECTION && nr.get(0).a.equals("Pinned"));
+      for (WidgetRows.Row r : nr) if (r.type == WidgetRows.T_NOTE) WidgetRows.view(c, r);
+      RemoteViews nv = Widgets.build(c, Widgets.NOTES, sn, 300, 300, 1);
+      ok("Notes widget has New page and Jot buttons", nv.kids.get(R.id.pills) != null && nv.kids.get(R.id.pills).size() == 3);
+      Widgets.handle(c, "ncat", "Saved", "");
+      boolean sv = false; for (WidgetRows.Row r : WidgetRows.build(c, Widgets.NEWS)) if (r.type == WidgetRows.T_NEWS && r.o.optString("title").equals("Saved story")) sv = true;
+      ok("News widget shows saved stories", sv);
+      Widgets.handle(c, "ncat", "", "");
+      boolean steps = false, link = false; for (WidgetRows.Row r : WidgetRows.build(c, Widgets.TASKS)) if (r.type == WidgetRows.T_TASK && r.b.contains("1/3 steps")) { steps = true; link = r.u.contains("drive.google"); }
+      ok("Tasks widget shows steps and a link button", steps && link);
+      int allN = 0; for (WidgetRows.Row r : WidgetRows.build(c, Widgets.TASKS)) if (r.type == WidgetRows.T_TASK && !r.done) allN++;
+      int impN = 0; for (int i = 0; i < tk.length(); i++) if (tk.getJSONObject(i).optInt("imp") == 1 && tk.getJSONObject(i).optInt("dn") == 0) impN++;
+      Widgets.handle(c, "tf", "pri", "");
+      int pri = 0; for (WidgetRows.Row r : WidgetRows.build(c, Widgets.TASKS)) if (r.type == WidgetRows.T_TASK && !r.done) pri++;
+      ok("Tasks widget can show only priority tasks (" + pri + " of " + allN + ")", pri == impN && pri >= 1);
+      Widgets.handle(c, "tf", "all", "");
+      Widgets.save(c, snap);
     }
     // calendar fuzz: hundreds of random taps (arrows, days, modes, Today) must never break the state or the drawing
     {

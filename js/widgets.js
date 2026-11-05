@@ -8,7 +8,8 @@ import { openTasks, taskQuadrant, habitsOn, habitDone, habitLabel, toggleHabit, 
 import { widgetPush, widgetTake } from './native.js';
 import { nativeSources } from './calendar.js';
 import { PRACTICE } from './casebook.js';
-import { quickNote } from './notes.js';
+import { quickNote, pageTitle, pagePreview, bookName, checkProgress, addPage } from './notes.js';
+import { extractLinks } from './links.js';
 
 const RANK = { UI: 0, I: 1, U: 2, '': 3 };
 const clock12 = hm => { const [h, m] = hm.split(':').map(Number); return `${h % 12 || 12}:${String(m).padStart(2, '0')} ${h < 12 ? 'AM' : 'PM'}`; };
@@ -32,7 +33,7 @@ export function buildSnapshot() {
     cal,
     actions: pendingActions(7).filter(e => !e.done).slice(0, 12).map(e => ({ id: e.key, title: e.label, s: e.start, mail: !!e.mail })),
     // Open tasks in priority order (i keeps that order), then the ones ticked today (dn: 1) so a widget can show them struck at the bottom and undo them.
-    tasks: [...open.slice(0, 60).map((x, i) => ({ id: x.id, title: x.title, due: dueLabel(x.due), dd: x.due || '', tm: x.time ? clock12(x.time) : '', q: taskQuadrant(x), kind: x.kind && x.kind !== 'Task' ? x.kind : '', dv: x.derived ? 1 : 0, i, dn: 0 })),
+    tasks: [...open.slice(0, 60).map((x, i) => ({ id: x.id, title: x.title, due: dueLabel(x.due), dd: x.due || '', tm: x.time ? clock12(x.time) : '', st: (x.subs || []).length ? `${x.subs.filter(y => y.d).length}/${x.subs.length}` : '', imp: x.important ? 1 : 0, u: (extractLinks(x.link || '')[0] || {}).url || '', uk: (extractLinks(x.link || '')[0] || {}).kind || '', q: taskQuadrant(x), kind: x.kind && x.kind !== 'Task' ? x.kind : '', dv: x.derived ? 1 : 0, i, dn: 0 })),
       ...doneToday().slice(0, 12).map((x, i) => ({ id: x.id, title: x.title, due: '', dd: '', q: taskQuadrant(x), kind: '', dv: 0, i: 100 + i, dn: 1 }))],
     taskCount: open.length,
     dueSoon: open.filter(x => x.due && daysFromToday(x.due) <= 2).length,
@@ -40,6 +41,11 @@ export function buildSnapshot() {
     habits: { done: hs.filter(h => habitDone(h, t)).length, total: hs.length, streak: dayStreak() },
     news,
     newsDate: app.news.date || '',
+    saved: [...S.saved].sort((a, b) => b.at - a.at).slice(0, 12).map(n => ({ cat: n.cat, title: n.title, summary: n.summary || '', why: n.why || '', src: n.src || '', url: /^https?:\/\//.test(n.url || '') ? n.url : '' })),
+    // Notes widget: pinned pages first, then the most recently edited
+    notes: S.pages.filter(p => !p.trashed).sort((a, b) => (b.pinned ? 1 : 0) - (a.pinned ? 1 : 0) || (b.upd || b.at) - (a.upd || a.at)).slice(0, 14)
+      .map(p => ({ id: p.id, t: pageTitle(p).slice(0, 120), p: pagePreview(p).slice(0, 160), b: bookName(p.bookId), pin: p.pinned ? 1 : 0, at: p.upd || p.at, ck: (checkProgress(p) ? `${checkProgress(p).done}/${checkProgress(p).total}` : '') })),
+    notesCount: S.pages.filter(p => !p.trashed).length,
     problems: PRACTICE.map(p => p.q),            // the Problem of the day widget picks one by the date
   };
 }
@@ -70,11 +76,18 @@ export function openTarget(target) {
   let [view, a, b] = target.split(':');
   if (view === 'track') view = 'home';
   if (view === 'plan') view = a === 'notes' ? 'notes' : 'tasks';   // the old Plan tab is now Tasks and Notes
+  // Notes widget: open a page, start a new page, or jot
+  if (view === 'notes' && ui.nb) {
+    if (a === 'page' && S.pages.some(p => p.id === b && !p.trashed)) { ui.nb.page = b; ui.nb.more = false; }
+    else if (a === 'new') { const p = addPage({}); ui.nb.page = p.id; ui.nb.focus = { sel: '.pg-title' }; }
+    else ui.nb.page = null;
+  }
+  if (view === 'tasks' && ui.te && a === 'task' && S.tasks.some(t => t.id === b)) { ui.te.id = b; ui.te.filter = 'all'; }
   if (!app.views[view]) return;
   if (view === 'learn' && ['news', 'cases'].includes(a)) ui.sub.learn = a;
   if (view === 'calendar') { if (['month', 'week', 'day', 'agenda'].includes(a)) ui.sub.calMode = a; ui.sub.calAdd = a === 'add'; if (/^\d{4}-\d{2}-\d{2}$/.test(b || a || '')) { ui.sub.calSel = ui.sub.calAnchor = b || a; if (!ui.sub.calMode) ui.sub.calMode = 'month'; } }
   go(view);
-  if ((view === 'home' && a === 'capture') || ((view === 'tasks' || view === 'notes') && b === 'add')) setTimeout(() => document.querySelector('[data-form=quick] input, [data-form=task] input, [data-form=jot] input')?.focus(), 80);
+  if ((view === 'home' && a === 'capture') || ((view === 'tasks' || view === 'notes') && (b === 'add' || a === 'add'))) setTimeout(() => document.querySelector('[data-form=quick] input, [data-form=task] input, [data-form=jot] input')?.focus(), 80);
 }
 
 export async function syncFromWidgets() {

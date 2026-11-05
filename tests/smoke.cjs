@@ -296,6 +296,18 @@ const ok = (name, cond) => { console.log((cond ? 'PASS ' : 'FAIL ') + name); if 
   await p.click('[data-act=storySave] >> nth=0'); await p.click('[data-act=newsCat][data-id=Saved]');
   ok('a story can be saved and stays under Saved', await p.locator('.story').count() === 1);
   await p.click('[data-act=newsCat][data-id=All]');
+  // photos and files on a note (browser storage here; phone storage in the app)
+  await nav('notes'); await p.click('[data-act=pageNew]'); await p.fill('.pg-title', 'With a photo');
+  const png = Buffer.from('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8z8BQDwAEhQGAhKmMIQAAAABJRU5ErkJggg==', 'base64');
+  await p.setInputFiles('[data-bind=fileAdd]', [{ name: 'board.png', mimeType: 'image/png', buffer: png }, { name: 'case.pdf', mimeType: 'application/pdf', buffer: Buffer.from('%PDF-1.4 test') }]);
+  await p.waitForTimeout(600);
+  ok('a photo shows as a thumbnail and a PDF as a file row', await p.locator('.pg-files img[src^="blob:"]').count() === 1 && /case\.pdf/.test(await p.textContent('.list.files')));
+  await p.click('.thumb'); ok('tapping a photo opens it full screen', await p.locator('.viewer img').count() === 1);
+  await p.click('.viewer [data-act=fileView]');
+  await p.click('[data-act=pageClose]');
+  await p.evaluate(async () => { const c = await import('/js/core.js'); c.S.pages = []; c.S.books = []; c.commit(); });
+  const gl = await p.evaluate(async () => { const m = await import('/js/calendar.js'); return [m.gcalLink('https://calendar.google.com/calendar/ical/me%40gmail.com/private-x/basic.ics', { uid: 'abc123@google.com', start: 0 }), m.gcalLink('https://example.com/cal.ics', { uid: 'abc@google.com' })]; });
+  ok('a synced event links to itself in Google Calendar for editing', gl[0] === 'https://calendar.google.com/calendar/event?eid=' + Buffer.from('abc123 me@gmail.com').toString('base64').replace(/=+$/, '') && gl[1] === '');
   // Old flat notes (saved before the notes app) become pages, talking points in their own book
   const octx = await b.newContext({ viewport: { width: 390, height: 844 } });
   await octx.addInitScript(() => { if (!localStorage.getItem('daily-driver-v2')) localStorage.setItem('daily-driver-v2', JSON.stringify({ v: 2, notes: [{ id: 'o1', text: 'Kroll idea\nsecond line', at: 1700000000000, pinned: true }, { id: 'o2', text: 'Talking point: Rates\nWhat happened: cut\nMy view: ', at: 1700000001000, tp: true, src: 'Rates' }] })); });
@@ -313,7 +325,7 @@ const ok = (name, cond) => { console.log((cond ? 'PASS ' : 'FAIL ') + name); if 
       Share: { share: async o => { window.__shared.push(o.url); } },
       App: { addListener: async () => ({ remove() {} }), exitApp: async () => {} },
       WidgetBridge: { update: async o => { window.__widget = JSON.parse(o.json); window.__ics = o.ics; }, take: async () => { const r = window.__take || { ops: '[]', target: '' }; window.__take = null; return r; } },
-      LocalNotifications: { checkPermissions: async () => ({ display: 'granted' }), requestPermissions: async () => ({ display: 'granted' }), getPending: async () => ({ notifications: [] }), cancel: async () => {}, schedule: async o => { window.__scheduled.push(...o.notifications); } },
+      LocalNotifications: { checkPermissions: async () => ({ display: 'granted' }), requestPermissions: async () => ({ display: 'granted' }), getPending: async () => ({ notifications: [] }), cancel: async () => {}, schedule: async o => { window.__scheduled.push(...o.notifications); }, registerActionTypes: async o => { window.__actionTypes = o.types; }, addListener: (ev, fn) => { if (ev === 'localNotificationActionPerformed') window.__notifAct = fn; return { remove() {} }; } },
     } };
   }, fakeIcs);
   const n = await nctx.newPage(); const nerrs = []; n.on('pageerror', e => nerrs.push(e.message));
@@ -351,6 +363,21 @@ const ok = (name, cond) => { console.log((cond ? 'PASS ' : 'FAIL ') + name); if 
   ok('a widget can open the calendar on a chosen day', /Friday 25 December/.test(await n.textContent('.cal-nav')));
   await n.evaluate(async () => { const c = await import('/js/core.js'); c.go('home'); });
   await n.click('[data-nav=settings]');
+  // notification buttons: Done and Snooze on a task reminder
+  ok('task reminders get Done and Snooze buttons', await n.evaluate(() => (window.__actionTypes || []).some(t => t.id === 'DD_TASK' && t.actions.map(a => a.id).join() === 'done,snooze')));
+  await n.evaluate(async () => { const c = await import('/js/core.js'); c.S.tasks.push({ id: 'nt1', title: 'Notification task', due: '', important: false, done: false, kind: 'Task' }, { id: 'nt2', title: 'Snooze me', due: '', important: false, done: false, kind: 'Task' }); c.commit(); });
+  await n.evaluate(() => { window.__notifAct({ actionId: 'done', notification: { extra: { task: 'nt1' } } }); window.__notifAct({ actionId: 'snooze', notification: { extra: { task: 'nt2' } } }); });
+  ok('Done on a notification ticks the task, Snooze gives it a time an hour away', await n.evaluate(async () => { const c = await import('/js/core.js'); const a = c.S.tasks.find(t => t.id === 'nt1'), b = c.S.tasks.find(t => t.id === 'nt2'); return a.done && !!b.time && !!b.due; }));
+  await n.evaluate(() => { window.__take = { ops: '[]', target: 'notes:new' }; window.dispatchEvent(new Event('widgetOpen')); });
+  await n.waitForTimeout(300);
+  ok('the Notes widget can start a new page', await n.locator('.editor .pg-title').count() === 1);
+  await n.evaluate(async () => { const c = await import('/js/core.js'); window.__pid = c.S.pages[c.S.pages.length - 1].id; c.S.pages[c.S.pages.length - 1].title = 'From the widget'; c.ui.nb.page = null; c.commit(); });
+  await n.evaluate(() => { window.__take = { ops: '[]', target: 'notes:page:' + window.__pid }; window.dispatchEvent(new Event('widgetOpen')); });
+  await n.waitForTimeout(300);
+  ok('and open a page directly', (await n.inputValue('.pg-title')) === 'From the widget');
+  const wsnap = await n.evaluate(async () => (await import('/js/widgets.js')).buildSnapshot());
+  ok('the snapshot carries notes, saved stories and task steps for the widgets', Array.isArray(wsnap.notes) && wsnap.notes.some(x => x.t === 'From the widget') && Array.isArray(wsnap.saved) && wsnap.tasks.filter(t => !t.dn).every(t => 'st' in t && 'imp' in t));
+  await n.evaluate(async () => { const c = await import('/js/core.js'); c.ui.nb.page = null; c.go('settings'); });
   ok('native notifications get scheduled', (await n.evaluate(() => window.__scheduled.map(x => x.title))).includes('Wrap up the day'));
   ok('widgets get the calendar addresses to refresh by themselves', await n.evaluate(() => { const j = window.__ics ? JSON.parse(window.__ics) : null; return !!j && j.sources.length === 1 && /ical/.test(j.sources[0].url) && typeof j.hidden === 'string'; }));
   await n.click('[data-act=nudgeTest]'); await n.waitForTimeout(300);

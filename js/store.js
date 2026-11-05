@@ -17,7 +17,7 @@ export const blank = () => ({
   habits: DEFAULT_HABITS.map(([name, when]) => ({ id: uid(), name, when, days: [0, 1, 2, 3, 4, 5, 6], created: today() })),
   saved: [],                   // news stories kept by the user: { cat, title, summary, why, src, url, at }
   books: [],                   // { id, name, at }  notebooks (pages with no book sit in the built-in Inbox)
-  pages: [],                   // { id, title, bookId, blocks[], pinned, at, upd, tp, src, shared, trashed? }  blocks: { id, t: p|h|b|n|c|q, x, d, l }  (trashed: time it went to Trash; purged after 30 days)  (Notes)
+  pages: [],                   // { id, title, bookId, blocks[], pinned, at, upd, tp, src, shared, trashed?, files?: [{ id, name, type, size }] }  blocks: { id, t: p|h|b|n|c|q, x, d, l }  (trashed: time it went to Trash; purged after 30 days)  (Notes)
   notes: [],                   // legacy flat notes: converted to pages on load, kept empty afterwards
   habitLog: {},                // { date: { habitId: true } }  done or not, per day
   habitInfo: {},               // { date: { habitId: { n, tag } } }  count so far and what was done (Push, Run...)

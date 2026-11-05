@@ -64,7 +64,7 @@ export function buildReminders(now = new Date()) {
       for (let i = 0; i < 7; i++) {
         const k = addDays(today(), i);
         if (i === 0 ? !habitDue(h, k) || habitDone(h, k) : !h.days.includes(parse(k).getDay()) && !habitGoal(h)) continue;
-        add('Time for ' + h.name, habitGoal(h) ? `${habitLabel(h, today())} this week so far. A small start counts.` : 'A small start counts.', at(k, hh, hm));
+        add('Time for ' + h.name, habitGoal(h) ? `${habitLabel(h, today())} this week so far. A small start counts.` : 'A small start counts.', at(k, hh, hm), i === 0 ? { actionTypeId: 'DD_HABIT', extra: { habit: h.id, day: k } } : {});
       }
     });
   }
@@ -90,15 +90,15 @@ export function buildReminders(now = new Date()) {
       if (!t.due) return;
       if (t.at) timed.push([new Date(new Date(t.at) - 3 * 36e5), 'Closing in 3 hours', t.title]);
       timed.push([at(addDays(t.due, -1)), 'Due tomorrow', t.title]);
-      timed.push([at(t.due), 'Due today', t.title]);
+      timed.push([at(t.due), 'Due today', t.title, { task: t.id }]);
     });
   }
   // Tasks with a time set: a reminder at that time (and ten minutes before it for the ones marked priority)
   if (R.taskTimes !== false) {
     openTasks().filter(t => t.due && t.time).forEach(t => {
       const [hh, hm] = t.time.split(':').map(Number), when = parse(t.due); when.setHours(hh, hm, 0, 0);
-      timed.push([when, t.title, 'Reminder' + (t.link ? ' · tap for the link' : '')]);
-      if (t.important) timed.push([new Date(when - 10 * 6e4), t.title, 'In 10 minutes']);
+      timed.push([when, t.title, 'Reminder' + (t.link ? ' · open the app for the link' : ''), { task: t.id }]);
+      if (t.important) timed.push([new Date(when - 10 * 6e4), t.title, 'In 10 minutes', { task: t.id }]);
     });
   }
   if (R.events) {
@@ -106,6 +106,7 @@ export function buildReminders(now = new Date()) {
     [today(), addDays(today(), 1)].forEach(k => agendaOn(k).filter(e => e.kind === 'event' && !e.cal && !e.allDay).forEach(e => timed.push([new Date(e.start - 15 * 6e4), e.title, 'Starts in 15 minutes' + (e.where ? ' · ' + e.where : '') + (e.links && e.links.length ? ' · tap to join' : '')])));
   }
   timed.filter(x => x[0] > now).sort((a, b) => a[0] - b[0]).slice(0, MAX)
-    .forEach(([when, title, body], i) => out.push({ id: 1000 + i, title, body, schedule: { at: when, allowWhileIdle: true } }));
+    // Task reminders carry Done and Snooze buttons (handled in main.js through native.js).
+    .forEach(([when, title, body, extra], i) => out.push({ id: 1000 + i, title, body, schedule: { at: when, allowWhileIdle: true }, ...(extra ? { actionTypeId: 'DD_TASK', extra } : {}) }));
   return out;
 }

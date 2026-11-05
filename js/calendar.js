@@ -71,7 +71,19 @@ export const getHidden = () => load(FILTER_KEY, 'not mine');
 export const setHidden = text => { store(FILTER_KEY, (text || '').trim()); listeners.forEach(f => f()); };
 const hiddenWords = () => getHidden().split(',').map(w => w.trim().toLowerCase()).filter(Boolean);
 const visible = e => { const w = hiddenWords(); if (!w.length) return true; const hay = `${e.title} ${e.desc || ''} ${e.where || ''}`.toLowerCase(); return !w.some(x => hay.includes(x)); };
-const all = () => sources.flatMap(s => (cache[s.id]?.events || []).filter(visible).map(e => ({ ...e, cal: s.name })));
+// A link that opens the event itself in Google Calendar (web or the app), where it can be edited. Google's event links carry
+// "eid" = base64("<event id> <calendar email>"); the event id is the iCal UID without "@google.com", plus the instance time for repeats.
+const calEmail = url => { const m = /\/calendar\/ical\/([^/]+)\//.exec(url || ''); return m ? decodeURIComponent(m[1]) : ''; };
+const b64 = t => btoa(unescape(encodeURIComponent(t))).replace(/=+$/, '');
+const p2 = n => String(n).padStart(2, '0');
+export function gcalLink(url, e) {
+  const em = calEmail(url);
+  if (!em || !/@google\.com$/.test(e.uid || '')) return '';
+  let id = e.uid.replace(/@google\.com$/, '');
+  if (e.rec) { const d = new Date(e.start); id += '_' + (e.allDay ? `${d.getFullYear()}${p2(d.getMonth() + 1)}${p2(d.getDate())}` : `${d.getUTCFullYear()}${p2(d.getUTCMonth() + 1)}${p2(d.getUTCDate())}T${p2(d.getUTCHours())}${p2(d.getUTCMinutes())}${p2(d.getUTCSeconds())}Z`); }
+  return 'https://calendar.google.com/calendar/event?eid=' + b64(id + ' ' + em);
+}
+const all = () => sources.flatMap(s => (cache[s.id]?.events || []).filter(visible).map(e => ({ ...e, cal: s.name, gcal: gcalLink(s.url, e) })));
 export const calEventsOn = dateKey => eventsOnDay(all(), dateKey).sort((a, b) => (b.allDay - a.allDay) || a.start - b.start);
 // Calendar entries titled "Action: ...", "Due: ..." or "Deadline: ..." are treated as things that need you.
 const ACTION = /^(action|due|deadline)\s*[:·-]\s*/i;

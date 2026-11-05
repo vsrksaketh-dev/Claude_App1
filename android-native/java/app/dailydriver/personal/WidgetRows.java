@@ -16,7 +16,7 @@ import org.json.JSONObject;
  * and the "fill-in" intent built here says what was tapped: open a tab, tick something, flip a day, open a link.
  */
 final class WidgetRows {
-    static final int T_SECTION = 0, T_EVENT = 1, T_TASK = 2, T_HABIT = 3, T_NEWS = 4, T_NEXT = 5, T_PROGRESS = 6, T_STATS = 7, T_TEXT = 8, T_DEADLINE = 9, TYPES = 10;
+    static final int T_SECTION = 0, T_EVENT = 1, T_TASK = 2, T_HABIT = 3, T_NEWS = 4, T_NEXT = 5, T_PROGRESS = 6, T_STATS = 7, T_TEXT = 8, T_DEADLINE = 9, T_NOTE = 10, TYPES = 11;
 
     static class Row {
         final int type;
@@ -45,6 +45,7 @@ final class WidgetRows {
                 case Widgets.NEXT: nextUp(out, s, now); break;
                 case Widgets.PROBLEM: problem(out, s); break;
                 case Widgets.DEADLINES: deadlines(out, s, now); break;
+                case Widgets.NOTES: notes(out, s); break;
                 default: overview(c, out, s, now);
             }
         } catch (Exception e) {
@@ -177,10 +178,13 @@ final class WidgetRows {
             String q = x.optString("q"), kind = x.optString("kind");
             String ql = q.equals("UI") ? "Do first" : q.equals("I") ? "Important" : q.equals("U") ? "Quick" : "Later";
             r.b = kind.isEmpty() ? ql : kind + "  ·  " + ql;
+            if (!x.optString("st").isEmpty()) r.b += "  ·  " + x.optString("st") + " steps";
         }
+        r.u = x.optString("u");
+        r.uk = x.optString("uk");
         r.act = "task";
         r.id = x.optString("id");
-        r.target = "plan:tasks";
+        r.target = "tasks:task:" + x.optString("id");
         return r;
     }
 
@@ -192,7 +196,9 @@ final class WidgetRows {
     }
 
     private static void newsRows(List<Row> out, JSONObject s, String cat, int max) {
-        JSONArray n = Widgets.arr(s, "news");
+        boolean saved = "Saved".equals(cat);
+        JSONArray n = Widgets.arr(s, saved ? "saved" : "news");
+        if (saved) cat = "";
         int shown = 0;
         for (int i = 0; i < n.length() && shown < max; i++) {
             JSONObject x = n.optJSONObject(i);
@@ -258,6 +264,7 @@ final class WidgetRows {
             if (x.optInt("dn") == 1) { finished.add(x); continue; }
             String due = Widgets.dueLabel(x.optString("dd"), x.optString("due"));
             if (tf.equals("soon") && !(due.equals("Overdue") || due.equals("Today") || due.equals("Tomorrow"))) continue;
+            if (tf.equals("pri") && x.optInt("imp") != 1) continue;
             String q = x.optString("q");
             if (!q.equals(lastQ)) {
                 section(out, q.equals("UI") ? "Do first" : q.equals("I") ? "Schedule it" : q.equals("U") ? "Quick wins" : "Later", "plan:tasks");
@@ -266,7 +273,7 @@ final class WidgetRows {
             taskRow(out, x, true);
             shown++;
         }
-        if (shown == 0) text(out, tf.equals("soon") ? "Nothing due soon. Nice." : "Nothing left to do. Enjoy the quiet.");
+        if (shown == 0) text(out, tf.equals("soon") ? "Nothing due soon. Nice." : tf.equals("pri") ? "No priority tasks." : "Nothing left to do. Enjoy the quiet.");
         if (!finished.isEmpty()) {
             section(out, "Done today", "plan:tasks");
             for (JSONObject x : finished) taskRow(out, x, false);
@@ -397,6 +404,35 @@ final class WidgetRows {
         }
     }
 
+    private static void notes(List<Row> out, JSONObject s) {
+        JSONArray n = Widgets.arr(s, "notes");
+        if (n.length() == 0) { text(out, "No notes yet. Tap New page, or share a link into Daily Driver."); return; }
+        boolean pinHead = false, restHead = false;
+        for (int i = 0; i < n.length(); i++) {
+            JSONObject x = n.optJSONObject(i);
+            if (x == null) continue;
+            if (x.optInt("pin") == 1 && !pinHead) { section(out, "Pinned", "notes"); pinHead = true; }
+            if (x.optInt("pin") == 0 && !restHead && pinHead) { section(out, "Recent", "notes"); restHead = true; }
+            Row r = add(out, T_NOTE);
+            r.a = x.optString("t");
+            r.b = x.optString("p");
+            String meta = x.optString("b");
+            if (!x.optString("ck").isEmpty()) meta += "  ·  " + x.optString("ck") + " done";
+            if (x.optLong("at") > 0) meta += "  ·  " + Widgets.fmt("d MMM", x.optLong("at"));
+            r.c = meta;
+            r.target = "notes:page:" + x.optString("id");
+        }
+    }
+
+    private static RemoteViews noteView(Context c, Row r) {
+        RemoteViews v = new RemoteViews(c.getPackageName(), R.layout.row_note);
+        v.setTextViewText(R.id.ntt, r.a);
+        if (r.b.isEmpty()) v.setViewVisibility(R.id.ntp, View.GONE); else v.setTextViewText(R.id.ntp, r.b);
+        v.setTextViewText(R.id.ntm, r.c);
+        v.setOnClickFillInIntent(R.id.ntroot, fill("open", "", r.target));
+        return v;
+    }
+
     private static Row sectionRow(String title, String target) { Row r = new Row(T_SECTION); r.a = title; r.target = target; return r; }
 
     // ---------- calendar ----------
@@ -476,6 +512,7 @@ final class WidgetRows {
             case T_NEWS: return newsView(c, r);
             case T_NEXT: return nextView(c, r);
             case T_DEADLINE: return deadlineView(c, r);
+            case T_NOTE: return noteView(c, r);
             case T_PROGRESS: return progressView(c, r);
             case T_STATS: return statsView(c, r);
             default: return textView(c, r);
