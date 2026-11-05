@@ -137,12 +137,14 @@ final class CalendarSync {
             for (IcsReader.Inst e : list) {
                 String kind = kindOf(e.title);
                 String id = "event".equals(kind) ? "" : actionKey(e.title, e.start);
+                String[] lk = Links.best(e.desc + " " + e.where);
+                String shownWhere = e.where != null && e.where.startsWith("http") ? "" : e.where;
                 for (int i = 0; i < days; i++) {
                     boolean on = (e.end > from[i] && e.start < to[i]) || (e.end == e.start && e.start >= from[i] && e.start < to[i]);
                     if (!on) continue;
                     fresh.add(new JSONObject().put("d", keys[i]).put("s", e.start).put("e", e.end)
-                        .put("t", "event".equals(kind) ? e.title : stripKind(e.title)).put("w", e.where).put("a", e.allDay ? 1 : 0)
-                        .put("k", kind).put("id", id).put("x", doneKeys.contains(id) ? 1 : 0).put("dv", 0).put("o", 1));
+                        .put("t", "event".equals(kind) ? e.title : stripKind(e.title)).put("w", shownWhere).put("a", e.allDay ? 1 : 0)
+                        .put("k", kind).put("id", id).put("x", doneKeys.contains(id) ? 1 : 0).put("dv", 0).put("o", 1).put("u", lk == null ? "" : lk[0]).put("uk", lk == null ? "" : lk[1]));
                 }
             }
             List<JSONObject> merged = new ArrayList<>(fresh);

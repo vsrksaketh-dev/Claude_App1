@@ -93,6 +93,14 @@ export function buildReminders(now = new Date()) {
       timed.push([at(t.due), 'Due today', t.title]);
     });
   }
+  // Tasks with a time set: a reminder at that time (and ten minutes before it for the ones marked priority)
+  if (R.taskTimes !== false) {
+    openTasks().filter(t => t.due && t.time).forEach(t => {
+      const [hh, hm] = t.time.split(':').map(Number), when = parse(t.due); when.setHours(hh, hm, 0, 0);
+      timed.push([when, t.title, 'Reminder' + (t.link ? ' · tap for the link' : '')]);
+      if (t.important) timed.push([new Date(when - 10 * 6e4), t.title, 'In 10 minutes']);
+    });
+  }
   if (R.events) upcomingTimed(48).forEach(e => timed.push([new Date(e.start - 15 * 6e4), e.title, 'Starts in 15 minutes' + (e.where ? ' · ' + e.where : '')]));
   timed.filter(x => x[0] > now).sort((a, b) => a[0] - b[0]).slice(0, MAX)
     .forEach(([when, title, body], i) => out.push({ id: 1000 + i, title, body, schedule: { at: when, allowWhileIdle: true } }));

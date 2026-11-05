@@ -11,6 +11,7 @@ import { PRACTICE } from './casebook.js';
 import { quickNote } from './notes.js';
 
 const RANK = { UI: 0, I: 1, U: 2, '': 3 };
+const clock12 = hm => { const [h, m] = hm.split(':').map(Number); return `${h % 12 || 12}:${String(m).padStart(2, '0')} ${h < 12 ? 'AM' : 'PM'}`; };
 const dueLabel = d => { if (!d) return ''; const n = daysFromToday(d); return n < 0 ? 'Overdue' : n === 0 ? 'Today' : n === 1 ? 'Tomorrow' : fmtDay(d); };
 
 // Days the calendar widget can page through, and how many entries the snapshot may carry (a widget has a small budget).
@@ -21,7 +22,7 @@ export function buildSnapshot() {
   const cal = [];
   for (let i = -CAL_BACK; i <= CAL_FWD && cal.length < CAL_MAX; i++) {
     const k = addDays(t, i);
-    agendaOn(k).forEach(e => cal.push({ d: k, s: e.start, e: e.end, t: e.title, w: e.where || '', a: e.allDay ? 1 : 0, k: e.kind, id: e.kind === 'task' ? e.id : (e.key || ''), x: e.done ? 1 : 0, dv: e.derived ? 1 : 0, o: e.cal ? 1 : 0 }));
+    agendaOn(k).forEach(e => cal.push({ d: k, s: e.start, e: e.end, t: e.title, w: e.where || '', a: e.allDay ? 1 : 0, k: e.kind, id: e.kind === 'task' ? e.id : (e.key || ''), x: e.done ? 1 : 0, dv: e.derived ? 1 : 0, o: e.cal ? 1 : 0, u: (e.links && e.links[0] ? e.links[0].url : ''), uk: (e.links && e.links[0] ? e.links[0].kind : '') }));
   }
   const open = openTasks().sort((a, b) => (RANK[taskQuadrant(a)] - RANK[taskQuadrant(b)]) || (a.due || '9').localeCompare(b.due || '9'));
   const hs = habitsOn(t);
@@ -31,7 +32,7 @@ export function buildSnapshot() {
     cal,
     actions: pendingActions(7).filter(e => !e.done).slice(0, 12).map(e => ({ id: e.key, title: e.label, s: e.start, mail: !!e.mail })),
     // Open tasks in priority order (i keeps that order), then the ones ticked today (dn: 1) so a widget can show them struck at the bottom and undo them.
-    tasks: [...open.slice(0, 60).map((x, i) => ({ id: x.id, title: x.title, due: dueLabel(x.due), dd: x.due || '', q: taskQuadrant(x), kind: x.kind && x.kind !== 'Task' ? x.kind : '', dv: x.derived ? 1 : 0, i, dn: 0 })),
+    tasks: [...open.slice(0, 60).map((x, i) => ({ id: x.id, title: x.title, due: dueLabel(x.due), dd: x.due || '', tm: x.time ? clock12(x.time) : '', q: taskQuadrant(x), kind: x.kind && x.kind !== 'Task' ? x.kind : '', dv: x.derived ? 1 : 0, i, dn: 0 })),
       ...doneToday().slice(0, 12).map((x, i) => ({ id: x.id, title: x.title, due: '', dd: '', q: taskQuadrant(x), kind: '', dv: 0, i: 100 + i, dn: 1 }))],
     taskCount: open.length,
     dueSoon: open.filter(x => x.due && daysFromToday(x.due) <= 2).length,
@@ -71,7 +72,7 @@ export function openTarget(target) {
   if (view === 'plan') view = a === 'notes' ? 'notes' : 'tasks';   // the old Plan tab is now Tasks and Notes
   if (!app.views[view]) return;
   if (view === 'learn' && ['news', 'cases'].includes(a)) ui.sub.learn = a;
-  if (view === 'calendar') { if (['month', 'week', 'day', 'agenda'].includes(a)) ui.sub.calMode = a; if (/^\d{4}-\d{2}-\d{2}$/.test(b || a || '')) { ui.sub.calSel = ui.sub.calAnchor = b || a; if (!ui.sub.calMode) ui.sub.calMode = 'month'; } }
+  if (view === 'calendar') { if (['month', 'week', 'day', 'agenda'].includes(a)) ui.sub.calMode = a; ui.sub.calAdd = a === 'add'; if (/^\d{4}-\d{2}-\d{2}$/.test(b || a || '')) { ui.sub.calSel = ui.sub.calAnchor = b || a; if (!ui.sub.calMode) ui.sub.calMode = 'month'; } }
   go(view);
   if ((view === 'home' && a === 'capture') || ((view === 'tasks' || view === 'notes') && b === 'add')) setTimeout(() => document.querySelector('[data-form=quick] input, [data-form=task] input, [data-form=jot] input')?.focus(), 80);
 }

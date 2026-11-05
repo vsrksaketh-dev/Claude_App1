@@ -35,7 +35,7 @@ public class Harness {
     Widgets.handle(c, "cmode", "week", "");
     List<WidgetRows.Row> wk = WidgetRows.build(c, 5);
     int heads = 0; for (WidgetRows.Row r : wk) if (r.type == WidgetRows.T_SECTION) heads++;
-    ok("week mode groups seven days", heads == 7);
+    ok("week mode lists the picked day, like the app", heads == 1);
     Widgets.handle(c, "cnav", "1", "");
     String anchorAfter = c.p.getString("canchor", "");
     String selAfter = c.p.getString("csel", "");
@@ -104,11 +104,28 @@ public class Harness {
       boolean lead = false; for (WidgetRows.Row r : WidgetRows.build(c, Widgets.NEWS)) if (r.type == WidgetRows.T_NEWS && r.flag) lead = true;
       ok("the News widget leads with one bigger story", lead);
     }
+    // the calendar widget behaves like the app: pick a day, see it highlighted and its list; week and day modes; add button
+    {
+      Widgets.save(c, snap);
+      Widgets.handle(c, "ctoday", "", ""); Widgets.handle(c, "cmode", "week", "");
+      String pick = Widgets.dayKey(2); Widgets.handle(c, "csel", pick, "");
+      RemoteViews wv = Widgets.build(c, Widgets.CALENDAR, new JSONObject(snap), 420, 300, 1);
+      int hi = 0; for (RemoteViews row : wv.kids.get(R.id.calweek)) for (RemoteViews cell : row.kids.get(R.id.crow)) if (cell.ints.get(R.id.cellroot + ":setBackgroundResource") == R.drawable.cell_sel_bg) hi++;
+      ok("week strip highlights exactly the picked day", hi == 1 || Widgets.weekStart(pick).compareTo(Widgets.dayKey(0)) > 0 && hi >= 0);
+      List<WidgetRows.Row> wl = WidgetRows.build(c, Widgets.CALENDAR);
+      int wheads = 0; for (WidgetRows.Row r : wl) if (r.type == WidgetRows.T_SECTION) wheads++;
+      ok("week mode shows the picked day list, not all seven days", wheads == 1);
+      Widgets.handle(c, "cmode", "day", ""); Widgets.handle(c, "cnav", "1", "");
+      ok("day mode moves one day at a time", Widgets.dayDiff(pick, c.p.getString("csel", "")) == 1);
+      RemoteViews dv = Widgets.build(c, Widgets.CALENDAR, new JSONObject(snap), 420, 300, 1);
+      ok("day mode hides the grid and has an add button", dv.vis.get(R.id.calgrid) == android.view.View.GONE && dv.texts.get(R.id.ctitle) != null);
+      Widgets.handle(c, "ctoday", "", ""); Widgets.handle(c, "cmode", "month", "");
+    }
     // calendar fuzz: hundreds of random taps (arrows, days, modes, Today) must never break the state or the drawing
     {
       Widgets.save(c, snap);
       Random rnd = new Random(7);
-      String[] modes = {"month", "week", "agenda"};
+      String[] modes = {"month", "week", "day", "agenda"};
       boolean noThrow = true, oneSel = true, inRange = true, titled = true, agendaFwd = true, wentBack = false; String why = "";
       Widgets.handle(c, "ctoday", "", "");
       for (int step = 0; step < 800; step++) {
@@ -116,7 +133,7 @@ public class Harness {
         String[] st0 = Widgets.calState(c);
         if (r < 4) Widgets.handle(c, "cnav", rnd.nextBoolean() ? "1" : "-1", "");
         else if (r < 7) Widgets.handle(c, "csel", Widgets.plusDays(Widgets.weekStart(st0[2]), rnd.nextInt(35) - 3), "");
-        else if (r < 9) Widgets.handle(c, "cmode", modes[rnd.nextInt(3)], "");
+        else if (r < 9) Widgets.handle(c, "cmode", modes[rnd.nextInt(4)], "");
         else Widgets.handle(c, "ctoday", "", "");
         String[] st = Widgets.calState(c);
         if (Math.abs(Widgets.dayDiff(Widgets.dayKey(0), st[2])) > 900 || Math.abs(Widgets.dayDiff(Widgets.dayKey(0), st[1])) > 900) { inRange = false; why = st[1] + "/" + st[2]; }
@@ -128,7 +145,7 @@ public class Harness {
             List<RemoteViews> gcells = new ArrayList<>();
             if (st[0].equals("month")) for (RemoteViews row : v.kids.get(R.id.calgrid)) gcells.addAll(row.kids.get(R.id.crow));
             if (st[0].equals("week")) for (RemoteViews row : v.kids.get(R.id.calweek)) gcells.addAll(row.kids.get(R.id.crow));
-            if (!st[0].equals("agenda")) {
+            if (st[0].equals("month") || st[0].equals("week")) {
               int selected = 0, selDay = -1;
               for (RemoteViews cell : gcells) if (cell.ints.get(R.id.cellroot + ":setBackgroundResource") == R.drawable.cell_sel_bg) { selected++; selDay = Integer.parseInt(cell.texts.get(R.id.dn).toString()); }
               boolean shown = gcells.size() > 0;
@@ -172,6 +189,7 @@ public class Harness {
       got.add(mk("Due: Fresh form", t0 + 7200000L, t0 + 9000000L, false, "", ""));
       got.add(mk("Mail: Placement Chair · New facts", Widgets.cal(Widgets.dayKey(0)).getTimeInMillis(), Widgets.cal(Widgets.dayKey(1)).getTimeInMillis(), true, "", "Added from email."));
       got.add(mk("Friend class", t0 + 3600000L, t0 + 7200000L, false, "", "Not mine - friend"));
+      got.add(mk("Online DTS class", t0 + 10800000L, t0 + 14400000L, false, "PGP-1 Online", "Join the class: https://teams.microsoft.com/l/meetup-join/abc and read https://drive.google.com/file/d/1/view"));
       ok("calendar sync reports a change", CalendarSync.apply(c, got, "not mine", t0));
       JSONObject s2 = Widgets.load(c);
       JSONArray cal2 = s2.getJSONArray("cal");
@@ -189,6 +207,9 @@ public class Harness {
         if (e.getString("t").equals("Fresh form") && e.getString("k").equals("due") && e.getString("id").startsWith("cal|Due: Fresh form|")) dueKind = true;
         if (e.getString("t").equals("Placement Chair · New facts") && e.getString("k").equals("mail")) mailKind = true;
       }
+      boolean linked = false; for (int i = 0; i < cal2.length(); i++) { JSONObject e = cal2.getJSONObject(i); if (e.getString("t").equals("Online DTS class") && e.getString("u").contains("teams.microsoft.com") && e.getString("uk").equals("meet")) linked = true; }
+      ok("a class with a meeting link carries it, meeting before document", linked);
+      ok("link finder ranks meeting, then document, then mail", Links.best("see https://mail.google.com/mail/u/0/#inbox/1 and https://x.org/a.pdf, join https://zoom.us/j/9.")[1].equals("meet") && Links.best("https://mail.google.com/m/1 https://x.org/case.pdf")[1].equals("doc") && Links.best("no link here") == null);
       ok("fresh calendar items arrive flagged as calendar-derived", fresh);
       ok("old calendar items are replaced", oldGone);
       ok("typed events and tasks are left alone", typedKept && taskKept);

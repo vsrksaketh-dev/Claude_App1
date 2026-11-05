@@ -1,7 +1,7 @@
 // Home: what needs you today. The to-do list first, then anything waiting on you, today's schedule and a one-line habit strip.
 import { S, ui, app, register, remove, render as rerender } from '../core.js';
 import { today, addDays, daysFromToday, esc, fmtDay, uid, pick, countdownText, clock12 } from '../util.js';
-import { empty, chip, check, me } from '../ui.js';
+import { empty, chip, check, me, linkBtns } from '../ui.js';
 import { getSources, hasCalendars, lastSync, syncAll } from '../calendar.js';
 import { dayItems, pendingActions } from '../schedule.js';
 import { habitsOn, habitDone, tapHabit, habitLabel, habitTarget, setHabit, openTasks, dayStreak, byRank, doneToday, doneLast, uncompleteTask, dayProgress, practiceStreak } from '../logic.js';
@@ -52,7 +52,7 @@ function nextUp(t) {
   if (!n) { n = dayItems(addDays(t, 1)).find(e => !e.allDay); later = !!n; }
   if (!n) return '';
   const live = n.start <= now;
-  return `<section class="next"><div class="grow"><p class="eyebrow">${live ? 'Happening now' : later ? 'Tomorrow' : 'Next up'}</p><p class="title">${esc(n.title)}</p><p class="muted">${esc(clock12(n.start))}${n.where ? ' · ' + esc(n.where) : ''}</p></div><span class="count" data-countdown="${n.start}">${live ? 'now' : countdownText(n.start)}</span></section>`;
+  return `<section class="next"><div class="grow"><p class="eyebrow">${live ? 'Happening now' : later ? 'Tomorrow' : 'Next up'}</p><p class="title">${esc(n.title)}</p><p class="muted">${esc(clock12(n.start))}${n.where ? ' · ' + esc(n.where) : ''}</p></div><span class="count" data-countdown="${n.start}">${live ? 'now' : countdownText(n.start)}</span>${linkBtns(n.links)}</section>`;
 }
 function recapCard() {
   if (!isRecapDay()) return '';
@@ -109,13 +109,13 @@ function render() {
   ${recapCard()}
 
   ${hasAttention ? `<section class="card ${outstanding ? 'alert' : ''}"><h2>Needs your attention</h2><ul class="list">
-      ${doneLast(acts, e => e.done).map(e => `<li data-flip="a:${esc(e.key)}" class="${e.done ? 'done' : e.dueToday ? 'due-today' : ''}">${check('actToggle', e.key, e.done)}<div class="grow"><span class="title">${esc(e.label)}</span><div class="muted">${e.mail ? esc(e.note || 'Important email') : esc(when(e.start)) + (e.cal ? ' · ' + esc(e.cal) : '')}</div></div>${e.done ? chip('Done', 'ok') : e.mail ? chip(esc(new Date(e.start).toLocaleDateString('en-IN', { day: 'numeric', month: 'short' })), 'plain') : chip(e.dueToday ? 'Today' : esc(when(e.start)), e.dueToday ? 'bad' : 'warn')}</li>`).join('')}
+      ${doneLast(acts, e => e.done).map(e => `<li data-flip="a:${esc(e.key)}" class="${e.done ? 'done' : e.dueToday ? 'due-today' : ''}">${check('actToggle', e.key, e.done)}<div class="grow"><span class="title">${esc(e.label)}</span><div class="muted">${e.mail ? esc(e.note || 'Important email') : esc(when(e.start)) + (e.cal ? ' · ' + esc(e.cal) : '')}</div></div>${linkBtns(e.links)}${e.done ? chip('Done', 'ok') : e.mail ? chip(esc(new Date(e.start).toLocaleDateString('en-IN', { day: 'numeric', month: 'short' })), 'plain') : chip(e.dueToday ? 'Today' : esc(when(e.start)), e.dueToday ? 'bad' : 'warn')}</li>`).join('')}
       ${doneLast(briefMail, x => S.inboxDone[x.id]).map(x => `<li data-flip="m:${esc(x.id)}" class="${S.inboxDone[x.id] ? 'done' : ''}">${check('inbox', x.id, S.inboxDone[x.id])}<div class="grow"><span class="title">${esc(x.from)}: ${esc(x.subject)}</span><div class="muted">${esc(x.action)}</div></div>${x.due ? `<button class="ghost" data-act="inboxTask" data-id="${x.id}">Add to tasks</button>` : ''}</li>`).join('')}
       ${nd.map(n => `<li><span class="grow">${n}</span></li>`).join('')}</ul></section>` : ''}
 
   <section class="card"><div class="row between"><h2 style="margin:0">Today's schedule</h2>${hasCalendars() ? `<button class="ghost" data-act="calSync" aria-label="Sync calendar now">Sync${syncedAt ? ' · ' + ago(syncedAt) : ''}</button>` : ''}</div>
     ${getSources().filter(s => s.error).map(s => `<p class="chip warn" style="display:block;margin-top:10px">${esc(s.name)}: ${esc(s.error)}</p>`).join('')}
-    <div style="margin-top:12px">${evs.length ? `<ul class="list">${evs.map(e => `<li class="${e.past ? 'done' : ''}"><span class="chip">${esc(e.time)}</span><div class="grow"><span class="title">${esc(e.title)}</span>${e.interview ? ' ' + chip('Interview', 'warn') : ''}${e.src ? ' ' + chip(esc(e.src), 'plain') : ''}<div class="muted">${[e.until ? 'until ' + e.until : '', e.where].filter(Boolean).map(esc).join(' · ')}</div></div>${e.id ? `<button class="ghost danger" data-act="delEvent" data-id="${e.id}" aria-label="Remove">×</button>` : ''}</li>`).join('')}</ul>` : empty(hasCalendars() ? 'Nothing scheduled today.' : 'No events yet.')}</div>
+    <div style="margin-top:12px">${evs.length ? `<ul class="list">${evs.map(e => `<li class="${e.past ? 'done' : ''}"><span class="chip">${esc(e.time)}</span><div class="grow"><span class="title">${esc(e.title)}</span>${e.interview ? ' ' + chip('Interview', 'warn') : ''}${e.src ? ' ' + chip(esc(e.src), 'plain') : ''}<div class="muted">${[e.until ? 'until ' + e.until : '', e.where].filter(Boolean).map(esc).join(' · ')}</div></div>${linkBtns(e.links)}${e.id ? `<button class="ghost danger" data-act="delEvent" data-id="${e.id}" aria-label="Remove">×</button>` : ''}</li>`).join('')}</ul>` : empty(hasCalendars() ? 'Nothing scheduled today.' : 'No events yet.')}</div>
     <div class="row between" style="margin-top:10px">${hasCalendars() ? `<span class="muted">${tomorrow.length ? `Tomorrow: ${tomorrow.length} item${tomorrow.length > 1 ? 's' : ''}` : 'Tomorrow is clear'}</span>` : '<button data-nav="settings">Connect Google Calendar</button>'}<button class="ghost" data-nav="calendar">Open calendar</button></div>
   </section>
 
@@ -141,6 +141,6 @@ register({
   },
   forms: {
     quick: f => { const t = (f.text || '').trim(); if (t) S.tasks.push({ id: uid(), title: t, due: '', important: false, done: false, kind: 'Task' }); },
-    event: f => S.events.push({ id: uid(), title: f.title, date: f.date, time: f.time }),
+    event: f => S.events.push({ id: uid(), title: f.title, date: f.date, time: f.time, mins: Number(f.mins) || 60, where: f.where || '', link: (f.link || '').trim() }),
   },
 });

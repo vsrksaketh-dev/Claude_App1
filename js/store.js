@@ -22,7 +22,7 @@ export const blank = () => ({
   habitInfo: {},               // { date: { habitId: { n, tag } } }  count so far and what was done (Push, Run...)
   // habits: { id, name, when, days, created, goal?: times a week, target?: count a day, time?: 'HH:MM' nudge, options?: ['Push','Pull'] }
   mits: {},                    // { date: [{ id, text, done, taskId }] }  top three for the day
-  tasks: [],                   // { id, title, due, important, done, doneAt, kind, goalId }  (triage is legacy: such tasks now count as ordinary open tasks)
+  tasks: [],                   // { id, title, due, time?: 'HH:MM' (a reminder fires then), repeat?: daily|weekdays|weekly|monthly, link?, important, done, doneAt, kind, goalId }  (triage is legacy: such tasks now count as ordinary open tasks)
   // Legacy areas below have no screen any more (Track, Goals, Career, Money). Their data stays in the file and in backups, never dropped.
   goals: [],                   // { id, title, why, area, horizon, due, status, milestones[], habitIds[] }
   journal: {},                 // { date: { mood, energy, wins, lessons, grateful, tomorrow } }

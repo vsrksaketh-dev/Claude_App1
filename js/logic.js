@@ -1,6 +1,6 @@
 // Domain logic over the state. Kept free of HTML so it is easy to test and reuse.
 import { S, app } from './core.js';
-import { today, addDays, dow, lastDays, daysFromToday, weekStart } from './util.js';
+import { today, addDays, dow, lastDays, daysFromToday, weekStart, parse, dateKey } from './util.js';
 
 // ---- habits ----
 // A habit is one of three kinds, all stored the same way (extra fields are optional, so old habits keep working):
@@ -107,9 +107,20 @@ export function uncompleteTask(id) {
   t.done = false;
   delete t.doneAt;
 }
+// A repeating task is never "done": ticking it counts, then moves its date to the next time it is due.
+export const REPEATS = [['', 'Does not repeat'], ['daily', 'Every day'], ['weekdays', 'Every weekday'], ['weekly', 'Every week'], ['monthly', 'Every month']];
+const stepDate = (k, r) => {
+  if (r === 'weekly') return addDays(k, 7);
+  if (r === 'monthly') { const d = parse(k); d.setMonth(d.getMonth() + 1); return dateKey(d); }
+  let n = addDays(k, 1);
+  if (r === 'weekdays') while ([0, 6].includes(dow(n))) n = addDays(n, 1);
+  return n;
+};
+export function nextDue(t) { let d = t.due || today(); for (let i = 0; i < 400; i++) { d = stepDate(d, t.repeat); if (d > today()) break; } return d; }
 export function completeTask(id) {
   const t = S.tasks.find(x => x.id === id);
   if (!t || t.done) return;
+  if (t.repeat) { t.due = nextDue(t); S.stats.tasksDone[today()] = (S.stats.tasksDone[today()] || 0) + 1; return; }
   t.done = true;
   t.doneAt = today();
   S.stats.tasksDone[today()] = (S.stats.tasksDone[today()] || 0) + 1;

@@ -21,7 +21,7 @@ final class WidgetRows {
     static class Row {
         final int type;
         JSONObject o;
-        String a = "", b = "", c = "", due = "", style = "", act = "", id = "", target = "";
+        String a = "", b = "", c = "", u = "", uk = "", due = "", style = "", act = "", id = "", target = "";
         boolean flag, done;
         Row(int type) { this.type = type; }
     }
@@ -170,7 +170,8 @@ final class WidgetRows {
         r.a = x.optString("title");
         r.done = x.optInt("dn") == 1;
         String due = Widgets.dueLabel(x.optString("dd"), x.optString("due"));
-        r.due = due;
+        r.due = x.optString("tm").isEmpty() ? due : due + " " + x.optString("tm");
+        if (!x.optString("tm").isEmpty() && r.due.length() > 0) r.due = r.due.replace(" AM", "am").replace(" PM", "pm");
         r.style = due.equals("Overdue") || due.equals("Today") ? "bad" : due.equals("Tomorrow") ? "warn" : "";
         if (detail) {
             String q = x.optString("q"), kind = x.optString("kind");
@@ -421,30 +422,21 @@ final class WidgetRows {
         else if (!e.optString("w").isEmpty()) r.b = e.optString("w");
         r.due = "due".equals(k) ? "Due" : "action".equals(k) ? "To do" : "mail".equals(k) ? "Email" : "";
         r.style = "due".equals(k) ? "bad" : "action".equals(k) ? "warn" : "";
+        r.u = e.optString("u");
+        r.uk = e.optString("uk");
     }
 
     private static void calendar(Context c, List<Row> out, JSONObject s, long now) {
         String[] st = Widgets.calState(c);
         String mode = st[0], sel = st[1], anchor = st[2];
-        if ("month".equals(mode)) {
+        if (!"agenda".equals(mode)) {
+            // month, week and day all show the picked day, as the app's day card does
             Row h = add(out, T_SECTION);
             h.a = dayHeading(sel);
             h.target = "calendar:day:" + sel;
             List<JSONObject> items = doneLast(itemsOn(s, sel));
             if (items.isEmpty()) text(out, "Nothing planned.");
             for (JSONObject e : items) calItem(out, e);
-        } else if ("week".equals(mode)) {
-            String start = Widgets.weekStart(anchor);
-            for (int i = 0; i < 7; i++) {
-                String k = Widgets.plusDays(start, i);
-                Row h = add(out, T_SECTION);
-                h.a = dayHeading(k);
-                h.id = k;
-                h.act = "csel";
-                List<JSONObject> items = doneLast(itemsOn(s, k));
-                if (items.isEmpty()) { Row t = add(out, T_TEXT); t.a = "Free"; t.target = "calendar:day:" + k; }
-                for (JSONObject e : items) calItem(out, e);
-            }
         } else {
             int shown = 0;
             for (int i = 0; i < 42; i++) {
@@ -520,6 +512,8 @@ final class WidgetRows {
             else if ("warn".equals(r.style)) { v.setInt(R.id.due, "setBackgroundResource", R.drawable.pill_warn_bg); v.setTextColor(R.id.due, Widgets.color(c, R.color.dd_warn)); }
         }
         if (!r.act.isEmpty() && !r.id.isEmpty()) v.setOnClickFillInIntent(R.id.ring, fill(r.act, r.id, ""));
+        if (r.u.startsWith("http")) { v.setViewVisibility(R.id.lk, View.VISIBLE); v.setTextViewText(R.id.lk, Links.label(r.uk)); linkStyle(c, v, r.uk); v.setOnClickFillInIntent(R.id.lk, fill("url", r.u, "")); }
+        else v.setViewVisibility(R.id.lk, View.GONE);
         v.setOnClickFillInIntent(R.id.rowroot, fill("open", "", r.target));
         return v;
     }
@@ -553,6 +547,9 @@ final class WidgetRows {
         if (meta.isEmpty()) v.setViewVisibility(R.id.ev2, View.GONE); else v.setTextViewText(R.id.ev2, meta);
         if (live) v.setInt(R.id.evroot, "setBackgroundResource", R.drawable.now_bg);
         v.setInt(R.id.bar, "setBackgroundResource", Widgets.barFor(k, all));
+        String lu = e.optString("u");
+        if (lu.startsWith("http")) { v.setViewVisibility(R.id.lk, View.VISIBLE); v.setTextViewText(R.id.lk, Links.label(e.optString("uk"))); linkStyle(c, v, e.optString("uk")); v.setOnClickFillInIntent(R.id.lk, fill("url", lu, "")); }
+        else v.setViewVisibility(R.id.lk, View.GONE);
         v.setOnClickFillInIntent(R.id.evroot, fill("open", "", r.target));
         return v;
     }
@@ -571,6 +568,13 @@ final class WidgetRows {
         if (url.startsWith("http")) v.setOnClickFillInIntent(R.id.read, fill("url", url, "")); else v.setViewVisibility(R.id.read, View.GONE);
         v.setOnClickFillInIntent(R.id.rowroot, fill("open", "", r.target));
         return v;
+    }
+
+    /** Meeting links are a filled button, everything else a soft pill. */
+    private static void linkStyle(Context c, RemoteViews v, String kind) {
+        boolean meet = "meet".equals(kind);
+        v.setInt(R.id.lk, "setBackgroundResource", meet ? R.drawable.join_bg : R.drawable.pill_bg);
+        v.setTextColor(R.id.lk, Widgets.color(c, meet ? R.color.dd_on_accent : R.color.dd_accent));
     }
 
     private static RemoteViews deadlineView(Context c, Row r) {
@@ -599,6 +603,7 @@ final class WidgetRows {
             v.setTextViewText(R.id.nn, "Clear for now");
             v.setTextViewText(R.id.nm, "Nothing else on the calendar. Use the gap well.");
             v.setViewVisibility(R.id.nc, View.GONE);
+            v.setViewVisibility(R.id.njoin, View.GONE);
         } else {
             boolean live = e.optLong("s") <= now;
             v.setTextViewText(R.id.nl, live ? "HAPPENING NOW" : "NEXT UP");
@@ -606,6 +611,9 @@ final class WidgetRows {
             String where = e.optString("w");
             v.setTextViewText(R.id.nm, (live ? "until " + Widgets.fmt("h:mm a", e.optLong("e")) : Widgets.fmt("EEE h:mm a", e.optLong("s"))) + (where.isEmpty() ? "" : "  ·  " + where));
             v.setTextViewText(R.id.nc, live ? "Now" : Widgets.relative(e.optLong("s"), now).replace("in ", ""));
+            String lu = e.optString("u");
+            if (lu.startsWith("http")) { v.setViewVisibility(R.id.njoin, View.VISIBLE); v.setTextViewText(R.id.njoin, Links.label(e.optString("uk"))); v.setInt(R.id.njoin, "setBackgroundResource", R.drawable.join_bg); v.setTextColor(R.id.njoin, Widgets.color(c, R.color.dd_on_accent)); v.setOnClickFillInIntent(R.id.njoin, fill("url", lu, "")); }
+            else v.setViewVisibility(R.id.njoin, View.GONE);
         }
         v.setOnClickFillInIntent(R.id.nxroot, fill("open", "", r.target));
         return v;

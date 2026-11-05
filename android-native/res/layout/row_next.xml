@@ -42,11 +42,16 @@
             android:textColor="@color/dd_muted"
             android:textSize="14sp" />
     </LinearLayout>
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:gravity="end"
+        android:orientation="vertical">
     <TextView
         android:id="@+id/nc"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
         android:background="@drawable/pill_bg"
         android:fontFamily="sans-serif-medium"
         android:maxLines="1"
@@ -57,4 +62,21 @@
         android:textColor="@color/dd_accent"
         android:textSize="14sp"
         android:textStyle="bold" />
+        <TextView
+            android:id="@+id/njoin"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:background="@drawable/tile_accent_bg"
+            android:fontFamily="sans-serif-medium"
+            android:maxLines="1"
+            android:paddingStart="16dp"
+            android:paddingTop="7dp"
+            android:paddingEnd="16dp"
+            android:paddingBottom="7dp"
+            android:textColor="@color/dd_accent"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            android:visibility="gone" />
+    </LinearLayout>
 </LinearLayout>

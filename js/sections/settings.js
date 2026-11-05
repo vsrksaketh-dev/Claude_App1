@@ -36,6 +36,7 @@ function render() {
       <label class="check"><input type="checkbox" name="briefing" ${S.reminders.briefing !== false ? 'checked' : ''}> Morning briefing with your classes and tasks</label>
       <label class="check"><input type="checkbox" name="wrap" ${S.reminders.wrap !== false ? 'checked' : ''}> Evening wrap-up with what is next</label>
       <label class="check"><input type="checkbox" name="comeback" ${S.reminders.comeback !== false ? 'checked' : ''}> A gentle hello if I have been away for two or five days</label>
+      <label class="check"><input type="checkbox" name="taskTimes" ${S.reminders.taskTimes !== false ? 'checked' : ''}> Task reminders at the time I set on a task</label>
       <label class="check"><input type="checkbox" name="habits" ${S.reminders.habits !== false ? 'checked' : ''}> Habit nudges at the times I set in Routine</label>
       <label class="check"><input type="checkbox" name="weekly" ${S.reminders.weekly !== false ? 'checked' : ''}> Weekly review on Sunday evening</label>
       <label class="check"><input type="checkbox" name="backup" ${S.reminders.backup !== false ? 'checked' : ''}> Remind me to back up when it has been a while</label>
@@ -84,7 +85,7 @@ register({
     },
     profile: f => { S.profile.name = f.name.trim(); S.profile.roll = f.roll.trim(); S.profile.company = (f.company || '').trim(); S.profile.joining = f.joining || ''; },
     reminders: f => {
-      S.reminders = { on: !!f.on, morning: f.morning || '07:30', evening: f.evening || '21:00', briefing: !!f.briefing, wrap: !!f.wrap, comeback: !!f.comeback, weekly: !!f.weekly, habits: !!f.habits, backup: !!f.backup, deadlines: !!f.deadlines, cards: false, events: !!f.events };
+      S.reminders = { on: !!f.on, morning: f.morning || '07:30', evening: f.evening || '21:00', briefing: !!f.briefing, wrap: !!f.wrap, comeback: !!f.comeback, weekly: !!f.weekly, habits: !!f.habits, taskTimes: !!f.taskTimes, backup: !!f.backup, deadlines: !!f.deadlines, cards: false, events: !!f.events };
       if (S.reminders.on && isNative()) notifyPermission().then(ok => { if (!ok) alert('Notifications are blocked. Allow them for Daily Driver in Android settings.'); });
       refreshReminders();
     },

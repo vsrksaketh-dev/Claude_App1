@@ -232,6 +232,25 @@ const ok = (name, cond) => { console.log((cond ? 'PASS ' : 'FAIL ') + name); if 
   const q = await ctx.newPage(); await q.goto(`http://localhost:${port}/`); await q.waitForSelector('h1');
   await q.click('#nav [data-nav=home]'); ok('v1 habits migrated', /Old habit/.test(await q.textContent('#view')));
   await q.click('#nav [data-nav=tasks]'); ok('v1 deadlines became tasks', /Old exam/.test(await q.textContent('#view')));
+  // Links on events and tasks, task times and repeats
+  const lk = await p.evaluate(async () => { const l = await import('/js/links.js'); return { a: l.extractLinks('Join: https://teams.microsoft.com/l/meetup-join/abc. Case: https://drive.google.com/file/d/1/view and https://example.com/x.pdf, mail https://mail.google.com/mail/u/0/#inbox/1a1').map(x => x.kind), b: l.stripLinks('Case study https://drive.google.com/file/d/1/view') }; });
+  ok('links are found and ranked: meeting first, then documents, then mail', JSON.stringify(lk.a) === JSON.stringify(['meet', 'doc', 'doc']) && lk.b === 'Case study');
+  await p.evaluate(async () => { const c = await import('/js/core.js'); const u = await import('/js/util.js'); c.S.events.push({ id: 'lkev', title: 'Online DTS class', date: u.today(), time: '23:00', where: 'Online', link: 'https://teams.microsoft.com/l/meetup-join/xyz', mins: 75 }); c.commit(); });
+  await nav('home'); ok('an online class shows a Join button on Home', await p.locator('#view li a.lk-meet[href*="teams.microsoft.com"]').count() === 1);
+  await nav('calendar'); ok('and on the Calendar day card', await p.locator('#cal-day a.lk-meet[href*="teams.microsoft.com"]').count() === 1);
+  await p.evaluate(async () => { const c = await import('/js/core.js'); c.S.events = c.S.events.filter(e => e.id !== 'lkev'); c.commit(); });
+  await nav('tasks');
+  await p.fill('[data-form=task] [name=title]', 'Call the recruiter'); await p.fill('[data-form=task] [name=time]', '16:30'); await p.click('[data-form=task] button.primary');
+  ok('a task added with a time lands on today with the time shown', /Call the recruiter/.test(await view()) && /4:30pm/.test(await p.textContent('li:has-text("Call the recruiter")')));
+  await p.click('li:has-text("Call the recruiter") [data-act=taskEditOpen]');
+  await p.selectOption('[data-form=taskSave] [name=repeat]', 'daily'); await p.fill('[data-form=taskSave] [name=link]', 'https://drive.google.com/file/d/9/view'); await p.click('[data-form=taskSave] button.primary');
+  ok('a task can repeat and carry a document link', /repeats daily/.test(await view()) && await p.locator('li:has-text("Call the recruiter") a.lk-doc').count() === 1);
+  const rep = await p.evaluate(async () => { const c = await import('/js/core.js'); const l = await import('/js/logic.js'); const u = await import('/js/util.js'); const t = c.S.tasks.find(x => x.title === 'Call the recruiter'); const before = t.due; l.completeTask(t.id); return { before, after: t.due, done: t.done, tomorrow: u.addDays(u.today(), 1) }; });
+  ok('ticking a daily task moves it to tomorrow instead of finishing it', rep.before === rep.tomorrow - 0 || (rep.after === rep.tomorrow && rep.done === false));
+  await p.evaluate(async () => { const c = await import('/js/core.js'); c.S.reminders.on = true; c.S.tasks.push({ id: 'remt', title: 'Timed reminder task', due: (await import('/js/util.js')).addDays((await import('/js/util.js')).today(), 1), time: '09:15', repeat: '', important: true, done: false, kind: 'Task' }); c.commit(); });
+  const rl = await p.evaluate(async () => (await import('/js/reminders.js')).buildReminders().filter(n => n.title === 'Timed reminder task').map(n => n.body));
+  ok('a task with a time schedules a reminder at that time, and one ten minutes before for priority tasks', rl.length === 2 && rl.some(b => /Reminder/.test(b)) && rl.some(b => /10 minutes/.test(b)));
+  await p.evaluate(async () => { const c = await import('/js/core.js'); c.S.tasks = c.S.tasks.filter(t => !['remt'].includes(t.id) && t.title !== 'Call the recruiter'); c.S.reminders.on = false; c.commit(); });
   // Old flat notes (saved before the notes app) become pages, talking points in their own book
   const octx = await b.newContext({ viewport: { width: 390, height: 844 } });
   await octx.addInitScript(() => { if (!localStorage.getItem('daily-driver-v2')) localStorage.setItem('daily-driver-v2', JSON.stringify({ v: 2, notes: [{ id: 'o1', text: 'Kroll idea\nsecond line', at: 1700000000000, pinned: true }, { id: 'o2', text: 'Talking point: Rates\nWhat happened: cut\nMy view: ', at: 1700000001000, tp: true, src: 'Rates' }] })); });

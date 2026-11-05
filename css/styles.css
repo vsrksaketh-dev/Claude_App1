@@ -387,3 +387,15 @@ button.me i { width: 5px; height: 5px; border-radius: 50%; background: var(--mut
 button.me:hover, button.me:active { background: var(--accent-soft); }
 html[data-glass="off"] button.me { background: transparent; }
 .hero-top button.me { margin-top: -4px; }
+
+/* ---- link buttons, task editor ---- */
+.lks { display: inline-flex; gap: 6px; flex: none; align-items: center; }
+a.lk { display: inline-flex; align-items: center; min-height: 30px; padding: 4px 13px; border-radius: var(--r-pill); font: 600 .76rem/1 var(--font); text-decoration: none; color: var(--accent); background: var(--accent-soft); border: 1px solid var(--hair); }
+a.lk.lk-meet { background: var(--accent); color: var(--accent-ink); border-color: transparent; box-shadow: 0 4px 12px color-mix(in srgb, var(--accent) 35%, transparent); }
+a.lk.lk-doc, a.lk.lk-form { background: var(--accent-tint); color: var(--ink); }
+.next .lks { margin-left: 6px; }
+.capture.wrap { flex-wrap: wrap; border-radius: 28px; }
+.capture.wrap input[name=title] { flex: 1 1 100%; }
+.capture.wrap select { flex: 1 1 110px; }
+.capture input[type=time] { width: auto; flex: 1 1 110px; background: var(--inset); padding: 9px 12px; border-radius: var(--r-pill); font-size: .84rem; }
+li.editing .hedit { margin-top: 10px; }

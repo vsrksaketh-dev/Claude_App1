@@ -1,8 +1,12 @@
 // Tasks: one simple list of everything to do, grouped by when it is due. Add a task in one line.
 import { S, ui, register, remove } from '../core.js';
 import { today, daysFromToday, esc, uid, fmtDay, addDays } from '../util.js';
-import { empty, chip, check, head } from '../ui.js';
-import { openTasks, byRank, completeTask, uncompleteTask, doneToday } from '../logic.js';
+import { empty, chip, check, head, linkBtns } from '../ui.js';
+import { extractLinks } from '../links.js';
+import { openTasks, byRank, completeTask, uncompleteTask, doneToday, REPEATS } from '../logic.js';
+
+const te = ui.te = { id: null };
+const clock = hm => { const [h, m] = hm.split(':').map(Number); return `${h % 12 || 12}:${String(m).padStart(2, '0')}${h < 12 ? 'am' : 'pm'}`; };
 
 const GROUPS = [
   ['over', 'Overdue', t => t.due && daysFromToday(t.due) < 0],
@@ -13,19 +17,24 @@ const GROUPS = [
 ];
 const dueText = t => { const n = daysFromToday(t.due); return n < 0 ? `${-n}d late` : n === 0 ? 'today' : n === 1 ? 'tomorrow' : fmtDay(t.due); };
 
+const editor = t => `<form data-form="taskSave" data-id="${esc(t.id)}" class="hedit">
+  <label>Task<input name="title" value="${esc(t.title)}" maxlength="140" required></label>
+  <div class="inline"><label>Due date<input name="due" type="date" value="${esc(t.due || '')}"></label><label>Time (reminder)<input name="time" type="time" value="${esc(t.time || '')}"></label></div>
+  <div class="inline"><label>Repeat<select name="repeat">${REPEATS.map(([k, l]) => `<option value="${k}" ${(t.repeat || '') === k ? 'selected' : ''}>${l}</option>`).join('')}</select></label><label>Link (document, meeting)<input name="link" type="url" value="${esc(t.link || '')}" placeholder="https://"></label></div>
+  <div class="row"><button class="primary">Save</button><button type="button" data-act="taskEditOpen" data-id="${esc(t.id)}">Close</button></div></form>`;
 const row = t => t.derived
   ? `<li data-flip="t:${esc(t.id)}"><div class="grow"><span class="title">${esc(t.title)}</span>${t.left ? `<div class="muted">${esc(t.left)}</div>` : ''}</div></li>`
-  : `<li data-flip="t:${esc(t.id)}">${check('taskDone', t.id, false)}<div class="grow"><span class="title">${esc(t.title)}</span>
-      <div class="meta">${t.due ? `<span class="muted">${esc(dueText(t))}${t.kind && t.kind !== 'Task' ? ' · ' + esc(t.kind) : ''}</span>` : ''}<button class="pri ${t.important ? 'on' : ''}" data-act="taskStar" data-id="${esc(t.id)}" aria-pressed="${!!t.important}">${t.important ? 'Priority' : 'Mark priority'}</button></div></div>
-    <button class="ghost danger x" data-act="delTask" data-id="${esc(t.id)}" aria-label="Remove">×</button></li>`;
+  : `<li data-flip="t:${esc(t.id)}" class="${te.id === t.id ? 'editing' : ''}">${check('taskDone', t.id, false)}<div class="grow"><span class="title">${esc(t.title)}</span>
+      <div class="meta">${t.due || t.time ? `<span class="muted">${esc(t.due ? dueText(t) : 'today')}${t.time ? ' ' + esc(clock(t.time)) : ''}${t.kind && t.kind !== 'Task' ? ' · ' + esc(t.kind) : ''}${t.repeat ? ' · repeats ' + esc(t.repeat) : ''}</span>` : ''}<button class="pri ${t.important ? 'on' : ''}" data-act="taskStar" data-id="${esc(t.id)}" aria-pressed="${!!t.important}">${t.important ? 'Priority' : 'Mark priority'}</button><button class="pri" data-act="taskEditOpen" data-id="${esc(t.id)}">${te.id === t.id ? 'Close' : 'Edit'}</button></div>${te.id === t.id ? editor(t) : ''}</div>
+    ${linkBtns(extractLinks(t.link || ''))}<button class="ghost danger x" data-act="delTask" data-id="${esc(t.id)}" aria-label="Remove">×</button></li>`;
 const doneRow = t => `<li class="done" data-flip="t:${esc(t.id)}">${check('taskUndo', t.id, true)}<div class="grow"><span class="title">${esc(t.title)}</span></div><button class="ghost danger x" data-act="delTask" data-id="${esc(t.id)}" aria-label="Remove">×</button></li>`;
 
 function tasksPage() {
   const open = openTasks().sort(byRank), finished = doneToday();
   const earlier = S.tasks.filter(t => t.done && t.doneAt !== today()).sort((a, b) => (b.doneAt || '').localeCompare(a.doneAt || ''));
   const groups = GROUPS.map(([id, name, f]) => [id, name, open.filter(f)]).filter(g => g[2].length);
-  return `<form data-form="task" data-keep class="capture"><input name="title" placeholder="Add a task" aria-label="New task" maxlength="140" required>
-    <select name="when" aria-label="Due"><option value="">No date</option><option value="0">Today</option><option value="1">Tomorrow</option><option value="7">In a week</option></select><button class="primary">Add</button></form>
+  return `<form data-form="task" data-keep class="capture wrap"><input name="title" placeholder="Add a task" aria-label="New task" maxlength="140" required>
+    <select name="when" aria-label="Due"><option value="">No date</option><option value="0">Today</option><option value="1">Tomorrow</option><option value="7">In a week</option></select><input name="time" type="time" aria-label="Reminder time" title="Optional: remind me at this time"><button class="primary">Add</button></form>
   ${groups.length ? `<section class="card">${groups.map(([id, name, list]) => `<h3 class="group-h">${name} ${chip(String(list.length), id === 'over' ? 'bad' : 'plain')}</h3><ul class="list">${list.map(row).join('')}</ul>`).join('')}</section>` : `<section class="card">${empty('Nothing to do. Add something above, or enjoy the quiet.')}</section>`}
   ${finished.length ? `<section class="card"><div class="row between"><h2 style="margin:0">Done today</h2>${chip(String(finished.length), 'ok')}</div><ul class="list" style="margin-top:12px">${finished.map(doneRow).join('')}</ul></section>` : ''}
   ${earlier.length ? `<details class="card"><summary>Earlier (${earlier.length})</summary><ul class="list" style="margin-top:10px">${earlier.slice(0, 15).map(t => `<li class="done"><span class="grow title">${esc(t.title)}</span>${t.doneAt ? chip(fmtDay(t.doneAt), 'plain') : ''}</li>`).join('')}</ul><div class="row"><button class="ghost" data-act="clearDone">Clear these</button></div></details>` : ''}`;
@@ -43,9 +52,16 @@ register({
     taskUndo: d => uncompleteTask(d.id),
     taskStar: d => { const t = S.tasks.find(x => x.id === d.id); if (t) t.important = !t.important; },
     delTask: d => remove('tasks', d.id),
+    taskEditOpen: d => { te.id = te.id === d.id ? null : d.id; },
     clearDone: () => { S.tasks = S.tasks.filter(t => !t.done || t.doneAt === today()); },
   },
   forms: {
-    task: f => { const t = (f.title || '').trim(); if (t) S.tasks.push({ id: uid(), title: t, due: f.when === '' || f.when === undefined ? '' : addDays(today(), Number(f.when)), important: false, done: false, kind: 'Task' }); },
+    taskSave: (f, form) => {
+      const t = S.tasks.find(x => x.id === form.dataset.id); if (!t) return;
+      t.title = (f.title || t.title).trim() || t.title; t.due = f.due || ''; t.time = f.time || ''; t.repeat = f.repeat || ''; t.link = (f.link || '').trim();
+      if (t.time && !t.due) t.due = today();       // a reminder time needs a day
+      te.id = null;
+    },
+    task: f => { const t = (f.title || '').trim(); if (t) S.tasks.push({ id: uid(), title: t, due: f.when === '' || f.when === undefined ? (f.time ? today() : '') : addDays(today(), Number(f.when)), time: f.time || '', repeat: '', important: false, done: false, kind: 'Task' }); },
   },
 });

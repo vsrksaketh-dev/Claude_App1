@@ -2,7 +2,7 @@
 // synced Google Calendar events, events typed in by hand, deadlines, things to do, email key facts and tasks that fall due.
 import { ui, register, render as rerender } from '../core.js';
 import { today, addDays, parse, dateKey, weekStart, esc } from '../util.js';
-import { chip, check, empty, head } from '../ui.js';
+import { chip, check, empty, head, linkBtns } from '../ui.js';
 import { getSources, hasCalendars, lastSync, syncAll } from '../calendar.js';
 import { agendaOn, monthSummary, dayWord, range, KIND_LABEL } from '../agenda.js';
 
@@ -29,12 +29,14 @@ function itemRow(it) {
   else lead = `<span class="chip">${it.allDay ? 'All day' : clock(it.start)}</span>`;
   const tag = it.kind === 'event' ? (it.interview ? chip('Interview', 'warn') : '') : chip(KIND_LABEL[it.kind], it.kind === 'due' ? 'bad' : it.kind === 'action' ? 'warn' : 'plain');
   const meta = [it.kind !== 'event' && time ? time : it.kind === 'event' && !it.allDay && it.end > it.start ? 'until ' + clock(it.end) : '', it.where, it.src, it.desc].filter(Boolean).join(' · ');
-  return `<li data-flip="c:${esc(it.id || it.key || it.title)}:${it.start}" class="cal-item k-${it.kind} ${it.done ? 'done' : ''}">${lead}<div class="grow"><span class="title">${esc(it.title)}</span> ${tag}${meta ? `<div class="muted">${esc(meta)}</div>` : ''}</div>${it.id && it.kind === 'event' ? `<button class="ghost danger" data-act="delEvent" data-id="${esc(it.id)}" aria-label="Remove event">×</button>` : ''}</li>`;
+  return `<li data-flip="c:${esc(it.id || it.key || it.title)}:${it.start}" class="cal-item k-${it.kind} ${it.done ? 'done' : ''}">${lead}<div class="grow"><span class="title">${esc(it.title)}</span> ${tag}${meta ? `<div class="muted">${esc(meta)}</div>` : ''}</div>${linkBtns(it.links)}${it.id && it.kind === 'event' ? `<button class="ghost danger" data-act="delEvent" data-id="${esc(it.id)}" aria-label="Remove event">×</button>` : ''}</li>`;
 }
 const itemList = items => items.length ? `<ul class="list">${[...items.filter(i => !i.done), ...items.filter(i => i.done)].map(itemRow).join('')}</ul>` : empty('Nothing planned.');
 
-const addForm = k => `<details><summary>Add an event on this day</summary><form data-form="event" class="inline">
-  <label>Title<input name="title" required></label><label>Date<input name="date" type="date" required value="${k}"></label><label>Time<input name="time" type="time"></label><button class="primary">Add</button></form></details>`;
+const addForm = k => `<details ${ui.sub.calAdd ? 'open' : ''}><summary>Add an event on this day</summary><form data-form="event" class="inline">
+  <label>Title<input name="title" required></label><label>Date<input name="date" type="date" required value="${k}"></label><label>Time<input name="time" type="time"></label>
+  <label>Length<select name="mins"><option value="30">30 min</option><option value="60" selected>1 hour</option><option value="90">1.5 hours</option><option value="120">2 hours</option></select></label>
+  <label>Place<input name="where" placeholder="Room or Online"></label><label>Link<input name="link" type="url" placeholder="Meeting or document link"></label><button class="primary">Add</button></form></details>`;
 
 function dayCard(k) {
   const items = agendaOn(k);
@@ -141,7 +143,7 @@ register({
     calPrev: () => step(mode(), -1),
     calNext: () => step(mode(), 1),
     calToday: () => { ui.sub.calSel = today(); ui.sub.calAnchor = today(); },
-    calPick: d => { ui.sub.calSel = d.d; if (mode() === 'month' && d.d.slice(0, 7) !== firstOf(anchor()).slice(0, 7)) ui.sub.calAnchor = d.d; setTimeout(() => document.getElementById('cal-day')?.scrollIntoView({ behavior: 'smooth', block: 'nearest' }), 40); },
+    calPick: d => { ui.sub.calAdd = false; ui.sub.calSel = d.d; if (mode() === 'month' && d.d.slice(0, 7) !== firstOf(anchor()).slice(0, 7)) ui.sub.calAnchor = d.d; setTimeout(() => document.getElementById('cal-day')?.scrollIntoView({ behavior: 'smooth', block: 'nearest' }), 40); },
     calOpenDay: d => { ui.sub.calMode = 'day'; ui.sub.calSel = d.d; ui.sub.calAnchor = d.d; },
     calSync: () => { syncAll(true).then(() => rerender()); },
   },

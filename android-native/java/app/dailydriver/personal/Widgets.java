@@ -35,8 +35,8 @@ public class Widgets {
     private static final String PREFS = "widgets";
     private static final String[] CATS = { "International", "Indian", "Business", "Tech" };
     private static final String[] CAT_SHORT = { "World", "India", "Business", "Tech" };
-    private static final String[] MODES = { "month", "week", "agenda" };
-    private static final String[] MODE_NAMES = { "Month", "Week", "Agenda" };
+    private static final String[] MODES = { "month", "week", "day", "agenda" };
+    private static final String[] MODE_NAMES = { "Month", "Week", "Day", "Agenda" };
 
     // ---------- storage ----------
     static SharedPreferences prefs(Context c) { return c.getSharedPreferences(PREFS, Context.MODE_PRIVATE); }
@@ -144,7 +144,7 @@ public class Widgets {
      */
     static String[] calState(Context c) {
         String mode = prefs(c).getString("cmode", "month");
-        if (!"month".equals(mode) && !"week".equals(mode) && !"agenda".equals(mode)) mode = "month";
+        if (!"month".equals(mode) && !"week".equals(mode) && !"day".equals(mode) && !"agenda".equals(mode)) mode = "month";
         String sel = prefs(c).getString("csel", null), anchor = prefs(c).getString("canchor", null);
         if (!validDay(sel)) sel = dayKey(0);
         if (!validDay(anchor)) anchor = sel;
@@ -216,7 +216,7 @@ public class Widgets {
                     e.putString("csel", id);
                     // the month or week on show follows the day that was picked, so what is highlighted is always what is drawn
                     if ("month".equals(st[0]) && !id.substring(0, 7).equals(st[2].substring(0, 7))) e.putString("canchor", id);
-                    else if ("week".equals(st[0]) && !weekStart(id).equals(weekStart(st[2]))) e.putString("canchor", id);
+                    else if (("week".equals(st[0]) || "day".equals(st[0])) && !weekStart(id).equals(weekStart(st[2]))) e.putString("canchor", id);
                     break;
                 }
                 case "cnav": {
@@ -230,6 +230,10 @@ public class Widgets {
                         String a = plusDays(st[2], 7 * dir), sl = plusDays(st[1], 7 * dir);
                         if (!validDay(a) || !validDay(sl)) break;
                         e.putString("canchor", a).putString("csel", sl);
+                    } else if ("day".equals(st[0])) {
+                        String sl = plusDays(st[1], dir);
+                        if (!validDay(sl)) break;
+                        e.putString("csel", sl).putString("canchor", sl);
                     } else {
                         // the agenda starts at today and moves a week at a time, never into the past
                         String a = plusDays(st[2], 7 * dir);
@@ -561,15 +565,17 @@ public class Widgets {
         // title and navigation
         String title = "month".equals(mode) ? fmt(wDp >= 300 ? "MMMM yyyy" : "MMM yyyy", cal(anchor).getTimeInMillis())
             : "week".equals(mode) ? fmt("d MMM", cal(weekStart(anchor)).getTimeInMillis()) + " – " + fmt("d MMM", cal(plusDays(weekStart(anchor), 6)).getTimeInMillis())
+            : "day".equals(mode) ? fmt("EEE d MMMM", cal(sel).getTimeInMillis())
             : fmt("d MMM", cal(anchor).getTimeInMillis()) + " – " + fmt("d MMM", cal(plusDays(anchor, 41)).getTimeInMillis());
         v.setTextViewText(R.id.ctitle, title);
+        v.setOnClickPendingIntent(R.id.cadd, open(c, "calendar:add:" + sel));
         v.setOnClickPendingIntent(R.id.ctitle, open(c, "calendar:" + mode));
         v.setOnClickPendingIntent(R.id.cprev, act(c, "cnav", "-1"));
         v.setOnClickPendingIntent(R.id.cnext, act(c, "cnav", "1"));
         v.setOnClickPendingIntent(R.id.ctoday, act(c, "ctoday", ""));
         for (int i = 0; i < MODES.length; i++) pill(c, v, R.id.cmodes, MODE_NAMES[i], MODES[i].equals(mode), act(c, "cmode", MODES[i]));
 
-        boolean grid = !"agenda".equals(mode);
+        boolean grid = "month".equals(mode) || "week".equals(mode);
         v.setViewVisibility(R.id.cwk, grid ? View.VISIBLE : View.GONE);
         v.setViewVisibility(R.id.calgrid, "month".equals(mode) ? View.VISIBLE : View.GONE);
         v.setViewVisibility(R.id.calweek, "week".equals(mode) ? View.VISIBLE : View.GONE);
@@ -601,10 +607,7 @@ public class Widgets {
             v.addView(R.id.calweek, row);
         }
         bindList(c, v, CALENDAR, widgetId);
-        if ("week".equals(mode)) {
-            List<WidgetRows.Row> rows = WidgetRows.build(c, CALENDAR);
-            v.setScrollPosition(R.id.list, WidgetRows.headingIndex(rows, sel));
-        } else v.setScrollPosition(R.id.list, 0);
+        v.setScrollPosition(R.id.list, 0);
         return v;
     }
 
