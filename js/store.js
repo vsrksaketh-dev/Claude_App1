@@ -15,6 +15,9 @@ export const blank = () => ({
   meta: { lastBackup: '', since: today(), autoAt: '', savedAt: 0 },   // since: first run, so the backup nudge waits a couple of weeks
   reminders: { on: false, morning: '07:30', evening: '21:00', briefing: true, wrap: true, comeback: true, weekly: true, backup: true, deadlines: true, cards: false, events: true },   // Android app only
   habits: DEFAULT_HABITS.map(([name, when]) => ({ id: uid(), name, when, days: [0, 1, 2, 3, 4, 5, 6], created: today() })),
+  exams: [],                   // { id, subject, date, time, where, topics: [{ id, x, d }] }  end-terms and quizzes with a revision checklist
+  attend: {},                  // { 'title|start': 'y' | 'n' }  attendance marked on past classes
+  study: { minAttend: 75 },    // attendance below this is flagged
   saved: [],                   // news stories kept by the user: { cat, title, summary, why, src, url, at }
   books: [],                   // { id, name, at }  notebooks (pages with no book sit in the built-in Inbox)
   pages: [],                   // { id, title, bookId, blocks[], pinned, at, upd, tp, src, shared, trashed?, files?: [{ id, name, type, size }] }  blocks: { id, t: p|h|b|n|c|q, x, d, l }  (trashed: time it went to Trash; purged after 30 days)  (Notes)
@@ -27,7 +30,7 @@ export const blank = () => ({
   // Legacy areas below have no screen any more (Track, Goals, Career, Money). Their data stays in the file and in backups, never dropped.
   goals: [],                   // { id, title, why, area, horizon, due, status, milestones[], habitIds[] }
   journal: {},                 // { date: { mood, energy, wins, lessons, grateful, tomorrow } }
-  reviews: {},                 // { weekStart: { well, improve, focus } }
+  reviews: {},                 // { weekStart: { well, improve, focus, at, top: [taskIds] } }  (top: the week's three, picked in the Sunday review)
   learnLog: [],                // { id, date, text, topic }
   library: [],                 // { id, title, kind, status, rating, notes[] }
   cards: [],                   // { id, front, back, deck, due, interval, ease, reps, seen }
@@ -67,7 +70,7 @@ function migrate(o) {
     });
     n.notes = [];
   }
-  ['profile', 'modules', 'meta', 'stats', 'timer', 'reminders'].forEach(k => { n[k] = { ...base[k], ...(o[k] || {}) }; });
+  ['profile', 'modules', 'meta', 'stats', 'timer', 'reminders', 'study'].forEach(k => { n[k] = { ...base[k], ...(o[k] || {}) }; });
   return n;
 }
 

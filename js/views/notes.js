@@ -59,8 +59,8 @@ function listView() {
   <div class="row notes-tools"><button class="primary" data-act="pageNew">New page</button>
     <input class="search" type="search" data-bind="noteSearch" value="${esc(nb.q)}" placeholder="Search notes" aria-label="Search notes"></div>
   ${bookBar}${newBook}${manage}
-  ${all.length ? `${sortBar}${pinned.length ? `<section class="card"><h3 class="group-h">Pinned</h3><ul class="list pages">${pinned.map(pageRow).join('')}</ul></section>` : ''}
-    ${rest.length ? `<section class="card">${pinned.length ? '<h3 class="group-h">Pages</h3>' : ''}<ul class="list pages">${rest.map(pageRow).join('')}</ul></section>` : ''}
+  ${all.length ? `${sortBar}${pinned.length ? `<section class="card"><h2>Pinned</h2><ul class="list pages">${pinned.map(pageRow).join('')}</ul></section>` : ''}
+    ${rest.length ? `<section class="card">${pinned.length ? '<h2>Pages</h2>' : ''}<ul class="list pages">${rest.map(pageRow).join('')}</ul></section>` : ''}
     <p class="muted nores" hidden>No page matches that search.</p>`
     : `<section class="card">${empty(pages.length ? 'No pages in this book yet. Tap New page.' : 'Nothing here yet. Jot a thought above, or start a page. Share a link from any app and it lands here too.')}
       ${!S.books.length ? `<div class="starters"><span class="muted">Start a book:</span>${STARTERS.map(n => `<button class="pill" data-act="bookStarter" data-id="${esc(n)}">${esc(n)}</button>`).join('')}</div>` : ''}</section>`}`;

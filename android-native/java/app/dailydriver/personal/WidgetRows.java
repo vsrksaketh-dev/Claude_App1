@@ -93,7 +93,7 @@ final class WidgetRows {
 
     private static void habitProgress(List<Row> out, JSONObject s) {
         JSONObject h = s.optJSONObject("habits");
-        int total = h == null ? 0 : h.optInt("total"), done = h == null ? 0 : h.optInt("done");
+        int total = h == null ? 0 : h.optInt("total"), done = h == null || Widgets.stale(s) ? 0 : h.optInt("done");
         if (total == 0) return;
         Row r = add(out, T_PROGRESS);
         r.a = "Habits today";
@@ -158,8 +158,8 @@ final class WidgetRows {
             if (!head) { section(out, "Tap to tick off", "home"); head = true; }
             Row r = add(out, T_HABIT);
             r.a = h.optString("name");
-            r.done = h.optBoolean("done");
-            r.b = h.optString("wk");
+            r.done = !Widgets.stale(s) && h.optBoolean("done");
+            r.b = Widgets.stale(s) ? "" : h.optString("wk");
             r.act = "habit";
             r.id = h.optString("id");
             r.target = "home";
@@ -261,7 +261,7 @@ final class WidgetRows {
         for (int i = 0; i < t.length(); i++) {
             JSONObject x = t.optJSONObject(i);
             if (x == null) continue;
-            if (x.optInt("dn") == 1) { finished.add(x); continue; }
+            if (x.optInt("dn") == 1) { if (!Widgets.stale(s)) finished.add(x); continue; }
             String due = Widgets.dueLabel(x.optString("dd"), x.optString("due"));
             if (tf.equals("soon") && !(due.equals("Overdue") || due.equals("Today") || due.equals("Tomorrow"))) continue;
             if (tf.equals("pri") && x.optInt("imp") != 1) continue;
@@ -295,8 +295,8 @@ final class WidgetRows {
             JSONObject h = hl.get(i);
             Row r = add(out, T_HABIT);
             r.a = h.optString("name");
-            r.done = h.optBoolean("done");
-            r.b = h.optString("wk");
+            r.done = !Widgets.stale(s) && h.optBoolean("done");
+            r.b = Widgets.stale(s) ? "" : h.optString("wk");
             r.act = "habit";
             r.id = h.optString("id");
             r.target = "home";

@@ -12,9 +12,10 @@ const ok = (name, cond) => { console.log((cond ? 'PASS ' : 'FAIL ') + name); if 
   const view = () => p.textContent('#view');
   const nav = n => p.click(`#nav [data-nav=${n}]`);
 
-  ok('home leads with the to-do list and the schedule, not news', /To do/.test(await view()) && /Today's schedule/.test(await view()) && !(await p.locator('.story').count()));
+  ok('home is the day: a big date, the Today timeline and Anytime tasks, not news', await p.locator('.today-head h1').count() === 1 && /Today/.test(await view()) && /Anytime/.test(await view()) && !(await p.locator('.story').count()));
   ok('bottom bar has five tabs (Home, Tasks, Notes, Calendar, Learn) and no Track or Plan', (await p.locator('#nav button').count()) === 5 && (await p.locator('#nav [data-nav=plan]').count()) === 0 && (await p.locator('#nav [data-nav=track]').count()) === 0);
-  ok('the page glass wash and frosted panes are on', await p.evaluate(() => !document.documentElement.hasAttribute('data-glass') && getComputedStyle(document.querySelector('.card')).backdropFilter !== 'none'));
+  ok('v3 look: solid page, no colour wash, Inter, glass only on the bottom bar', await p.evaluate(() => getComputedStyle(document.body, '::before').display === 'none' && /Inter/.test(getComputedStyle(document.body).fontFamily) && getComputedStyle(document.querySelector('#nav')).backdropFilter !== 'none' && getComputedStyle(document.querySelector('.card')).backdropFilter === 'none'));
+  ok('the bottom bar has icons over its labels', await p.locator('#nav button svg').count() === 5);
 
   // Learn: News first (all categories), then Cases
   await nav('learn');
@@ -35,24 +36,23 @@ const ok = (name, cond) => { console.log((cond ? 'PASS ' : 'FAIL ') + name); if 
 
   // Home: one capture bar, a ranked to-do list, ticked rows sink
   await p.fill('[data-form=quick] [name=text]', 'Prepare marketing case'); await p.click('[data-form=quick] button');
-  ok('captured task is on the to-do list at once', /Prepare marketing case/.test(await p.textContent('.card:has(h2:has-text("To do"))')));
+  ok('captured task is on the Anytime list at once', /Prepare marketing case/.test(await p.textContent('.card:has(h2:has-text("Anytime"))')));
   ok('the capture bar keeps the keyboard open', await p.evaluate(() => document.activeElement && document.activeElement.name === 'text'));
   await p.fill('[data-form=quick] [name=text]', 'Call the placement cell'); await p.click('[data-form=quick] button');
   await p.fill('[data-form=quick] [name=text]', 'Pack the laptop bag'); await p.click('[data-form=quick] button');
-  const todoItems = () => p.locator('.card:has(h2:has-text("To do")) .list > li').allTextContents();
-  await p.click('.card:has(h2:has-text("To do")) li:has-text("Call the placement cell") [data-act=taskDone]');
+  const todoItems = () => p.locator('.card:has(h2:has-text("Anytime")) .list > li').allTextContents();
+  await p.click('.card:has(h2:has-text("Anytime")) li:has-text("Call the placement cell") [data-act=taskDone]');
   const afterTick = await todoItems();
-  ok('a ticked to-do stays, struck through, at the bottom', /Call the placement cell/.test(afterTick[afterTick.length - 1]) && await p.locator('.card:has(h2:has-text("To do")) li.done:has-text("Call the placement cell")').count() === 1);
+  ok('a ticked to-do stays, struck through, at the bottom', /Call the placement cell/.test(afterTick[afterTick.length - 1]) && await p.locator('.card:has(h2:has-text("Anytime")) li.done:has-text("Call the placement cell")').count() === 1);
   ok('the undone ones stay above it', afterTick.slice(0, -1).some(t => /Pack the laptop bag/.test(t)));
-  await p.click('.card:has(h2:has-text("To do")) li.done:has-text("Call the placement cell") [data-act=taskUndo]');
-  ok('unticking lifts it back up', await p.locator('.card:has(h2:has-text("To do")) li.done').count() === 0);
-  await p.click('.card:has(h2:has-text("To do")) li:has-text("Call the placement cell") [data-act=taskDone]');
-  await p.click('.card:has(h2:has-text("To do")) li:has-text("Pack the laptop bag") [data-act=taskDone]');
-  ok('the hero counts what is done today', /2\s*done today/.test(await p.textContent('.hero')));
-  ok('close the day and top 3 are gone', !/Close the day/.test(await view()) && !/Top 3/.test(await view()));
-  ok('Needs your attention is hidden when nothing needs you', !/Needs your attention/.test(await view()));
-  await p.click('.habit-chip [data-act=habit] >> nth=0');
-  ok('habits are one tick-able strip', /1\/3 today/.test(await view()) && await p.locator('.habit-chip.done').count() === 1);
+  await p.click('.card:has(h2:has-text("Anytime")) li.done:has-text("Call the placement cell") [data-act=taskUndo]');
+  ok('unticking lifts it back up', await p.locator('.card:has(h2:has-text("Anytime")) li.done').count() === 0);
+  await p.click('.card:has(h2:has-text("Anytime")) li:has-text("Call the placement cell") [data-act=taskDone]');
+  await p.click('.card:has(h2:has-text("Anytime")) li:has-text("Pack the laptop bag") [data-act=taskDone]');
+  ok('no hero ring and no motto', await p.locator('.hero, .ring').count() === 0);
+  ok('the inbox section is hidden when nothing needs you', !/from your inbox/.test(await view()));
+  await p.click('.habit-chip[data-act=habit] >> nth=0');
+  ok('habits are a row of dots that tick', /1\/3/.test(await p.textContent('.card:has(h2:has-text("Habits"))')) && await p.locator('.habit-chip.done').count() === 1);
 
   // Routine: weekly goals, counters, workout types, logging a missed day
   await p.click('.card:has(h2:has-text("Habits")) [data-nav=routine]');
@@ -65,10 +65,10 @@ const ok = (name, cond) => { console.log((cond ? 'PASS ' : 'FAIL ') + name); if 
   ok('a missed earlier day can be logged too', /2\/5 this week/.test(await view()));
   await p.click('[data-act=habitPreset][data-id=Water]'); await p.click('[data-nav=home]');
   ok('Home shows the goal as 2/5 and the counter as 0/8', /2\/5/.test(await p.textContent('.habit-row')) && /0\/8/.test(await p.textContent('.habit-row')));
-  await p.click('.habit-chip.count >> nth=0'); await p.click('.habit-chip.count >> nth=0');
-  ok('a counter counts up with each tap', /2\/8/.test(await p.textContent('.habit-row')) && await p.locator('.habit-chip.count.done').count() === 0);
+  await p.click('.habit-chip:has-text("Water")'); await p.click('.habit-chip:has-text("Water")');
+  ok('a counter counts up with each tap', /2\/8/.test(await p.textContent('.habit-row')) && await p.locator('.habit-chip.done:has-text("Water")').count() === 0);
   await p.evaluate(async () => { const c = await import('/js/core.js'); const l = await import('/js/logic.js'); const h = c.S.habits.find(x => x.name === 'Water'); l.setHabit(h, (await import('/js/util.js')).today(), 8); c.commit(); });
-  ok('reaching the target completes it', await p.locator('.habit-chip.count.done').count() === 1);
+  ok('reaching the target completes it', await p.locator('.habit-chip.done:has-text("Water")').count() === 1);
   await nav('home');
   await p.evaluate(async () => { const c = await import('/js/core.js'); c.ui.tagAsk = c.S.habits.find(x => x.name === 'Gym').id; c.commit(); });
   await p.click('[data-act=habitTag][data-tag=Push]');
@@ -79,10 +79,12 @@ const ok = (name, cond) => { console.log((cond ? 'PASS ' : 'FAIL ') + name); if 
   // Plan: one list grouped by date
   await nav('tasks');
   ok('Tasks has no goals, applications, network or stories', !/Goals|Applications|Network|Stories/.test(await p.textContent('#nav') + await view()) && await p.locator('.matrix, .kanban').count() === 0);
-  ok('captured tasks are listed under No date', /Prepare marketing case/.test(await p.textContent('h3.group-h:has-text("No date") + ul')));
+  ok('captured tasks are listed under No date', /Prepare marketing case/.test(await p.textContent('.card:has(h2:has-text("No date")) ul')));
   await p.fill('[data-form=task] [name=title]', 'Sheet task'); await p.selectOption('[data-form=task] [name=when]', '0'); await p.click('[data-form=task] button.primary');
-  ok('a task due today lands under Today', /Sheet task/.test(await p.textContent('h3.group-h:has-text("Today") + ul')));
-  await p.click('li:has-text("Sheet task") [data-act=taskStar]'); ok('priority toggles', await p.locator('li:has-text("Sheet task") .pri.on').count() === 1);
+  ok('a task due today lands under Today', /Sheet task/.test(await p.textContent('.card:has(h2:has-text("Today")) ul')));
+  await p.click('li:has-text("Sheet task") .edit-btn'); ok('tapping a task opens its sheet', await p.locator('.sheet [data-form=taskSave]').count() === 1);
+  await p.check('.sheet [name=important]'); await p.click('.sheet [data-form=taskSave] button.primary');
+  ok('priority is set from the sheet and shows as a flag', await p.locator('li:has-text("Sheet task") .pflag').count() === 1 && await p.locator('.sheet').count() === 0);
   ok('what was ticked today shows under Done today', /Call the placement cell/.test(await p.textContent('.card:has(h2:has-text("Done today"))')));
 
   // Notes: books, pages and the block editor
@@ -112,7 +114,7 @@ const ok = (name, cond) => { console.log((cond ? 'PASS ' : 'FAIL ') + name); if 
   await p.click('[data-act=blkType][data-t=c]'); await p.click('[data-act=pageTasks]');
   ok('open checklist items can become tasks', await p.evaluate(async () => (await import('/js/core.js')).S.tasks.some(t => t.title === 'Prepare two stories')));
   await p.click('[data-act=pagePin] >> nth=0'); await p.click('[data-act=pageClose]');
-  ok('closing the page returns to the list with the page pinned and titled', /Deloitte HCOT questions/.test(await p.textContent('h3.group-h:has-text("Pinned") + ul')));
+  ok('closing the page returns to the list with the page pinned and titled', /Deloitte HCOT questions/.test(await p.textContent('.card:has(h2:has-text("Pinned")) ul')));
   await p.fill('[data-bind=noteSearch]', 'kroll'); ok('search narrows the pages', await p.locator('[data-pg]:visible').count() === 1);
   await p.fill('[data-bind=noteSearch]', 'zzzz'); ok('and shows none for no match', await p.locator('[data-pg]:visible').count() === 0); await p.fill('[data-bind=noteSearch]', '');
   await p.click('[data-act=noteBook][data-id=all]'); ok('All shows every page', await p.locator('[data-pg]').count() === 2);
@@ -127,12 +129,24 @@ const ok = (name, cond) => { console.log((cond ? 'PASS ' : 'FAIL ') + name); if 
   await p.click('[data-act=pageClose]'); await p.click('[data-act=noteBook][data-id=all]');
   await p.evaluate(async () => { const c = await import('/js/core.js'); c.S.pages = []; c.S.books = []; c.commit(); });
 
-  // Home: the ring and the next-up card
+  // Home: the Today timeline (events in time order, the now line, free gaps you can fill with a task)
   await nav('home');
-  ok('the hero has a progress ring', await p.locator('.hero .ring').count() === 1);
-  await p.evaluate(async () => { const c = await import('/js/core.js'); const u = await import('/js/util.js'); c.S.events.push({ id: 'later', title: 'Late seminar', date: u.today(), time: '23:59', where: 'Aud 1' }); c.commit(); });
-  ok('Next up shows the next event with a live countdown', /Late seminar/.test(await p.textContent('.next')) && await p.locator('.next [data-countdown]').count() === 1);
-  await p.evaluate(async () => { const c = await import('/js/core.js'); c.S.events = c.S.events.filter(e => e.id !== 'later'); c.commit(); });
+  await p.evaluate(async () => { const c = await import('/js/core.js'); const u = await import('/js/util.js'); c.S.events.push({ id: 'later', title: 'Late seminar', date: u.today(), time: '23:30', where: 'Aud 1' }, { id: 'early', title: 'DHRM · Session 9', date: u.today(), time: '00:05', mins: 60, where: 'CR 14' }); c.commit(); });
+  ok('the timeline shows events in time order with their place', await p.evaluate(() => { const t = [...document.querySelectorAll('.tl-row b')].map(x => x.textContent); return t.indexOf('DHRM · Session 9') >= 0 && t.indexOf('DHRM · Session 9') < t.indexOf('Late seminar'); }) && /Aud 1/.test(await p.textContent('.tl')));
+  ok('a class keeps its course colour', await p.evaluate(() => [...document.querySelectorAll('.tl-row')].some(r => /DHRM/.test(r.textContent) && r.style.getPropertyValue('--c') === '#3F51B5')));
+  ok('a past class can be marked attended', await p.locator('.tl-row:has-text("DHRM · Session 9") [data-act=attendMark][data-v=y]').count() === 1);
+  await p.click('.tl-row:has-text("DHRM · Session 9") [data-act=attendMark][data-v=y]');
+  ok('and is counted in Classes & exams', await p.evaluate(async () => (await import('/js/study.js')).courseStats().some(c => c.code === 'DHRM' && c.y === 1)));
+  const gapBtn = p.locator('[data-act=gapPlan]').first();
+  if (await gapBtn.count()) {
+    await p.evaluate(async () => { const c = await import('/js/core.js'); c.S.tasks.push({ id: 'slot1', title: 'Draft the DHRM reflection', due: '', important: false, done: false, kind: 'Task' }); c.commit(); });
+    await p.locator('[data-act=gapPlan]').first().click();
+    ok('a free gap opens a sheet of tasks to place there', await p.locator('.sheet [data-act=taskPlace]:has-text("Draft the DHRM reflection")').count() === 1);
+    await p.click('.sheet [data-act=taskPlace]:has-text("Draft the DHRM reflection")');
+    ok('the picked task gets that time today and moves onto the timeline', await p.evaluate(async () => { const t = (await import('/js/core.js')).S.tasks.find(x => x.id === 'slot1'); return !!t.time && t.due === (await import('/js/util.js')).today(); }) && /Draft the DHRM reflection/.test(await p.textContent('.tl')));
+    await p.evaluate(async () => { const c = await import('/js/core.js'); c.S.tasks = c.S.tasks.filter(x => x.id !== 'slot1'); c.commit(); });
+  }
+  await p.evaluate(async () => { const c = await import('/js/core.js'); c.S.events = c.S.events.filter(e => !['later', 'early'].includes(e.id)); c.commit(); });
 
   // Settings: theme, glass, habits
   await nav('home'); await p.click('[data-nav=settings]');
@@ -145,7 +159,7 @@ const ok = (name, cond) => { console.log((cond ? 'PASS ' : 'FAIL ') + name); if 
   await p.click('[data-nav=routine]'); await p.fill('[data-form=habit] [name=name]', 'Workout'); await p.click('[data-form=habit] button.primary'); ok('habit added in Routine', /Workout/.test(await view()));
   await nav('home'); ok('and it shows on Home', /Workout/.test(await p.textContent('.habit-row')));
   await p.click('[data-nav=settings]'); await p.fill('[data-form=profile] [name=company]', 'Deloitte'); await p.fill('[data-form=profile] [name=joining]', new Date(Date.now() + 40 * 864e5).toLocaleDateString('en-CA')); await p.click('[data-form=profile] button');
-  await nav('home'); ok('a start date adds a countdown to the hero', /40\s*days to Deloitte/.test(await p.textContent('.hero')));
+  await nav('home'); ok('a start date adds a countdown under the date', /40\s*days to Deloitte/.test(await p.textContent('.today-head')));
 
   // Reminders: settings form saves, and the built list has the daily pair plus deadline items
   await nav('tasks');
@@ -182,15 +196,14 @@ const ok = (name, cond) => { console.log((cond ? 'PASS ' : 'FAIL ') + name); if 
   fs.writeFileSync(path.join(tmp, 'cal.ics'), ics('Calendar sync updated'));
   await p.click('[data-act=calSync]'); await p.waitForSelector('text=Calendar sync updated');
   ok('edit in the calendar reflects after sync', !/Calendar sync works/.test(await view()));
-  ok('important mail shows its key facts under Needs attention', /Placement notice/.test(await p.textContent('.card.alert')) && /Shortlist is out/.test(await p.textContent('.card.alert')));
-  ok('mail items are not listed as schedule events', !/Placement notice/.test(await p.textContent('.card:has(h2:has-text("Today\'s schedule"))')));
-  const attn = () => p.textContent('.card.alert');
-  ok('upcoming deadline is in Needs attention, red today', /Form submission/.test(await attn()) && await p.locator('.card.alert li.due-today').count() >= 1);
-  ok('deadline 40 minutes past is gone automatically', !/Already late/.test(await attn()));
-  await p.click('.card [data-act=actToggle] >> nth=0');
-  ok('ticked deadline stays, struck through', await p.locator('li.done:has-text("Form submission")').count() === 1);
-  await p.click('li.done:has-text("Form submission") [data-act=actToggle]');
-  ok('unticking restores it', await p.locator('li.done:has-text("Form submission")').count() === 0 && /Form submission/.test(await view()));
+  const inbox = () => p.textContent('.card:has(h2:has-text("from your inbox"))');
+  ok('important mail shows its key facts in the inbox section', /Placement notice/.test(await inbox()) && /Shortlist is out/.test(await inbox()));
+  ok('mail items are not on the timeline', !/Placement notice/.test(await p.textContent('.tl')));
+  ok('today\'s deadline is on the timeline in red with a tick', /Form submission/.test(await p.textContent('.tl')) && await p.evaluate(() => [...document.querySelectorAll('.tl-row')].some(r => /Form submission/.test(r.textContent) && r.style.getPropertyValue('--c') === '#C23B31' && r.querySelector('[data-act=actToggle]'))));
+  await p.click('.tl-row:has-text("Form submission") [data-act=actToggle]');
+  ok('a ticked deadline stays on the timeline, struck through', await p.locator('.tl-row.done:has-text("Form submission")').count() === 1);
+  await p.click('.tl-row.done:has-text("Form submission") [data-act=actToggle]');
+  ok('unticking restores it', await p.locator('.tl-row.done:has-text("Form submission")').count() === 0 && /Form submission/.test(await view()));
   await nav('home'); await p.click('[data-nav=settings]');
   await p.check('[data-form=reminders] [name=on]'); await p.click('[data-form=reminders] button.primary');
   const rem = await p.evaluate(async () => (await import('/js/reminders.js')).buildReminders().map(n => n.title));
@@ -236,15 +249,15 @@ const ok = (name, cond) => { console.log((cond ? 'PASS ' : 'FAIL ') + name); if 
   const lk = await p.evaluate(async () => { const l = await import('/js/links.js'); return { a: l.extractLinks('Join: https://teams.microsoft.com/l/meetup-join/abc. Case: https://drive.google.com/file/d/1/view and https://example.com/x.pdf, mail https://mail.google.com/mail/u/0/#inbox/1a1').map(x => x.kind), b: l.stripLinks('Case study https://drive.google.com/file/d/1/view') }; });
   ok('links are found and ranked: meeting first, then documents, then mail', JSON.stringify(lk.a) === JSON.stringify(['meet', 'doc', 'doc']) && lk.b === 'Case study');
   await p.evaluate(async () => { const c = await import('/js/core.js'); const u = await import('/js/util.js'); c.S.events.push({ id: 'lkev', title: 'Online DTS class', date: u.today(), time: '23:00', where: 'Online', link: 'https://teams.microsoft.com/l/meetup-join/xyz', mins: 75 }); c.commit(); });
-  await nav('home'); ok('an online class shows a Join button on Home', await p.locator('#view li a.lk-meet[href*="teams.microsoft.com"]').count() === 1);
+  await nav('home'); ok('an online class shows a Join button on Home', await p.locator('.tl-row a.lk-meet[href*="teams.microsoft.com"]').count() === 1);
   await nav('calendar'); ok('and on the Calendar day card', await p.locator('#cal-day a.lk-meet[href*="teams.microsoft.com"]').count() === 1);
   await p.evaluate(async () => { const c = await import('/js/core.js'); c.S.events = c.S.events.filter(e => e.id !== 'lkev'); c.commit(); });
   await nav('tasks');
   await p.fill('[data-form=task] [name=title]', 'Call the recruiter'); await p.fill('[data-form=task] [name=time]', '16:30'); await p.click('[data-form=task] button.primary');
   ok('a task added with a time lands on today with the time shown', /Call the recruiter/.test(await view()) && /4:30pm/.test(await p.textContent('li:has-text("Call the recruiter")')));
-  await p.click('li:has-text("Call the recruiter") [data-act=taskEditOpen]');
+  await p.click('li:has-text("Call the recruiter") .edit-btn');
   await p.selectOption('[data-form=taskSave] [name=repeat]', 'daily'); await p.fill('[data-form=taskSave] [name=link]', 'https://drive.google.com/file/d/9/view'); await p.click('[data-form=taskSave] button.primary');
-  ok('a task can repeat and carry a document link', /repeats daily/.test(await view()) && await p.locator('li:has-text("Call the recruiter") a.lk-doc').count() === 1);
+  ok('a task can repeat and carry a document link', /daily/.test(await p.textContent('li:has-text("Call the recruiter") .tmeta')) && await p.locator('li:has-text("Call the recruiter") a.lk-doc').count() === 1);
   const rep = await p.evaluate(async () => { const c = await import('/js/core.js'); const l = await import('/js/logic.js'); const u = await import('/js/util.js'); const t = c.S.tasks.find(x => x.title === 'Call the recruiter'); const before = t.due; l.completeTask(t.id); return { before, after: t.due, done: t.done, tomorrow: u.addDays(u.today(), 1) }; });
   ok('ticking a daily task moves it to tomorrow instead of finishing it', rep.before === rep.tomorrow - 0 || (rep.after === rep.tomorrow && rep.done === false));
   await p.evaluate(async () => { const c = await import('/js/core.js'); c.S.reminders.on = true; c.S.tasks.push({ id: 'remt', title: 'Timed reminder task', due: (await import('/js/util.js')).addDays((await import('/js/util.js')).today(), 1), time: '09:15', repeat: '', important: true, done: false, kind: 'Task' }); c.commit(); });
@@ -269,13 +282,13 @@ const ok = (name, cond) => { console.log((cond ? 'PASS ' : 'FAIL ') + name); if 
   await p.fill('[data-form=subAdd] [name=x]', 'Outline'); await p.click('[data-form=subAdd] button.primary');
   await p.fill('[data-form=subAdd] [name=x]', 'Slides'); await p.click('[data-form=subAdd] button.primary');
   await p.click('.subs [data-act=subTick] >> nth=0');
-  ok('a task can have steps that tick off', /1\/2 steps/.test(await p.textContent('li:has-text("Prepare HCOT case deck")')));
-  await p.click('[data-act=taskSnooze][data-s=tom]');
-  ok('snooze moves a task to tomorrow', /tomorrow/.test(await p.textContent('li:has-text("Prepare HCOT case deck")')));
+  ok('a task can have steps that tick off', /1 of 2 steps/.test(await p.textContent('li:has-text("Prepare HCOT case deck")')));
+  await p.click('.sheet [data-act=taskSnooze][data-s=tom]');
+  ok('snooze moves a task to tomorrow', /tomorrow/i.test(await p.textContent('li:has-text("Prepare HCOT case deck")')));
   await p.click('[data-act=taskFilter][data-id=upcoming]'); ok('filters narrow the list', /Prepare HCOT case deck/.test(await view()));
   await p.click('[data-act=taskFilter][data-id=someday]'); ok('and hide what does not fit', !/Prepare HCOT case deck/.test(await view()));
   await p.click('[data-act=taskFilter][data-id=all]');
-  await p.click('li:has-text("Prepare HCOT case deck") [data-act=delTask]');
+  await p.click('li:has-text("Prepare HCOT case deck") .edit-btn'); await p.click('.sheet [data-act=delTask]');
   ok('deleting a task offers Undo', await p.locator('#toast.on button').count() === 1 && !/Prepare HCOT case deck/.test(await view()));
   await p.click('#toast button'); ok('and Undo brings it back', /Prepare HCOT case deck/.test(await view()));
   await p.evaluate(async () => { const c = await import('/js/core.js'); c.S.tasks = c.S.tasks.filter(t => t.title !== 'Prepare HCOT case deck'); c.commit(); });
@@ -284,7 +297,7 @@ const ok = (name, cond) => { console.log((cond ? 'PASS ' : 'FAIL ') + name); if 
   await p.selectOption('#cal-day [data-form=event] [name=repeat]', 'weekly'); await p.click('#cal-day [data-form=event] button.primary');
   const occ = await p.evaluate(async () => { const a = await import('/js/agenda.js'); const u = await import('/js/util.js'); return [0, 7, 14, 3].map(n => a.agendaOn(u.addDays(u.today(), n)).some(e => e.title === 'Gym class')); });
   ok('a weekly event shows every week and not on other days', JSON.stringify(occ) === '[true,true,true,false]');
-  await p.click('#cal-day li:has-text("Gym class") [data-act=calEditEv]'); await p.fill('#cal-day [data-form=eventSave] [name=title]', 'Gym: legs'); await p.click('#cal-day [data-form=eventSave] button.primary');
+  await p.click('#cal-day li:has-text("Gym class") [data-act=calEditEv]'); await p.fill('.sheet [data-form=eventSave] [name=title]', 'Gym: legs'); await p.click('.sheet [data-form=eventSave] button.primary');
   ok('an event typed into the app can be edited', /Gym: legs/.test(await view()));
   await p.click('#cal-day li:has-text("Gym: legs") [data-act=calEditEv]'); await p.click('[data-act=evDel]');
   ok('and deleted with Undo', !/Gym: legs/.test(await p.textContent('#cal-day')) && await p.locator('#toast.on').count() === 1);
@@ -321,6 +334,39 @@ const ok = (name, cond) => { console.log((cond ? 'PASS ' : 'FAIL ') + name); if 
   ok('a failing action is caught and written to the problem log', await p.evaluate(async () => (await import('/js/log.js')).readLog().some(x => /test boom/.test(x.msg))));
   await p.click('[data-nav=settings]'); ok('and Settings shows it with a Share button', /test boom/.test(await view()) && await p.locator('[data-act=logShare]').count() === 1);
   await p.click('[data-act=logClear]'); await nav('home');
+  // exams, attendance, the weekly review, long-press menus and swipes
+  await nav('calendar'); await p.click('[data-nav=academics]');
+  ok('Classes & exams opens from the Calendar', /Classes & exams/.test(await p.textContent('h1')));
+  await p.fill('[data-form=examAdd] [name=subject]', 'PERMGT end-term'); await p.click('[data-form=examAdd] button.primary');
+  ok('an exam shows with a countdown', /PERMGT end-term/.test(await view()) && /7/.test(await p.textContent('.exam .cd')));
+  await p.click('.exam [data-act=examOpen] >> nth=0');
+  await p.fill('.sheet [data-form=topicAdd] [name=x]', 'Unit 1: rewards'); await p.click('.sheet [data-form=topicAdd] button.primary');
+  await p.fill('.sheet [data-form=topicAdd] [name=x]', 'Unit 2: incentives'); await p.click('.sheet [data-form=topicAdd] button.primary');
+  await p.click('.sheet [data-act=topicTick] >> nth=0'); await p.mouse.click(195, 15);
+  ok('revision topics give a progress bar and a daily target', /1 of 2 topics revised/.test(await view()) && /Revise 1 topic today/.test(await view()));
+  await nav('home'); ok('Home shows the exam banner', /PERMGT end-term in 7 days/.test(await p.textContent('.banner')));
+  ok('exams are on the calendar as deadlines', await p.evaluate(async () => { const a = await import('/js/agenda.js'); const u = await import('/js/util.js'); return a.agendaOn(u.addDays(u.today(), 7)).some(e => e.exam && /PERMGT/.test(e.title)); }));
+  await p.evaluate(async () => { const c = await import('/js/core.js'); c.S.exams = []; c.go('review'); });
+  ok('the weekly review shows the week and the open tasks', /This week/.test(await view()) && /Still open/.test(await view()));
+  const pickBtn = p.locator('[data-act=revTop]').first();
+  if (await pickBtn.count()) { await pickBtn.click(); ok('a task can be picked for next week\'s three', await p.locator('.pick.on').count() === 1); }
+  await p.click('[data-act=reviewDone] >> nth=0');
+  ok('finishing the review returns Home and records it', /Anytime/.test(await view()) && await p.evaluate(async () => Object.values((await import('/js/core.js')).S.reviews).some(r => r.at)));
+  // long-press menu on a task
+  await p.fill('[data-form=quick] [name=text]', 'Hold me'); await p.click('[data-form=quick] button');
+  await p.evaluate(() => document.querySelector('li.sw .sw-row') && [...document.querySelectorAll('li.sw')].find(x => /Hold me/.test(x.textContent)).scrollIntoView({ block: 'center' })); await p.waitForTimeout(700);
+  const box = await p.locator('li.sw:has-text("Hold me") .sw-row').boundingBox();
+  await p.mouse.move(box.x + 60, box.y + box.height / 2); await p.mouse.down(); await p.waitForTimeout(650);
+  await p.mouse.up();
+  ok('holding a task opens its menu', await p.locator('.sheet .menu [data-act=taskStar]').count() === 1);
+  await p.click('.sheet .menu [data-act=taskStar]');
+  ok('a menu action applies and closes the menu', await p.locator('.sheet').count() === 0 && await p.locator('li.sw:has-text("Hold me") .pflag').count() === 1);
+  // swipe right to finish
+  await p.evaluate(() => [...document.querySelectorAll('li.sw')].find(x => /Hold me/.test(x.textContent)).scrollIntoView({ block: 'center' })); await p.waitForTimeout(700);
+  const b2 = await p.locator('li.sw:has-text("Hold me") .sw-row').boundingBox();
+  await p.mouse.move(b2.x + 30, b2.y + b2.height / 2); await p.mouse.down(); await p.mouse.move(b2.x + 90, b2.y + b2.height / 2, { steps: 4 }); await p.mouse.move(b2.x + 170, b2.y + b2.height / 2, { steps: 4 }); await p.mouse.up();
+  ok('swiping a task right finishes it', await p.evaluate(async () => (await import('/js/core.js')).S.tasks.find(t => t.title === 'Hold me').done));
+  await p.evaluate(async () => { const c = await import('/js/core.js'); c.S.tasks = c.S.tasks.filter(t => t.title !== 'Hold me'); c.commit(); });
   // Old flat notes (saved before the notes app) become pages, talking points in their own book
   const octx = await b.newContext({ viewport: { width: 390, height: 844 } });
   await octx.addInitScript(() => { if (!localStorage.getItem('daily-driver-v2')) localStorage.setItem('daily-driver-v2', JSON.stringify({ v: 2, notes: [{ id: 'o1', text: 'Kroll idea\nsecond line', at: 1700000000000, pinned: true }, { id: 'o2', text: 'Talking point: Rates\nWhat happened: cut\nMy view: ', at: 1700000001000, tp: true, src: 'Rates' }] })); });

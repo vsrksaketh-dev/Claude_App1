@@ -1,20 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- Frosted look: the pane is mostly opaque white so text stays readable on any wallpaper, with a bright rim and hairlines. -->
-    <color name="dd_bg">#F4FFFFFF</color>
-    <color name="dd_wash1">#38F7C9A6</color>
-    <color name="dd_wash2">#38A9BDE6</color>
-    <color name="dd_inner">#40FFFFFF</color>
-    <color name="dd_inset">#B3F1E7DF</color>
-    <color name="dd_hair">#2B3B5C99</color>
-    <color name="dd_rim">#FFFFFFFF</color>
-    <color name="dd_text">#0E1526</color>
-    <color name="dd_muted">#363E55</color>
-    <color name="dd_accent">#223E6E</color>
-    <color name="dd_tint">#F6D6BB</color>
-    <color name="dd_warn">#7A4300</color>
-    <color name="dd_warn_tint">#FBE3A9</color>
-    <color name="dd_bad">#9C2A24</color>
-    <color name="dd_bad_tint">#F9C9C1</color>
+    <!-- Paper (light): the app's warm off-white page, ink text, one dusty-blue accent. Nearly opaque so it reads on any wallpaper. -->
+    <color name="dd_bg">#F7F6F2EC</color>
+    <color name="dd_wash1">#00000000</color>
+    <color name="dd_wash2">#00000000</color>
+    <color name="dd_inner">#00FFFFFF</color>
+    <color name="dd_inset">#FFEDE9E2</color>
+    <color name="dd_hair">#171B1D22</color>
+    <color name="dd_rim">#24000000</color>
+    <color name="dd_text">#1B1D22</color>
+    <color name="dd_muted">#61656E</color>
+    <color name="dd_accent">#3D5A8A</color>
+    <color name="dd_tint">#FFE3E8F0</color>
+    <color name="dd_warn">#8A4B00</color>
+    <color name="dd_warn_tint">#FFF6E2C6</color>
+    <color name="dd_bad">#B3352C</color>
+    <color name="dd_bad_tint">#FFF6DAD6</color>
     <color name="dd_on_accent">#FFFFFF</color>
 </resources>

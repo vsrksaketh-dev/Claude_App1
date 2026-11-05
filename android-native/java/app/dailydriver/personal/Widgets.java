@@ -131,6 +131,9 @@ public class Widgets {
         return n;
     }
 
+    /** The snapshot was made on an earlier day: yesterday's ticks must not show as today's. */
+    static boolean stale(JSONObject s) { String d = s.optString("today", ""); return !d.isEmpty() && !d.equals(dayKey(0)); }
+
     static String dayKey(int offset) { return plusDays(key(Calendar.getInstance()), offset); }
 
     private static boolean validDay(String k) {
@@ -545,6 +548,7 @@ public class Widgets {
             return ts.length() == 0 ? null : new int[] { done * 100 / ts.length() };
         }
         if (kind == HABITS) {
+            if (stale(s)) return new int[] { 0 };
             JSONObject h = s.optJSONObject("habits");
             return h == null || h.optInt("total") == 0 ? null : new int[] { h.optInt("done") * 100 / h.optInt("total") };
         }

@@ -13,18 +13,23 @@ import { today, addDays } from './util.js';
 import { refreshReminders } from './reminders-run.js';
 import { syncAll, onCalendarChange } from './calendar.js';
 import { pushSoon, pushNow, syncFromWidgets, openTarget } from './widgets.js';
+import './gestures.js';
 import './views/home.js';
 import './views/learn.js';
+import './taskui.js';
 import './views/tasks.js';
 import './views/notes.js';
 import './views/routine.js';
 import './views/search.js';
+import './views/academics.js';
+import './views/review.js';
 import './views/calendar.js';
 import './sections/settings.js';
 
 // Live preview under any quick-add box: what the typed words will set (date, time, priority, repeat).
 app.inputs.nlp = el => { const out = el.parentElement.querySelector('.parsed'); if (!out) return; const d = describe(parseQuick(el.value)); out.textContent = d; out.hidden = !d; };
 Object.assign(app.actions, {
+  sheetClose: () => { ui.sheet = null; },
   sub: d => { ui.sub[d.group] = d.id; },
   openSource: d => { ui.view = d.view; if (d.section) ui.sub[d.view] = d.section; },
 });
@@ -38,6 +43,7 @@ document.addEventListener('click', e => {
   if (!el || !app.actions[el.dataset.act]) return;
   if (el.type === 'checkbox' && el.checked) app.pop = el.closest('[data-flip]')?.dataset.flip || '';
   try { app.actions[el.dataset.act](el.dataset, el); } catch (err) { logProblem('action', err, `${ui.view} · ${el.dataset.act}`); }
+  if (el.dataset.close) { if (ui.sheet && ui.sheet.kind === 'menu') ui.sheet = null; }
   commit();
 });
 document.addEventListener('submit', e => {
@@ -90,7 +96,7 @@ async function loadNews() {
   pushSoon();
   window.addEventListener('widgetOpen', syncFromWidgets);
   document.addEventListener('visibilitychange', () => { if (!document.hidden) syncFromWidgets(); });
-  initBackButton(() => ui.view === 'home' && !ui.nb.page, () => { if (ui.view === 'notes' && ui.nb.page) { ui.nb.page = null; render(); } else go('home'); });
+  initBackButton(() => ui.view === 'home' && !ui.nb.page && !ui.sheet, () => { if (ui.sheet) { ui.sheet = null; render(); } else if (ui.view === 'notes' && ui.nb.page) { ui.nb.page = null; render(); } else go('home'); });
   // Live countdowns (Next up on Home) tick without redrawing the page, so nothing being typed is disturbed.
   setInterval(() => document.querySelectorAll('[data-countdown]').forEach(el => { el.textContent = countdownText(Number(el.dataset.countdown)); }), 20000);
   // Reopening the app after a while: refresh the news and the widgets so neither shows yesterday.

@@ -149,6 +149,16 @@ public class Harness {
       Widgets.handle(c, "tf", "all", "");
       Widgets.save(c, snap);
     }
+    // after midnight, before the app is opened: yesterday's ticks must not show as today's
+    {
+      JSONObject old = new JSONObject(snap); old.put("today", Widgets.dayKey(-1));
+      JSONArray hl = old.getJSONArray("habitList"); for (int i = 0; i < hl.length(); i++) hl.getJSONObject(i).put("done", true);
+      Widgets.save(c, old.toString());
+      boolean anyDone = false; for (WidgetRows.Row r : WidgetRows.build(c, Widgets.HABITS)) if (r.type == WidgetRows.T_HABIT && r.done) anyDone = true;
+      boolean doneToday = false; for (WidgetRows.Row r : WidgetRows.build(c, Widgets.TASKS)) if (r.type == WidgetRows.T_SECTION && r.a.equals("Done today")) doneToday = true;
+      ok("a snapshot from yesterday shows habits unticked and no Done today list", !anyDone && !doneToday);
+      Widgets.save(c, snap);
+    }
     // calendar fuzz: hundreds of random taps (arrows, days, modes, Today) must never break the state or the drawing
     {
       Widgets.save(c, snap);

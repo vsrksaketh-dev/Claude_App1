@@ -2,10 +2,11 @@
 import { ui, S, commit } from './core.js';
 import { esc } from './util.js';
 import { LABEL } from './links.js';
+import { icon } from './icons.js';
 
 // Screen header: big title, optional subtitle, optional control on the right.
 // Three quiet dots at the top right open Settings from every screen, so Settings needs no space of its own.
-export const me = () => `${ui.view === 'search' ? '' : '<button class="srch" data-nav="search" aria-label="Search everything">Search</button>'}<button class="me" data-nav="settings" aria-label="Settings and more"><i></i><i></i><i></i></button>`;
+export const me = () => `${ui.view === 'search' ? '' : `<button class="srch" data-nav="search" aria-label="Search everything">${icon('search', 21)}</button>`}<button class="me" data-nav="settings" aria-label="Settings and more">${icon('more', 21)}</button>`;
 export const head = (title, subtitle = '', right = '') => `<header class="top"><div><h1>${title}</h1>${subtitle ? `<p class="sub">${subtitle}</p>` : ''}</div><div class="top-r">${right}${ui.view === 'settings' ? '' : me()}</div></header>`;
 export const field = (label, name, attrs = '') => `<label>${label}<input name="${name}" ${attrs}></label>`;
 export const empty = msg => `<p class="muted">${msg}</p>`;
@@ -20,7 +21,8 @@ export const tabs = (group, items) => {
 export const pills = (group, items) => { const cur = subOf(group, items); return `<div class="seg pills" role="tablist">${items.map(([id, l]) => `<button role="tab" aria-selected="${cur === id}" class="${cur === id ? 'on' : ''}" data-act="sub" data-group="${group}" data-id="${id}">${l}</button>`).join('')}</div>`; };
 export const check = (act, id, on, extra = '') => `<input type="checkbox" class="tick" data-act="${act}" data-id="${esc(id)}" ${extra} ${on ? 'checked' : ''}>`;
 // Small buttons on the side of an event or task: Join a class, Open a document, see the Mail it came from.
-export const linkBtns = links => (links && links.length ? `<span class="lks">${links.map(l => `<a class="lk lk-${l.kind}" href="${esc(l.url)}" target="_blank" rel="noopener noreferrer">${LABEL[l.kind]}</a>`).join('')}</span>` : '');
+const LINK_ICON = { meet: 'video', doc: 'file', form: 'form', mail: 'mail', link: 'link' };
+export const linkBtns = links => (links && links.length ? `<span class="lks">${links.map(l => `<a class="lk lk-${l.kind}" href="${esc(l.url)}" target="_blank" rel="noopener noreferrer">${icon(LINK_ICON[l.kind] || 'link', 15)}${LABEL[l.kind]}</a>`).join('')}</span>` : '');
 // A short message above the bottom bar, with an optional Undo. It is plain DOM, so it survives the screen being redrawn.
 let toastTimer;
 export function toast(text, undo) {

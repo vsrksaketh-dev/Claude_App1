@@ -23,6 +23,7 @@ export function agendaOn(k) {
     const s = e.time ? new Date(k + 'T' + e.time).getTime() : startOf(k);
     out.push({ kind: 'event', title: e.title, start: s, end: e.time ? s + (Number(e.mins) || 60) * 6e4 : s + 864e5, allDay: !e.time, where: e.where || '', src: '', desc: '', links: extractLinks(e.link || ''), id: S.events.some(x => x.id === e.id) ? e.id : '', interview: !!e.interview, repeat: e.repeat || '' });
   });
+  (S.exams || []).filter(x => x.date === k).forEach(x => { const s = x.time ? new Date(k + 'T' + x.time).getTime() : startOf(k); out.push({ kind: 'due', exam: true, title: 'Exam · ' + x.subject, start: s, end: x.time ? s + 3 * 36e5 : s + 864e5, allDay: !x.time, where: x.where || '', src: '', desc: '', links: [], id: 'exam:' + x.id }); });
   openTasks().filter(t => t.due === k).forEach(t => out.push({ kind: 'task', title: t.title, start: t.time ? new Date(k + 'T' + t.time).getTime() : startOf(k), end: t.time ? new Date(k + 'T' + t.time).getTime() + 18e5 : startOf(k) + 864e5, allDay: !t.time, where: '', src: [t.repeat ? 'repeats ' + t.repeat : '', t.kind && t.kind !== 'Task' ? t.kind : ''].filter(Boolean).join(' · '), desc: '', links: extractLinks(t.link || ''), id: t.id, derived: !!t.derived, view: t.view || '', section: t.section || '' }));
   S.tasks.filter(t => t.done && t.due === k).forEach(t => out.push({ kind: 'task', title: t.title, start: startOf(k), end: startOf(k) + 864e5, allDay: true, where: '', src: '', desc: '', id: t.id, done: true }));
   return out.sort((a, b) => (b.allDay - a.allDay) || a.start - b.start);

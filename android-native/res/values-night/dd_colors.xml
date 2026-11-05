@@ -1,19 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="dd_bg">#F2161C2E</color>
-    <color name="dd_wash1">#30F7C9A6</color>
-    <color name="dd_wash2">#3084A0E0</color>
-    <color name="dd_inner">#18FFFFFF</color>
-    <color name="dd_inset">#33FFFFFF</color>
-    <color name="dd_hair">#33FFFFFF</color>
-    <color name="dd_rim">#55FFFFFF</color>
-    <color name="dd_text">#FFFFFF</color>
-    <color name="dd_muted">#D3CFDE</color>
-    <color name="dd_accent">#F8D9BF</color>
-    <color name="dd_tint">#3B486B</color>
-    <color name="dd_warn">#F2BD6C</color>
-    <color name="dd_warn_tint">#4A3A18</color>
-    <color name="dd_bad">#F79C8D</color>
-    <color name="dd_bad_tint">#4A2628</color>
-    <color name="dd_on_accent">#1A2034</color>
+    <!-- Night (dark): the app's near-black page with soft raised rows and a light dusty-blue accent. -->
+    <color name="dd_bg">#F7121418</color>
+    <color name="dd_wash1">#00000000</color>
+    <color name="dd_wash2">#00000000</color>
+    <color name="dd_inner">#00FFFFFF</color>
+    <color name="dd_inset">#FF1D2026</color>
+    <color name="dd_hair">#14FFFFFF</color>
+    <color name="dd_rim">#1FFFFFFF</color>
+    <color name="dd_text">#ECEDEF</color>
+    <color name="dd_muted">#9095A0</color>
+    <color name="dd_accent">#8FA9D6</color>
+    <color name="dd_tint">#FF232B38</color>
+    <color name="dd_warn">#F0B35E</color>
+    <color name="dd_warn_tint">#FF3A2F1C</color>
+    <color name="dd_bad">#F07C70</color>
+    <color name="dd_bad_tint">#FF3B2422</color>
+    <color name="dd_on_accent">#0E1013</color>
 </resources>

@@ -15,7 +15,7 @@ const THEMES = [['light', 'Light'], ['dark', 'Dark'], ['system', 'Match phone']]
 function render() {
   return `${head('Settings', '', '<button class="pill" data-nav="home">Done</button>')}
   <div class="card"><h2>Appearance</h2><div class="seg" role="group" aria-label="Theme">${THEMES.map(([k, l]) => `<button class="${(S.theme || 'system') === k ? 'on' : ''}" data-act="theme" data-id="${k}">${l}</button>`).join('')}</div>
-    <label class="check" style="margin-top:14px"><input type="checkbox" data-act="glass" ${S.glass === false ? '' : 'checked'}> <span><b>Frosted glass</b><div class="muted">Translucent panes over a soft colour wash. Turn it off for solid panes if the app ever feels slow.</div></span></label></div>
+    <label class="check" style="margin-top:14px"><input type="checkbox" data-act="glass" ${S.glass === false ? '' : 'checked'}> <span><b>Glass bar and sheets</b><div class="muted">The bottom bar, sheets and messages are see-through glass. Turn it off for solid ones if the app ever feels slow. Light is Paper, dark is Night.</div></span></label></div>
 
   <div class="card"><h2>Habits</h2><p class="muted">Weekly goals like the gym five times a week, counters like eight glasses of water, workout types and nudges all live in Routine.</p><div class="row" style="margin-top:10px"><button class="primary" data-nav="routine">Open Routine</button></div></div>
 

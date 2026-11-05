@@ -1,14 +1,26 @@
-// Home: what needs you today. The to-do list first, then anything waiting on you, today's schedule and a one-line habit strip.
+// Home: today, as one timeline. A large plain date, a quick-add box that understands plain words, then the day on a time rail:
+// classes in their course colours, timed tasks, deadlines, the now line and free gaps you can fill with a task. Below it: anytime
+// tasks, what is waiting from your inbox, and the habits as a row of dots. Banners appear only when they matter (exams close,
+// the weekly review on Sunday and Monday).
 import { S, ui, app, register, remove, render as rerender } from '../core.js';
-import { today, addDays, daysFromToday, esc, fmtDay, uid, pick, countdownText, clock12 } from '../util.js';
-import { empty, chip, check, me, linkBtns } from '../ui.js';
-import { getSources, hasCalendars, lastSync, syncAll } from '../calendar.js';
-import { dayItems, pendingActions } from '../schedule.js';
-import { habitsOn, habitDone, tapHabit, habitLabel, habitTarget, setHabit, openTasks, dayStreak, byRank, doneToday, doneLast, uncompleteTask, dayProgress, practiceStreak } from '../logic.js';
-import { weekRecap, isRecapDay } from '../recap.js';
+import { today, addDays, daysFromToday, esc, fmtDay, uid } from '../util.js';
+import { empty, check, me, linkBtns, toast } from '../ui.js';
+import { icon } from '../icons.js';
+import { hasCalendars, getSources, syncAll, lastSync } from '../calendar.js';
+import { agendaOn } from '../agenda.js';
+import { pendingActions } from '../schedule.js';
+import { habitsOn, habitDone, tapHabit, habitLabel, habitTarget, habitGoal, setHabit, openTasks, byRank, doneToday, uncompleteTask } from '../logic.js';
 import { parseQuick } from '../nlp.js';
+import { taskRow, doneRow, clock } from '../taskui.js';
+import { colorFor, isClass } from '../colors.js';
+import { attendBtns } from './academics.js';
+import { upcomingExams, examDays, dailyTarget } from '../study.js';
+import { reviewDue, weekTop } from './review.js';
 
-const when = ms => new Date(ms).toLocaleString('en-IN', { weekday: 'short', hour: 'numeric', minute: '2-digit', hour12: true });
+const hm = ms => { const d = new Date(ms); return `${d.getHours()}:${String(d.getMinutes()).padStart(2, '0')}`; };
+const hhmm = ms => { const d = new Date(ms); return `${String(d.getHours()).padStart(2, '0')}:${String(d.getMinutes()).padStart(2, '0')}`; };
+const dur = m => (m >= 60 ? `${Math.floor(m / 60)} h${m % 60 >= 5 ? ' ' + (m % 60) + ' min' : ''}` : `${m} min`);
+const at = (k, h) => new Date(k + 'T' + String(h).padStart(2, '0') + ':00').getTime();
 const ago = ms => { const m = Math.round((Date.now() - ms) / 6e4); return m < 1 ? 'just now' : m < 60 ? m + ' min ago' : Math.round(m / 60) + ' h ago'; };
 
 function nudges() {
@@ -19,110 +31,102 @@ function nudges() {
   return out;
 }
 
-const MOTTOS = ['Small steps, big week.', 'One thing at a time.', 'Future you says thanks.', 'Start with the easy win.', 'Progress, not perfect.', 'Quick wins first, then the big one.', 'You have more time than you think.', 'Tick it, then breathe.', 'Do the next small thing.', 'Make today a little lighter.', 'Show up, the rest follows.', 'Be kind to tomorrow-you.', 'Finish one, feel the momentum.'];
-const dueChip = t => { if (!t.due) return ''; const n = daysFromToday(t.due); return n < 0 ? chip('overdue', 'bad') : n === 0 ? chip('today', 'bad') : n === 1 ? chip('tomorrow', 'warn') : ''; };
-const todoRow = x => x.derived
-  ? `<li data-flip="t:${esc(x.id)}"><div class="grow"><span class="title">${esc(x.title)}</span><div class="meta">${dueChip(x)}<span class="muted">${esc(x.left || '')}${x.due ? ' due ' + esc(fmtDay(x.due)) : ''}</span></div></div></li>`
-  : `<li data-flip="t:${esc(x.id)}">${check('taskDone', x.id, false)}<div class="grow"><span class="title">${esc(x.title)}</span>${x.due ? `<div class="meta">${dueChip(x)}<span class="muted">${esc(fmtDay(x.due))}</span></div>` : ''}</div><button class="ghost danger x" data-act="delTask" data-id="${esc(x.id)}" aria-label="Remove">×</button></li>`;
-const doneRow = x => `<li class="done" data-flip="t:${esc(x.id)}">${check('taskUndo', x.id, true)}<div class="grow"><span class="title">${esc(x.title)}</span></div><button class="ghost danger x" data-act="delTask" data-id="${esc(x.id)}" aria-label="Remove">×</button></li>`;
-
-// The line under the greeting reacts to how the day is going; it only falls back to a motto when there is nothing to say.
-function heroLine(prog) {
-  const t = today();
-  if (prog.due === 0 && prog.done > 0) return 'Everything due today is done. Nice work.';
-  if (openTasks().some(x => x.due && x.due < t)) return 'Start with the overdue one. The rest gets easier.';
-  if (prog.done > 0) return `${prog.done} done, ${prog.due} to go.`;
-  return pick(MOTTOS);
+// ---- the timeline ----
+function tlRow(e) {
+  const now = Date.now(), past = !e.allDay && e.end <= now, task = e.kind === 'task';
+  const tick = task ? check(e.done ? 'taskUndo' : 'taskDone', e.id, e.done) : e.key ? check('actToggle', e.key, e.done) : '';
+  const time = e.allDay ? 'All day' : hm(e.start);
+  const end = !e.allDay && e.kind === 'event' && e.end > e.start ? `<small>${hm(e.end)}</small>` : '';
+  const meta = [e.kind === 'due' ? (e.exam ? 'Exam' : 'Deadline') : e.kind === 'action' ? 'To do' : task ? 'Task' : '', e.where, !isClass(e) ? e.src : '', e.desc && e.desc.length < 90 ? e.desc : ''].filter(Boolean).join(' · ');
+  const menu = task ? `task:${esc(e.id)}` : `ev:${e.start}`;
+  const titleAttrs = task ? `data-act="taskEditOpen" data-id="${esc(e.id)}"` : `data-go="calendar:day:${today()}"`;
+  return `<div class="tl-row ${tick ? 'has-tick' : ''} ${past ? 'past' : ''} ${e.done ? 'done' : ''}" style="--c:${colorFor(e)}" data-menu="${menu}" data-flip="tl:${esc(e.id || e.key || e.title)}:${e.start}">
+    <time>${time}${end}</time><span class="bar"></span>${tick}<div class="body"><b ${titleAttrs}>${esc(e.title)}</b>${meta ? `<small>${esc(meta)}</small>` : ''}${isClass(e) && past ? attendBtns(e) : ''}</div>
+    <div class="side">${linkBtns(e.links)}</div></div>`;
 }
-// One badge in the hero: the countdown to a start date if one is set, otherwise a streak.
-function badge() {
-  const j = S.profile.joining;
-  if (j && /^\d{4}-\d{2}-\d{2}$/.test(j)) {
-    const n = daysFromToday(j);
-    if (n === 0) return `<span class="stat"><b>Day one</b>is today</span>`;
-    if (n > 0) return `<span class="stat"><b>${n}</b>day${n === 1 ? '' : 's'} to ${esc(S.profile.company || 'day one')}</span>`;
-  }
-  if (practiceStreak() > 1) return `<span class="stat"><b>${practiceStreak()}</b>day practice streak</span>`;
-  if (dayStreak() > 1) return `<span class="stat"><b>${dayStreak()}</b>day streak</span>`;
-  return '';
-}
-const ring = p => { const C = 2 * Math.PI * 18; return `<div class="ring" role="img" aria-label="${p.done} of ${p.total} finished today"><svg viewBox="0 0 44 44"><circle class="rt" cx="22" cy="22" r="18"/><circle class="rv" cx="22" cy="22" r="18" stroke-dasharray="${C.toFixed(1)}" stroke-dashoffset="${((1 - (p.total ? p.pct : 1)) * C).toFixed(1)}"/></svg><b>${p.total ? `${p.done}/${p.total}` : 'Clear'}</b></div>`; };
-function nextUp(t) {
-  const now = Date.now();
-  let n = dayItems(t).find(e => !e.allDay && e.end > now), later = false;
-  if (!n) { n = dayItems(addDays(t, 1)).find(e => !e.allDay); later = !!n; }
-  if (!n) return '';
-  const live = n.start <= now;
-  return `<section class="next"><div class="grow"><p class="eyebrow">${live ? 'Happening now' : later ? 'Tomorrow' : 'Next up'}</p><p class="title">${esc(n.title)}</p><p class="muted">${esc(clock12(n.start))}${n.where ? ' · ' + esc(n.where) : ''}</p></div><span class="count" data-countdown="${n.start}">${live ? 'now' : countdownText(n.start)}</span>${linkBtns(n.links)}</section>`;
-}
-function recapCard() {
-  if (!isRecapDay()) return '';
-  const r = weekRecap();
-  if (!r.tasks && !r.sessions && !r.practice) return '';
-  const cell = (n, l) => `<div><b>${n}</b><span>${l}</span></div>`;
-  return `<section class="card recap"><h2>Your week</h2><div class="recap-grid">${cell(r.tasks, 'tasks done')}${cell(r.sessions, 'sessions')}${cell(r.practice, 'practice days')}${r.habitDays ? cell(r.habitDays, 'habit check-ins') : ''}${cell(r.ahead, 'due this week')}</div>${r.bestDay ? `<p class="muted">Best day: ${esc(r.bestDay)}, ${r.bestN} done.</p>` : ''}</section>`;
+function timeline(k) {
+  const items = agendaOn(k).filter(e => e.kind !== 'mail' && !(e.kind === 'task' && e.allDay));
+  const allDay = items.filter(e => e.allDay), timed = items.filter(e => !e.allDay).sort((a, b) => a.start - b.start);
+  const now = Date.now(), dayStart = at(k, 8), dayEnd = at(k, 22);
+  const out = allDay.map(tlRow);
+  let cursor = Math.max(now, dayStart), nowShown = false;
+  const nowLine = () => `<div class="tl-now" aria-label="Now"><span>${hm(now)}</span><i></i></div>`;
+  const gap = (a, b) => { const m = Math.round((b - a) / 6e4); return `<div class="tl-gap"><span></span><div class="gp"><span><b>Free ${dur(m)}</b> · ${hm(a)} to ${hm(b)}</span><button class="ghost" data-act="gapPlan" data-t="${hhmm(a)}">${icon('plus', 15)} Plan</button></div></div>`; };
+  timed.forEach(e => {
+    if (!nowShown && e.start > now && now >= dayStart - 36e5 && now < dayEnd) { out.push(nowLine()); nowShown = true; }
+    if (e.start - cursor >= 45 * 6e4 && cursor < dayEnd) out.push(gap(cursor, Math.min(e.start, dayEnd)));
+    out.push(tlRow(e));
+    if (e.end > cursor) cursor = e.end;
+  });
+  if (!nowShown && now < dayEnd && now > dayStart - 36e5) out.push(nowLine());
+  if (dayEnd - cursor >= 60 * 6e4) out.push(gap(cursor, dayEnd));
+  return out.join('');
 }
 
-const SHOW = 6;
-// One habit as a chip: a tick for plain habits, a tap-to-count button for counters, with "2/5" for weekly goals.
-const habitChip = x => {
-  const t = today(), d = habitDone(x, t), lab = habitLabel(x, t);
-  return habitTarget(x) > 1
-    ? `<button class="habit-chip count ${d ? 'done' : ''}" data-flip="h:${esc(x.id)}" data-act="habit" data-id="${esc(x.id)}"><span>${esc(x.name)}</span><i>${lab}</i></button>`
-    : `<label class="habit-chip ${d ? 'done' : ''}" data-flip="h:${esc(x.id)}">${check('habit', x.id, d)}<span>${esc(x.name)}</span>${lab ? `<i>${lab}</i>` : ''}</label>`;
-};
+function render() {
+  const t = today(), d = new Date();
+  const items = agendaOn(t);
+  const classes = items.filter(isClass).length, deadlines = items.filter(e => e.kind === 'due' && !e.done).length;
+  const open = openTasks().sort(byRank), finished = doneToday();
+  const dueNow = open.filter(x => x.due && x.due <= t);
+  const anytime = open.filter(x => !x.time && (!x.due || x.due <= t));
+  const late = open.filter(x => x.due && x.due < t).length;
+  const hs = habitsOn(t), top = weekTop().filter(x => !x.done);
+  const acts = pendingActions(7).filter(e => e.mail || !e.dueToday);
+  const nd = nudges();
+  const ex = upcomingExams(), exSoon = ex.filter(x => examDays(x) <= 21), tgt = dailyTarget();
+  const tomorrow = agendaOn(addDays(t, 1)).filter(e => e.kind !== 'mail' && !(e.kind === 'task' && e.allDay)).sort((a, b) => a.allDay - b.allDay || a.start - b.start);
+  const firstTom = tomorrow.find(e => !e.allDay);
+  const summary = [classes ? `${classes} class${classes === 1 ? '' : 'es'}` : '', dueNow.length ? `${dueNow.length} task${dueNow.length === 1 ? '' : 's'} due` : '', deadlines ? `${deadlines} deadline${deadlines === 1 ? '' : 's'}` : ''].filter(Boolean).join(' · ') || 'A clear day';
+  const errs = getSources().filter(s => s.error);
+  const j = S.profile.joining, jn = j && /^\d{4}-\d{2}-\d{2}$/.test(j) ? daysFromToday(j) : -1;
+  const countdown = jn > 0 ? ` · ${jn} days to ${esc(S.profile.company || 'day one')}` : jn === 0 ? ` · ${esc(S.profile.company || 'Day one')} starts today` : '';
+  return `
+  <header class="top today-head"><div><p class="eyebrow">${d.toLocaleDateString('en-IN', { weekday: 'long' })}</p><h1>${d.toLocaleDateString('en-IN', { day: 'numeric', month: 'long' })}</h1><p class="sub">${esc(summary)}${late ? ` · <span class="late">${late} overdue</span>` : ''}${countdown}</p></div><div class="top-r">${me()}</div></header>
+  ${reviewDue() ? `<button class="banner" data-nav="review">${icon('spark', 20)}<span class="grow"><b>Your weekly review</b><span class="muted"> · five minutes: tidy what is open, pick next week's three</span></span>${icon('chevron', 18)}</button>` : ''}
+  ${exSoon.length ? `<button class="banner ${examDays(exSoon[0]) <= 3 ? 'bad' : ''}" data-nav="academics">${icon('school', 20)}<span class="grow"><b>${esc(exSoon[0].subject)} in ${examDays(exSoon[0]) === 0 ? 'today' : examDays(exSoon[0]) + ' day' + (examDays(exSoon[0]) === 1 ? '' : 's')}</b><span class="muted">${tgt.left ? ` · revise ${tgt.perDay} topic${tgt.perDay === 1 ? '' : 's'} today` : ` · ${exSoon.length} paper${exSoon.length === 1 ? '' : 's'} ahead`}</span></span>${icon('chevron', 18)}</button>` : ''}
+  <form data-form="quick" data-keep class="capture">${icon('plus', 18)}<input name="text" placeholder="Add a task, try: Submit DHRM fri 5pm !" aria-label="Add a task" maxlength="160" required data-bind="nlp" autocomplete="off"><em class="parsed" hidden></em><button class="primary">Add</button></form>
+  ${errs.map(s => `<p class="chip warn" style="display:block">${esc(s.name)}: ${esc(s.error)}</p>`).join('')}
+
+  <section class="card"><div class="sec-h"><h2>Today</h2>${hasCalendars() ? `<button class="ghost" data-act="calSync">Synced ${lastSync() ? ago(lastSync()) : 'never'}</button>` : '<button class="ghost" data-nav="settings">Connect calendar</button>'}</div>
+    <div class="tl">${timeline(t) || ''}</div>
+    ${firstTom || tomorrow.length ? `<p class="muted tomorrow">Tomorrow: ${tomorrow.length} item${tomorrow.length === 1 ? '' : 's'}${firstTom ? `, first ${esc(firstTom.title)} at ${hm(firstTom.start)}` : ''}</p>` : '<p class="muted tomorrow">Tomorrow is clear.</p>'}</section>
+
+  ${top.length ? `<section class="card"><h2>This week's three</h2><ul class="list">${top.map(x => taskRow(x)).join('')}</ul></section>` : ''}
+
+  <section class="card"><div class="sec-h"><h2>Anytime ${anytime.length ? `<span class="cnt">${anytime.length}</span>` : ''}</h2><button class="ghost" data-nav="tasks">All tasks</button></div>
+    ${anytime.length || finished.length ? `<ul class="list">${anytime.slice(0, 7).map(x => taskRow(x, { when: x.due && x.due < t })).join('')}${finished.map(doneRow).join('')}</ul>${anytime.length > 7 ? `<button class="ghost" data-nav="tasks">${anytime.length - 7} more in Tasks</button>` : ''}` : empty('Nothing waiting. Add a task above in plain words.')}</section>
+
+  ${acts.length || nd.length ? `<section class="card"><h2>Coming up and from your inbox</h2><ul class="list">
+    ${acts.map(e => `<li class="${e.done ? 'done' : ''}" data-flip="a:${esc(e.key)}">${check('actToggle', e.key, e.done)}<div class="grow"><span class="title">${esc(e.label)}</span><div class="muted">${e.mail ? esc(e.note || 'Important email') : esc(fmtDay(new Date(e.start).toLocaleDateString('en-CA'))) + (e.allDay ? '' : ' · ' + esc(hm(e.start)))}</div></div>${linkBtns(e.links)}</li>`).join('')}
+    ${nd.map(n => `<li><span class="grow muted">${n}</span></li>`).join('')}</ul></section>` : ''}
+
+  ${S.habits.some(x => !x.archived) ? `<section class="card"><div class="sec-h"><h2>Habits ${hs.length ? `<span class="cnt">${hs.filter(x => habitDone(x, t)).length}/${hs.length}</span>` : ''}</h2><button class="ghost" data-nav="routine">Routine</button></div>
+    ${hs.length ? `<div class="dots habit-row">${hs.map(x => { const dn = habitDone(x, t), lab = habitLabel(x, t), part = !dn && (habitGoal(x) ? Number(lab.split('/')[0]) > 0 : habitTarget(x) > 1 && Number(lab.split('/')[0]) > 0); return `<button class="habit-chip ${dn ? 'done' : part ? 'part' : ''}" data-act="habit" data-id="${esc(x.id)}" aria-pressed="${dn}" data-flip="h:${esc(x.id)}"><i></i><span>${esc(x.name)}</span>${lab ? `<em>${lab}</em>` : ''}</button>`; }).join('')}</div>${tagAsk()}` : '<p class="muted">All caught up for today.</p>'}</section>` : ''}`;
+}
+
 // Right after finishing a habit that keeps a type (Gym: Push, Pull, Legs...), one tap records what it was.
-const tagAsk = () => {
+function tagAsk() {
   const h = ui.tagAsk && S.habits.find(x => x.id === ui.tagAsk);
   if (!h || !(h.options || []).length || !habitDone(h, today())) return '';
   return `<div class="tag-ask"><span class="muted">${esc(h.name)}: what was it?</span>${h.options.map(o => `<button class="pill" data-act="habitTag" data-id="${esc(h.id)}" data-tag="${esc(o)}">${esc(o)}</button>`).join('')}<button class="ghost" data-act="habitTag" data-id="${esc(h.id)}" data-tag="">Skip</button></div>`;
-};
-
-function render() {
-  const h = new Date().getHours();
-  const hello = h < 12 ? 'Good morning' : h < 17 ? 'Good afternoon' : 'Good evening';
-  const t = today();
-  const evs = dayItems(t);
-  const tomorrow = dayItems(addDays(t, 1));
-  const syncedAt = lastSync();
-  const nd = nudges();
-  const acts = pendingActions(7);
-  const briefMail = app.brief.source === 'sample' ? [] : (app.brief.inbox || []);
-  const hs = habitsOn(t);
-  const todos = openTasks().sort(byRank);
-  const finished = doneToday();
-  const prog = dayProgress();
-  const habitsDone = hs.filter(x => habitDone(x, t)).length;
-  const hasAttention = acts.length || briefMail.length || nd.length;
-  const outstanding = acts.some(e => !e.done) || briefMail.length || nd.length;
-  return `
-  <section class="hero">${ring(prog)}<div class="hero-top"><p class="hero-date">${esc(fmtDay(t))}</p><span class="top-r">${me()}</span></div>
-    <h1>${hello}${S.profile.name ? ', ' + esc(S.profile.name) : ''}</h1>
-    <p class="hero-motto">${esc(heroLine(prog))}</p>
-    <div class="hero-stats"><span class="stat"><b>${todos.length}</b>to do</span><span class="stat"><b>${finished.length}</b>done today</span>${evs.length ? `<span class="stat"><b>${evs.length}</b>on today</span>` : ''}${badge()}</div></section>
-  ${nextUp(t)}
-  <form data-form="quick" data-keep class="capture"><input name="text" placeholder="Add a task, try: Submit DHRM fri 5pm !" aria-label="Add a task" maxlength="160" required data-bind="nlp" autocomplete="off"><em class="parsed" hidden></em><button class="primary">Add</button></form>
-
-  <section class="card"><div class="row between"><h2 style="margin:0">To do</h2>${todos.length ? chip(todos.length + ' left') : chip('all done', 'ok')}</div>
-    <div style="margin-top:12px">${todos.length || finished.length ? `<ul class="list">${todos.slice(0, SHOW).map(todoRow).join('')}${finished.map(doneRow).join('')}</ul>${todos.length > SHOW ? `<div class="todo-more"><button class="ghost" data-nav="tasks">+${todos.length - SHOW} more in Tasks</button></div>` : ''}` : empty('Nothing to do. Add something above, or enjoy it.')}</div>
-  </section>
-
-  ${recapCard()}
-
-  ${hasAttention ? `<section class="card ${outstanding ? 'alert' : ''}"><h2>Needs your attention</h2><ul class="list">
-      ${doneLast(acts, e => e.done).map(e => `<li data-flip="a:${esc(e.key)}" class="${e.done ? 'done' : e.dueToday ? 'due-today' : ''}">${check('actToggle', e.key, e.done)}<div class="grow"><span class="title">${esc(e.label)}</span><div class="muted">${e.mail ? esc(e.note || 'Important email') : esc(when(e.start)) + (e.cal ? ' · ' + esc(e.cal) : '')}</div></div>${linkBtns(e.links)}${e.done ? chip('Done', 'ok') : e.mail ? chip(esc(new Date(e.start).toLocaleDateString('en-IN', { day: 'numeric', month: 'short' })), 'plain') : chip(e.dueToday ? 'Today' : esc(when(e.start)), e.dueToday ? 'bad' : 'warn')}</li>`).join('')}
-      ${doneLast(briefMail, x => S.inboxDone[x.id]).map(x => `<li data-flip="m:${esc(x.id)}" class="${S.inboxDone[x.id] ? 'done' : ''}">${check('inbox', x.id, S.inboxDone[x.id])}<div class="grow"><span class="title">${esc(x.from)}: ${esc(x.subject)}</span><div class="muted">${esc(x.action)}</div></div>${x.due ? `<button class="ghost" data-act="inboxTask" data-id="${x.id}">Add to tasks</button>` : ''}</li>`).join('')}
-      ${nd.map(n => `<li><span class="grow">${n}</span></li>`).join('')}</ul></section>` : ''}
-
-  <section class="card"><div class="row between"><h2 style="margin:0">Today's schedule</h2>${hasCalendars() ? `<button class="ghost" data-act="calSync" aria-label="Sync calendar now">Sync${syncedAt ? ' · ' + ago(syncedAt) : ''}</button>` : ''}</div>
-    ${getSources().filter(s => s.error).map(s => `<p class="chip warn" style="display:block;margin-top:10px">${esc(s.name)}: ${esc(s.error)}</p>`).join('')}
-    <div style="margin-top:12px">${evs.length ? `<ul class="list">${evs.map(e => `<li class="${e.past ? 'done' : ''}"><span class="chip">${esc(e.time)}</span><div class="grow"><span class="title">${esc(e.title)}</span>${e.interview ? ' ' + chip('Interview', 'warn') : ''}${e.src ? ' ' + chip(esc(e.src), 'plain') : ''}<div class="muted">${[e.until ? 'until ' + e.until : '', e.where].filter(Boolean).map(esc).join(' · ')}</div></div>${linkBtns(e.links)}${e.id ? `<button class="ghost danger" data-act="delEvent" data-id="${e.id}" aria-label="Remove">×</button>` : ''}</li>`).join('')}</ul>` : empty(hasCalendars() ? 'Nothing scheduled today.' : 'No events yet.')}</div>
-    <div class="row between" style="margin-top:10px">${hasCalendars() ? `<span class="muted">${tomorrow.length ? `Tomorrow: ${tomorrow.length} item${tomorrow.length > 1 ? 's' : ''}` : 'Tomorrow is clear'}</span>` : '<button data-nav="settings">Connect Google Calendar</button>'}<button class="ghost" data-nav="calendar">Open calendar</button></div>
-  </section>
-
-  ${S.habits.some(x => !x.archived) ? `<section class="card"><div class="row between"><h2 style="margin:0">Habits</h2><span class="row" style="gap:6px">${hs.length ? chip(`${habitsDone}/${hs.length} today`, habitsDone === hs.length ? 'ok' : 'plain') : chip('all caught up', 'ok')}<button class="ghost" data-nav="routine">Routine</button></span></div>
-    ${hs.length ? `<div class="habit-row" style="margin-top:12px">${doneLast(hs, x => habitDone(x, t)).map(habitChip).join('')}</div>` : ''}${tagAsk()}</section>` : ''}`;
 }
+
+// Fill a free slot: pick a task, it gets that time today.
+app.sheets.plan = s => {
+  const list = openTasks().filter(x => !x.derived && !x.time && (!x.due || daysFromToday(x.due) <= 7)).sort(byRank).slice(0, 12);
+  return `<h2>Plan ${esc(clock(s.t))}</h2><p class="muted">Pick what to do in this free slot. It gets a reminder at that time.</p>
+  ${list.length ? `<div class="menu">${list.map(x => `<button data-act="taskPlace" data-id="${esc(x.id)}" data-time="${esc(s.t)}">${icon('tasks', 19)}<span>${esc(x.title)}</span></button>`).join('')}</div>` : empty('No untimed tasks to place. Add one in Tasks.')}`;
+};
+// Hold an event on the timeline: open the day, edit it in Google Calendar, or mark attendance.
+app.menus.ev = start => {
+  const e = agendaOn(today()).find(x => String(x.start) === String(start) && x.kind !== 'task'); if (!e) return [];
+  const m = [{ label: 'Open in Calendar', icon: icon('calendar', 19), act: 'goCal', data: { d: today() } }];
+  if (e.gcal) m.push({ label: 'Edit in Google Calendar', icon: icon('edit', 19), act: 'openUrl', data: { url: e.gcal } });
+  (e.links || []).forEach(l => m.push({ label: l.kind === 'meet' ? 'Join' : 'Open link', icon: icon(l.kind === 'meet' ? 'video' : 'link', 19), act: 'openUrl', data: { url: l.url } }));
+  m.title = esc(e.title);
+  return m;
+};
 
 register({
   id: 'home', label: 'Home', nav: 1, render,
@@ -134,14 +138,17 @@ register({
     taskUndo: d => uncompleteTask(d.id),
     delEvent: d => remove('events', d.id),
     calSync: () => { syncAll(true).then(() => rerender()); },
+    gapPlan: d => { ui.sheet = { kind: 'plan', t: d.t }; },
+    goCal: d => { ui.view = 'calendar'; ui.sub.calSel = ui.sub.calAnchor = d.d; },
+    openUrl: d => { if (/^https?:/.test(d.url || '')) window.open(d.url, '_blank', 'noopener'); },
     inboxTask: d => {
       const m = (app.brief.inbox || []).find(i => i.id === d.id); if (!m) return;
       const title = `${m.from}: ${m.subject}`;
-      if (!S.tasks.some(t => t.title === title)) S.tasks.push({ id: uid(), title, due: m.due.slice(0, 10), important: true, done: false, kind: m.tag === 'Placement' ? 'Placement' : 'Task' });
+      if (!S.tasks.some(x => x.title === title)) S.tasks.push({ id: uid(), title, due: m.due.slice(0, 10), important: true, done: false, kind: m.tag === 'Placement' ? 'Placement' : 'Task' });
     },
   },
   forms: {
-    quick: f => { const p = parseQuick(f.text || ''); if (p.title) S.tasks.push({ id: uid(), title: p.title, due: p.due, time: p.time, repeat: p.repeat, important: p.important, done: false, kind: 'Task' }); },
+    quick: f => { const p = parseQuick(f.text || ''); if (p.title) { S.tasks.push({ id: uid(), title: p.title, due: p.due, time: p.time, repeat: p.repeat, important: p.important, done: false, kind: 'Task' }); if (p.due || p.time) toast(`Added for ${p.due ? fmtDay(p.due) : 'today'}${p.time ? ' at ' + clock(p.time) : ''}`); } },
     event: f => { S.events.push({ id: uid(), title: (f.title || '').trim(), date: f.date, time: f.time, mins: Number(f.mins) || 60, repeat: f.repeat || '', where: (f.where || '').trim(), link: (f.link || '').trim() }); ui.sub.calAdd = false; },
   },
 });
