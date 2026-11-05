@@ -1,68 +1,142 @@
 {
- "date": "2026-11-04",
- "generated": "2026-11-04T10:45:00+05:30",
+ "date": "2026-11-05",
+ "generated": "2026-11-05T11:00:00+05:30",
  "items": [
   {
    "cat": "International",
-   "title": "US midterms: early results arrive after strikes on Iran's Qeshm Island on the eve of the vote",
-   "summary": "Live pages from CBC and CNBC say polls closed on 3 November with control of the House and Senate in the balance, and Democrats had won the first Senate race reported. CBS and Foreign Policy report US air strikes on Qeshm Island in the Strait of Hormuz on Monday, which US officials called defensive. Trump told the Financial Times he has no immediate plans for renewed strikes, and Iran's foreign minister said mediated talks were proceeding intensively. No final outcome was available at search time, so everything here is provisional.",
-   "why": "US political control and Gulf tension drive oil and market sentiment, which shape corporate budgets and hiring.",
-   "src": "CBS News, CNBC, CBC, Foreign Policy",
-   "url": "https://www.cbsnews.com/live-updates/iran-war-us-trump-negotiations-midterms/"
+   "title": "Democrats take the US House and Senate in the midterms",
+   "summary": "CNBC's live results page says Democrats flipped both chambers, with Senate pickups reported in Iowa, Kansas, Maine, Ohio, North Carolina, South Carolina and Texas, where James Talarico beat Ken Paxton, and Susan Collins losing in Maine. Mississippi's Senate race was still extremely close and Colorado and Alaska were still being counted, so the final tally is provisional.",
+   "why": "A change of control in Washington shifts trade, tax and labour policy that large employers plan around.",
+   "src": "CNBC, TIME, Yahoo News",
+   "url": "https://www.cnbc.com/2026/11/04/2026-midterm-election-results-live-updates.html"
+  },
+  {
+   "cat": "International",
+   "title": "Iran plays down hopes of a deal after new US strikes; mediators keep talking",
+   "summary": "CBS News live coverage says Iran dismissed near-term hopes for a deal after fresh US strikes on the eve of the vote, while Qatari and Pakistani mediators continue indirect talks. Iran's conditions include lifting the US naval blockade and a regional ceasefire covering Lebanon and Gaza, and its military said four tankers caught fire in the Strait of Hormuz. Another report says Trump has no immediate plan to strike again. The situation is changing quickly, so details are provisional.",
+   "why": "Gulf tension drives oil prices and shipping costs, which feed into company budgets and hiring.",
+   "src": "CBS News, Al Jazeera, Times of Israel",
+   "url": "https://www.cbsnews.com/live-updates/iran-war-us-trump-midterms-strait-of-hormuz/"
+  },
+  {
+   "cat": "International",
+   "title": "China confirms it is in contact about a possible Trump, Xi and Putin summit",
+   "summary": "Foreign Ministry spokesperson Mao Ning said China is in contact with the relevant parties about a possible meeting of the three leaders, which could take place around the APEC summit in Shenzhen on 18 and 19 November. Germany's president Steinmeier said Xi was surprised by the idea and that no preparation is underway, and Kyiv and European capitals worry about decisions on Ukraine being made without them.",
+   "why": "Great-power summits move trade rules and supply chains that multinational employers depend on.",
+   "src": "Yahoo News, Kyiv Post, NV",
+   "url": "https://yahoo.com/news/world/articles/chinas-foreign-ministry-confirms-talks-111300432.html"
+  },
+  {
+   "cat": "International",
+   "title": "Israeli strikes kill eight in Gaza as Iran ties its demands to a wider ceasefire",
+   "summary": "A KSAT roundup dated 1 November says Israeli strikes on Gaza killed eight people including a young boy, and the Israeli military said it targeted Hamas operatives it accused of systematic violation of the ceasefire. Iran says any deal with Washington must also stop fighting in Gaza and Lebanon. This item is a few days old.",
+   "why": "Regional conflict risk affects energy costs and where companies are willing to expand.",
+   "src": "KSAT, CBS News",
+   "url": "https://www.ksat.com/business/2026/11/01/israeli-strike-kills-boy-in-gaza-as-qataris-say-vessel-struck-in-gulf-and-other-mideast-news/"
   },
   {
    "cat": "International",
    "kind": "fact",
-   "title": "Hungary is not blocking Ukraine's EU accession, Kyiv's envoy says",
-   "summary": "Euronews reported the statement from Ukraine's envoy. It comes from a single headline in the search results, so treat it as provisional.",
-   "why": "EU enlargement decisions affect where European firms expand and hire.",
-   "src": "Euronews"
+   "title": "Mississippi's Senate race was decided by 65 votes out of 945,587 at last count",
+   "summary": "Yahoo News' live page says Democrat Scott Colom led Republican Cindy Hyde-Smith by 65 votes with counting still under way, so the result is provisional.",
+   "why": "A reminder that small margins can decide big outcomes.",
+   "src": "Yahoo News"
   },
   {
    "cat": "Indian",
-   "title": "Rupee holds near 94.90 per dollar as RBI measures support it",
-   "summary": "TradingView, about a day old, says the rupee firmed to roughly 94.90 per dollar helped by an RBI special FX window for state oil refiners and its FCNR(B) deposit scheme. A CNBC piece from 16 October quotes analysts expecting pressure into March 2027, with a possible slide toward 100. Nothing dated 4 November turned up, so these are the latest available figures.",
-   "why": "A weak rupee raises import and overseas-education costs and squeezes company margins.",
-   "src": "TradingView, CNBC (16 Oct), Finimize",
-   "url": "https://www.tradingview.com/news/te_news:597116:0-rupee-rebounds-on-rbi-support/"
+   "title": "RBI's crackdown on rupee bets pushes companies' dollar hedging to an eight-month low",
+   "summary": "Business Standard reports forward dollar buying by Indian companies fell 35% in October from a record the previous month to $49.5 billion, which it links to the RBI's curbs on speculative bets against the rupee. Analysts also say the measures may make foreign investors more cautious.",
+   "why": "Currency policy affects import costs, company margins and overseas-education spending.",
+   "src": "Business Standard",
+   "url": "https://www.business-standard.com/finance/news/rbi-crackdown-on-rupee-bets-drives-india-s-dollar-hedging-to-8-month-low-126110400464_1.html"
+  },
+  {
+   "cat": "Indian",
+   "title": "Rupee gains for a fourth session and bond yields fall 11 bps as oil slides after the US midterms",
+   "summary": "Business Standard says the rupee has gained 1.25% against the dollar since October and rose for a fourth session as oil prices dropped after the US results. Bank of Baroda expects 94.75 to 95.75 per dollar in the near term with crude as the main driver. Reuters-polled strategists expect the rupee to give back some gains, so the outlook is provisional.",
+   "why": "A steadier rupee and lower yields ease costs for borrowers and importers.",
+   "src": "Business Standard, Bank of Baroda via Daily Prabhat",
+   "url": "https://www.business-standard.com/markets/news/bond-yields-fall-11-bps-rupee-gains-as-oil-prices-slide-after-us-midterms-126110401818_1.html"
+  },
+  {
+   "cat": "Indian",
+   "title": "Supreme Court seeks Centre and Election Commission's reply on legal immunity for election commissioners",
+   "summary": "India Legal reports a bench led by Chief Justice Surya Kant issued notice on a petition challenging Section 16 of the 2023 Act that protects the Chief Election Commissioner and other commissioners from legal action. The Court asked the Centre and the Election Commission to respond. The article shows no date or ruling, so timing is unconfirmed.",
+   "why": "Rules on institutional accountability matter to anyone working on governance and compliance.",
+   "src": "India Legal",
+   "url": "https://indialegallive.com/constitutional-law-news/courts-news/supreme-court-seeks-centre-election-commissions-response-on-plea-challenging-blanket-immunity-to-cec-election-commissioners/"
   },
   {
    "cat": "Business",
-   "title": "Sensex jumps 1,225 points to 76,918 and Nifty reclaims 23,800 on 3 November, a fourth straight gain",
-   "summary": "Business Standard reports the Nifty 50 up 1.58% at 23,810.85 and the Sensex up 1.62% at 76,917.85, both at two-month highs and up about 5% over four sessions. Earnings and lower crude are credited, and FMCG led with about 3%. BusinessToday's intraday check had slightly different levels, so figures are provisional.",
-   "why": "Rising markets lift recruiters' risk appetite and campus-hiring plans.",
-   "src": "Business Standard, TradingView, BusinessToday",
-   "url": "https://www.business-standard.com/amp/markets/news/stock-market-live-november-3-nse-bse-sensex-today-nifty50-gift-nifty-crude-oil-prices-q2-results-ipo-today-126110300101_1.html"
+   "title": "Brent crude falls about 9% to roughly $94, its lowest in two months, after the midterms",
+   "summary": "OilPrice reports Brent dropped 9.2% on 4 November to $94.11 as traders bet the results would push the White House toward ending the Iran war without escalation; Vice President Vance blamed the war for Republican losses. Brent was near $118 the previous Friday. Sources quote slightly different levels, so figures are provisional.",
+   "why": "Falling oil eases input costs and inflation worries that shape hiring and pay plans.",
+   "src": "OilPrice, NBC News, Quartz",
+   "url": "https://oilprice.com/Latest-Energy-News/World-News/Oil-Crashes-9-as-Trump-and-Vance-Blame-Iran-War-for-Midterm-Rout.html"
+  },
+  {
+   "cat": "Business",
+   "title": "Sensex and Nifty rise for a fifth session; IT is the only sector to fall",
+   "summary": "Whalesbook gives the Sensex closing at 77,301.40, up 383.55 points, and the Nifty 50 at 23,960.60, up 149.75 points, on 4 November, while Business Standard says IT was the only sectoral loser. Kotak Neo describes a range-bound session. The search did not show which results moved the market.",
+   "why": "Steady equity markets support recruiters' hiring confidence.",
+   "src": "Business Standard, Whalesbook, Kotak Neo",
+   "url": "https://www.business-standard.com/amp/markets/news/stock-market-live-november-4-nse-bse-sensex-today-nifty50-gift-nifty-crude-oil-prices-q2-results-ipo-today-126110400107_1.html"
+  },
+  {
+   "cat": "Business",
+   "title": "Dabur's September-quarter profit rises 11.7% to Rs 505.5 crore",
+   "summary": "BusinessToday reports Dabur's consolidated revenue rose 11.6% to Rs 3,563.07 crore and operating profit rose 7.5% to Rs 633 crore, though the operating margin contracted by 60 basis points. The results came after market hours on 4 November.",
+   "why": "A consumer-goods bellwether showing demand holding up while margins tighten, a classic brand and cost-management story.",
+   "src": "BusinessToday",
+   "url": "https://www.businesstoday.in/markets/stocks/story/dabur-q2-results-net-profit-rises-12-revenue-at-rs-3563-crore-565730-2026-11-04"
+  },
+  {
+   "cat": "Business",
+   "title": "Canva restructures 22% of its workforce and removes the one-year equity vesting cliff",
+   "summary": "An article dated 5 November says Canva is restructuring 22% of its workforce, 1,271 people, and dropping the one-year vesting cliff for recent hires. The source is a commentary site aimed at founders, so details are provisional.",
+   "why": "A live example of how restructuring and pay design are communicated, directly relevant to HR consulting.",
+   "src": "The Optimist",
+   "url": "https://theoptimist.news/canva-workforce-corporate-offboarding"
+  },
+  {
+   "cat": "Tech",
+   "title": "Apple falls after its first results under CEO John Ternus as memory costs bite",
+   "summary": "CNBC and others report September-quarter revenue of $114.5 billion, up 12%, and profit of $30.71 billion, but a gross-margin forecast of 45% to 46% against about 46.3% expected, blamed on memory prices and Siri AI spending. Ternus called memory pricing unprecedented, and Apple warned shortages could limit iPhone and Mac shipments over the holidays. Shares fell roughly 2% to 4% depending on the report.",
+   "why": "Component costs and AI spending now shape pricing and margins even at the strongest brands.",
+   "src": "CNBC, BNN Bloomberg, Reuters via press reports",
+   "url": "https://www.cnbc.com/2026/11/03/apple-earnings-john-ternus-faces-first-test-amid-high-memory-costs.html"
+  },
+  {
+   "cat": "Tech",
+   "title": "Voters rebuffed data centers in every ballot measure but one in the midterms",
+   "summary": "CNBC's headline says voters rejected data-center ballot measures everywhere except one in the 2026 midterms. The search returned only the headline, so details are provisional.",
+   "why": "Public resistance to AI infrastructure can slow the build-out that tech employers are betting on.",
+   "src": "CNBC",
+   "url": "https://cnbc.com/2026/11/04/data-center-ballot-measures-2026-midterm.html"
+  },
+  {
+   "cat": "Tech",
+   "title": "A layoff tracker reports Microsoft has begun another round affecting about 4,800 jobs",
+   "summary": "Yahoo Tech's 2026 layoffs tracker says Microsoft began another round affecting around 4,800 jobs, about 2.1% of its workforce. The listing is undated in the search results, so treat it as provisional.",
+   "why": "Large tech layoffs reshape the talent market and are a recurring HR transformation case.",
+   "src": "Yahoo Tech",
+   "url": "https://tech.yahoo.com/general/breaking-news/article/tech-layoffs-tracker-2026-all-the-job-losses-across-canva-squarespace-amazon-microsoft-apple-meta-and-others-141507340.html"
+  },
+  {
+   "cat": "Tech",
+   "kind": "fact",
+   "title": "Apple raised its purchasing commitments by $33 billion to secure components",
+   "summary": "Apple's chief operating officer Sabih Khan said purchasing commitments rose by $33 billion, according to coverage of the earnings call.",
+   "why": "Shows how supply security became a strategic spend for hardware makers.",
+   "src": "CNBC"
   },
   {
    "cat": "Business",
    "kind": "fact",
-   "title": "IT, metals and pharma lagged the 3 November rally",
-   "summary": "Market reports say banks, financials, FMCG, autos, cement and realty led, while IT, metals and pharma traded lower and investors moved away from global AI-linked trades.",
-   "why": "Sector rotation shows which industries may hire more or less aggressively.",
-   "src": "TradingView, IBTimes India"
-  },
-  {
-   "cat": "Tech",
-   "title": "OpenAI merges ChatGPT's Chat and Work tabs and plans to push for AI 'speed limits'",
-   "summary": "A tech-news listing says OpenAI is merging the Chat and Work tabs, and plans to lobby for speed limits on the most powerful models when Congress returns on 9 November. It also reports OpenAI hired a former Army Secretary for a national security role. The text was cut off in places, so details are provisional.",
-   "why": "Product and policy moves shape which AI tools employers adopt and how they are regulated.",
-   "src": "Tech news aggregator listing"
-  },
-  {
-   "cat": "Tech",
-   "title": "Google reportedly curbs AI in school accounts after backlash",
-   "summary": "Search results say Google had told schools that switching off its AI tools would also remove Search access, drew criticism, and the Wall Street Journal later reported it curbed AI in school accounts. No exact date was given, so this is provisional.",
-   "why": "A case study in platform bundling, trust and how brands handle backlash.",
-   "src": "Tech news aggregator listing"
-  },
-  {
-   "cat": "Tech",
-   "kind": "fact",
-   "title": "Apple Intelligence reportedly starts testing in China with Alibaba's Qwen on Wednesday",
-   "summary": "One source says Apple starts testing Apple Intelligence in China using Alibaba's Qwen model on Wednesday. It is not confirmed by a primary source.",
-   "why": "Shows how global brands adapt products through local partners in regulated markets.",
-   "src": "Tech news aggregator listing"
+   "title": "The US declared helium a critical material as supply tightens",
+   "summary": "A search summary says war in the Middle East and export curbs by Russia and China are squeezing helium, a gas vital to chipmaking, and Europe is scrambling to secure supply. No single article link was returned, so this is provisional.",
+   "why": "Critical-input shortages ripple into electronics prices and hiring in manufacturing.",
+   "src": "Search summary"
   }
  ]
 }
