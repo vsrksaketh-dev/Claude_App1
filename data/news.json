@@ -1,168 +1,168 @@
 {
- "date": "2026-11-06",
- "generated": "2026-11-06T06:30:00+05:30",
+ "date": "2026-11-07",
+ "generated": "2026-11-07T06:30:00+05:30",
  "items": [
   {
    "cat": "International",
-   "title": "World leaders react to Democrats' midterm sweep",
-   "summary": "Foreign reactions on 4 Nov largely framed the US midterm results as a setback for President Trump. Spain's Pedro Sanchez welcomed the outcome, France's foreign minister called it very good news, and Norway's prime minister called it a powerful signal of a change of course. Japan stressed its alliance with Washington holds regardless.",
-   "why": "Allies recalibrating to a divided Washington shapes trade, tariffs and the outlook for Indian exporters and multinational hiring.",
-   "src": "Axios",
-   "url": "https://www.axios.com/2026/11/04/2026-midterm-election-results-world-leaders-react"
+   "title": "Trump weighs Iran options after first post-election security meeting",
+   "summary": "Trump met top national security advisers on 5 Nov to discuss Iran, RBC-Ukraine reports, with war or de-escalation possible within days. Gulf and regional mediators are pushing a plan in which the US lifts its naval blockade and unfreezes some assets in return for IAEA inspections and a reopened Strait of Hormuz. Details are provisional.",
+   "why": "A war-or-deal decision moves oil, inflation and corporate budgets, and with them hiring plans in India.",
+   "src": "RBC-Ukraine",
+   "url": "https://newsukraine.rbc.ua/news/trump-mulls-three-options-for-iran-war-or-1793948729.html"
   },
   {
    "cat": "International",
-   "title": "Trump weighs Iran strikes or a deal after midterm loss",
-   "summary": "Gulf News reports President Trump is weighing renewed strikes on Iran against a negotiated deal, with Vice President JD Vance urging an agreement and Qatar mediating. Brent crude fell to about $93 a barrel on hopes of diplomacy. The situation is fast-moving and details may change.",
-   "why": "Oil prices drive India's import bill, inflation and corporate costs, so the war-or-deal call matters for budgets and hiring plans.",
-   "src": "Gulf News",
-   "url": "https://gulfnews.com/world/mena/trump-weighs-iran-strikes-or-deal-after-midterm-loss-as-vance-urges-agreement-qatar-mediates-brent-oil-falls-to-93-1.500736556"
+   "title": "Report: US considering resuming strikes on Iran from 9 November",
+   "summary": "TASS, citing Fox News, says Washington is weighing a renewed military operation against Iran as early as Monday 9 November. This is a single relayed report and could not be confirmed elsewhere, so treat it as provisional.",
+   "why": "Escalation risk keeps energy prices and markets volatile, a backdrop for every business case this term.",
+   "src": "TASS (citing Fox News)",
+   "url": "https://tass.com/world/2213697"
   },
   {
    "cat": "International",
-   "title": "Regional diplomacy intensifies amid fears of a renewed US attack on Iran",
-   "summary": "The New Arab reports Iran's foreign minister has called counterparts in Saudi Arabia, Turkey, Qatar and Oman, while Tehran's security chief met Vladimir Putin in Moscow. Iran says it sent Washington a nuclear proposal through Qatar, to be discussed only once the US meets its conditions.",
-   "why": "Gulf stability affects remittances, energy prices and the many Indian professionals working in the region.",
-   "src": "The New Arab",
-   "url": "https://newarab.com/news/flurry-regional-diplomacy-amid-fears-us-attack-iran"
+   "title": "What a Democratic Congress means for Iran and Ukraine policy",
+   "summary": "CNBC analysts say Democratic control of Congress after the midterms is likely to bring tougher oversight of the administration's handling of Iran and Ukraine. Rubio has cast doubt on a quick Ukraine deal, while Trump pushes for talks.",
+   "why": "Policy gridlock or oversight in Washington shapes sanctions, trade rules and the outlook for global firms.",
+   "src": "CNBC",
+   "url": "https://www.cnbc.com/2026/11/04/democrats-congress-trump-foreign-policy.html"
   },
   {
    "cat": "International",
-   "title": "Moscow sceptical, Beijing measured on the US vote",
-   "summary": "CBS News reports Russian state media suggested the results could be a blow to Ukraine, and a deputy foreign minister called the Democrats' approach to Russia extremely negative. China described the election as an internal US matter and called for a constructive strategic relationship.",
-   "why": "Great-power positioning after the vote frames supply-chain and sanctions risk that consulting clients plan around.",
-   "src": "CBS News",
-   "url": "https://www.cbsnews.com/news/us-midterm-election-results-2026-foreign-reaction/"
-  },
-  {
-   "cat": "International",
-   "title": "Iran's speaker reads the midterms as a vote against war",
-   "summary": "NPR's roundup of world reactions includes Iran's parliament speaker Ghalibaf, who wrote that Americans had said no to war. Israeli opposition leader Yair Lapid used the result against Prime Minister Netanyahu, while Ukraine's government had no immediate reaction.",
-   "why": "How rivals read US politics influences the odds of de-escalation, which feeds into markets and business sentiment.",
-   "src": "NPR",
-   "url": "https://www.npr.org/2026/11/04/nx-s1-6028664/world-reacts-midterm-elections"
+   "title": "Austria's chancellor visits China as APEC leaders' meeting nears",
+   "summary": "Austrian Chancellor Christian Stocker is in China from 2 to 7 November for the China International Import Expo and talks with President Xi Jinping. The APEC CEO Summit follows in Shenzhen on 17 and 18 November, with the leaders' meeting later in the month (dates differ by source).",
+   "why": "Europe-China engagement and APEC set the tone for trade, supply chains and market access in Asia.",
+   "src": "Control Risks, Acrofan",
+   "url": "https://www.controlrisks.com/our-thinking/geopolitical-calendar"
   },
   {
    "cat": "Indian",
-   "title": "Sensex jumps 2.6% to an eight-month high",
-   "summary": "The Sensex closed at 79,310.01 on 5 Nov, up 2.6%, and the Nifty rose 2.4% to 24,536.60, driven by falling crude prices and foreign investor inflows. The Sensex is still about 8% below its lifetime high of December 2025.",
-   "why": "A risk-on market eases funding conditions and tends to lift campus hiring sentiment in financial services and consulting.",
-   "src": "Daily Prabhat",
-   "url": "https://www.dailyprabhat.com/sensex-6849-points-nifty-1822-points-away-from-lifetime-highs-falling-crude-fuels-recovery-hopes/"
-  },
-  {
-   "cat": "Indian",
-   "title": "Early Diwali cheer: rupee rises and bond yields ease",
-   "summary": "Business Standard reports markets rallied on 5 Nov as the rupee strengthened and bond yields eased, linked in coverage to hopes of easing in the West Asia conflict after the US midterms.",
-   "why": "Cheaper borrowing and a firmer rupee matter for corporate expansion plans and imported-cost pressure on margins.",
+   "title": "Nifty reclaims 25,000 as the rally runs to a seventh day",
+   "summary": "Business Standard reports the Nifty50 closed up 2.01% at 25,030.35 on 6 Nov, above 25,000 for the first time since February, with banks leading. It puts the Sensex at 81,028 after a gain of about 1,718 points; an intraday figure in the same outlet differs, so the Sensex close is provisional.",
+   "why": "Strong markets support fundraising and tend to lift campus hiring sentiment in banking and consulting.",
    "src": "Business Standard",
-   "url": "https://www.business-standard.com/markets/news/early-diwali-cheer-markets-see-fireworks-rupee-rises-bond-yields-ease-126110502021_1.html"
+   "url": "https://www.business-standard.com/markets/news/stock-market-live-november-6-nse-bse-sensex-today-nifty50-gift-nifty-crude-oil-prices-q2-results-today-dhanteras-126110600099_1.html"
   },
   {
    "cat": "Indian",
-   "title": "PM Modi meets new NITI Aayog leadership on Viksit Bharat priorities",
-   "summary": "Prime Minister Modi was set to meet NITI Aayog's newly appointed leadership on 5 Nov to review policy work towards the Viksit Bharat 2047 vision, discuss global uncertainties and outline priorities for the 2027-28 Union Budget.",
-   "why": "Budget priorities set the direction for public spending, skilling and employment schemes that HR and marketing teams plan against.",
-   "src": "The Hawk",
-   "url": "https://www.thehawk.in/news/india/pm-modi-to-meet-new-niti-aayog-leadership-today-review-policy-priorities-for-viksit-bharat-2047"
+   "title": "Opposition steps up call for the Chief Election Commissioner to resign",
+   "summary": "Al Jazeera reports opposition parties renewed calls for Chief Election Commissioner Ganesh Kumar to resign after a large Delhi rally led by Rahul Gandhi and the INDIA bloc over voter-list revisions. The report is dated 3 November.",
+   "why": "Political contests over institutions affect policy stability, which investors and employers watch closely.",
+   "src": "Al Jazeera",
+   "url": "https://www.aljazeera.com/where/india/"
   },
   {
    "cat": "Indian",
-   "title": "Cabinet backs container manufacturing and sports goods schemes; DA raised to 63%",
-   "summary": "A governance tracker covering 16 to 31 October lists a Rs 10,000 crore Container Manufacturing Promotion Scheme and a Rs 1,856.67 crore Khelo India sports goods manufacturing scheme. It also reports Dearness Allowance for central employees and pensioners rising from 60% to 63%. These are late-October decisions.",
-   "why": "The DA hike is a pay benchmark that compensation teams watch, and manufacturing schemes signal where new jobs may appear.",
-   "src": "India Governance Watch",
-   "url": "https://indiagovernancewatch.substack.com/p/india-governance-watchviksit-bharats"
+   "title": "Government doubles OMSS rice sale target to 50 lakh tonnes",
+   "summary": "DD News reports the Centre doubled its Open Market Sale Scheme rice target to 50 lakh tonnes for 2026-27, with 25 lakh tonnes already sold through e-auctions.",
+   "why": "Food price management feeds into inflation, real wages and consumer demand, key inputs for marketing plans.",
+   "src": "DD News",
+   "url": "https://ddnews.gov.in/en/"
+  },
+  {
+   "cat": "Indian",
+   "title": "India targets Rs 3 lakh crore of defence output by 2029",
+   "summary": "Defence Minister Rajnath Singh said India aims for defence production worth Rs 3 lakh crore and defence exports of Rs 50,000 crore by 2029, according to the government news feed.",
+   "why": "Defence manufacturing growth creates new hiring demand in engineering, operations and supply chain.",
+   "src": "News On AIR",
+   "url": "https://newsonair.gov.in/category/national/"
   },
   {
    "cat": "Business",
-   "title": "AI sell-off sends the Nasdaq into correction",
-   "summary": "NBC News reports tech stocks fell sharply on 5 Nov, with the Nasdaq 100 down 6.3% and about $2.3 trillion in market value erased, the worst day since April 2025. Investors are questioning returns on heavy AI spending, and several winning Democrats have pledged to slow AI data-centre construction. Figures are as reported on the day.",
-   "why": "A rethink of AI spending could slow tech hiring and shift how firms justify AI-led workforce changes.",
-   "src": "NBC News",
-   "url": "https://www.nbcnews.com/business/markets/tech-stocks-plunge-ai-midterms-rcna607650"
+   "title": "US added 165,000 jobs in October, well above forecasts",
+   "summary": "TipRanks reports US payrolls rose 165,000 in October against a consensus near 70,000, with unemployment dipping to 4.1% and earlier months revised up. Forecasts quoted elsewhere were 59,000 to 65,000, so the size of the beat varies by source; the Dow slipped after the release.",
+   "why": "A firm US labour market shapes interest-rate expectations and global hiring, including for Indian services firms.",
+   "src": "TipRanks",
+   "url": "https://www.tipranks.com/news/dow-jones-shrugs-off-optimistic-jobs-report"
   },
   {
    "cat": "Business",
-   "title": "Apple slips on margin guidance; Airbnb and Palantir raise outlooks",
-   "summary": "Yahoo Finance's earnings live blog reports Apple shares fell after its first report under new CEO John Ternus as weak margin guidance outweighed the quarter. Airbnb rose about 11% after hours on a raised full-year outlook, and Palantir beat revenue expectations and raised guidance.",
-   "why": "Earnings season shows which business models still command investor confidence, useful context for brand and marketing strategy cases.",
-   "src": "Yahoo Finance",
-   "url": "https://finance.yahoo.com/markets/live/earnings-live-updates-apple-palantir-roku-and-more-212856249.html"
+   "title": "Nasdaq tries to recover after its worst rout in 19 months",
+   "summary": "CNBC's live coverage says the Nasdaq rebounded about 1.1% after Thursday's AI-led sell-off, when the S&P 500 fell 4.36% and the Nasdaq 5.52%. Airbnb and Cloudflare beat earnings estimates.",
+   "why": "Swings in AI valuations change how fast firms invest in automation and the talent mix they hire.",
+   "src": "CNBC",
+   "url": "https://www.cnbc.com/2026/11/05/stock-market-today-live-updates.html"
   },
   {
    "cat": "Business",
-   "title": "Canva restructures 22% of its workforce",
-   "summary": "Canva is restructuring 22% of its workforce, affecting 1,271 employees through layoffs, role changes and moves to centralised hubs, according to a layoff tracker dated 3 Nov.",
-   "why": "A large restructuring at a design-software leader is a live case in change management and workforce redesign, core HCOT territory.",
-   "src": "Intellizence",
-   "url": "https://intellizence.com/insights/layoff-downsizing/major-companies-that-announced-mass-layoffs/"
+   "title": "Fox completes its roughly $22 billion purchase of Roku",
+   "summary": "Fox Corp has closed its acquisition of streaming platform Roku, valued at about $22 billion, Fox Business reports. CEO Lachlan Murdoch pointed to Tubi as one of streaming's most successful businesses.",
+   "why": "A big media-streaming consolidation is a live case in integration, culture and go-to-market strategy.",
+   "src": "Fox Business",
+   "url": "https://www.foxbusiness.com/markets/fox-completes-acquisition-streaming-giant-roku"
   },
   {
    "cat": "Business",
-   "title": "AI-driven layoffs spread beyond tech",
-   "summary": "Layoff trackers report job cuts linked to AI spreading into finance, logistics, consulting, media and retail, with Microsoft cutting about 4,800 roles (2.1% of staff) and Maersk trimming about 15% of corporate roles. Dates vary across the tracker entries.",
-   "why": "Understanding where AI is replacing roles is central to workforce planning and reskilling advice in HR transformation work.",
-   "src": "InformationWeek",
-   "url": "https://www.informationweek.com/it-staffing-careers/2026-tech-company-layoffs"
+   "title": "Kimberly-Clark completes its acquisition of Kenvue",
+   "summary": "Kimberly-Clark has completed its acquisition of Kenvue, creating what it calls a global consumer health and wellness leader. CEO Mike Hsu called it a defining moment in the company's 154-year history. The deal closed on 2 November.",
+   "why": "Post-merger integration of two consumer giants is a textbook HR and brand-portfolio challenge.",
+   "src": "PR Newswire",
+   "url": "https://www.prnewswire.com/news-releases/kimberly-clark-completes-acquisition-of-kenvue-creating-the-preeminent-global-consumer-health-and-wellness-leader-302926494.html"
+  },
+  {
+   "cat": "Business",
+   "title": "Analog Devices completes acquisition of Alif Semiconductor",
+   "summary": "Analog Devices announced the completion of its acquisition of Alif Semiconductor, with CEO Vincent Roche welcoming the Alif team, according to its release.",
+   "why": "Chip-sector consolidation continues despite market swings, shaping demand for semiconductor talent.",
+   "src": "PR Newswire APAC",
+   "url": "https://en.prnasia.com/releases/apac/analog-devices-completes-acquisition-of-alif-semiconductor-555077.shtml"
   },
   {
    "cat": "Tech",
-   "title": "EU puts EUR 525 million into chip design start-ups",
-   "summary": "EU tech chief Henna Virkkunen announced EUR 440 million in grants to help start-ups bring chips to market and EUR 85 million for a new European Chips Design Platform. Early-stage firms can seek up to EUR 100,000 for prototyping and advanced firms up to EUR 16 million. Sources date the announcement 4 or 5 Nov.",
-   "why": "Public money for chip design creates specialised hiring demand and is a model for how governments compete for tech talent.",
+   "title": "OpenAI reportedly raises $11 billion more at a $1.25 trillion valuation",
+   "summary": "TechCrunch, citing Bloomberg, reports OpenAI has raised about $11 billion so far in a new round valuing it at $1.25 trillion. The same day, Bloomberg reported that buyers of Anthropic's planned IPO shares were eyeing a lower valuation than it targeted. Figures are as reported.",
+   "why": "AI funding levels signal how aggressively firms will push AI into workplaces and HR tools.",
+   "src": "TechCrunch",
+   "url": "https://techcrunch.com/2026/11/06/openai-reportedly-raises-an-additional-11-billion-at-a-1-25-trillion-valuation"
+  },
+  {
+   "cat": "Tech",
+   "title": "Data-centre backlash hits AI companies after the US midterms",
+   "summary": "Euronews reports AI stocks fell as voters and newly elected officials pushed back on data-centre construction; TSMC shares dropped about 10%. One roundup says voters rejected data centres in 40 of 41 local ballot measures on 3 Nov, and OpenAI offered to pay full power and grid costs at its sites.",
+   "why": "Community and regulatory pushback is now a factor in where tech jobs and investment land.",
    "src": "Euronews",
-   "url": "https://www.euronews.com/2026/11/05/europe-is-betting-525-million-on-chip-design-start-ups"
+   "url": "https://www.euronews.com/2026/11/06/data-centre-backlash-which-ai-companies-have-been-affected-by-us-midterm-results"
   },
   {
    "cat": "Tech",
-   "title": "Google plans a $17 billion AI data centre; Zipline raises $1.5 billion",
-   "summary": "A Tech Startups roundup for 5 Nov reports Google announced a $17 billion AI data centre project in Wyoming despite the sell-off, drone-delivery firm Zipline raised $1.5 billion, and Shield AI unveiled a $5.3 billion acquisition.",
-   "why": "Big infrastructure bets alongside a market sell-off show the split view on AI that strategy and HR leaders must plan through.",
-   "src": "Tech Startups",
-   "url": "https://techstartups.com/2026/11/05/top-tech-news-roundup-for-today-november-5-2026-googles-17b-ai-data-center-nvidia-ziplines-1-5b-funding-and-nasdaqs-5-5-plunge/"
+   "title": "Sentra raises $150 million as AI-security funding grows",
+   "summary": "Cybersecurity firm Sentra raised a $150 million Series C led by Capital One Ventures to protect company data from unauthorised access by AI agents, leading a $233.5 million week for Africa and Middle East startups, Techloy reports.",
+   "why": "Securing data from AI agents is a fast-growing area that shapes new roles and governance policies.",
+   "src": "Techloy",
+   "url": "https://techloy.com/week-45-2026-africa-middle-east-startup-funding"
   },
   {
    "cat": "Tech",
-   "title": "Hundreds of thousands of Nvidia H200 chips wait in Hong Kong",
-   "summary": "About 600,000 Nvidia H200 AI chips are reportedly sitting in Hong Kong as Chinese authorities continue to withhold permission for large-scale imports into the mainland, according to coverage on 5 Nov. The figure is a reported estimate.",
-   "why": "Chip trade frictions affect the cost and pace of AI adoption, which shapes how quickly firms automate roles.",
-   "src": "Tech Startups",
-   "url": "https://techstartups.com/2026/11/05/top-tech-news-roundup-for-today-november-5-2026-googles-17b-ai-data-center-nvidia-ziplines-1-5b-funding-and-nasdaqs-5-5-plunge/"
+   "title": "Seed investors pile into AI security start-ups",
+   "summary": "Crunchbase News reports a rush of seed funding into cybersecurity start-ups built around AI, as investors bet on protecting companies adopting AI agents.",
+   "why": "Where early money flows hints at the next wave of employers and skills in demand.",
+   "src": "Crunchbase News",
+   "url": "https://news.crunchbase.com/cybersecurity/seed-trends-ai-security-startup-funding-2026/"
   },
   {
-   "cat": "Tech",
-   "title": "Winning Democrats pledge to slow AI data-centre construction",
-   "summary": "NBC News reports numerous Democrats who won governor, attorney general, Senate and House races pledged to slow or halt construction of AI data centres, adding a political risk to the AI build-out.",
-   "why": "Regulation of AI infrastructure could change where tech jobs and investment land, a factor in location and workforce strategy.",
-   "src": "NBC News",
-   "url": "https://www.nbcnews.com/business/markets/tech-stocks-plunge-ai-midterms-rcna607650"
-  },
-  {
-   "cat": "Business",
-   "title": "the Nasdaq 100 lost about $2.3 trillion in one day",
-   "summary": "NBC News reports the 6.3% drop on 5 Nov erased roughly $2.3 trillion in market value, the index's worst day since April 2025.",
+   "cat": "Indian",
+   "title": "Nifty is back above 25,000 for the first time since February",
+   "summary": "The Nifty50 closed at 25,030.35 on 6 Nov, its first close above 25,000 since 27 February 2026, as the rally ran to a seventh day.",
    "why": "",
-   "src": "NBC News",
-   "url": "https://www.nbcnews.com/business/markets/tech-stocks-plunge-ai-midterms-rcna607650",
+   "src": "Business Standard",
+   "url": "https://www.business-standard.com/markets/news/stock-market-live-november-6-nse-bse-sensex-today-nifty50-gift-nifty-crude-oil-prices-q2-results-today-dhanteras-126110600099_1.html",
    "kind": "fact"
   },
   {
-   "cat": "Indian",
-   "title": "the Sensex is about 8% below its record",
-   "summary": "After the 5 Nov rally the Sensex sits roughly 7.95% below its lifetime high of 86,159.02, set on 1 December 2025.",
+   "cat": "Business",
+   "title": "US unemployment dipped to 4.1% in October",
+   "summary": "October's jobs report showed 165,000 jobs added and unemployment down to 4.1%.",
    "why": "",
-   "src": "Daily Prabhat",
-   "url": "https://www.dailyprabhat.com/sensex-6849-points-nifty-1822-points-away-from-lifetime-highs-falling-crude-fuels-recovery-hopes/",
+   "src": "TipRanks",
+   "url": "https://www.tipranks.com/news/dow-jones-shrugs-off-optimistic-jobs-report",
    "kind": "fact"
   },
   {
    "cat": "Tech",
-   "title": "EU chip grants go up to EUR 16 million per firm",
-   "summary": "Under the new EU scheme, early-stage start-ups can seek up to EUR 100,000 for prototyping and more advanced firms up to EUR 16 million.",
+   "title": "Voters rejected data centres in 40 of 41 local ballot measures",
+   "summary": "An AI news roundup reports data centres lost 40 of 41 local ballot measures on 3 Nov, prompting OpenAI's offer to cover power and grid costs.",
    "why": "",
-   "src": "Euronews",
-   "url": "https://www.euronews.com/2026/11/05/europe-is-betting-525-million-on-chip-design-start-ups",
+   "src": "Implicator",
+   "url": "https://www.implicator.ai/openai-power-bills-gpt-6-cyber-sony-ps5/",
    "kind": "fact"
   }
  ]
