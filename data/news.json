@@ -1,201 +1,177 @@
 {
- "date": "2026-11-10",
- "generated": "2026-11-10T07:15:00+05:30",
+ "date": "2026-11-11",
+ "generated": "2026-11-11T06:30:00+05:30",
  "items": [
   {
    "cat": "International",
-   "title": "G7 ministers press Rubio on Ukraine and Iran in Paris",
-   "summary": "G7 foreign ministers opened a two-day meeting in Paris, with Ukraine's foreign minister joining the Ukraine session on 10 Nov. It is Rubio's first trip abroad since Republicans lost control of Congress in the midterms, and allies are asking about postwar security guarantees.",
-   "why": "US-Europe friction over Ukraine and Iran shapes energy prices and the outlook for European and Indian exporters.",
-   "src": "Al Arabiya / KATU",
-   "url": "https://english.alarabiya.net/News/world/2026/11/09/g7-ministers-to-press-rubio-on-iran-ukraine-at-paris-talks"
+   "title": "Russia-Ukraine talks open in Abu Dhabi; Zelensky calls day one 'constructive'",
+   "summary": "US-mediated Russia-Ukraine talks began in Abu Dhabi on 10 Nov, the first such round since February. Zelensky called the first day 'constructive and quite substantive', and talks were due to resume the next morning. Rubio called them 'very productive'; European representatives are not in the main sessions.",
+   "why": "Any path to a ceasefire would ease energy and freight costs that weigh on company budgets and hiring.",
+   "src": "France 24 / Al Jazeera",
+   "url": "https://www.france24.com/en/europe/20261110-live-ukraine-russia-and-us-to-resume-peace-talks-in-abu-dhabi"
   },
   {
    "cat": "International",
-   "title": "US to mediate new Russia-Ukraine talks in Abu Dhabi",
-   "summary": "The United States is preparing to mediate a new round of Russia-Ukraine negotiations in Abu Dhabi on 10 and 11 November, according to reports from the G7 sidelines. No details of an agenda were given.",
-   "why": "Any ceasefire progress would ease commodity and freight costs that feed into company budgets and hiring.",
-   "src": "IR-IA",
-   "url": "https://www.ir-ia.com/news/g7-foreign-ministers-meet-in-paris-to-discuss-ukraine-war-iran-conflict-and-global-security-challenges/"
+   "title": "G7 in Paris turns to Ukraine support",
+   "summary": "G7 foreign ministers in Paris focused on support for Ukraine while the Abu Dhabi talks ran. It was not clear whether new aid would be announced, and France 24 reports the US and allies appeared far apart on Ukraine, Iran and the International Criminal Court.",
+   "why": "Rifts between the US and Europe shape sanctions, trade rules and the outlook for multinational employers.",
+   "src": "ABC News",
+   "url": "https://abcnews.com/International/wireStory/g7-attention-paris-turns-ukraine-us-mediated-talks-138001993"
   },
   {
    "cat": "International",
-   "title": "Rubio says 'no progress' with Iran as Hormuz plans circulate",
-   "summary": "Rubio said there had been no progress in talks with Iran, and Trump has not ruled out new strikes on a suspected nuclear site. Separately, reports say the US has proposed a phased plan to reopen the Strait of Hormuz starting with a partial lifting of its blockade, and Qatar has floated an interim deal. Details are provisional.",
-   "why": "The Hormuz closure is the main driver of oil and fertiliser prices, which hit Indian inflation and margins.",
-   "src": "CBS12 / KATU",
-   "url": "https://cbs12.com/news/nation-world/secretary-of-state-marco-rubio-faces-g7-allies-questions-on-iran-ukraine-after-gop-republican-midterm-losses-energy-security-artificial-intelligence-si-president-trump-united-nations-accountability-france-protests"
+   "title": "Russia hits Ukraine's grid again as Kyiv strikes a major refinery",
+   "summary": "Russia launched another assault on Ukraine's power grid on Monday, while Ukrainian forces struck another of Russia's largest oil refineries, Al Jazeera reports, even as negotiators met in the UAE.",
+   "why": "Attacks on energy infrastructure keep oil and gas prices volatile.",
+   "src": "Al Jazeera",
+   "url": "https://www.aljazeera.com/news/2026/11/10/russia-ukraine-and-us-to-meet-as-zelenskyy-claims-battlefield-successes"
   },
   {
    "cat": "International",
-   "title": "Republican lawmaker moves to impeach Defense Secretary Hegseth over Iran war",
-   "summary": "A Republican member of the US Congress moved to impeach Defense Secretary Pete Hegseth over the Iran war, the Times of Israel live blog reported on 9 Nov. It is not yet clear how much support the move has.",
-   "why": "Shows how the midterm result is changing US war policy, which markets watch closely.",
-   "src": "Times of Israel",
-   "url": "https://timesofisrael.com/liveblog-november-9-2026"
+   "title": "COP31 under way in Antalya with over 90,000 expected",
+   "summary": "UN News says more than 90,000 people are expected at COP31 in Türkiye, which aims to turn existing climate commitments into action rather than strike one landmark deal. An EU document reported by Reuters says there is 'no scope' for new climate-finance pledges; that report is relayed second-hand.",
+   "why": "Climate commitments drive ESG reporting and sustainability roles companies are hiring for.",
+   "src": "UN News",
+   "url": "https://news.un.org/en/story/2026/11/1168763"
   },
   {
    "cat": "International",
-   "title": "COP31 opens in Türkiye with electrification goal as 1.5C slips",
-   "summary": "The UN climate summit opened in Antalya on 9 Nov, co-hosted by Türkiye and Australia, aiming for a pledge that 35 percent of world energy comes from electricity by 2035. Critics say the pledge does not require the power to be low-carbon, and the US sent no official delegation. Talks run to 20 Nov.",
-   "why": "Climate commitments drive ESG reporting, green jobs and sustainability roles companies are hiring for.",
-   "src": "ABC News / NBC News",
-   "url": "https://www.abc.net.au/news/2026-11-10/cop31-tingle-global-temperature-1-5c/107366402"
-  },
-  {
-   "cat": "International",
-   "title": "WMO: 2026 on track to be among the four hottest years",
-   "summary": "A World Meteorological Organization report released at COP31 says 2026 is on track to be one of the four hottest years on record, with record ocean temperatures and faster glacier melt.",
-   "why": "Extreme heat affects workforce productivity and safety policies, a growing HR concern.",
-   "src": "PBS NewsHour",
-   "url": "https://www.pbs.org/newshour/science/cop31-climate-summit-begins-after-disastrous-year-of-extreme-weather"
+   "title": "Strong US inflation data lifts bets on a December Fed hike",
+   "summary": "Stocks and bonds fell on 10 Nov after a strong consumer price report raised bets on a December Fed rate hike, with Fed governor Waller backing a hike, Bloomberg's live coverage says.",
+   "why": "Higher US rates can pull foreign money out of India and cool hiring at global firms.",
+   "src": "Bloomberg",
+   "url": "https://www.bloomberg.com/news/articles/2026-11-09/stock-market-today-dow-s-p-live-updates"
   },
   {
    "cat": "Indian",
-   "title": "Supreme Court: government staff held over 48 hours are suspended automatically",
-   "summary": "The Supreme Court ruled that government employees in judicial custody for more than 48 hours stand suspended automatically, without a separate order, according to Amar Ujala's live news page for 10 Nov.",
-   "why": "A clear service-rule precedent that HR teams in the public sector and PSUs will apply.",
-   "src": "Amar Ujala",
-   "url": "https://www.amarujala.com/live/india-news/latest-and-breaking-news-today-in-hindi-live-2026-11-10"
+   "title": "President to confer Swachh Survekshan 2025-26 awards today",
+   "summary": "President Droupadi Murmu confers the 10th Swachh Survekshan awards at Vigyan Bhawan on 11 Nov. The survey covered more than 4,751 cities scored on 43 indicators, and a mentorship scheme paired 70 cities with 191 others. Winners are to be announced at the ceremony.",
+   "why": "City rankings shape where employers choose to expand and how cities market themselves.",
+   "src": "Asianet Newsable",
+   "url": "https://newsable.asianetnews.com/india/president-droupadi-murmu-to-confer-swachh-survekshan-awards-on-nov-11-articleshow-0bsnlkt"
   },
   {
    "cat": "Indian",
-   "title": "Supreme Court upholds states' power to levy extra sales tax under pre-GST laws",
-   "summary": "A seven-judge bench led by CJI Surya Kant held that states could levy additional sales tax under pre-GST laws. The court said GST's 2017 rollout made the question largely academic, so current GST is unaffected. Reported on 4-5 Nov.",
-   "why": "Settles old tax disputes that sat on company balance sheets, relevant for finance and legal teams.",
+   "title": "Supreme Court asks WhatsApp to act on 'digital arrest' scams",
+   "summary": "A bench led by CJI Surya Kant asked WhatsApp and other platforms to propose measures against digital-arrest scams, and said RBI rules should require financial institutions to compensate cyber-fraud victims, as reported on 10 Nov.",
+   "why": "Fraud-protection duties change how banks and platforms design customer trust and compliance teams.",
+   "src": "IndToday",
+   "url": "https://indtoday.com/supreme-court-directs-whatsapp-to-act-against-digital-arrest-scams"
+  },
+  {
+   "cat": "Indian",
+   "title": "Supreme Court presses NCR states on vehicle pollution",
+   "summary": "The Supreme Court ordered Delhi, Uttar Pradesh, Rajasthan and Haryana to set out plans to cut vehicle emissions in the NCR, in its suo motu air-pollution case; the next hearing is on 23 Nov.",
+   "why": "Air quality affects attendance, productivity and hybrid-work policies across north India.",
    "src": "Business Standard",
-   "url": "https://www.business-standard.com/india-news/sc-upholds-states-power-to-levy-additional-sales-tax-under-pre-gst-laws-126110401924_1.html"
+   "url": "https://business-standard.com/amp/india-news/delhi-pollution-rise-in-vehicular-emissions-warrant-urgent-action-says-sc-126111000249_1.html"
   },
   {
    "cat": "Indian",
-   "title": "Farm fires rise in Punjab over Diwali; Swachh Survekshan awards on 11 Nov",
-   "summary": "Farm fires rose across Punjab during Diwali, a daily headlines digest reports. President Droupadi Murmu is due to present the Swachh Survekshan 2025-26 cleanliness awards on 11 November.",
-   "why": "Air quality hits attendance and productivity across north India; cities' rankings matter to employers choosing locations.",
-   "src": "PW Live",
-   "url": "https://www.pw.live/school-prep/exams/school-assembly-news-headlines-today"
-  },
-  {
-   "cat": "Indian",
-   "title": "Bhai Dooj, India v New Zealand third ODI on today's calendar",
-   "summary": "Today's major events include Bhai Dooj, a Patna visit by BJP president Nitin Nabin, and the third India-New Zealand ODI, according to Amar Ujala's day planner.",
-   "why": "Festival week shapes retail demand and campaign timing for marketers.",
-   "src": "Amar Ujala",
-   "url": "https://www.amarujala.com/india-news/10-november-2026-major-event-2026-2026-11-09"
+   "title": "Markets reopen after Diwali holiday; Muhurat streak ends",
+   "summary": "Indian exchanges were shut on 10 Nov for Diwali-Balipratipada and reopen today. The Sensex last closed at 81,106.65 and the Nifty at 25,044.65 on 9 Nov, and the Muhurat session ended slightly lower, breaking an eight-year run of gains.",
+   "why": "Market mood feeds into IPO plans and campus hiring sentiment.",
+   "src": "NewsDrum / The Federal",
+   "url": "https://newsdrum.in/business/stock-market-closed-today-for-diwali-balipratipada-nse-bse-trading-to-resume-on-wednesday-12797093"
   },
   {
    "cat": "Business",
-   "title": "Sensex and Nifty snap a seven-day rally; IT lags on AI fears",
-   "summary": "On 9 Nov the Nifty fell about 0.36 percent to 24,897 and the Sensex about 0.38 percent to 80,691, slipping below 25,000 after a roughly 10.5 percent seven-session run. Pharma and media gained while Infosys, HCL Tech and TCS lagged on fears that AI automation will hurt their business.",
-   "why": "IT services are the biggest campus recruiters; AI pressure on them shapes fresher hiring.",
-   "src": "The Week",
-   "url": "https://www.theweek.in/news/biz-tech/2026/11/09/nifty-sensex-drop-after-winning-streak-three-key-factors-influencing-dalal-street-today.html"
+   "title": "Anthropic begins IPO roadshow; raise reported at up to $64.4bn",
+   "summary": "Bloomberg's live feed flagged Anthropic's IPO roadshow kicking off, with shares offered to retail investors on platforms such as Robinhood and SoFi. Reuters, relayed by Techmeme, reports the IPO could raise up to $64.4 billion; figures are provisional.",
+   "why": "The largest AI listing to date will shape how much companies spend on AI tools for HR and marketing.",
+   "src": "Bloomberg",
+   "url": "https://www.bloomberg.com/news/articles/2026-11-09/stock-market-today-dow-s-p-live-updates"
   },
   {
    "cat": "Business",
-   "title": "Brent falls to about $98 on Iran talk comments",
-   "summary": "Brent crude dropped to around $98 a barrel after Trump commented on possible negotiations with Iran, market reports said on 9 Nov. Easing oil helped the recent rally in Indian stocks.",
-   "why": "Oil is India's largest import; lower prices ease costs for FMCG and logistics firms.",
-   "src": "The Week",
-   "url": "https://www.theweek.in/news/biz-tech/2026/11/09/nifty-sensex-drop-after-winning-streak-three-key-factors-influencing-dalal-street-today.html"
+   "title": "Qantas to cut 850 jobs in Accenture outsourcing deal",
+   "summary": "Qantas said it will cut 850 jobs from mid-2027 after striking an outsourcing deal with Accenture, CEO Vanessa Hudson said.",
+   "why": "A live outsourcing case: how consulting firms take over corporate functions and what it means for workforce plans.",
+   "src": "ABC News (Australia)",
+   "url": "https://www.abc.net.au/news/2026-11-10/asx-markets-business-live-news-november-10-2026/107363300"
   },
   {
    "cat": "Business",
-   "title": "Wall Street jumps over 2% as oil slides and tech rebounds",
-   "summary": "The Nasdaq and S&P 500 rose more than 2 percent on 9 Nov as oil fell back and technology shares recovered, TheStreet reported.",
-   "why": "Global risk appetite drives foreign flows into Indian markets and IPO windows.",
+   "title": "Honda plans $3bn Ohio hybrid plant with about 2,000 jobs",
+   "summary": "Honda plans a new $3 billion plant in central Ohio to build up to 240,000 hybrid vehicles a year from 2029, creating about 2,000 jobs.",
+   "why": "Large greenfield plants are major talent-acquisition and employer-branding projects.",
    "src": "TheStreet",
-   "url": "https://www.thestreet.com/stock-market-today/stock-market-today-dow-jones-sp-500-nasdaq-updates-nov-09-202"
+   "url": "https://www.thestreet.com/stock-market-today/stock-market-today-dow-jones-sp-500-nasdaq-updates-nov-10-2026"
   },
   {
    "cat": "Business",
-   "title": "PepsiCo to cut about 1,000 North American jobs",
-   "summary": "PepsiCo plans to cut roughly 1,000 jobs across its North American food and beverage business after beverage sales fell 2 percent in the third quarter and food stayed flat.",
-   "why": "A live case of FMCG restructuring: how demand slowdowns turn into workforce plans.",
-   "src": "GuruFocus",
-   "url": "https://gurufocus.com/news/9186325/pepsico-plans-to-cut-1000-jobs-amid-sales-challenges"
-  },
-  {
-   "cat": "Business",
-   "title": "Skydance and Warner Bros. Discovery merge; layoffs coming",
-   "summary": "Skydance has completed its merger with Warner Bros. Discovery, and its leaders told staff in a memo that layoffs are coming as the company targets more than $6 billion in savings within three years.",
-   "why": "Post-merger integration and layoffs are classic HR and change-management territory.",
-   "src": "Variety",
-   "url": "https://variety.com/2026/film/news/skydance-ceo-memo-layoffs-paramount-warner-bros-merger-1236901335/"
-  },
-  {
-   "cat": "Business",
-   "title": "Fiserv and Angi cut jobs, Boeing trims about 5%",
-   "summary": "A layoff tracker updated 9 Nov lists Fiserv cutting about 3,000 employee and contractor jobs under its new CEO and Angi cutting 300; Boeing is cutting roughly 5 percent of staff with notices from December. Figures are from trackers and may be revised.",
-   "why": "Shows which sectors are shrinking headcount heading into 2027 planning.",
-   "src": "TrueUp / SF Chronicle",
-   "url": "https://www.trueup.io/layoffs"
+   "title": "Nasdaq slips after inflation report; Sanmina jumps, Lucid misses",
+   "summary": "The Nasdaq fell on 10 Nov after the inflation data. Sanmina shares jumped about 10.9 percent on strong results, while Lucid missed estimates and expanded a loan from a Saudi fund.",
+   "why": "Earnings surprises show which sectors are growing and likely to hire.",
+   "src": "TheStreet",
+   "url": "https://www.thestreet.com/stock-market-today/stock-market-today-dow-jones-sp-500-nasdaq-updates-nov-10-2026"
   },
   {
    "cat": "Tech",
-   "title": "Apple launches its first paid Apple Intelligence tier",
-   "summary": "Apple has begun selling one-time $49.99 Intelligence Usage Packs, starting in Logic Pro, its first paid tier for Apple Intelligence, according to aggregator reports. Pricing details vary slightly between listings.",
-   "why": "A test of how far consumers will pay for AI features, a key pricing question for marketers.",
+   "title": "Nvidia board hires Wachtell Lipton for probe tied to CEO",
+   "summary": "Nvidia hired Wachtell Lipton to lead a probe into a relationship involving CEO Jensen Huang, CNBC reports, and the board's independent members issued a statement. A report by The Information about related chip shipments via Chinese firms is unconfirmed.",
+   "why": "A governance crisis at the world's most valuable chipmaker is a live case in leadership and board oversight.",
+   "src": "CNBC / Bloomberg",
+   "url": "https://bloomberg.com/news/articles/2026-11-10/nvidia-scandal-underscores-growing-espionage-risks-for-ai-firms"
+  },
+  {
+   "cat": "Tech",
+   "title": "Google expands 8th-gen TPU lineup to four chips",
+   "summary": "Google expanded its eighth-generation TPU lineup to four chips, and Alphabet shares rose more than 2 percent premarket on the news.",
+   "why": "Cheaper AI compute lowers the cost of AI tools that HR and marketing teams use.",
    "src": "AI Weekly",
    "url": "https://aiweekly.co/ai-news-today"
   },
   {
    "cat": "Tech",
-   "title": "Samsung reportedly testing a paid Galaxy AI tier",
-   "summary": "Samsung is reportedly testing a paid Galaxy AI Premium subscription despite earlier promising that 19 features would stay free. It is not a confirmed launch.",
-   "why": "Freemium-to-paid shifts are a live marketing and brand-trust case.",
-   "src": "TechRadar",
-   "url": "https://techradar.com/phones/samsung-galaxy-phones/samsung-is-reportedly-testing-a-paid-version-of-galaxy-ai-but-it-promised-these-19-features-would-stay-free-forever"
+   "title": "Google rolls out Gemini 4 Carbon to developers",
+   "summary": "Google is rolling out Gemini 4 Carbon to paying developers and enterprises at $2 per million input tokens, priced below rival frontier models. A tracker dates the model to late October, so timing is unconfirmed.",
+   "why": "AI price competition makes automation cheaper for business functions.",
+   "src": "Google News",
+   "url": "https://news.google.com/read/CBMingFBVV95cUxOS1FMM2Rhc1RaOWNteEpIRDZLV2RNanAxOEtlY25LQ0tLejhndUQ1M1lpRFdXQjdkMnJ1SGxQSFhSODByVDhrWHp4dzdqM01pTzhTTVBpY2swLTZncWFJU1NaeXlTYk0tbFFzOVFISWFuamYzaXhiNlFfQmZoekk4YXkyaHdBRDhLMF9DSmo4UEZUV0pWcEVYZUNGci1iZw?hl=en-US&gl=US&ceid=US%3Aen"
   },
   {
    "cat": "Tech",
-   "title": "Google adds two specialised TPUs",
-   "summary": "Google announced the TPU 8tx for secure, confidential computing in regulated industries and the 8i Max for longer context windows, Investing.com reported.",
-   "why": "Cloud AI capacity decides what HR-tech and marketing-tech tools can do and cost.",
-   "src": "Investing.com",
-   "url": "https://za.investing.com/news/stock-market-news/google-expands-ai-chip-lineup-as-nvidia-faces-ceo-spy-scandal-4561591"
+   "title": "Nvidia unveils GR00T 2 robotics model",
+   "summary": "Nvidia unveiled GR00T 2, a 2-billion-parameter vision-language-action model for robots, at CoRL 2026 in Austin, and announced investments in four Korean startups.",
+   "why": "Robotics models will reshape factory and warehouse jobs that HR teams plan for.",
+   "src": "DEV Community",
+   "url": "https://dev.to/hiroki-ii-ai/ai-daily-digest-november-10-2026-openai-buys-astral-nvidia-opens-gr00t-2-claude-fable-52-32p5"
   },
   {
    "cat": "Tech",
-   "title": "Medium launches TK app with built-in AI writing tools",
-   "summary": "Medium launched a new app, TK, with AI writing tools built into its publishing platform, dated 9 Nov.",
-   "why": "Content marketing tools are adding AI drafting; useful to know for brand and employer-branding work.",
-   "src": "TechBuzz",
-   "url": "https://www.techbuzz.ai/articles/medium-launches-tk-app-with-built-in-ai-writing-tools"
+   "title": "boost.ai launches self-hosted model for regulated industries",
+   "summary": "boost.ai launched Presis, a self-hosted AI model aimed at speed and accuracy in regulated industries such as banking.",
+   "why": "Self-hosted AI eases data-privacy concerns that block HR and customer-service adoption.",
+   "src": "PR Newswire",
+   "url": "https://prnewswire.com/news-releases/boostai-launches-presis-a-self-hosted-ai-model-built-for-speed--accuracy-in-regulated-industries-302930311.html"
   },
   {
-   "cat": "Tech",
-   "title": "Report: Google and Microsoft may get gatekeeper role over AI chips",
-   "summary": "A Reuters report relayed by Seeking Alpha says the US Commerce Department could give big cloud providers such as Google and Microsoft a global gatekeeper role over access to AI chips. The report is undated in the results and unconfirmed.",
-   "why": "Would shape which countries and firms, including Indian ones, can get AI compute.",
-   "src": "Seeking Alpha",
-   "url": "https://seekingalpha.com/news/4386492-google-microsoft-given-global-gatekeeper-role-over-ai-chips-report"
+   "cat": "Indian",
+   "kind": "fact",
+   "title": "Swachh Survekshan 2025-26 covered over 4,751 cities",
+   "summary": "Cities were scored on 43 indicators across 10 areas in the 10th edition of the survey.",
+   "why": "A data point for public-policy and urban-marketing discussions.",
+   "src": "Asianet Newsable",
+   "url": "https://newsable.asianetnews.com/india/president-droupadi-murmu-to-confer-swachh-survekshan-awards-on-nov-11-articleshow-0bsnlkt"
+  },
+  {
+   "cat": "Business",
+   "kind": "fact",
+   "title": "Muhurat trading closed lower for the first time in eight years",
+   "summary": "The Sensex and Nifty ended the Diwali Muhurat session slightly lower, ending an eight-year streak of positive closes.",
+   "why": "Context for market sentiment around festival season.",
+   "src": "The Federal",
+   "url": "https://thefederal.com/category/business/muhurat-trading-sensex-nifty-eight-year-streak-red-262450"
   },
   {
    "cat": "International",
    "kind": "fact",
-   "title": "COP31 runs 9 to 20 November in Antalya",
-   "summary": "The summit is co-hosted by Türkiye and Australia and centres on a 35 percent electrification-by-2035 pledge.",
-   "why": "Dates to note for sustainability case discussions.",
-   "src": "NBC News",
-   "url": "https://www.nbcnews.com/science/climate-change/leaders-gather-turkey-un-climate-summit-extreme-weather-rcna608259"
-  },
-  {
-   "cat": "Business",
-   "kind": "fact",
-   "title": "Indian stocks rose about 10.5% in seven sessions",
-   "summary": "The Sensex and Nifty's run to 6 Nov was their longest winning streak of the year, helped by foreign buying and easing oil.",
-   "why": "Context for market sentiment around placements season.",
-   "src": "The Week",
-   "url": "https://www.theweek.in/news/biz-tech/2026/11/09/nifty-sensex-drop-after-winning-streak-three-key-factors-influencing-dalal-street-today.html"
-  },
-  {
-   "cat": "Business",
-   "kind": "fact",
-   "title": "Skydance targets over $6 billion in merger savings",
-   "summary": "The savings target over three years after combining with Warner Bros. Discovery explains the coming layoffs.",
-   "why": "A number to quote in synergy and restructuring discussions.",
-   "src": "Variety",
-   "url": "https://variety.com/2026/film/news/skydance-ceo-memo-layoffs-paramount-warner-bros-merger-1236901335/"
+   "title": "Abu Dhabi round is the first Russia-Ukraine talks since February",
+   "summary": "A Ukrainian delegation source said the 10 Nov meeting was the first such negotiation since February.",
+   "why": "Useful context for geopolitical-risk discussions.",
+   "src": "France 24",
+   "url": "https://www.france24.com/en/europe/20261110-live-ukraine-russia-and-us-to-resume-peace-talks-in-abu-dhabi"
   }
  ]
 }
