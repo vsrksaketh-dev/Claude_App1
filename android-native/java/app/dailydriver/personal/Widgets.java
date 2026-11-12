@@ -31,11 +31,13 @@ import org.json.JSONObject;
  * How it is built, so it stays quick and predictable on any home screen:
  * - Every widget is one fixed frame (widget_card or widget_calendar). Its buttons, mode switches and the 42 day cells are fixed
  *   views that are given their text, look and tap on every draw, both ways, so a launcher reusing old views keeps nothing stale.
- * - The rows that fit the widget's height are placed straight into the frame; longer lists get page arrows. There is no list
- *   service: what is drawn is always exactly what was just worked out, in the same update.
+ * - On Android 12 and later the rows are a list that scrolls (WidgetList); its rows are sent inside the same update, so there
+ *   is no list service and what is drawn is always exactly what was just worked out. Older phones place the rows that fit
+ *   straight into the frame and get page arrows for the rest.
  * - A tap that changes the widget (a tick, a filter, a mode, a day, a page) is a broadcast to that widget's own provider
  *   (WidgetProvider), which updates only the widgets it affects: a calendar tap redraws that one calendar, nothing else.
- * - A tap that leaves the home screen (open a tab, open a link) starts the app or the browser directly.
+ * - A tap that leaves the home screen (open a tab, open a link) starts the app or the browser directly; from a row of a
+ *   scrolling list it goes through the provider, which starts it.
  * - If drawing ever fails, the widget shows a plain card that opens the app, and the error goes to the app's problem log.
  */
 public class Widgets {
@@ -50,6 +52,12 @@ public class Widgets {
     static final int[] CELL = { R.id.cc0, R.id.cc1, R.id.cc2, R.id.cc3, R.id.cc4, R.id.cc5, R.id.cc6, R.id.cc7, R.id.cc8, R.id.cc9, R.id.cc10, R.id.cc11, R.id.cc12, R.id.cc13, R.id.cc14, R.id.cc15, R.id.cc16, R.id.cc17, R.id.cc18, R.id.cc19, R.id.cc20, R.id.cc21, R.id.cc22, R.id.cc23, R.id.cc24, R.id.cc25, R.id.cc26, R.id.cc27, R.id.cc28, R.id.cc29, R.id.cc30, R.id.cc31, R.id.cc32, R.id.cc33, R.id.cc34, R.id.cc35, R.id.cc36, R.id.cc37, R.id.cc38, R.id.cc39, R.id.cc40, R.id.cc41 };
     static final int[] CELL_NUM = { R.id.cd0, R.id.cd1, R.id.cd2, R.id.cd3, R.id.cd4, R.id.cd5, R.id.cd6, R.id.cd7, R.id.cd8, R.id.cd9, R.id.cd10, R.id.cd11, R.id.cd12, R.id.cd13, R.id.cd14, R.id.cd15, R.id.cd16, R.id.cd17, R.id.cd18, R.id.cd19, R.id.cd20, R.id.cd21, R.id.cd22, R.id.cd23, R.id.cd24, R.id.cd25, R.id.cd26, R.id.cd27, R.id.cd28, R.id.cd29, R.id.cd30, R.id.cd31, R.id.cd32, R.id.cd33, R.id.cd34, R.id.cd35, R.id.cd36, R.id.cd37, R.id.cd38, R.id.cd39, R.id.cd40, R.id.cd41 };
     static final int[] CELL_DOTS = { R.id.ct0, R.id.ct1, R.id.ct2, R.id.ct3, R.id.ct4, R.id.ct5, R.id.ct6, R.id.ct7, R.id.ct8, R.id.ct9, R.id.ct10, R.id.ct11, R.id.ct12, R.id.ct13, R.id.ct14, R.id.ct15, R.id.ct16, R.id.ct17, R.id.ct18, R.id.ct19, R.id.ct20, R.id.ct21, R.id.ct22, R.id.ct23, R.id.ct24, R.id.ct25, R.id.ct26, R.id.ct27, R.id.ct28, R.id.ct29, R.id.ct30, R.id.ct31, R.id.ct32, R.id.ct33, R.id.ct34, R.id.ct35, R.id.ct36, R.id.ct37, R.id.ct38, R.id.ct39, R.id.ct40, R.id.ct41 };
+
+    /** Tests set this to check the page arrows that phones older than Android 12 still use. */
+    static boolean paged = false;
+
+    /** Whether lists scroll (Android 12 and later) or are cut into pages. */
+    static boolean scrolls() { return Build.VERSION.SDK_INT >= 31 && !paged; }
 
     // ---------- storage ----------
     static SharedPreferences prefs(Context c) { return c.getSharedPreferences(PREFS, Context.MODE_PRIVATE); }
@@ -89,7 +97,7 @@ public class Widgets {
     /** A widget was removed: forget its own settings. */
     static void forget(Context c, int[] ids) {
         SharedPreferences.Editor e = prefs(c).edit();
-        for (int id : ids) for (String k : new String[] { "tf", "ncat", "day", "cmode", "csel", "canchor", "cnolist", "pg" }) e.remove(wkey(k, id));
+        for (int id : ids) for (String k : new String[] { "tf", "ncat", "day", "cmode", "csel", "canchor", "cnolist", "pg", "top" }) e.remove(wkey(k, id));
         e.apply();
     }
 
@@ -210,6 +218,10 @@ public class Widgets {
     /** A tap broadcast arrived at a widget's provider. */
     static void tap(Context c, Intent i) {
         if (i == null) return;
+        String type = i.getStringExtra("type");
+        // a row of a scrolling list that leaves the home screen: the app on a tab, or a link
+        if ("open".equals(type)) { String t = i.getStringExtra("target"); start(c, appIntent(c).putExtra("target", t == null || t.isEmpty() ? "home" : t)); return; }
+        if ("url".equals(type)) { String u = i.getStringExtra("id"); if (u != null && u.startsWith("http")) start(c, new Intent(Intent.ACTION_VIEW, Uri.parse(u)).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)); return; }
         handle(c, i.getIntExtra("kind", -1), i.getIntExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, 0), i.getStringExtra("type"), i.getStringExtra("id"));
     }
 
@@ -318,6 +330,8 @@ public class Widgets {
                 }
                 default: break;
             }
+            // a new filter, day, mode or month starts its list from the top again
+            if (redraw == null && !"pg".equals(type)) e.putString(wkey("top", wid), "1");
             e.commit();     // written before the redraw reads it back
         } catch (Exception err) { logError(c, "tap " + type, err); }
         if (redraw != null) for (int k : redraw) refreshKind(c, k);
@@ -459,6 +473,7 @@ public class Widgets {
         v.setViewVisibility(R.id.hprog, View.GONE);
         v.setViewVisibility(R.id.tag, View.GONE);
         v.removeAllViews(R.id.rows);
+        v.setViewVisibility(R.id.list, View.GONE);
         v.setOnClickPendingIntent(R.id.root, open(c, "home"));
         return v;
     }
@@ -496,12 +511,22 @@ public class Widgets {
         return color(c, R.color.dd_accent);
     }
 
-    /** Opens the app on a tab. Each target is its own pending intent (its own request code), so one never overwrites another. */
-    static PendingIntent open(Context c, String target) {
+    /** The intent that brings the app forward. */
+    static Intent appIntent(Context c) {
         Intent i = c.getPackageManager().getLaunchIntentForPackage(pkg(c));
         if (i == null) i = new Intent().setClassName(c, pkg(c) + ".MainActivity");
-        i.putExtra("target", target);
         i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        return i;
+    }
+
+    private static void start(Context c, Intent i) {
+        try { c.startActivity(i); } catch (Throwable t) { logError(c, "open from a list", t); }
+    }
+
+    /** Opens the app on a tab. Each target is its own pending intent (its own request code), so one never overwrites another. */
+    static PendingIntent open(Context c, String target) {
+        Intent i = appIntent(c);
+        i.putExtra("target", target);
         return PendingIntent.getActivity(c, ("open/" + target).hashCode(), i, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
     }
 
@@ -590,6 +615,21 @@ public class Widgets {
     /** Places the rows of the current page and sets the page arrows. Returns the page shown. */
     private static int placeRows(Context c, RemoteViews v, int kind, int wid, List<WidgetRows.Row> rows, int avail, boolean footButtons) {
         v.removeAllViews(R.id.rows);
+        if (scrolls()) {
+            // Android 12 and later: every row goes into a list that scrolls, so nothing needs page arrows
+            boolean toTop = "1".equals(getS(c, "top", wid, "0"));
+            if (toTop) prefs(c).edit().remove(wkey("top", wid)).apply();
+            v.setViewVisibility(R.id.rows, View.GONE);
+            v.setViewVisibility(R.id.list, View.VISIBLE);
+            WidgetList.fill(c, v, kind, wid, rows, toTop);
+            v.setViewVisibility(R.id.pgprev, View.GONE);
+            v.setViewVisibility(R.id.pginfo, View.GONE);
+            v.setViewVisibility(R.id.pgnext, View.GONE);
+            v.setViewVisibility(R.id.pager, footButtons ? View.VISIBLE : View.GONE);
+            return 0;
+        }
+        v.setViewVisibility(R.id.list, View.GONE);
+        v.setViewVisibility(R.id.rows, View.VISIBLE);
         List<int[]> pg = pages(rows, Math.max(40, avail));
         int page = Math.max(0, Math.min(pg.size() - 1, getI(c, "pg", wid, 0)));
         WidgetRows.Taps t = taps(c, kind, wid);
@@ -721,7 +761,7 @@ public class Widgets {
         int used = 28 + (compact ? 30 : 48) + (pills.isEmpty() ? 0 : 46) + (bar ? 16 : 0) + 8;
         List<WidgetRows.Row> rows = WidgetRows.build(c, kind, wid);
         int avail = hDp - used;
-        boolean needPager = !foot.isEmpty() || pages(rows, avail).size() > 1;
+        boolean needPager = !foot.isEmpty() || (!scrolls() && pages(rows, avail).size() > 1);
         if (needPager) avail -= 46;
         placeRows(c, v, kind, wid, rows, avail, !foot.isEmpty());
         return v;
@@ -827,10 +867,10 @@ public class Widgets {
         if (noList) {
             v.removeAllViews(R.id.rows);
             v.setViewVisibility(R.id.rows, View.GONE);
+            v.setViewVisibility(R.id.list, View.GONE);
             v.setViewVisibility(R.id.pager, View.GONE);
         } else {
-            v.setViewVisibility(R.id.rows, View.VISIBLE);
-            if (pages(rows, avail).size() > 1) avail -= 46;
+            if (!scrolls() && pages(rows, avail).size() > 1) avail -= 46;
             placeRows(c, v, CALENDAR, wid, rows, avail, false);
         }
         v.setViewVisibility(R.id.foot, View.GONE);

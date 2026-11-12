@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Generated shape: header, up to six filter buttons, the rows that fit, and a footer with buttons and page arrows. -->
+<!-- Generated shape: header, up to six filter buttons, the rows (a list that scrolls on Android 12 and later, else the rows that fit), and a footer with buttons and page arrows. -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/root"
     android:layout_width="match_parent"
@@ -168,6 +168,19 @@
         android:layout_marginTop="8dp"
         android:layout_weight="1"
         android:orientation="vertical" />
+    <ListView
+        android:id="@+id/list"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="8dp"
+        android:layout_weight="1"
+        android:divider="@android:color/transparent"
+        android:dividerHeight="6dp"
+        android:fadingEdgeLength="14dp"
+        android:listSelector="@android:color/transparent"
+        android:requiresFadingEdge="vertical"
+        android:scrollbars="none"
+        android:visibility="gone" />
     <LinearLayout
         android:id="@+id/pager"
         android:layout_width="match_parent"

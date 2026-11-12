@@ -426,7 +426,7 @@ final class WidgetRows {
 
     private static void notes(List<Row> out, JSONObject s) {
         JSONArray n = Widgets.arr(s, "notes");
-        if (n.length() == 0) { text(out, "No notes yet. Tap New page, or share a link into Daily Driver."); return; }
+        if (n.length() == 0) { text(out, "No notes yet. Tap New page, or share a link into Daily Driver."); out.get(out.size() - 1).target = "notes"; return; }
         boolean pinHead = false, restHead = false;
         for (int i = 0; i < n.length(); i++) {
             JSONObject x = n.optJSONObject(i);
@@ -564,7 +564,8 @@ final class WidgetRows {
             if ("bad".equals(r.style)) { v.setInt(R.id.due, "setBackgroundResource", R.drawable.pill_bad_bg); v.setTextColor(R.id.due, Widgets.color(c, R.color.dd_bad)); }
             else if ("warn".equals(r.style)) { v.setInt(R.id.due, "setBackgroundResource", R.drawable.pill_warn_bg); v.setTextColor(R.id.due, Widgets.color(c, R.color.dd_warn)); }
         }
-        if (!r.act.isEmpty() && !r.id.isEmpty()) taps.bind(v, R.id.ring, r.act, r.id, "");
+        // every part states its tap on every draw: a list reuses row views, and a reused ring must not keep another row's tick
+        if (!r.act.isEmpty() && !r.id.isEmpty()) taps.bind(v, R.id.ring, r.act, r.id, ""); else taps.bind(v, R.id.ring, "open", "", r.target);
         if (r.u.startsWith("http")) { v.setViewVisibility(R.id.lk, View.VISIBLE); v.setTextViewText(R.id.lk, Links.label(r.uk)); linkStyle(c, v, r.uk); taps.bind(v, R.id.lk, "url", r.u, ""); }
         else v.setViewVisibility(R.id.lk, View.GONE);
         taps.bind(v, R.id.rowroot, "open", "", r.target);
@@ -651,7 +652,7 @@ final class WidgetRows {
         v.setTextViewText(R.id.dlt, r.a);
         v.setTextViewText(R.id.dlw, r.b);
         v.setImageViewResource(R.id.ring, R.drawable.ring);
-        if (!r.act.isEmpty() && !r.id.isEmpty()) taps.bind(v, R.id.ring, r.act, r.id, "");
+        if (!r.act.isEmpty() && !r.id.isEmpty()) taps.bind(v, R.id.ring, r.act, r.id, ""); else taps.bind(v, R.id.ring, "open", "", r.target);
         taps.bind(v, R.id.dlroot, "open", "", r.target);
         return v;
     }
@@ -672,6 +673,7 @@ final class WidgetRows {
             v.setTextViewText(R.id.nn, e.optString("t"));
             String where = e.optString("w");
             v.setTextViewText(R.id.nm, (live ? "until " + Widgets.fmt("h:mm a", e.optLong("e")) : Widgets.fmt("EEE h:mm a", e.optLong("s"))) + (where.isEmpty() ? "" : "  ·  " + where));
+            v.setViewVisibility(R.id.nc, View.VISIBLE);
             v.setTextViewText(R.id.nc, live ? "Now" : Widgets.relative(e.optLong("s"), now).replace("in ", ""));
             String lu = e.optString("u");
             if (lu.startsWith("http")) { v.setViewVisibility(R.id.njoin, View.VISIBLE); v.setTextViewText(R.id.njoin, Links.label(e.optString("uk"))); v.setInt(R.id.njoin, "setBackgroundResource", R.drawable.join_bg); v.setTextColor(R.id.njoin, Widgets.color(c, R.color.dd_on_accent)); taps.bind(v, R.id.njoin, "url", lu, ""); }

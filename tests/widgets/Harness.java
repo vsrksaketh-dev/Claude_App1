@@ -15,9 +15,11 @@ public class Harness {
   static Integer bg(RemoteViews v, int id) { return v.ints.get(id + ":setBackgroundResource"); }
   /** The day cells on show: { cell index } for the visible grid rows. */
   static List<Integer> cells(RemoteViews v) { List<Integer> out = new ArrayList<>(); if (vis(v, R.id.cgrid) == android.view.View.GONE) return out; for (int r = 0; r < 6; r++) if (vis(v, Widgets.ROWS[r]) != android.view.View.GONE) for (int d = 0; d < 7; d++) out.add(r * 7 + d); return out; }
+  static Intent merged(RemoteViews v, Intent fill) { Intent t = new Intent(); t.extras.putAll(v.template.intent.extras); t.action = v.template.intent.action; t.extras.putAll(fill.extras); return t; }
   static void ok(String n, boolean c){ System.out.println((c?"PASS ":"FAIL ")+n); if(!c) fails++; }
   public static void main(String[] a) throws Exception {
     Ctx c = new Ctx(); C = c;
+    Widgets.paged = true;   // most checks below use the page arrows of phones older than Android 12; the scrolling list is checked at the end
     String snap = new String(Files.readAllBytes(Paths.get(a[0])));
     Widgets.save(c, snap);
     // every widget kind builds and every row turns into a view
@@ -377,6 +379,64 @@ public class Harness {
       ok("errors are handed to the app once and cleared", Widgets.takeErrors(c).equals("[]"));
       new CalendarWidget().onDeleted(c, new int[] { 777 });
       ok("a removed widget's settings are forgotten", !c.p.m.containsKey("cmode.777"));
+    }
+    // Android 12 and later: the rows are a list that scrolls, sent inside the update itself
+    { Widgets.paged = false; c.p.m.clear(); Widgets.save(c, snap); AppWidgetManager.height = 200; AppWidgetManager.drawn.clear(); Context.started.clear(); Widgets.refreshAll(c);
+      int lists = 0, arrows = 0, direct = 0; boolean clean = true, unique = true, tpl = true;
+      RemoteViews tv = null, nv = null, notes = null; String tid = null;
+      for (Map.Entry<String, RemoteViews> en : AppWidgetManager.drawn.entrySet()) { RemoteViews v = en.getValue();
+        String h = String.valueOf(v.texts.get(R.id.head));
+        if ("Tasks".equals(h)) { tv = v; tid = en.getKey(); } if ("News".equals(h)) nv = v; if ("Notes".equals(h)) notes = v;
+        RemoteViews.RemoteCollectionItems it = v.lists.get(R.id.list); if (it == null) continue;
+        lists++; if (vis(v, R.id.pgnext) != android.view.View.GONE || vis(v, R.id.rows) != android.view.View.GONE || v.kids.get(R.id.rows) != null) arrows++;
+        if (v.template == null) tpl = false; else if ("activity".equals(v.template.kind)) direct++;
+        if (new HashSet<>(it.ids).size() != it.ids.size() || !it.stable) unique = false;
+        for (RemoteViews r : it.views) if (!r.clicks.isEmpty() || r.fills.isEmpty()) clean = false; }
+      ok("every widget with rows draws them as a scrolling list (" + lists + ")", lists >= 9);
+      ok("a short widget needs no page arrows when its list scrolls", arrows == 0);
+      ok("list rows fill in the list's one template instead of carrying their own intents", clean && tpl);
+      ok("rows have stable, unique ids so the list keeps its place", unique);
+      ok("lists that only open the app start it directly (Notes, Problem)", direct == 2 && notes != null && "activity".equals(notes.template.kind));
+      List<WidgetRows.Row> want = WidgetRows.build(c, Widgets.TASKS, Integer.parseInt(tid));
+      ok("the Tasks list holds every task, not just the ones that fit (" + want.size() + ")", tv.lists.get(R.id.list).views.size() == want.size());
+      RemoteViews first = null; for (RemoteViews r : tv.lists.get(R.id.list).views) if (r.layout == R.layout.row_task) { first = r; break; }
+      Widgets.takeOps(c); AppWidgetManager.drawn.clear();
+      new TasksWidget().onReceive(c, merged(tv, first.fills.get(R.id.ring)));
+      boolean done = false; for (RemoteViews r : AppWidgetManager.drawn.get(tid).lists.get(R.id.list).views) if (r.layout == R.layout.row_task && r.texts.get(R.id.tk).toString().equals(first.texts.get(R.id.tk).toString()) && Integer.valueOf(R.drawable.ring_done).equals(r.imgs.get(R.id.ring))) done = true;
+      ok("ticking a task in the list fills its ring at once and queues it for the app", done && Widgets.takeOps(c).contains("\"task\""));
+      ok("a tick leaves the list where it was scrolled", AppWidgetManager.drawn.get(tid).scroll == -1 && Context.started.isEmpty());
+      tv = AppWidgetManager.drawn.get(tid);
+      new TasksWidget().onReceive(c, merged(tv, first.fills.get(R.id.rowroot)));
+      ok("tapping a row of the list opens the app on its tab", Context.started.size() == 1 && String.valueOf(Context.started.get(0).extras.get("target")).startsWith("tasks:task:"));
+      Context.started.clear(); Intent read = null; for (RemoteViews r : nv.lists.get(R.id.list).views) if (r.layout == R.layout.row_news && r.fills.get(R.id.read) != null) { read = r.fills.get(R.id.read); break; }
+      if (read != null) new NewsWidget().onReceive(c, merged(nv, read));
+      ok("a story's Read button in the list opens its link", read != null && Context.started.size() == 1 && Intent.ACTION_VIEW.equals(Context.started.get(0).action) && String.valueOf(Context.started.get(0).view).startsWith("http"));
+      { org.json.JSONObject wn = new org.json.JSONObject(snap); wn.put("notes", new org.json.JSONArray().put(new org.json.JSONObject().put("id", "pg1").put("t", "Case notes").put("p", "First line").put("at", 1794400000000L)).put(new org.json.JSONObject().put("id", "pg2").put("t", "Ideas")));
+        Widgets.save(c, wn.toString()); AppWidgetManager.drawn.clear(); Widgets.refreshKind(c, Widgets.NOTES); RemoteViews nw = AppWidgetManager.drawn.values().iterator().next(); String tg = "";
+        for (RemoteViews r : nw.lists.get(R.id.list).views) if (r.layout == R.layout.row_note) { tg = r.fills.get(R.id.ntroot).getStringExtra("target"); break; }
+        ok("a Notes row carries the page to open (" + tg + ")", tg.startsWith("notes:page:pg"));
+        ok("an empty Notes widget opens Notes", "notes".equals(notes.lists.get(R.id.list).views.get(0).fills.values().iterator().next().getStringExtra("target")));
+        Widgets.save(c, snap); AppWidgetManager.drawn.clear(); Widgets.refreshAll(c); }
+      new TasksWidget().onReceive(c, tv.clicks.get(Widgets.PILLS[2]).intent);
+      ok("a new filter starts the list from the top", AppWidgetManager.drawn.get(tid).scroll == 0);
+      new TasksWidget().onReceive(c, tv.clicks.get(Widgets.PILLS[0]).intent);
+      // a very long list is capped so the update stays light
+      org.json.JSONObject big = new org.json.JSONObject(snap); org.json.JSONArray ts = new org.json.JSONArray();
+      for (int i = 0; i < 150; i++) ts.put(new org.json.JSONObject().put("id", "b" + i).put("t", "Task " + i).put("i", i).put("dn", 0));
+      big.put("tasks", ts); Widgets.save(c, big.toString()); AppWidgetManager.drawn.clear(); Widgets.refreshKind(c, Widgets.TASKS);
+      RemoteViews.RemoteCollectionItems it = AppWidgetManager.drawn.get(tid).lists.get(R.id.list);
+      ok("a very long list is capped and says how many more there are", it.views.size() == WidgetList.MAX_ROWS && String.valueOf(it.views.get(it.views.size() - 1).texts.get(R.id.rt)).contains("more"));
+      Widgets.save(c, snap);
+      // the calendar's day list scrolls too, and still follows the picked day
+      AppWidgetManager.height = 420; AppWidgetManager.drawn.clear(); Widgets.refreshKind(c, Widgets.CALENDAR);
+      RemoteViews cv = AppWidgetManager.drawn.values().iterator().next(); String cid = AppWidgetManager.drawn.keySet().iterator().next();
+      ok("the calendar's day rows are a scrolling list", cv.lists.get(R.id.list) != null && vis(cv, R.id.list) == android.view.View.VISIBLE && vis(cv, R.id.pgnext) == android.view.View.GONE);
+      Random rnd = new Random(7); boolean bad = false;
+      for (int i = 0; i < 300 && !bad; i++) { List<android.app.PendingIntent> ps = new ArrayList<>(); for (android.app.PendingIntent p : cv.clicks.values()) if ("broadcast".equals(p.kind)) ps.add(p);
+        new CalendarWidget().onReceive(c, ps.get(rnd.nextInt(ps.size())).intent); cv = AppWidgetManager.drawn.get(cid);
+        if (cv == null || cv.layout != R.layout.widget_calendar || (vis(cv, R.id.list) == android.view.View.VISIBLE && cv.lists.get(R.id.list) == null)) bad = true; }
+      ok("300 random calendar taps with a scrolling list never break the widget", !bad && Widgets.takeErrors(c).equals("[]"));
+      Widgets.paged = true;
     }
     System.out.println(fails == 0 ? "ALL PASS" : fails + " FAILED");
     System.exit(fails == 0 ? 0 : 1);
