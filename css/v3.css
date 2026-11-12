@@ -282,7 +282,7 @@ button.nsort { flex: none; display: inline-flex; align-items: center; gap: 6px; 
 .pg-top { background: var(--bg); margin: -6px 0 0; padding: 6px 0; }
 .pg-top .ghost { display: inline-flex; align-items: center; justify-content: center; gap: 4px; min-width: 40px; min-height: 40px; padding: 0 8px; }
 .pg-top .pg-back { padding: 0 10px 0 2px; margin-left: -4px; font-size: 15px; }
-.more-row { display: flex; flex-wrap: wrap; gap: 2px 4px; padding: 4px 0 8px; border-bottom: 1px solid var(--hair); }
+.more-row { display: flex; flex-wrap: wrap; gap: 2px 4px; margin-left: -8px; padding: 4px 0 8px; border-bottom: 1px solid var(--hair); }
 .more-row .ghost { display: inline-flex; align-items: center; gap: 6px; font-size: 13.5px; }
 .more-row .ghost.danger { color: var(--bad); }
 .pg-title { font: 700 26px/1.2 var(--font); letter-spacing: -.02em; padding: 2px 0; }
