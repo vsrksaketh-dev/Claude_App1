@@ -1,177 +1,153 @@
 {
- "date": "2026-11-11",
- "generated": "2026-11-11T06:30:00+05:30",
- "items": [
-  {
-   "cat": "International",
-   "title": "Russia-Ukraine talks open in Abu Dhabi; Zelensky calls day one 'constructive'",
-   "summary": "US-mediated Russia-Ukraine talks began in Abu Dhabi on 10 Nov, the first such round since February. Zelensky called the first day 'constructive and quite substantive', and talks were due to resume the next morning. Rubio called them 'very productive'; European representatives are not in the main sessions.",
-   "why": "Any path to a ceasefire would ease energy and freight costs that weigh on company budgets and hiring.",
-   "src": "France 24 / Al Jazeera",
-   "url": "https://www.france24.com/en/europe/20261110-live-ukraine-russia-and-us-to-resume-peace-talks-in-abu-dhabi"
-  },
-  {
-   "cat": "International",
-   "title": "G7 in Paris turns to Ukraine support",
-   "summary": "G7 foreign ministers in Paris focused on support for Ukraine while the Abu Dhabi talks ran. It was not clear whether new aid would be announced, and France 24 reports the US and allies appeared far apart on Ukraine, Iran and the International Criminal Court.",
-   "why": "Rifts between the US and Europe shape sanctions, trade rules and the outlook for multinational employers.",
-   "src": "ABC News",
-   "url": "https://abcnews.com/International/wireStory/g7-attention-paris-turns-ukraine-us-mediated-talks-138001993"
-  },
-  {
-   "cat": "International",
-   "title": "Russia hits Ukraine's grid again as Kyiv strikes a major refinery",
-   "summary": "Russia launched another assault on Ukraine's power grid on Monday, while Ukrainian forces struck another of Russia's largest oil refineries, Al Jazeera reports, even as negotiators met in the UAE.",
-   "why": "Attacks on energy infrastructure keep oil and gas prices volatile.",
-   "src": "Al Jazeera",
-   "url": "https://www.aljazeera.com/news/2026/11/10/russia-ukraine-and-us-to-meet-as-zelenskyy-claims-battlefield-successes"
-  },
-  {
-   "cat": "International",
-   "title": "COP31 under way in Antalya with over 90,000 expected",
-   "summary": "UN News says more than 90,000 people are expected at COP31 in Türkiye, which aims to turn existing climate commitments into action rather than strike one landmark deal. An EU document reported by Reuters says there is 'no scope' for new climate-finance pledges; that report is relayed second-hand.",
-   "why": "Climate commitments drive ESG reporting and sustainability roles companies are hiring for.",
-   "src": "UN News",
-   "url": "https://news.un.org/en/story/2026/11/1168763"
-  },
-  {
-   "cat": "International",
-   "title": "Strong US inflation data lifts bets on a December Fed hike",
-   "summary": "Stocks and bonds fell on 10 Nov after a strong consumer price report raised bets on a December Fed rate hike, with Fed governor Waller backing a hike, Bloomberg's live coverage says.",
-   "why": "Higher US rates can pull foreign money out of India and cool hiring at global firms.",
-   "src": "Bloomberg",
-   "url": "https://www.bloomberg.com/news/articles/2026-11-09/stock-market-today-dow-s-p-live-updates"
-  },
-  {
-   "cat": "Indian",
-   "title": "President to confer Swachh Survekshan 2025-26 awards today",
-   "summary": "President Droupadi Murmu confers the 10th Swachh Survekshan awards at Vigyan Bhawan on 11 Nov. The survey covered more than 4,751 cities scored on 43 indicators, and a mentorship scheme paired 70 cities with 191 others. Winners are to be announced at the ceremony.",
-   "why": "City rankings shape where employers choose to expand and how cities market themselves.",
-   "src": "Asianet Newsable",
-   "url": "https://newsable.asianetnews.com/india/president-droupadi-murmu-to-confer-swachh-survekshan-awards-on-nov-11-articleshow-0bsnlkt"
-  },
-  {
-   "cat": "Indian",
-   "title": "Supreme Court asks WhatsApp to act on 'digital arrest' scams",
-   "summary": "A bench led by CJI Surya Kant asked WhatsApp and other platforms to propose measures against digital-arrest scams, and said RBI rules should require financial institutions to compensate cyber-fraud victims, as reported on 10 Nov.",
-   "why": "Fraud-protection duties change how banks and platforms design customer trust and compliance teams.",
-   "src": "IndToday",
-   "url": "https://indtoday.com/supreme-court-directs-whatsapp-to-act-against-digital-arrest-scams"
-  },
-  {
-   "cat": "Indian",
-   "title": "Supreme Court presses NCR states on vehicle pollution",
-   "summary": "The Supreme Court ordered Delhi, Uttar Pradesh, Rajasthan and Haryana to set out plans to cut vehicle emissions in the NCR, in its suo motu air-pollution case; the next hearing is on 23 Nov.",
-   "why": "Air quality affects attendance, productivity and hybrid-work policies across north India.",
-   "src": "Business Standard",
-   "url": "https://business-standard.com/amp/india-news/delhi-pollution-rise-in-vehicular-emissions-warrant-urgent-action-says-sc-126111000249_1.html"
-  },
-  {
-   "cat": "Indian",
-   "title": "Markets reopen after Diwali holiday; Muhurat streak ends",
-   "summary": "Indian exchanges were shut on 10 Nov for Diwali-Balipratipada and reopen today. The Sensex last closed at 81,106.65 and the Nifty at 25,044.65 on 9 Nov, and the Muhurat session ended slightly lower, breaking an eight-year run of gains.",
-   "why": "Market mood feeds into IPO plans and campus hiring sentiment.",
-   "src": "NewsDrum / The Federal",
-   "url": "https://newsdrum.in/business/stock-market-closed-today-for-diwali-balipratipada-nse-bse-trading-to-resume-on-wednesday-12797093"
-  },
-  {
-   "cat": "Business",
-   "title": "Anthropic begins IPO roadshow; raise reported at up to $64.4bn",
-   "summary": "Bloomberg's live feed flagged Anthropic's IPO roadshow kicking off, with shares offered to retail investors on platforms such as Robinhood and SoFi. Reuters, relayed by Techmeme, reports the IPO could raise up to $64.4 billion; figures are provisional.",
-   "why": "The largest AI listing to date will shape how much companies spend on AI tools for HR and marketing.",
-   "src": "Bloomberg",
-   "url": "https://www.bloomberg.com/news/articles/2026-11-09/stock-market-today-dow-s-p-live-updates"
-  },
-  {
-   "cat": "Business",
-   "title": "Qantas to cut 850 jobs in Accenture outsourcing deal",
-   "summary": "Qantas said it will cut 850 jobs from mid-2027 after striking an outsourcing deal with Accenture, CEO Vanessa Hudson said.",
-   "why": "A live outsourcing case: how consulting firms take over corporate functions and what it means for workforce plans.",
-   "src": "ABC News (Australia)",
-   "url": "https://www.abc.net.au/news/2026-11-10/asx-markets-business-live-news-november-10-2026/107363300"
-  },
-  {
-   "cat": "Business",
-   "title": "Honda plans $3bn Ohio hybrid plant with about 2,000 jobs",
-   "summary": "Honda plans a new $3 billion plant in central Ohio to build up to 240,000 hybrid vehicles a year from 2029, creating about 2,000 jobs.",
-   "why": "Large greenfield plants are major talent-acquisition and employer-branding projects.",
-   "src": "TheStreet",
-   "url": "https://www.thestreet.com/stock-market-today/stock-market-today-dow-jones-sp-500-nasdaq-updates-nov-10-2026"
-  },
-  {
-   "cat": "Business",
-   "title": "Nasdaq slips after inflation report; Sanmina jumps, Lucid misses",
-   "summary": "The Nasdaq fell on 10 Nov after the inflation data. Sanmina shares jumped about 10.9 percent on strong results, while Lucid missed estimates and expanded a loan from a Saudi fund.",
-   "why": "Earnings surprises show which sectors are growing and likely to hire.",
-   "src": "TheStreet",
-   "url": "https://www.thestreet.com/stock-market-today/stock-market-today-dow-jones-sp-500-nasdaq-updates-nov-10-2026"
-  },
-  {
-   "cat": "Tech",
-   "title": "Nvidia board hires Wachtell Lipton for probe tied to CEO",
-   "summary": "Nvidia hired Wachtell Lipton to lead a probe into a relationship involving CEO Jensen Huang, CNBC reports, and the board's independent members issued a statement. A report by The Information about related chip shipments via Chinese firms is unconfirmed.",
-   "why": "A governance crisis at the world's most valuable chipmaker is a live case in leadership and board oversight.",
-   "src": "CNBC / Bloomberg",
-   "url": "https://bloomberg.com/news/articles/2026-11-10/nvidia-scandal-underscores-growing-espionage-risks-for-ai-firms"
-  },
-  {
-   "cat": "Tech",
-   "title": "Google expands 8th-gen TPU lineup to four chips",
-   "summary": "Google expanded its eighth-generation TPU lineup to four chips, and Alphabet shares rose more than 2 percent premarket on the news.",
-   "why": "Cheaper AI compute lowers the cost of AI tools that HR and marketing teams use.",
-   "src": "AI Weekly",
-   "url": "https://aiweekly.co/ai-news-today"
-  },
-  {
-   "cat": "Tech",
-   "title": "Google rolls out Gemini 4 Carbon to developers",
-   "summary": "Google is rolling out Gemini 4 Carbon to paying developers and enterprises at $2 per million input tokens, priced below rival frontier models. A tracker dates the model to late October, so timing is unconfirmed.",
-   "why": "AI price competition makes automation cheaper for business functions.",
-   "src": "Google News",
-   "url": "https://news.google.com/read/CBMingFBVV95cUxOS1FMM2Rhc1RaOWNteEpIRDZLV2RNanAxOEtlY25LQ0tLejhndUQ1M1lpRFdXQjdkMnJ1SGxQSFhSODByVDhrWHp4dzdqM01pTzhTTVBpY2swLTZncWFJU1NaeXlTYk0tbFFzOVFISWFuamYzaXhiNlFfQmZoekk4YXkyaHdBRDhLMF9DSmo4UEZUV0pWcEVYZUNGci1iZw?hl=en-US&gl=US&ceid=US%3Aen"
-  },
-  {
-   "cat": "Tech",
-   "title": "Nvidia unveils GR00T 2 robotics model",
-   "summary": "Nvidia unveiled GR00T 2, a 2-billion-parameter vision-language-action model for robots, at CoRL 2026 in Austin, and announced investments in four Korean startups.",
-   "why": "Robotics models will reshape factory and warehouse jobs that HR teams plan for.",
-   "src": "DEV Community",
-   "url": "https://dev.to/hiroki-ii-ai/ai-daily-digest-november-10-2026-openai-buys-astral-nvidia-opens-gr00t-2-claude-fable-52-32p5"
-  },
-  {
-   "cat": "Tech",
-   "title": "boost.ai launches self-hosted model for regulated industries",
-   "summary": "boost.ai launched Presis, a self-hosted AI model aimed at speed and accuracy in regulated industries such as banking.",
-   "why": "Self-hosted AI eases data-privacy concerns that block HR and customer-service adoption.",
-   "src": "PR Newswire",
-   "url": "https://prnewswire.com/news-releases/boostai-launches-presis-a-self-hosted-ai-model-built-for-speed--accuracy-in-regulated-industries-302930311.html"
-  },
-  {
-   "cat": "Indian",
-   "kind": "fact",
-   "title": "Swachh Survekshan 2025-26 covered over 4,751 cities",
-   "summary": "Cities were scored on 43 indicators across 10 areas in the 10th edition of the survey.",
-   "why": "A data point for public-policy and urban-marketing discussions.",
-   "src": "Asianet Newsable",
-   "url": "https://newsable.asianetnews.com/india/president-droupadi-murmu-to-confer-swachh-survekshan-awards-on-nov-11-articleshow-0bsnlkt"
-  },
-  {
-   "cat": "Business",
-   "kind": "fact",
-   "title": "Muhurat trading closed lower for the first time in eight years",
-   "summary": "The Sensex and Nifty ended the Diwali Muhurat session slightly lower, ending an eight-year streak of positive closes.",
-   "why": "Context for market sentiment around festival season.",
-   "src": "The Federal",
-   "url": "https://thefederal.com/category/business/muhurat-trading-sensex-nifty-eight-year-streak-red-262450"
-  },
-  {
-   "cat": "International",
-   "kind": "fact",
-   "title": "Abu Dhabi round is the first Russia-Ukraine talks since February",
-   "summary": "A Ukrainian delegation source said the 10 Nov meeting was the first such negotiation since February.",
-   "why": "Useful context for geopolitical-risk discussions.",
-   "src": "France 24",
-   "url": "https://www.france24.com/en/europe/20261110-live-ukraine-russia-and-us-to-resume-peace-talks-in-abu-dhabi"
-  }
- ]
+  "date": "2026-11-12",
+  "generated": "2026-11-12T06:25:00+05:30",
+  "items": [
+    {
+      "cat": "International",
+      "title": "Russia-Ukraine talks in Abu Dhabi end second day without a breakthrough",
+      "summary": "US-mediated three-way talks in Abu Dhabi, with Jared Kushner and Steve Witkoff mediating, ran a second and final scheduled day on 11 November. Kyiv and Washington called them constructive, and the sides discussed a large prisoner swap, but no breakthrough was reported and Russia's Lavrov rejected a truce.",
+      "why": "A ceasefire or its absence shapes energy prices, European demand and the hiring outlook of firms exposed to the region.",
+      "src": "The Washington Post",
+      "url": "https://www.washingtonpost.com/world/2026/11/11/russia-ukraine-war-talks-kushner-witkoff/e7f4de2e-ddb3-11f1-912c-4fbb80d73f7f_story.html"
+    },
+    {
+      "cat": "International",
+      "title": "Guterres calls for a 'climate justice pact' as COP31 leaders meet in Antalya",
+      "summary": "The leaders' segment of COP31 opened in Antalya, Türkiye, on 11 November, with UN Secretary-General António Guterres urging a new climate justice pact and taxes on fossil fuel companies. Several big names are absent, including the US for a second year, and the presidency wants the talks to focus on implementing past pledges.",
+      "why": "Climate commitments flow into ESG reporting, green jobs and sustainability roles that HR and marketing teams increasingly own.",
+      "src": "UN News",
+      "url": "https://news.un.org/en/story/2026/11/1168783"
+    },
+    {
+      "cat": "International",
+      "title": "G7 foreign ministers meet in Paris amid uncertainty over US approach",
+      "summary": "G7 top diplomats met in Paris on 9 November (three days ago) with visible differences on global crises, focusing on the wars in Iran and Ukraine. Questions centred on how US foreign policy will shift after the midterm elections.",
+      "why": "G7 alignment on sanctions and trade affects multinational strategy and the global mobility of talent.",
+      "src": "CP24 (AP)",
+      "url": "https://www.cp24.com/news/world/2026/11/09/g7-talks-in-paris-try-to-tackle-global-crises-with-uncertainty-high-over-the-us-approach/"
+    },
+    {
+      "cat": "International",
+      "title": "Republicans lose control of Congress in US midterms",
+      "summary": "NPR reports that Republicans suffered severe losses and lost control of Congress in the midterm elections, with analysts linking the result partly to unpopular policies such as the Iran war. The shift is already colouring how allies read US foreign policy.",
+      "why": "A divided Washington changes the odds on tariffs, visas and trade rules that drive offshoring and campus hiring in India.",
+      "src": "NPR",
+      "url": "https://www.npr.org/sections/world/"
+    },
+    {
+      "cat": "Indian",
+      "title": "Cabinet extends Stand-Up India scheme to 2031",
+      "summary": "The Union Cabinet on 11 November extended the Stand-Up India scheme for five years to 31 March 2031, with a target of at least 2.5 lakh more beneficiaries. It also extended the Credit Guarantee Fund for Micro Units to 2031 with a reported Rs 4,111 crore corpus.",
+      "why": "Cheaper guaranteed credit for women and SC/ST entrepreneurs widens the small-business pipeline that marketing and HR services sell to.",
+      "src": "Daily Excelsior",
+      "url": "https://www.dailyexcelsior.com/cabinet-extends-stand-up-india-scheme"
+    },
+    {
+      "cat": "Indian",
+      "title": "Rs 62,370 crore fertiliser subsidy approved for rabi season",
+      "summary": "The Cabinet approved a Rs 62,370 crore subsidy on phosphatic and potassic fertilisers for the 2026-27 rabi season, which Daily Pioneer says is 50 per cent higher than for kharif. The government said fertiliser stocks are comfortable.",
+      "why": "Farm support sustains rural incomes, a key driver of FMCG and two-wheeler demand that rural marketing plans depend on.",
+      "src": "Daily Pioneer",
+      "url": "https://dailypioneer.com/india/cabinet-okays-rs-62370-cr-fertiliser-subsidy-for-rabi-season"
+    },
+    {
+      "cat": "Indian",
+      "title": "October inflation, due today, expected to hit RBI's 6% ceiling",
+      "summary": "MoSPI releases October CPI data on 12 November. Economist polls put it at about 6% (Mint range 5.9% to 6.2%, ICRA 6.1%), up from 5.54% in September; these are forecasts, not published data. A print above 6% would be the first breach of the RBI's upper limit since October 2024, after the MPC raised the repo rate to 5.50% in October.",
+      "why": "Higher inflation and rates squeeze consumer spending and salary budgets, which shapes pricing, campaigns and compensation planning.",
+      "src": "Business Today",
+      "url": "https://www.businesstoday.in/latest/economy/story/will-inflation-breach-6-in-october-what-it-means-for-interest-rates-emis-and-gdp-growth-566855-2026-11-11"
+    },
+    {
+      "cat": "Business",
+      "title": "Sensex ends 773 points higher, Nifty at 25,255",
+      "summary": "Indian benchmarks rose about 0.9% on 11 November after a market holiday, with the Sensex closing at 81,879.40 and the Nifty at 25,255.05 after paring early gains. Lower energy prices and a return of foreign fund inflows helped; PSU banks rose nearly 3% while IT and healthcare lagged.",
+      "why": "Market mood feeds into IPO plans, campus hiring budgets and consumer confidence.",
+      "src": "Business Standard",
+      "url": "https://www.business-standard.com/amp/markets/news/stock-market-live-november-11-nse-bse-sensex-today-nifty50-gift-nifty-crude-oil-prices-126111100079_1.html"
+    },
+    {
+      "cat": "Business",
+      "title": "Strong Q2 earnings put Nifty within 5% of its record",
+      "summary": "Business Standard reports that large caps are leading on stronger-than-expected September-quarter results, leaving benchmarks less than 5% below their lifetime highs. One broker estimates Nifty 50 earnings growth at 20% for the quarter (provisional).",
+      "why": "Healthy earnings usually precede bigger hiring plans and marketing spends for the coming year.",
+      "src": "Business Standard",
+      "url": "https://www.business-standard.com/markets/news/nifty-eyes-record-as-largecaps-lead-charge-on-strong-corporate-earnings-126111101368_1.html"
+    },
+    {
+      "cat": "Business",
+      "title": "Maersk to cut about 15% of corporate roles",
+      "summary": "Moller-Maersk is cutting about 15% of its corporate roles across regions and headquarters, citing weaker earnings from lower freight rates and overcapacity in shipping, according to a layoffs tracker. The exact headcount was not given.",
+      "why": "A live example of restructuring and white-collar job cuts, a core area for HR transformation work.",
+      "src": "Intellizence",
+      "url": "https://intellizence.com/insights/layoff-downsizing/major-companies-that-announced-mass-layoffs/"
+    },
+    {
+      "cat": "Tech",
+      "title": "UK chip startup Fractile raises $720M",
+      "summary": "British AI chip startup Fractile closed a $720 million Series C backed by the UK's Sovereign AI Fund, TechCrunch reported on 11 November. The Financial Times put its valuation at $7 billion, up from about $1.1 billion six months earlier; reports of Anthropic interest as a customer are unconfirmed.",
+      "why": "Shows how capital is flowing into AI hardware, and how fast valuations and talent demand can move.",
+      "src": "TechCrunch",
+      "url": "https://techcrunch.com/2026/11/11/with-720m-round-britains-fractile-gets-a-leg-up-in-the-race-for-ai-chips/"
+    },
+    {
+      "cat": "Tech",
+      "title": "Google announces Gemini 4 Carbon",
+      "summary": "Google announced Gemini 4 Carbon on 10 November, pitching it as its most powerful model for deep, multi-step tasks. Details come from an AI news aggregator and should be treated as provisional until checked against Google's own post.",
+      "why": "New model generations change which knowledge-work tasks get automated, and what skills employers screen for.",
+      "src": "AI Weekly",
+      "url": "https://aiweekly.co/ai-news-today"
+    },
+    {
+      "cat": "Tech",
+      "title": "Gemini for Healthcare opens US preview with Northwell and Stanford",
+      "summary": "Google Cloud opened a US preview of Gemini for Healthcare on 10 November, with health systems including Northwell Health and Stanford School of Medicine as launch partners, according to an AI news digest.",
+      "why": "Healthcare is a large AI adoption test case for change management and workforce redesign.",
+      "src": "The Neuron",
+      "url": "https://theneuron.ai/digest/everything-that-happened-in-ai-today-wednesday-november-11-2026"
+    },
+    {
+      "cat": "Tech",
+      "title": "Adobe adds AI agents to Photoshop, Premiere and Firefly",
+      "summary": "Adobe announced new AI agents across Photoshop, Premiere and Firefly this week, an AI news roundup reports. Spotify separately added new voice options to its AI DJ for Premium listeners.",
+      "why": "Creative AI agents change how marketing teams produce content and what skills they hire for.",
+      "src": "AI Weekly",
+      "url": "https://aiweekly.co/ai-news-today"
+    },
+    {
+      "cat": "Tech",
+      "title": "Report: Chinese army-linked university bought Nvidia H200 chips despite blacklist",
+      "summary": "Reuters reported, as summarised by Techmeme, that a Chinese university with ties to the army bought Nvidia H200 chips despite being on a US export blacklist. No official response was included in the summary.",
+      "why": "Export-control gaps could tighten chip rules, affecting AI costs and tech supply chains.",
+      "src": "Reuters via Techmeme",
+      "url": "https://techmeme.com/"
+    },
+    {
+      "cat": "International",
+      "kind": "fact",
+      "title": "COP31 runs 9 to 20 November in Antalya",
+      "summary": "The 2026 UN climate conference is co-led by Türkiye and Australia; the second week, after leaders leave, is where negotiators settle the text.",
+      "why": "Useful context for ESG and sustainability questions in interviews.",
+      "src": "UN News",
+      "url": "https://news.un.org/en/story/2026/11/1168783"
+    },
+    {
+      "cat": "Indian",
+      "kind": "fact",
+      "title": "RBI repo rate is 5.50%",
+      "summary": "The MPC raised the repo rate by 25 basis points to 5.50% in October, its first hike since February 2023, and meets next on 2 to 4 December.",
+      "why": "A key number for any discussion of credit, EMIs and consumer demand.",
+      "src": "Business Today",
+      "url": "https://www.businesstoday.in/latest/economy/story/will-inflation-breach-6-in-october-what-it-means-for-interest-rates-emis-and-gdp-growth-566855-2026-11-11"
+    },
+    {
+      "cat": "Business",
+      "kind": "fact",
+      "title": "Nifty's record high is 26,328.6",
+      "summary": "The Nifty set its lifetime high on 2 January 2026; the Sensex peak is 85,836.1 from 26 September 2024.",
+      "why": "Handy reference when reading market headlines.",
+      "src": "Business Standard",
+      "url": "https://www.business-standard.com/markets/news/nifty-eyes-record-as-largecaps-lead-charge-on-strong-corporate-earnings-126111101368_1.html"
+    }
+  ]
 }
