@@ -110,7 +110,7 @@ const ok = (name, cond) => { console.log((cond ? 'PASS ' : 'FAIL ') + name); if 
   ok('a checkbox can be ticked and the page shows progress', await p.locator('.blk.t-c.done').count() === 1 && /1\/2 done/.test(await p.textContent('.pg-info')));
   await p.click('.blk.t-c >> nth=1 >> textarea'); await p.click('[data-act=blkType][data-t=n]');
   ok('the format bar changes the current line to a numbered line', await p.locator('.blk.t-n .mk').first().textContent() === '1.');
-  await p.click('[data-act=blkIndent][data-d="1"]'); ok('a line can be indented', await p.locator('.blk.t-n[style*="--lv:1"]').count() === 1);
+  await p.click('[data-act=fmtMore]'); await p.click('[data-act=blkIndent][data-d="1"]'); ok('a line can be indented from the second set of the format bar', await p.locator('.blk.t-n[style*="--lv:1"]').count() === 1); await p.click('[data-act=fmtMore]');
   await p.click('[data-act=blkType][data-t=c]'); await p.click('[data-act=pageTasks]');
   ok('open checklist items can become tasks', await p.evaluate(async () => (await import('/js/core.js')).S.tasks.some(t => t.title === 'Prepare two stories')));
   await p.click('[data-act=pagePin] >> nth=0'); await p.click('[data-act=pageClose]');
@@ -118,13 +118,13 @@ const ok = (name, cond) => { console.log((cond ? 'PASS ' : 'FAIL ') + name); if 
   await p.fill('[data-bind=noteSearch]', 'kroll'); ok('search narrows the pages', await p.locator('[data-pg]:visible').count() === 1);
   await p.fill('[data-bind=noteSearch]', 'zzzz'); ok('and shows none for no match', await p.locator('[data-pg]:visible').count() === 0); await p.fill('[data-bind=noteSearch]', '');
   await p.click('[data-act=noteBook][data-id=all]'); ok('All shows every page', await p.locator('[data-pg]').count() === 2);
-  await p.click('[data-act=pageOpen] >> nth=0'); await p.click('[data-act=pageDel]'); ok('deleting asks twice', await p.locator('.editor').count() === 1); await p.click('[data-act=pageDel]');
+  await p.click('[data-act=pageOpen] >> nth=0'); await p.click('[data-act=pageMore]'); await p.click('[data-act=pageDel]'); ok('deleting is one tap with Undo', await p.locator('.editor').count() === 0 && /Undo/.test(await p.textContent('#toast')));
   ok('a page can be deleted', await p.locator('[data-pg]').count() === 1);
   await nav('learn'); await p.click('[data-act=talkPoint] >> nth=0');
   ok('Talking point saves a page and marks the story', await p.locator('.chip.ok:has-text("In Notes")').count() === 1);
   await nav('notes');
   ok('the talking point sits in its own book with what happened, why it matters and my view', /Talking points/.test(await p.textContent('.bookbar')));
-  await p.click('.pg:has(.chip:has-text("Talking points")) [data-act=pageOpen]');
+  await p.click('.pg:has-text("Talking points") [data-act=pageOpen]');
   ok('and has the three headed sections', await p.locator('.blk.t-h').count() === 3 && /What happened/.test(await p.inputValue('.blk.t-h >> nth=0 >> textarea')));
   await p.click('[data-act=pageClose]'); await p.click('[data-act=noteBook][data-id=all]');
   await p.evaluate(async () => { const c = await import('/js/core.js'); c.S.pages = []; c.S.books = []; c.commit(); });
@@ -271,7 +271,7 @@ const ok = (name, cond) => { console.log((cond ? 'PASS ' : 'FAIL ') + name); if 
   ok('the bottom bar stays visible in Notes', await p.locator('#nav').isVisible());
   await p.click('.pg:has-text("Averyvery") [data-act=pageOpen]');
   ok('the bottom bar stays visible while editing a page', await p.locator('#nav').isVisible() && await p.locator('.fmtbar').isVisible());
-  await p.click('[data-act=pageDel]'); await p.click('[data-act=pageDel]');
+  await p.click('[data-act=pageMore]'); await p.click('[data-act=pageDel]');
   ok('a deleted page goes to Trash', await p.locator('.bookbar .trash').count() === 1);
   await p.click('.bookbar .trash'); await p.click('[data-act=pageRestore] >> nth=0');
   ok('and can be restored', await p.locator('.pg:has-text("Averyvery")').count() === 1);
@@ -425,7 +425,7 @@ const ok = (name, cond) => { console.log((cond ? 'PASS ' : 'FAIL ') + name); if 
   ok('a widget can open the calendar on a chosen view', await n.locator('.seg.pills button.on:has-text("Week")').count() === 1 && await n.locator('.cal-col').count() === 7);
   await n.evaluate(() => { window.__take = { ops: '[]', target: 'calendar:day:2026-12-25' }; window.dispatchEvent(new Event('widgetOpen')); });
   await n.waitForTimeout(300);
-  ok('a widget can open the calendar on a chosen day', /Friday 25 December/.test(await n.textContent('.cal-nav')));
+  ok('a widget can open the calendar on a chosen day', /Friday,? 25 December/.test(await n.textContent('.cal-nav')));
   await n.evaluate(async () => { const c = await import('/js/core.js'); c.go('home'); });
   await n.click('[data-nav=settings]');
   // the state is mirrored to a phone file, and a newer phone copy wins at start-up

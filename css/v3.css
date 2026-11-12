@@ -251,3 +251,58 @@ li.sw { display: block; }
 .kv > div { background: var(--inset); border: 0; box-shadow: none; border-radius: 12px; }
 details.ref { border-bottom: 1px solid var(--hair); background: transparent !important; box-shadow: none !important; border-radius: 0 !important; }
 html[data-glass="off"] #nav, html[data-glass="off"] .fmtbar { background: var(--raise) !important; -webkit-backdrop-filter: none !important; backdrop-filter: none !important; }
+
+/* ---- Notes: a quiet list (title, two lines, one line of details) and an editor that reads like a page ---- */
+button.newpage { display: inline-flex; align-items: center; gap: 6px; min-height: 36px; padding: 0 12px 0 10px; border-radius: 10px; background: var(--accent-soft); color: var(--accent); font-size: 13.5px; margin-right: 4px; white-space: nowrap; }
+.bookbar { padding: 0; gap: 6px; margin-inline: -20px; padding-inline: 20px; scroll-padding-inline: 20px; }
+.bookbar button { min-height: 34px; padding: 5px 12px; font-size: 13.5px; }
+.bookbar button i { margin-left: 3px; font-variant-numeric: tabular-nums; }
+.notes-tools { display: flex; align-items: center; gap: 4px; }
+.nsearch { flex: 1; min-width: 0; display: flex; align-items: center; gap: 8px; height: 38px; padding: 0 12px; border-radius: 12px; background: var(--inset); color: var(--muted); }
+.nsearch input { flex: 1; min-width: 0; border: 0; background: transparent; box-shadow: none; padding: 0; height: 100%; font-size: 15px; color: var(--ink); border-radius: 0; }
+.nsearch input:focus { background: transparent; box-shadow: none; outline: 0; }
+.nsearch:focus-within { box-shadow: 0 0 0 2px var(--accent-soft); }
+button.nsort { flex: none; display: inline-flex; align-items: center; gap: 6px; font-size: 13.5px; min-height: 38px; }
+.pages > li.pg { padding: 0; align-items: center; gap: 4px; }
+.pages > li.pg:last-child { border-bottom: 0; }
+.pg-main { padding: 13px 0; gap: 2px; border-radius: 0; }
+.pg-main .title { font-size: 15.5px; line-height: 1.35; -webkit-line-clamp: 2; }
+.pg.pinned .pg-main .title::before { display: none; }
+.pg-pre { font-size: 14px; line-height: 1.4; }
+.pg-meta { display: block; margin-top: 3px; color: var(--faint); font-size: 12.5px; font-weight: 500; font-variant-numeric: tabular-nums; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 100%; }
+.alldone { color: var(--ok) !important; }
+.pg .pin, .pg-top .pin { width: 40px; height: 40px; min-height: 0; padding: 0; display: grid; place-items: center; background: transparent; color: var(--faint); }
+.pg .pin.on, .pg-top .pin.on { color: var(--accent); background: transparent; }
+.pin.on .ic { fill: currentColor; }
+.pg-acts { gap: 2px; flex: none; flex-wrap: nowrap; }
+.book-manage .row { gap: 8px; flex-wrap: nowrap; }
+.book-manage .book-name { flex: 1; min-width: 0; font-weight: 600; background: transparent; border: 0; border-bottom: 1px solid var(--hair); border-radius: 0; padding: 6px 0; box-shadow: none; }
+.book-manage p { margin: 6px 0 0; }
+
+.pg-top { background: var(--bg); margin: -6px 0 0; padding: 6px 0; }
+.pg-top .ghost { display: inline-flex; align-items: center; justify-content: center; gap: 4px; min-width: 40px; min-height: 40px; padding: 0 8px; }
+.pg-top .pg-back { padding: 0 10px 0 2px; margin-left: -4px; font-size: 15px; }
+.more-row { display: flex; flex-wrap: wrap; gap: 2px 4px; padding: 4px 0 8px; border-bottom: 1px solid var(--hair); }
+.more-row .ghost { display: inline-flex; align-items: center; gap: 6px; font-size: 13.5px; }
+.more-row .ghost.danger { color: var(--bad); }
+.pg-title { font: 700 26px/1.2 var(--font); letter-spacing: -.02em; padding: 2px 0; }
+.pg-info { margin: 6px 0 14px; gap: 6px 10px; }
+.pg-info select { padding: 5px 26px 5px 10px; border-radius: 9px; font-size: 13px; }
+.blk { gap: 6px; border-radius: 0; }
+.blk.cur { background: transparent; }
+.blk textarea { padding: 5px 0; font: 400 16px/1.55 var(--font); border-radius: 0; }
+.blk.t-h { margin-top: 10px; }
+.blk.t-h:first-child { margin-top: 0; }
+.blk.t-h textarea { font: 650 19px/1.35 var(--font); letter-spacing: -.01em; }
+.blk .mk { width: 22px; padding-top: 5px; font-size: 16px; line-height: 1.55; font-weight: 600; color: var(--muted); }
+.blk .mk.num { width: 22px; text-align: left; padding: 5px 0 0 2px; font-size: 15px; line-height: calc(16px * 1.55); font-weight: 500; font-variant-numeric: tabular-nums; }
+.blk .tick { width: 22px; height: 22px; margin: 6px 0 0; }
+.blk.t-q { background: transparent; border-left: 2px solid var(--accent); border-radius: 0; margin: 6px 0; padding-left: calc(var(--lv, 0) * 22px + 12px); }
+.pg-add { display: flex; flex-wrap: wrap; gap: 2px 6px; align-items: center; margin: 10px 0 0 -8px; }
+.pg-add .addline, .pg-add .attach span { display: inline-flex; align-items: center; gap: 6px; min-height: 38px; padding: 0 10px; border: 0; border-radius: 10px; background: transparent; color: var(--muted); font: 600 13.5px/1.2 var(--font); margin: 0; }
+.pg-add .attach { margin: 0; }
+.fmtbar { gap: 0; padding: 5px; justify-content: space-between; overflow: hidden; }
+.fmtbar button { flex: 1 1 0; min-width: 0; min-height: 46px; padding: 4px 2px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px; font-size: 10.5px; font-weight: 600; border-radius: 11px; color: var(--muted); }
+.fmtbar button span { max-width: 100%; overflow: hidden; text-overflow: ellipsis; }
+.fmtbar button.on { background: var(--on-bg); color: var(--on-ink); }
+.fmtbar .sep { margin: 0 3px; align-self: center; }

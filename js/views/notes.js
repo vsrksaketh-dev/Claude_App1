@@ -3,13 +3,14 @@
 // Deleting moves a page to Trash, where it stays for 30 days and can be restored.
 import { S, ui, app, register, commit, render as rerender } from '../core.js';
 import { esc, uid, fmtDay, dateKey } from '../util.js';
-import { empty, chip, head, linkBtns } from '../ui.js';
+import { empty, head, linkBtns } from '../ui.js';
 import { extractLinks } from '../links.js';
 import { saveFile, fileURL, openFile, removeFile, isImage, sizeText } from '../files.js';
 import { toast } from '../ui.js';
+import { icon } from '../icons.js';
 import { blk, page, book, bookName, addPage, quickNote, pageText, pageTitle, pagePreview, checkProgress, wordCount, checklistToTasks, ensureBook } from '../notes.js';
 
-const nb = ui.nb = { view: null, book: 'all', page: null, q: '', blk: null, confirm: '', focus: null, newBook: false, sort: 'recent', more: false };
+const nb = ui.nb = { view: null, book: 'all', page: null, q: '', blk: null, confirm: '', focus: null, newBook: false, sort: 'recent', more: false, fmt: 'type' };
 const STARTERS = ['Interview prep', 'Case notes', 'Class notes', 'Ideas', 'Reading list'];
 const TRASH_DAYS = 30;
 const when = ms => fmtDay(dateKey(new Date(ms)));
@@ -21,14 +22,16 @@ const trash = () => S.pages.filter(p => p.trashed);
 const dropFiles = list => list.forEach(p => (p.files || []).forEach(removeFile));
 const purge = () => { const lim = Date.now() - TRASH_DAYS * 864e5; const old = S.pages.filter(p => p.trashed && p.trashed < lim); if (old.length) { dropFiles(old); S.pages = S.pages.filter(p => !old.includes(p)); } };
 
+// One line of quiet details under a page: its book (when all books show), when it changed, and checklist progress.
+const metaLine = (p, pr) => [nb.book === 'all' ? esc(bookName(p.bookId)) : '', esc(ago(p.upd || p.at)), pr ? `${pr.done}/${pr.total} done` : '', p.tp ? 'Talking point' : ''].filter(Boolean).join(' · ');
 const pageRow = p => { const pr = checkProgress(p);
-  return `<li class="pg ${p.pinned ? 'pinned' : ''}" data-pg data-q="${esc((pageText(p) + ' ' + bookName(p.bookId)).toLowerCase())}" data-flip="p:${esc(p.id)}">
+  return `<li class="pg ${p.pinned ? 'pinned' : ''}" data-pg data-menu="page:${esc(p.id)}" data-q="${esc((pageText(p) + ' ' + bookName(p.bookId)).toLowerCase())}" data-flip="p:${esc(p.id)}">
     <button class="pg-main" data-act="pageOpen" data-id="${esc(p.id)}"><span class="title">${esc(pageTitle(p))}</span>${pagePreview(p) ? `<span class="pg-pre">${esc(pagePreview(p))}</span>` : ''}
-      <span class="pg-meta">${nb.book === 'all' ? chip(esc(bookName(p.bookId)), 'plain') : ''}<span class="muted">${esc(when(p.upd || p.at))}</span>${pr ? chip(`${pr.done}/${pr.total}`, pr.done === pr.total ? 'ok' : '') : ''}${p.tp ? chip('Talking point', 'plain') : ''}</span></button>
-    <button class="ghost pin ${p.pinned ? 'on' : ''}" data-act="pagePin" data-id="${esc(p.id)}" aria-pressed="${!!p.pinned}" aria-label="${p.pinned ? 'Unpin' : 'Pin'} page">${p.pinned ? 'Pinned' : 'Pin'}</button></li>`; };
+      <span class="pg-meta ${pr && pr.done === pr.total ? 'alldone' : ''}">${metaLine(p, pr)}</span></button>
+    ${p.pinned ? `<button class="ghost pin on" data-act="pagePin" data-id="${esc(p.id)}" aria-pressed="true" aria-label="Unpin page">${icon('bookmark', 19)}</button>` : ''}</li>`; };
 
 const trashRow = p => `<li class="pg"><div class="grow"><span class="title">${esc(pageTitle(p))}</span><div class="muted">Deleted ${esc(ago(p.trashed))} · ${esc(bookName(p.bookId))}</div></div>
-  <span class="row" style="gap:4px;flex:none"><button class="ghost" data-act="pageRestore" data-id="${esc(p.id)}">Restore</button><button class="ghost danger" data-act="pagePurge" data-id="${esc(p.id)}">${nb.confirm === 'x:' + p.id ? 'Sure?' : 'Delete'}</button></span></li>`;
+  <span class="row pg-acts"><button class="ghost" data-act="pageRestore" data-id="${esc(p.id)}">Restore</button><button class="ghost danger" data-act="pagePurge" data-id="${esc(p.id)}">${nb.confirm === 'x:' + p.id ? 'Sure?' : 'Delete'}</button></span></li>`;
 
 const SORTS = { recent: (a, b) => (b.upd || b.at) - (a.upd || a.at), created: (a, b) => b.at - a.at, az: (a, b) => pageTitle(a).localeCompare(pageTitle(b)) };
 
@@ -53,13 +56,14 @@ function listView() {
   const newBook = nb.newBook ? `<form data-form="book" class="capture"><input name="name" placeholder="Book name, like Interview prep" maxlength="40" required aria-label="Book name"><button class="primary">Create</button></form>` : '';
   const manage = b ? `<section class="card book-manage"><div class="row between"><input class="book-name" data-bind="bookName" data-id="${esc(b.id)}" value="${esc(b.name)}" maxlength="40" aria-label="Book name"><button class="ghost danger" data-act="bookDel" data-id="${esc(b.id)}">${nb.confirm === 'b:' + b.id ? 'Tap again to delete' : 'Delete book'}</button></div>
     ${nb.confirm === 'b:' + b.id ? `<p class="muted">Its ${cnt(b.id)} page${cnt(b.id) === 1 ? '' : 's'} move to the Inbox. Nothing is lost.</p>` : '<p class="muted">Tap the name to rename the book.</p>'}</section>` : '';
-  const sortBar = all.length > 1 ? `<div class="seg sortbar" role="group" aria-label="Sort">${[['recent', 'Recent'], ['created', 'Newest'], ['az', 'A to Z']].map(([k, l]) => `<button class="${nb.sort === k ? 'on' : ''}" data-act="noteSort" data-id="${k}">${l}</button>`).join('')}</div>` : '';
-  return `${head('Notes', pages.length ? `${pages.length} page${pages.length === 1 ? '' : 's'} in ${S.books.length + 1} book${S.books.length ? 's' : ''}` : 'Your second brain')}
+  const SORT_L = { recent: 'Recent', created: 'Newest', az: 'A to Z' };
+  const tools = pages.length > 1 ? `<div class="notes-tools"><label class="nsearch">${icon('search', 17)}<input type="search" data-bind="noteSearch" value="${esc(nb.q)}" placeholder="Search notes" aria-label="Search notes"></label>
+    <button class="ghost nsort" data-act="noteSort" aria-label="Sort: ${SORT_L[nb.sort] || 'Recent'}. Tap to change">${icon('sort', 17)}<span>${SORT_L[nb.sort] || 'Recent'}</span></button></div>` : '';
+  const sub = pages.length ? `${pages.length} page${pages.length === 1 ? '' : 's'}${S.books.length ? ` · ${S.books.length} book${S.books.length === 1 ? '' : 's'}` : ''}` : 'Your second brain';
+  return `${head('Notes', sub, `<button class="newpage" data-act="pageNew">${icon('plus', 17)}<span>New page</span></button>`)}
   <form data-form="jot" data-keep class="capture"><input name="text" placeholder="Jot something down" aria-label="Quick note" required><button class="primary">Save</button></form>
-  <div class="row notes-tools"><button class="primary" data-act="pageNew">New page</button>
-    <input class="search" type="search" data-bind="noteSearch" value="${esc(nb.q)}" placeholder="Search notes" aria-label="Search notes"></div>
-  ${bookBar}${newBook}${manage}
-  ${all.length ? `${sortBar}${pinned.length ? `<section class="card"><h2>Pinned</h2><ul class="list pages">${pinned.map(pageRow).join('')}</ul></section>` : ''}
+  ${bookBar}${newBook}${manage}${tools}
+  ${all.length ? `${pinned.length ? `<section class="card"><h2>Pinned</h2><ul class="list pages">${pinned.map(pageRow).join('')}</ul></section>` : ''}
     ${rest.length ? `<section class="card">${pinned.length ? '<h2>Pages</h2>' : ''}<ul class="list pages">${rest.map(pageRow).join('')}</ul></section>` : ''}
     <p class="muted nores" hidden>No page matches that search.</p>`
     : `<section class="card">${empty(pages.length ? 'No pages in this book yet. Tap New page.' : 'Nothing here yet. Jot a thought above, or start a page. Share a link from any app and it lands here too.')}
@@ -84,25 +88,25 @@ function pageView() {
   const pr = checkProgress(p);
   nIdx = 0;
   const t = (nb.blk && p.blocks.find(b => b.id === nb.blk))?.t;
-  const fm = (id, label) => `<button data-act="blkType" data-t="${id}" class="${t === id ? 'on' : ''}">${label}</button>`;
+  const fm = (id, ic, label) => `<button data-act="blkType" data-t="${id}" class="${t === id ? 'on' : ''}">${icon(ic, 19)}<span>${label}</span></button>`;
+  const fb = (act, d, ic, label, cls = '') => `<button data-act="${act}" ${d ? `data-d="${d}"` : ''} class="${cls}">${icon(ic, 19)}<span>${label}</span></button>`;
   const links = extractLinks(pageText(p), 6);
-  return `<div class="pg-top"><button class="pill" data-act="pageClose">‹ Notes</button><span class="row" style="gap:2px">
-      <button class="ghost" data-act="pagePin" data-id="${esc(p.id)}" aria-pressed="${!!p.pinned}">${p.pinned ? 'Unpin' : 'Pin'}</button>
-      <button class="ghost" data-act="pageMore" aria-expanded="${nb.more}">More</button>
-      <button class="ghost danger" data-act="pageDel" data-id="${esc(p.id)}">${nb.confirm === 'p:' + p.id ? 'Move to Trash?' : 'Delete'}</button></span></div>
-  ${nb.more ? `<div class="row more-row"><button class="pill" data-act="pageCopy" data-id="${esc(p.id)}">Copy text</button><button class="pill" data-act="pageToTask" data-id="${esc(p.id)}">Make it a task</button><button class="pill" data-act="pageDup" data-id="${esc(p.id)}">Duplicate</button></div>` : ''}
+  return `<div class="pg-top"><button class="ghost pg-back" data-act="pageClose">${icon('back', 19)}<span>Notes</span></button><span class="row pg-acts">
+      <button class="ghost pin ${p.pinned ? 'on' : ''}" data-act="pagePin" data-id="${esc(p.id)}" aria-pressed="${!!p.pinned}" aria-label="${p.pinned ? 'Unpin' : 'Pin'} page">${icon('bookmark', 20)}</button>
+      <button class="ghost" data-act="pageMore" aria-expanded="${nb.more}" aria-label="More for this page">${icon('more', 20)}</button></span></div>
+  ${nb.more ? `<div class="more-row"><button class="ghost" data-act="pageCopy" data-id="${esc(p.id)}">${icon('copy', 17)}<span>Copy text</span></button><button class="ghost" data-act="pageToTask" data-id="${esc(p.id)}">${icon('tasks', 17)}<span>Make it a task</span></button><button class="ghost" data-act="pageDup" data-id="${esc(p.id)}">${icon('file', 17)}<span>Duplicate</span></button><button class="ghost danger" data-act="pageDel" data-id="${esc(p.id)}">${icon('trash', 17)}<span>Delete</span></button></div>` : ''}
   <section class="card editor"><textarea class="pg-title" rows="1" data-grow data-bind="pageTitle" placeholder="Title" maxlength="160" aria-label="Page title">${esc(p.title)}</textarea>
     <div class="pg-info"><select data-bind="pageBook" aria-label="Book"><option value="" ${sel === '' ? 'selected' : ''}>Inbox</option>${S.books.map(b => `<option value="${esc(b.id)}" ${sel === b.id ? 'selected' : ''}>${esc(b.name)}</option>`).join('')}</select>
-      <span class="muted" data-words>${wordCount(p)} words · saved ${esc(ago(p.upd || p.at))}</span>${pr ? chip(`${pr.done}/${pr.total} done`, pr.done === pr.total ? 'ok' : '') : ''}</div>
+      <span class="muted" data-words>${wordCount(p)} words · saved ${esc(ago(p.upd || p.at))}</span>${pr ? `<span class="muted ${pr.done === pr.total ? 'alldone' : ''}">${pr.done}/${pr.total} done</span>` : ''}</div>
     <div class="blocks">${p.blocks.map((b, i) => blockRow(b, p.blocks, i)).join('')}</div>
-    <button class="ghost addline" data-act="blkAdd">+ Add a line</button>
     <div class="pg-files">${(p.files || []).filter(isImage).map(f => `<button class="thumb" data-act="fileView" data-id="${esc(f.id)}" aria-label="Open ${esc(f.name)}"><img data-file="${esc(f.id)}" alt="${esc(f.name)}"></button>`).join('')}</div>
     ${(p.files || []).filter(f => !isImage(f)).length ? `<ul class="list files">${p.files.filter(f => !isImage(f)).map(f => `<li><div class="grow"><span class="title">${esc(f.name)}</span><div class="muted">${esc(sizeText(f.size))}</div></div><button class="ghost" data-act="fileOpen" data-id="${esc(f.id)}">Open</button><button class="ghost danger x" data-act="fileDel" data-id="${esc(f.id)}" aria-label="Remove file">×</button></li>`).join('')}</ul>` : ''}
-    <label class="attach"><input type="file" data-bind="fileAdd" accept="image/*,application/pdf,.doc,.docx,.ppt,.pptx,.xls,.xlsx,.txt,.csv" multiple hidden><span>+ Photo or file</span></label>
+    <div class="pg-add"><button class="ghost addline" data-act="blkAdd">${icon('plus', 17)}<span>Add a line</span></button><label class="attach"><input type="file" data-bind="fileAdd" accept="image/*,application/pdf,.doc,.docx,.ppt,.pptx,.xls,.xlsx,.txt,.csv" multiple hidden><span>${icon('clip', 17)}Photo or file</span></label></div>
     ${links.length ? `<div class="pg-links"><span class="muted">Links on this page</span>${linkBtns(links)}</div>` : ''}
     ${pr && pr.done < pr.total ? `<div class="row"><button data-act="pageTasks" data-id="${esc(p.id)}">Turn open checklist items into tasks</button></div>` : ''}</section>
-  <div class="fmtbar" role="toolbar" aria-label="Format the current line">${fm('p', 'Text')}${fm('h', 'Heading')}${fm('b', 'Bullet')}${fm('n', 'Number')}${fm('c', 'Check')}${fm('q', 'Quote')}<span class="sep"></span>
-    <button data-act="blkIndent" data-d="1">Indent</button><button data-act="blkIndent" data-d="-1">Outdent</button><span class="sep"></span><button data-act="blkMove" data-d="-1">Up</button><button data-act="blkMove" data-d="1">Down</button><button class="danger" data-act="blkDel">Remove</button></div>`;
+  <div class="fmtbar" role="toolbar" aria-label="Format the current line">${nb.fmt === 'line'
+    ? `<button data-act="fmtMore" aria-label="Back to line styles">${icon('back', 19)}<span>Styles</span></button><span class="sep"></span>${fb('blkIndent', '1', 'indent', 'Indent')}${fb('blkIndent', '-1', 'outdent', 'Outdent')}${fb('blkMove', '-1', 'up', 'Up')}${fb('blkMove', '1', 'down', 'Down')}${fb('blkDel', '', 'trash', 'Remove', 'danger')}`
+    : `${fm('p', 'text', 'Text')}${fm('h', 'heading', 'Heading')}${fm('b', 'bullet', 'Bullet')}${fm('n', 'number', 'Number')}${fm('c', 'tasks', 'Check')}${fm('q', 'quote', 'Quote')}<span class="sep"></span><button data-act="fmtMore" aria-label="Move, indent or remove the line">${icon('more', 19)}<span>Line</span></button>`}</div>`;
 }
 
 // Full-screen view of an attached photo, with Remove.
@@ -119,7 +123,7 @@ function render() {
 
 const touch = p => { p.upd = Date.now(); };
 const curBlk = p => p.blocks.find(b => b.id === nb.blk) || p.blocks[p.blocks.length - 1];
-const open = id => { nb.page = id; nb.confirm = ''; nb.more = false; window.scrollTo(0, 0); };
+const open = id => { nb.page = id; nb.confirm = ''; nb.more = false; nb.fmt = 'type'; window.scrollTo(0, 0); };
 
 // Typing shortcuts at the start of a text line: "- " bullet, "[] " checkbox, "# " heading, "1. " numbered, "> " quote.
 const SHORT = [[/^(?:-|\*|•) /, 'b'], [/^\[ ?\] /, 'c'], [/^#{1,3} /, 'h'], [/^\d+[.)] /, 'n'], [/^> /, 'q']];
@@ -133,7 +137,7 @@ register({
   id: 'notes', label: 'Notes', nav: 3, render,
   actions: {
     noteBook: d => { nb.book = d.id; nb.confirm = ''; nb.newBook = false; },
-    noteSort: d => { nb.sort = d.id; },
+    noteSort: d => { const o = ['recent', 'created', 'az']; nb.sort = d.id || o[(o.indexOf(nb.sort) + 1) % o.length]; },
     bookNew: () => { nb.newBook = !nb.newBook; },
     bookStarter: d => { nb.book = ensureBook(d.id).id; },
     bookDel: d => { if (nb.confirm !== 'b:' + d.id) { nb.confirm = 'b:' + d.id; return; } S.pages.forEach(p => { if (p.bookId === d.id) p.bookId = ''; }); S.books = S.books.filter(b => b.id !== d.id); nb.book = 'all'; nb.confirm = ''; },
@@ -141,8 +145,10 @@ register({
     pageOpen: d => { open(d.id); },
     pageClose: () => { nb.page = null; nb.confirm = ''; nb.blk = null; nb.more = false; },
     pageMore: () => { nb.more = !nb.more; },
+    fmtMore: () => { nb.fmt = nb.fmt === 'line' ? 'type' : 'line'; const p = cur(); if (p && nb.blk) nb.focus = { id: nb.blk }; },
     pagePin: d => { const p = page(d.id); if (p) p.pinned = !p.pinned; },
-    pageDel: d => { if (nb.confirm !== 'p:' + d.id) { nb.confirm = 'p:' + d.id; return; } const p = page(d.id); if (p) p.trashed = Date.now(); nb.page = null; nb.confirm = ''; },
+    // Deleting is one tap: the page goes to Trash (kept 30 days) and the toast offers Undo.
+    pageDel: d => { const p = page(d.id); if (!p) return; p.trashed = Date.now(); if (nb.page === p.id) { nb.page = null; nb.blk = null; } nb.confirm = ''; nb.more = false; toast(`Moved "${pageTitle(p).slice(0, 40)}" to Trash`, () => { delete p.trashed; }); },
     pageRestore: d => { const p = page(d.id); if (p) delete p.trashed; if (!trash().length) nb.book = 'all'; },
     pagePurge: d => { if (nb.confirm !== 'x:' + d.id) { nb.confirm = 'x:' + d.id; return; } dropFiles(S.pages.filter(p => p.id === d.id)); S.pages = S.pages.filter(p => p.id !== d.id); nb.confirm = ''; if (!trash().length) nb.book = 'all'; },
     trashEmpty: () => { if (nb.confirm !== 'trash') { nb.confirm = 'trash'; return; } dropFiles(trash()); S.pages = S.pages.filter(p => !p.trashed); nb.confirm = ''; nb.book = 'all'; },
@@ -187,6 +193,11 @@ register({
     },
   },
 });
+
+// Press and hold a page in the list for its menu.
+app.menus.page = id => { const p = page(id); if (!p || p.trashed) return [];
+  return [{ label: 'Open', icon: icon('edit', 19), act: 'pageOpen', data: { id } }, { label: p.pinned ? 'Unpin' : 'Pin to the top', icon: icon('bookmark', 19), act: 'pagePin', data: { id } },
+    { label: 'Duplicate', icon: icon('file', 19), act: 'pageDup', data: { id } }, { label: 'Move to Trash', icon: icon('trash', 19), act: 'pageDel', data: { id }, danger: true }]; };
 
 function grow(el) { el.style.height = 'auto'; el.style.height = el.scrollHeight + 'px'; }
 
@@ -239,6 +250,7 @@ document.addEventListener('beforeinput', e => {   // soft keyboards that do not 
   if (e.inputType === 'insertParagraph' || e.inputType === 'insertLineBreak') { e.preventDefault(); split(e.target); }
   else if (e.inputType === 'deleteContentBackward' && e.target.selectionStart === 0 && e.target.selectionEnd === 0) { if (back(e.target) !== false) e.preventDefault(); }
 });
-document.addEventListener('focusin', e => { if (isLine(e)) { nb.blk = e.target.dataset.blk; document.querySelectorAll('.blk.cur').forEach(x => x.classList.remove('cur')); e.target.closest('.blk')?.classList.add('cur'); } });
+document.addEventListener('focusin', e => { if (isLine(e)) { nb.blk = e.target.dataset.blk; document.querySelectorAll('.blk.cur').forEach(x => x.classList.remove('cur')); e.target.closest('.blk')?.classList.add('cur');
+  const t = cur()?.blocks.find(b => b.id === nb.blk)?.t; document.querySelectorAll('.fmtbar [data-act=blkType]').forEach(b => b.classList.toggle('on', b.dataset.t === t)); } });
 // Tapping the format bar must not take the keyboard away from the line being edited.
 document.addEventListener('pointerdown', e => { if (e.target.closest && e.target.closest('.fmtbar')) e.preventDefault(); });
