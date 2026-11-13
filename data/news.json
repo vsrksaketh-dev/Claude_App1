@@ -1,153 +1,193 @@
 {
-  "date": "2026-11-12",
-  "generated": "2026-11-12T06:25:00+05:30",
+  "date": "2026-11-13",
+  "generated": "2026-11-13T06:25:00+05:30",
   "items": [
     {
       "cat": "International",
-      "title": "Russia-Ukraine talks in Abu Dhabi end second day without a breakthrough",
-      "summary": "US-mediated three-way talks in Abu Dhabi, with Jared Kushner and Steve Witkoff mediating, ran a second and final scheduled day on 11 November. Kyiv and Washington called them constructive, and the sides discussed a large prisoner swap, but no breakthrough was reported and Russia's Lavrov rejected a truce.",
-      "why": "A ceasefire or its absence shapes energy prices, European demand and the hiring outlook of firms exposed to the region.",
-      "src": "The Washington Post",
-      "url": "https://www.washingtonpost.com/world/2026/11/11/russia-ukraine-war-talks-kushner-witkoff/e7f4de2e-ddb3-11f1-912c-4fbb80d73f7f_story.html"
-    },
-    {
-      "cat": "International",
-      "title": "Guterres calls for a 'climate justice pact' as COP31 leaders meet in Antalya",
-      "summary": "The leaders' segment of COP31 opened in Antalya, Türkiye, on 11 November, with UN Secretary-General António Guterres urging a new climate justice pact and taxes on fossil fuel companies. Several big names are absent, including the US for a second year, and the presidency wants the talks to focus on implementing past pledges.",
-      "why": "Climate commitments flow into ESG reporting, green jobs and sustainability roles that HR and marketing teams increasingly own.",
-      "src": "UN News",
-      "url": "https://news.un.org/en/story/2026/11/1168783"
-    },
-    {
-      "cat": "International",
-      "title": "G7 foreign ministers meet in Paris amid uncertainty over US approach",
-      "summary": "G7 top diplomats met in Paris on 9 November (three days ago) with visible differences on global crises, focusing on the wars in Iran and Ukraine. Questions centred on how US foreign policy will shift after the midterm elections.",
-      "why": "G7 alignment on sanctions and trade affects multinational strategy and the global mobility of talent.",
-      "src": "CP24 (AP)",
-      "url": "https://www.cp24.com/news/world/2026/11/09/g7-talks-in-paris-try-to-tackle-global-crises-with-uncertainty-high-over-the-us-approach/"
-    },
-    {
-      "cat": "International",
-      "title": "Republicans lose control of Congress in US midterms",
-      "summary": "NPR reports that Republicans suffered severe losses and lost control of Congress in the midterm elections, with analysts linking the result partly to unpopular policies such as the Iran war. The shift is already colouring how allies read US foreign policy.",
-      "why": "A divided Washington changes the odds on tariffs, visas and trade rules that drive offshoring and campus hiring in India.",
+      "title": "Russia and Ukraine agree a large prisoner exchange",
+      "summary": "US-mediated talks in Abu Dhabi ended with Russia and Ukraine agreeing a large exchange of prisoners of war, described as the biggest humanitarian release since the war began in 2022. The talks produced no wider breakthrough.",
+      "why": "Even partial progress shifts the outlook for energy prices and European business confidence.",
       "src": "NPR",
       "url": "https://www.npr.org/sections/world/"
     },
     {
-      "cat": "Indian",
-      "title": "Cabinet extends Stand-Up India scheme to 2031",
-      "summary": "The Union Cabinet on 11 November extended the Stand-Up India scheme for five years to 31 March 2031, with a target of at least 2.5 lakh more beneficiaries. It also extended the Credit Guarantee Fund for Micro Units to 2031 with a reported Rs 4,111 crore corpus.",
-      "why": "Cheaper guaranteed credit for women and SC/ST entrepreneurs widens the small-business pipeline that marketing and HR services sell to.",
-      "src": "Daily Excelsior",
-      "url": "https://www.dailyexcelsior.com/cabinet-extends-stand-up-india-scheme"
-    },
-    {
-      "cat": "Indian",
-      "title": "Rs 62,370 crore fertiliser subsidy approved for rabi season",
-      "summary": "The Cabinet approved a Rs 62,370 crore subsidy on phosphatic and potassic fertilisers for the 2026-27 rabi season, which Daily Pioneer says is 50 per cent higher than for kharif. The government said fertiliser stocks are comfortable.",
-      "why": "Farm support sustains rural incomes, a key driver of FMCG and two-wheeler demand that rural marketing plans depend on.",
-      "src": "Daily Pioneer",
-      "url": "https://dailypioneer.com/india/cabinet-okays-rs-62370-cr-fertiliser-subsidy-for-rabi-season"
-    },
-    {
-      "cat": "Indian",
-      "title": "October inflation, due today, expected to hit RBI's 6% ceiling",
-      "summary": "MoSPI releases October CPI data on 12 November. Economist polls put it at about 6% (Mint range 5.9% to 6.2%, ICRA 6.1%), up from 5.54% in September; these are forecasts, not published data. A print above 6% would be the first breach of the RBI's upper limit since October 2024, after the MPC raised the repo rate to 5.50% in October.",
-      "why": "Higher inflation and rates squeeze consumer spending and salary budgets, which shapes pricing, campaigns and compensation planning.",
-      "src": "Business Today",
-      "url": "https://www.businesstoday.in/latest/economy/story/will-inflation-breach-6-in-october-what-it-means-for-interest-rates-emis-and-gdp-growth-566855-2026-11-11"
-    },
-    {
-      "cat": "Business",
-      "title": "Sensex ends 773 points higher, Nifty at 25,255",
-      "summary": "Indian benchmarks rose about 0.9% on 11 November after a market holiday, with the Sensex closing at 81,879.40 and the Nifty at 25,255.05 after paring early gains. Lower energy prices and a return of foreign fund inflows helped; PSU banks rose nearly 3% while IT and healthcare lagged.",
-      "why": "Market mood feeds into IPO plans, campus hiring budgets and consumer confidence.",
-      "src": "Business Standard",
-      "url": "https://www.business-standard.com/amp/markets/news/stock-market-live-november-11-nse-bse-sensex-today-nifty50-gift-nifty-crude-oil-prices-126111100079_1.html"
-    },
-    {
-      "cat": "Business",
-      "title": "Strong Q2 earnings put Nifty within 5% of its record",
-      "summary": "Business Standard reports that large caps are leading on stronger-than-expected September-quarter results, leaving benchmarks less than 5% below their lifetime highs. One broker estimates Nifty 50 earnings growth at 20% for the quarter (provisional).",
-      "why": "Healthy earnings usually precede bigger hiring plans and marketing spends for the coming year.",
-      "src": "Business Standard",
-      "url": "https://www.business-standard.com/markets/news/nifty-eyes-record-as-largecaps-lead-charge-on-strong-corporate-earnings-126111101368_1.html"
-    },
-    {
-      "cat": "Business",
-      "title": "Maersk to cut about 15% of corporate roles",
-      "summary": "Moller-Maersk is cutting about 15% of its corporate roles across regions and headquarters, citing weaker earnings from lower freight rates and overcapacity in shipping, according to a layoffs tracker. The exact headcount was not given.",
-      "why": "A live example of restructuring and white-collar job cuts, a core area for HR transformation work.",
-      "src": "Intellizence",
-      "url": "https://intellizence.com/insights/layoff-downsizing/major-companies-that-announced-mass-layoffs/"
-    },
-    {
-      "cat": "Tech",
-      "title": "UK chip startup Fractile raises $720M",
-      "summary": "British AI chip startup Fractile closed a $720 million Series C backed by the UK's Sovereign AI Fund, TechCrunch reported on 11 November. The Financial Times put its valuation at $7 billion, up from about $1.1 billion six months earlier; reports of Anthropic interest as a customer are unconfirmed.",
-      "why": "Shows how capital is flowing into AI hardware, and how fast valuations and talent demand can move.",
-      "src": "TechCrunch",
-      "url": "https://techcrunch.com/2026/11/11/with-720m-round-britains-fractile-gets-a-leg-up-in-the-race-for-ai-chips/"
-    },
-    {
-      "cat": "Tech",
-      "title": "Google announces Gemini 4 Carbon",
-      "summary": "Google announced Gemini 4 Carbon on 10 November, pitching it as its most powerful model for deep, multi-step tasks. Details come from an AI news aggregator and should be treated as provisional until checked against Google's own post.",
-      "why": "New model generations change which knowledge-work tasks get automated, and what skills employers screen for.",
-      "src": "AI Weekly",
-      "url": "https://aiweekly.co/ai-news-today"
-    },
-    {
-      "cat": "Tech",
-      "title": "Gemini for Healthcare opens US preview with Northwell and Stanford",
-      "summary": "Google Cloud opened a US preview of Gemini for Healthcare on 10 November, with health systems including Northwell Health and Stanford School of Medicine as launch partners, according to an AI news digest.",
-      "why": "Healthcare is a large AI adoption test case for change management and workforce redesign.",
-      "src": "The Neuron",
-      "url": "https://theneuron.ai/digest/everything-that-happened-in-ai-today-wednesday-november-11-2026"
-    },
-    {
-      "cat": "Tech",
-      "title": "Adobe adds AI agents to Photoshop, Premiere and Firefly",
-      "summary": "Adobe announced new AI agents across Photoshop, Premiere and Firefly this week, an AI news roundup reports. Spotify separately added new voice options to its AI DJ for Premium listeners.",
-      "why": "Creative AI agents change how marketing teams produce content and what skills they hire for.",
-      "src": "AI Weekly",
-      "url": "https://aiweekly.co/ai-news-today"
-    },
-    {
-      "cat": "Tech",
-      "title": "Report: Chinese army-linked university bought Nvidia H200 chips despite blacklist",
-      "summary": "Reuters reported, as summarised by Techmeme, that a Chinese university with ties to the army bought Nvidia H200 chips despite being on a US export blacklist. No official response was included in the summary.",
-      "why": "Export-control gaps could tighten chip rules, affecting AI costs and tech supply chains.",
-      "src": "Reuters via Techmeme",
-      "url": "https://techmeme.com/"
+      "cat": "International",
+      "title": "Trump says the US does not need a deal with Iran",
+      "summary": "President Trump said on Thursday that 'we don't need a deal with Iran' while acknowledging the conflict is not over, CBS reports. Iran's Assembly of Experts has urged the leadership to consider leaving the nuclear Non-Proliferation Treaty.",
+      "why": "Tension around Iran drives oil prices, which feed straight into India's inflation and company costs.",
+      "src": "CBS News",
+      "url": "https://www.cbsnews.com/live-updates/iran-war-us-nuclear-strait-of-hormuz/"
     },
     {
       "cat": "International",
-      "kind": "fact",
-      "title": "COP31 runs 9 to 20 November in Antalya",
-      "summary": "The 2026 UN climate conference is co-led by Türkiye and Australia; the second week, after leaders leave, is where negotiators settle the text.",
-      "why": "Useful context for ESG and sustainability questions in interviews.",
-      "src": "UN News",
-      "url": "https://news.un.org/en/story/2026/11/1168783"
+      "title": "COP31 leaders' summit ends with electrification pledges",
+      "summary": "The two-day leaders' segment in Antalya closed on 12 November with more countries endorsing the presidency's 35x35 electrification pledge and new philanthropic money for the Tropical Forest Forever Facility, the World Resources Institute says. There was no single negotiated declaration; talks run to 20 November.",
+      "why": "Electrification targets shape green-skills demand and the sustainability claims brands can make.",
+      "src": "World Resources Institute",
+      "url": "https://www.wri.org/news/statement-cop31-leaders-summit-spotlights-electrification-and-transition-away-fossil-fuels"
+    },
+    {
+      "cat": "International",
+      "title": "Over $480 million pledged for methane action at COP31",
+      "summary": "Philanthropic partners committed more than US$480 million for methane and other super pollutants at COP31, and a further US$25 million will extend a country action programme to seven more countries, the Climate and Clean Air Coalition reports.",
+      "why": "Shows how private money is filling gaps in climate finance, a growing area for CSR and ESG roles.",
+      "src": "Climate and Clean Air Coalition",
+      "url": "https://www.ccacoalition.org/news/cop31-day-4-leaders-drive-new-funding-and-global-cooperation-super-pollutant-action"
+    },
+    {
+      "cat": "International",
+      "title": "Big names skip COP31: no Trump, Xi or leaders of France, Germany and Italy",
+      "summary": "The US and Chinese presidents did not attend the Antalya summit, with China sending Vice-President Han Zheng, and several large EU economies were absent although Ursula von der Leyen attended. Reports of how many leaders came vary between about 90 and 100.",
+      "why": "Who shows up signals how much weight governments will put behind climate rules that companies must follow.",
+      "src": "Climate Home News",
+      "url": "https://www.climatechangenews.com/2026/11/11/cop31-bulletin-day-3-with-the-people-stuck-outside-world-leaders-jet-in/"
     },
     {
       "cat": "Indian",
-      "kind": "fact",
-      "title": "RBI repo rate is 5.50%",
-      "summary": "The MPC raised the repo rate by 25 basis points to 5.50% in October, its first hike since February 2023, and meets next on 2 to 4 December.",
-      "why": "A key number for any discussion of credit, EMIs and consumer demand.",
-      "src": "Business Today",
-      "url": "https://www.businesstoday.in/latest/economy/story/will-inflation-breach-6-in-october-what-it-means-for-interest-rates-emis-and-gdp-growth-566855-2026-11-11"
+      "title": "Retail inflation hits 6.09%, above the RBI's ceiling",
+      "summary": "October CPI inflation rose to 6.09% from 5.54% in September, the first breach of the RBI's 6% upper limit in two years and above a Reuters poll forecast of 5.93%. Rural inflation was 6.63% and urban 5.41%.",
+      "why": "Higher prices squeeze household budgets and salary planning, and change how brands price and promote.",
+      "src": "The Tribune",
+      "url": "https://www.tribuneindia.com/news/6inflation/retail-inflation-hits-24-month-high-of-6-09-in-october-crosses-rbis-upper-tolerance-limit-ahead-of-december-mpc-meet"
+    },
+    {
+      "cat": "Indian",
+      "title": "Odds of a December repo rate hike rise",
+      "summary": "With inflation above the tolerance band, economists now see a higher chance of the RBI raising the repo rate at its December meeting, ThePrint reports. Food inflation was the main driver; sources differ on the exact food figure (8.51% to 8.94%), so treat it as provisional.",
+      "why": "A rate hike raises loan costs for companies and consumers, cooling hiring and big-ticket demand.",
+      "src": "ThePrint",
+      "url": "https://theprint.in/economy/indias-october-retail-inflation-breaches-rbis-6-ceiling-odds-of-december-repo-rate-hike-rise/3097181/"
+    },
+    {
+      "cat": "Indian",
+      "title": "Onion prices more than double year on year",
+      "summary": "Onion prices were up 116.22% in October against 108.13% in September, and the all-India index rose 0.51% month on month, according to coverage of the official release.",
+      "why": "Food-price spikes hit FMCG volumes first, a live example for consumer behaviour and pricing.",
+      "src": "IndexBox",
+      "url": "https://www.indexbox.io/blog/indias-retail-inflation-at-609-in-october-2026-as-food-prices-stay-elevated/"
+    },
+    {
+      "cat": "Indian",
+      "title": "Cabinet clears Rs 3,230 crore national museum in North and South Block",
+      "summary": "A current-affairs digest dated 12 November reports Cabinet approval for the Yuge Yugeen Bharat Museum in North and South Block at Rs 3,230 crore, and a ban on exporting lithium-ion battery 'black mass' to support domestic recycling. Not yet checked against an official release.",
+      "why": "Battery recycling policy creates a new domestic industry with its own talent and supply-chain needs.",
+      "src": "Legacy IAS",
+      "url": "https://www.legacyias.com/current-affairs-12-november-2026/"
     },
     {
       "cat": "Business",
-      "kind": "fact",
-      "title": "Nifty's record high is 26,328.6",
-      "summary": "The Nifty set its lifetime high on 2 January 2026; the Sensex peak is 85,836.1 from 26 September 2024.",
-      "why": "Handy reference when reading market headlines.",
+      "title": "Sensex and Nifty end flat after a volatile session",
+      "summary": "The Sensex closed at 81,911.01, up 0.04%, and the Nifty at 25,299.35, up 0.18%, on 12 November. Realty led with a gain of about 4% while autos fell about 1%, and mid and small caps outperformed.",
+      "why": "A pause after a strong month, on the day inflation data landed; watch rate-sensitive sectors.",
       "src": "Business Standard",
-      "url": "https://www.business-standard.com/markets/news/nifty-eyes-record-as-largecaps-lead-charge-on-strong-corporate-earnings-126111101368_1.html"
+      "url": "https://www.business-standard.com/amp/markets/news/stock-market-live-november-12-gift-nifty-nse-bse-sensex-today-nifty50-crude-oil-prices-q2-results-today-126111200066_1.html"
+    },
+    {
+      "cat": "Business",
+      "title": "easyJet shareholders approve Apollo's £5.7 billion takeover",
+      "summary": "More than 97% of scheme shares backed Apollo's proposed £5.7 billion acquisition of easyJet. The deal is expected to complete before the end of the first quarter of 2027, subject to remaining conditions.",
+      "why": "Private-equity ownership usually brings restructuring, a classic HR transformation scenario.",
+      "src": "CPA UK",
+      "url": "https://cpa.co.uk/uk-business-news-today-12-november-2026-economy-markets-insolvencies"
+    },
+    {
+      "cat": "Business",
+      "title": "Nebius revenue jumps 571% but guidance is trimmed",
+      "summary": "AI cloud firm Nebius reported third-quarter revenue of $980.8 million, up 571%, while moving its 2026 revenue guidance to the low end of its range and raising planned capital spending to about $27 billion, an earnings digest reports.",
+      "why": "Shows the scale of AI infrastructure spending and the pressure to turn it into revenue.",
+      "src": "Analysis Official",
+      "url": "https://analysisofficial.substack.com/p/pre-market-technology-earnings-thursday"
+    },
+    {
+      "cat": "Business",
+      "title": "Spectrum Brands plans to buy Helen of Troy",
+      "summary": "Spectrum Brands said on its fourth-quarter earnings call that it plans to acquire Helen of Troy through its Empower Brands subsidiary.",
+      "why": "A consumer-brands merger means portfolio and brand-architecture decisions, core marketing strategy work.",
+      "src": "GuruFocus",
+      "url": "https://www.gurufocus.com/news/9196283/spectrum-brands-holdings-spb-pursues-helen-of-troy-acquisition-focuses-on-dividend-sustainability"
+    },
+    {
+      "cat": "Business",
+      "title": "Nvidia shares fall 14% as CEO Jensen Huang is reported to resign",
+      "summary": "Nvidia fell about 14% at Thursday's open after reports that Jensen Huang resigned, with CFO Colette Kress named interim CEO, according to CNBC's market coverage and reports relayed by Techmeme. Some digests describe it differently, so details are provisional.",
+      "why": "A sudden CEO exit at the world's most valuable chipmaker is a live case in succession planning and governance.",
+      "src": "CNBC",
+      "url": "https://cnbc.com/2026/11/11/stock-market-today-live-updates.html"
+    },
+    {
+      "cat": "Tech",
+      "title": "US weighs AI chip export licences for seven countries",
+      "summary": "The Trump administration is reportedly considering export licences for controlled AI chips going into data centres in Singapore, Malaysia, Thailand, Indonesia, Norway, Brazil and South Africa, with an announcement possible this month.",
+      "why": "Where AI chips can go decides where data-centre jobs and investment land.",
+      "src": "TokenPost",
+      "url": "https://www.tokenpost.com/news/regulation/55398"
+    },
+    {
+      "cat": "Tech",
+      "title": "Taiwan proposes protecting 46 key technologies",
+      "summary": "Taiwan's National Science and Technology Council has proposed widening its list of national core key technologies from 42 to 46 items. The draft is still in public consultation.",
+      "why": "Technology-protection rules limit talent moves and partnerships in the chip industry.",
+      "src": "DigiTimes",
+      "url": "https://digitimes.com/news/a20261112PD202/taiwan-ai-chip-nstc-technology-2026.html"
+    },
+    {
+      "cat": "Tech",
+      "title": "Budget phone makers turn to recycled memory as costs surge",
+      "summary": "Rising memory prices are pushing low-end smartphone makers towards recycled memory, while Samsung leans on its scale. Counterpoint Research says memory and storage now make up as much as 54% of component costs in ultra-low-end models.",
+      "why": "Component costs decide entry-level phone prices in India, a key mass-market category.",
+      "src": "The Tribune",
+      "url": "https://www.tribuneindia.com/news/budget-smartphones/budget-smartphone-makers-turn-to-recycled-memory-as-costs-surge-samsung-relies-on-scale"
+    },
+    {
+      "cat": "Tech",
+      "title": "South Korea plans eight homegrown on-device AI chips by 2030",
+      "summary": "South Korea's industry ministry unveiled a roadmap on 12 November for eight domestic AI chips and two chip-design IP assets by 2030.",
+      "why": "Government-led chip plans create specialised hiring drives and public-private partnerships.",
+      "src": "Crypto Briefing",
+      "url": "https://cryptobriefing.com/south-korea-eight-on-device-ai-chips-2030/"
+    },
+    {
+      "cat": "Tech",
+      "title": "Anthropic's IPO order book reported several times oversubscribed",
+      "summary": "An AI news digest says Anthropic's IPO order book is running several times oversubscribed ahead of pricing next week, and that TSMC's board approved up to $1 billion of AI investments, part of it in Anthropic shares. Aggregator report, not yet confirmed by a primary source.",
+      "why": "The largest AI listing will set the tone for tech valuations and hiring budgets.",
+      "src": "AI Weekly",
+      "url": "https://aiweekly.co/ai-news-today/edition/2026-11-12"
+    },
+    {
+      "cat": "Tech",
+      "title": "Google ships a Gemini 'Decisions' API for rapid yes-or-no answers",
+      "summary": "Google released the Gemini Decisions API, built to answer up to 1,000 yes-or-no or multiple-choice questions in about a quarter of a second, an AI digest reports.",
+      "why": "Fast bulk classification is the kind of tool that automates screening and tagging work in HR and marketing.",
+      "src": "The Neuron",
+      "url": "https://www.theneuron.ai/digest/everything-that-happened-in-ai-today-thursday-november-12-2026/"
+    },
+    {
+      "cat": "Indian",
+      "title": "RBI's inflation band is 2% to 6%",
+      "summary": "The RBI targets 4% inflation with a tolerance band of 2% to 6%; October's 6.09% is the first reading above it since October 2024 (6.21%).",
+      "why": "A number worth knowing for any economy question in an interview.",
+      "src": "Investing.com (Reuters)",
+      "url": "https://www.investing.com/news/economy-news/indias-october-retail-inflation-at-609-onyear-5020869",
+      "kind": "fact"
+    },
+    {
+      "cat": "Business",
+      "title": "Indian benchmarks are up over 10% this month",
+      "summary": "The Nifty 50 and Sensex had delivered more than 10% month to date as of 12 November.",
+      "why": "Context for how strong November has been for markets.",
+      "src": "Upstox",
+      "url": "https://upstox.com/news/market-news/stocks/market-wrap-nov-12-nifty-50-ends-at-25-229-sensex-flat-nifty-smallcap-100-outperforms-for-second-straight-session/article-203374/",
+      "kind": "fact"
+    },
+    {
+      "cat": "International",
+      "title": "Global fossil-fuel emissions were broadly flat in 2026",
+      "summary": "UN Secretary-General António Guterres told COP31 that global fossil fuel carbon emissions remained broadly stable in 2026.",
+      "why": "A useful data point for sustainability discussions.",
+      "src": "commonspace.eu",
+      "url": "https://www.commonspace.eu/news/cop-31-update-4-world-leaders-address-climate-summit-antalya",
+      "kind": "fact"
     }
   ]
 }
