@@ -60,7 +60,7 @@ document.addEventListener('input', e => {
   if (h) { h(e.target); save(); }
 });
 
-// News is public, so the daily routine commits data/news.json to the repo and the app reads the newest copy from there.
+// News is public, so a GitHub Action commits data/news.json to the repo and the app reads the newest copy from there.
 // Order: live copy from GitHub, then the last copy cached on the device, then the file bundled with the app.
 const NEWS_URL = 'https://raw.githubusercontent.com/vsrksaketh-dev/Claude_App1/refs/heads/claude/zealous-cerf-fnwxob/data/news.json';
 const NEWS_KEY = 'daily-driver-news';

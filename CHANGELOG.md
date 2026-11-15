@@ -3,6 +3,7 @@
 Newest first. One line per change, in plain words. The full detail is in `git log`.
 
 ## 15 Nov 2026
+- Docs tidy: README, roadmap and mail rules now match the new automation; the private brief template and sender lists are gone from the repo.
 - **News without Claude.** A GitHub Action (`.github/workflows/news.yml`, script `scripts/news.mjs`) reads public RSS feeds at 6 am and 2 pm IST and writes `data/news.json`. Cards that have no "Why it matters" line now hide that line instead of showing an empty one.
 - Smoke test no longer fails on Sundays and Mondays, when the weekly review banner shows above the exam banner.
 - Mail and calendar automation moved out of Claude: Google Apps Script handles the class timetable and inbox sorting, and two short Claude sweeps (2 pm and 9 pm IST) handle the mail that needs judgment. These scripts are not in this repo because they hold personal sender rules.
