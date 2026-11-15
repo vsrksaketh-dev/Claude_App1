@@ -17,8 +17,8 @@ const story = (n, lead) => {
   const saved = S.pages.some(x => !x.trashed && x.src === n.title);
   const title = `<span class="title">${esc(n.title)}</span>`;
   return `<div class="story${lead ? ' lead' : ''}"><div class="row"><span class="chip">${esc(n.cat)}</span>${n.kind === 'fact' ? '<span class="chip plain">Fact</span>' : ''}</div>
-    ${link ? `<a class="storylink" href="${esc(n.url)}" target="_blank" rel="noopener noreferrer">${title}</a>` : title}<p${link ? ' class="clamp"' : ''}>${esc(n.summary)}</p>
-    <p class="why"><b>Why it matters.</b> ${esc(n.why)}</p>
+    ${link ? `<a class="storylink" href="${esc(n.url)}" target="_blank" rel="noopener noreferrer">${title}</a>` : title}${n.summary ? `<p${link ? ' class="clamp"' : ''}>${esc(n.summary)}</p>` : ''}
+    ${n.why ? `<p class="why"><b>Why it matters.</b> ${esc(n.why)}</p>` : ''}
     <div class="row between"><span class="muted">${esc(n.src)}</span><span class="row" style="gap:6px"><button class="ghost ${isSaved(n) ? 'on' : ''}" data-act="storySave" data-t="${esc(n.title)}" aria-pressed="${isSaved(n)}">${isSaved(n) ? 'Saved' : 'Save'}</button>${saved ? '<span class="chip ok">In Notes</span>' : n.i !== undefined ? `<button class="ghost" data-act="talkPoint" data-i="${n.i}">Talking point</button>` : ''}${link ? `<a class="chip" href="${esc(n.url)}" target="_blank" rel="noopener noreferrer">Read</a>` : ''}</span></div></div>`;
 };
 function newsTab() {

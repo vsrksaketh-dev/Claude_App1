@@ -1,0 +1,30 @@
+name: Daily news
+
+# Public RSS feeds only, no email or personal data. Writes data/news.json, which the app and the News widget read.
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '30 0 * * *'   # 06:00 IST
+    - cron: '30 8 * * *'   # 14:00 IST refresh
+
+permissions:
+  contents: write
+
+jobs:
+  news:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - run: node tests/news.test.mjs
+      - run: node scripts/news.mjs
+      - name: Commit if changed
+        run: |
+          if git diff --quiet -- data/news.json; then echo "No change"; exit 0; fi
+          git config user.name "daily-news"
+          git config user.email "daily-news@users.noreply.github.com"
+          git add data/news.json
+          git commit -m "Daily news $(date -u -d '+5 hours 30 minutes' +%F)"
+          git push
