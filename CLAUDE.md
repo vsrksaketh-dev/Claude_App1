@@ -56,3 +56,8 @@ Run the smoke test after any change to `js/`, and the widget test after any chan
 - Motion is gentle (entrance rise, tick pop, list glide) and switched off by `prefers-reduced-motion`.
 - Home is today as one timeline (`js/views/home.js`): the date, banners only when they matter (exams within three weeks, the weekly review on Sunday and Monday), quick add, then the day on a time rail (classes, typed events, deadlines, timed tasks, the now line, free gaps of 45 minutes or more with a Plan button that places an untimed task there), then Anytime tasks, inbox items, and habits as a row of dots. Sections with nothing to show are hidden.
 - Keep `main` a single-column grid with `minmax(0, 1fr)`; without it wide content stretches past the screen.
+
+## Automation (outside Claude)
+- News: `.github/workflows/news.yml` runs `scripts/news.mjs` (RSS, no dependencies, `node tests/news.test.mjs`) at 6 am and 2 pm IST and commits `data/news.json`. Stories have an empty `why`; the app hides empty lines. Feed list is `FEEDS` in the script.
+- Mail: the class timetable and inbox sorting run as Google Apps Script in the user's own accounts (not in this repo, they hold personal rules). Two short Claude sweeps (2 pm and 9 pm IST, fresh sessions, Sonnet) read only mail labelled `ForClaude` and write calendar items that this app reads over iCal. The old session-bound routines are disabled, not deleted, because deleting a routine also deletes the sessions it ran in.
+- Keep this chat for app work. `CHANGELOG.md` lists recent app changes by date.
