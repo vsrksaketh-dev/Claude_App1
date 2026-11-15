@@ -6,9 +6,10 @@ const atom = `<feed><entry><title>Atom story</title><link href="https://ex.com/b
 const a = parseFeed(rss), b = parseFeed(atom);
 assert.equal(a.length, 1); assert.equal(a[0].title, 'Rates held steady & markets rise'); assert.equal(a[0].link, 'https://ex.com/a');
 assert.equal(summarise(a[0].desc, a[0].title), 'The central bank kept rates. Markets rose 1%.');
+assert.equal(parseFeed('<rss><item><title>T</title><link>https://x/y</link><description>&lt;p&gt;Hello there.&lt;/p&gt;</description></item></rss>')[0].desc, 'Hello there.');
 assert.equal(b[0].link, 'https://ex.com/b'); assert.equal(summarise('Same title', 'Same title'), '');
 const now = Date.parse('2026-11-14T06:00:00Z');
 const e = (title, src, h) => ({ title, src, link: 'https://x/' + title, desc: '', when: now - h * 3600e3 });
 const got = pick([e('Court rules on big merger deal', 'A', 1), e('Big merger deal ruled by court', 'B', 2), e('Old news', 'A', 90), e('Other story today', 'B', 3)], now);
-assert.deepEqual(got.map(x => x.title).sort(), ['Court rules on big merger deal', 'Other story today']);
+assert.deepEqual(got.map(x => x.title), ['Court rules on big merger deal', 'Other story today']);
 console.log('news tests passed');

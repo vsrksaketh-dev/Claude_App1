@@ -33,6 +33,7 @@ const decode = s => s
   .replace(/&#x([0-9a-f]+);/gi, (_, n) => String.fromCodePoint(parseInt(n, 16)))
   .replace(/&nbsp;/g, ' ').replace(/&amp;/g, '&').replace(/&lt;/g, '<').replace(/&gt;/g, '>')
   .replace(/&quot;/g, '"').replace(/&#39;|&apos;/g, "'").replace(/&rsquo;/g, '’').replace(/&lsquo;/g, '‘')
+  .replace(/<[^>]*>/g, ' ')            // markup that arrived entity-encoded
   .replace(/\s+/g, ' ').trim();
 
 const tag = (block, name) => {
@@ -68,7 +69,8 @@ const words = t => new Set(t.toLowerCase().replace(/[^a-z0-9 ]/g, ' ').split(/\s
 const similar = (a, b) => { const x = words(a), y = words(b); let n = 0; for (const w of x) if (y.has(w)) n++; return n / Math.max(1, Math.min(x.size, y.size)) > 0.6; };
 
 export function pick(entries, now = Date.now()) {
-  const fresh = entries.filter(e => !e.when || now - e.when < MAX_AGE_H * 3600e3).sort((a, b) => b.when - a.when);
+  // Keep each outlet's own order: feeds put their lead stories first, which beats sorting by time.
+  const fresh = entries.filter(e => !e.when || now - e.when < MAX_AGE_H * 3600e3);
   const chosen = [];
   for (const e of fresh) {
     if (chosen.some(c => similar(c.title, e.title))) continue; // same event from another outlet
