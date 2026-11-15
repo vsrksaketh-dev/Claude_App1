@@ -344,7 +344,7 @@ const ok = (name, cond) => { console.log((cond ? 'PASS ' : 'FAIL ') + name); if 
   await p.fill('.sheet [data-form=topicAdd] [name=x]', 'Unit 2: incentives'); await p.click('.sheet [data-form=topicAdd] button.primary');
   await p.click('.sheet [data-act=topicTick] >> nth=0'); await p.mouse.click(195, 15);
   ok('revision topics give a progress bar and a daily target', /1 of 2 topics revised/.test(await view()) && /Revise 1 topic today/.test(await view()));
-  await nav('home'); ok('Home shows the exam banner', /PERMGT end-term in 7 days/.test(await p.textContent('.banner')));
+  await nav('home'); ok('Home shows the exam banner', /PERMGT end-term in 7 days/.test((await p.locator('.banner').allTextContents()).join(' ')));
   ok('exams are on the calendar as deadlines', await p.evaluate(async () => { const a = await import('/js/agenda.js'); const u = await import('/js/util.js'); return a.agendaOn(u.addDays(u.today(), 7)).some(e => e.exam && /PERMGT/.test(e.title)); }));
   await p.evaluate(async () => { const c = await import('/js/core.js'); c.S.exams = []; c.go('review'); });
   ok('the weekly review shows the week and the open tasks', /This week/.test(await view()) && /Still open/.test(await view()));
