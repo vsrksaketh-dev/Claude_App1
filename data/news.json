@@ -1,22 +1,46 @@
 {
   "date": "2026-11-20",
-  "generated": "2026-11-20T13:04:03+05:30",
+  "generated": "2026-11-20T22:34:00+05:30",
   "items": [
     {
       "cat": "International",
-      "title": "UK and EU to agree youth mobility scheme, BBC understands",
-      "summary": "The scheme is expected to be approved at Friday's UK-EU summit, with new deals on food trade and carbon emissions also on the table.",
+      "title": "Russian missile hits Poland as Ukraine's allies hold military exercise, says Tusk",
+      "summary": "Nobody was hurt and no damage has been reported, but Warsaw described the incident as a \"provocation\" from Moscow.",
       "why": "",
       "src": "BBC News",
-      "url": "https://www.bbc.co.uk/news/articles/c623j4kpg94go?at_medium=RSS&at_campaign=rss"
+      "url": "https://www.bbc.co.uk/news/articles/cqx2x9dklxnro?at_medium=RSS&at_campaign=rss"
     },
     {
       "cat": "International",
-      "title": "EU and Britain to agree steps towards relations reset",
-      "summary": "A decade after Brexit, London is signalling a willingness to align more closely with the EU on various policies.",
+      "title": "10 years after divisive Brexit referendum, UK weighs a ‘Breturn’ to the EU",
+      "summary": "Prime Minister Andy Burnham returns from the UK-EU summit with a potential new deal and a new start.",
       "why": "",
       "src": "Al Jazeera",
-      "url": "https://www.aljazeera.com/news/2026/11/20/eu-and-britain-to-agree-steps-towards-relations-reset?traffic_source=rss"
+      "url": "https://www.aljazeera.com/news/2026/11/20/10-years-after-divisive-brexit-referendum-uk-weighs-a-breturn-to-the-eu?traffic_source=rss"
+    },
+    {
+      "cat": "International",
+      "title": "California’s coastal communities on alert as biggest waves in years hit state",
+      "summary": "Hazard warnings issued throughout week after powerful swells and waves of more than 9 metres recorded Multiple coastal hazard warnings were issued this week across California as successive areas of low pressure generated powerful swells and large breaking waves for coastal communities. Beaches and piers were closed...",
+      "why": "",
+      "src": "The Guardian",
+      "url": "https://www.theguardian.com/us-news/2026/nov/20/california-coastal-communities-alert-big-waves-hit-state"
+    },
+    {
+      "cat": "International",
+      "title": "Russia targets Kyiv crossings days after Ukraine hits Crimean Bridge",
+      "summary": "Russia launched one of its biggest air attacks yet as it rejected the prospect of security guarantees for Ukraine.",
+      "why": "",
+      "src": "BBC News",
+      "url": "https://www.bbc.co.uk/news/articles/c6x29gn4pdn9o?at_medium=RSS&at_campaign=rss"
+    },
+    {
+      "cat": "International",
+      "title": "Qatar and Germany deepen strategic ties during emir’s Berlin visit",
+      "summary": "5bn in new investments as the two countries deepen defence and technology ties.",
+      "why": "",
+      "src": "Al Jazeera",
+      "url": "https://www.aljazeera.com/news/2026/11/20/qatar-and-germany-deepen-strategic-ties-during-emirs-berlin-visit?traffic_source=rss"
     },
     {
       "cat": "International",
@@ -27,172 +51,148 @@
       "url": "https://www.theguardian.com/environment/2026/nov/19/baobab-five-trees-south-africa-dug-up-export-blocked-georgia-aoe"
     },
     {
-      "cat": "International",
-      "title": "Anthropic becomes one of world's most valuable public companies in stock market debut",
-      "summary": "Anthropic is the first purely AI company to be publicly listed, creating a test for the entire industry.",
-      "why": "",
-      "src": "BBC News",
-      "url": "https://www.bbc.co.uk/news/articles/c3x29ggenz12o?at_medium=RSS&at_campaign=rss"
-    },
-    {
-      "cat": "International",
-      "title": "Sandpapergate: Australian gov’t demands CA to ensure transparency in forum",
-      "summary": "Cricket Australia's Sandpapergate forum for players to give their accounts has been ridiculed by former cricketers.",
-      "why": "",
-      "src": "Al Jazeera",
-      "url": "https://www.aljazeera.com/sports/2026/11/20/sandpapergate-australia-ball-tampering-2018-scandal-cricket-government-bancroft-cummins?traffic_source=rss"
-    },
-    {
-      "cat": "International",
-      "title": "One in four women globally unable to refuse sex within marriage, says UN",
-      "summary": "Almost half of women in west and central Africa cannot withhold consent, with girls worst affected, UNFPA finds One in four women around the world have no power of consent if their husband or partner demands sex, according to a UN report. In west and central Africa, almost half of women (45%) are not able to say no...",
-      "why": "",
-      "src": "The Guardian",
-      "url": "https://www.theguardian.com/global-development/2026/nov/19/women-girls-rights-rape-sexual-violence-africa-marriage-unfpa"
-    },
-    {
       "cat": "Indian",
-      "title": "SC dismisses T.N.'s pleas seeking direction to Karnataka for release of 11 TMC of water from Cauvery river | LIVE",
-      "summary": "Tamil Nadu accused Karnataka of withholding water despite having sufficient reserves",
+      "title": "Unions urge Railway Board to recognise Chief Loco Inspectors as running staff",
+      "summary": "",
       "why": "",
       "src": "The Hindu",
-      "url": "https://www.thehindu.com/news/national/cauvery-water-sharing-dispute-tamil-nadu-karnataka-supreme-court-judgement-live-updates-november-20-2026/article71723088.ece"
+      "url": "https://www.thehindu.com/news/national/telangana/unions-urge-railway-board-to-recognise-chief-loco-inspectors-as-running-staff/article71725346.ece"
     },
     {
       "cat": "Indian",
-      "title": "'Impossible for us to accept': Rahul Gandhi's response to question on Pakistan talks",
+      "title": "Ex-IAF vice-chief slams UK report claiming India has 32 Rafales instead of 36 as 'patently false'",
       "summary": "",
       "why": "",
       "src": "Times of India",
-      "url": "https://timesofindia.indiatimes.com/india/impossible-for-us-to-accept-rahul-gandhis-response-to-question-on-pakistan-talks/articleshow/136011144.cms"
+      "url": "https://timesofindia.indiatimes.com/india/ex-iaf-vice-chief-slams-uk-report-claiming-india-has-32-rafales-instead-of-36-as-patently-false/articleshow/136032707.cms"
     },
     {
       "cat": "Indian",
-      "title": "1.6 lakh candidates expected to take preliminary written test for Telangana SI and equivalent posts on November 29",
-      "summary": "Hall tickets from November 22 to 28. m.",
+      "title": "U.S. court sentences Indian national Nikhil Gupta to 235 months in jail in Pannun murder plot",
+      "summary": "Nikhil Gupta pleaded guilty earlier this year to charges of murder-for-hire, conspiracy to commit murder-for-hire, and conspiracy to commit money laundering, in connection with his efforts to murder Khalistani separatist Gurpatwant Singh Pannun in New York",
       "why": "",
       "src": "The Hindu",
-      "url": "https://www.thehindu.com/news/national/telangana/16-lakh-candidates-expected-to-take-preliminary-written-test-for-telangana-si-and-equivalent-posts-on-november-29/article71723456.ece"
+      "url": "https://www.thehindu.com/news/national/us-court-sentences-indian-national-nikhil-gupta-to-235-months-in-jail-in-murder-for-hire-plot/article71725795.ece"
     },
     {
       "cat": "Indian",
-      "title": "Rahul Gandhi calls India a ‘side player’ in geopolitics; BJP hits back with ‘Pak fanboy’ jibe",
+      "title": "Government hails growing trust as US navy vessel undergoes repair in India",
       "summary": "",
       "why": "",
       "src": "Times of India",
-      "url": "https://timesofindia.indiatimes.com/india/rahul-gandhi-calls-india-a-side-player-in-geopolitics-bjp-hits-back-with-pak-fanboy-jibe/articleshow/136014416.cms"
+      "url": "https://timesofindia.indiatimes.com/india/government-hails-growing-trust-as-us-navy-vessel-undergoes-repair-in-india/articleshow/136032711.cms"
     },
     {
       "cat": "Indian",
-      "title": "Man involved in exploitation of 14 women deported from UAE: CBI",
-      "summary": "The fugitive, Mohd Mazin, had an Interpol Red Notice against him",
-      "why": "",
-      "src": "The Hindu",
-      "url": "https://www.thehindu.com/news/national/man-involved-in-exploitation-of-14-women-deported-from-uae-cbi/article71723431.ece"
-    },
-    {
-      "cat": "Indian",
-      "title": "Supreme Court declines Tamil Nadu's plea seeking 11 TMC Cauvery water from Karnataka",
+      "title": "Nitin Nabin to lead BJP’s ‘Maha Padayatra’ in Karimnagar on Nov. 23",
       "summary": "",
       "why": "",
+      "src": "The Hindu",
+      "url": "https://www.thehindu.com/news/national/telangana/nitin-nabin-to-lead-bjps-maha-padayatra-in-karimnagar-on-nov-23/article71725025.ece"
+    },
+    {
+      "cat": "Indian",
+      "title": "Government avoids war of words, fears extradition push is a delaying tactic",
+      "summary": "Bangladesh's Prime Minister Tarique Rahman has leveled serious allegations at India and the Awami League, previously led by Sheikh Hasina, suggesting they are stoking discord. The Indian government refrains from offering comments, emphasizing its commitment to fostering a positive relationship with Bangladesh.",
+      "why": "",
       "src": "Times of India",
-      "url": "https://timesofindia.indiatimes.com/india/supreme-court-declines-tamil-nadus-plea-seeking-11-tmc-cauvery-water-from-karnataka/articleshow/136014622.cms"
+      "url": "https://timesofindia.indiatimes.com/india/government-avoids-war-of-words-fears-extradition-push-is-a-delaying-tactic/articleshow/136031685.cms"
     },
     {
       "cat": "Business",
-      "title": "SC raps CCI for six-year delay in Star-Sony anti-trust appeal, junks plea",
-      "summary": "The Supreme Court questioned the CCI over its appeal against erstwhile Star India, now JioStar, and Sony Pictures Network, filed in 2020 against a 2019 Bombay High Court ruling, remaining pending without even a notice being issued",
+      "title": "Tukaram Mundhe's FDA suspends licences of Blinkit, Chaayos, 5 Spice among 6 Mumbai establishments: What inspection found",
+      "summary": "Mumbai FDA suspended the licences of six establishments after inspections uncovered serious hygiene violations, including cockroaches, flies, uncovered dustbins, unsafe food storage and faulty equipment. The regulator said the breaches of food safety standards posed a public health threat.",
       "why": "",
       "src": "Mint",
-      "url": "https://www.livemint.com/companies/news/supreme-court-cci-star-sony-anti-trust-appeal-11795153989557.html"
+      "url": "https://www.livemint.com/companies/news/tukaram-mundhes-fda-suspends-licences-of-blinkit-chaayos-5-spice-among-6-mumbai-establishments-what-inspection-found-11795188506556.html"
     },
     {
       "cat": "Business",
-      "title": "Asim Munir's great grab for Pakistan's resources",
+      "title": "HCL's Shiv Nadar most generous Indian",
       "summary": "",
       "why": "",
       "src": "Economic Times",
-      "url": "https://economictimes.indiatimes.com/news/international/world-news/mineral-marshall-asim-munirs-great-grab-for-pakistans-resources/articleshow/135996098.cms"
+      "url": "https://economictimes.indiatimes.com/news/company/corporate-trends/hcls-nadar-most-generous-indian-adani-doubles-donations-ambanis-support-down-1-report/articleshow/136033675.cms"
     },
     {
       "cat": "Business",
-      "title": "Indian space startup SatSure raises ₹60 crore from govt-backed space fund",
-      "summary": "The investment is part of a ₹200 crore Series B round that includes fresh equity, venture debt and secondary transactions, which the Bengaluru-based startup expects to close by December 2026",
+      "title": "Threats, insults, settlements: How Jensen Huang made humiliation routine",
+      "summary": "The Nvidia co-founder's belittling behavior toward employees goes back decades.",
       "why": "",
       "src": "Business Standard",
-      "url": "https://www.business-standard.com/companies/start-ups/indian-space-startup-satsure-raises-60-crore-from-govt-backed-space-fund-126112000381_1.html"
+      "url": "https://www.business-standard.com/world-news/threats-insults-settlements-how-jensen-huang-made-humiliation-routine-126112001094_1.html"
     },
     {
       "cat": "Business",
-      "title": "Abhinav Agarwal quits Amazon after 16 years: Why industry watchers are calling him Prime India's architect",
-      "summary": "Amazon Prime India head Abhinav Agarwal has quit after 16 years at Amazon. E-commerce veteran Satyarth Priyedarshi called him the programme's architect, highlighting his role in driving Prime's growth and customer retention strategy.",
+      "title": "Who is Travis Kalanick? What Uber co-founder is planning after Jensen Huang episode at Nvidia; details here",
+      "summary": "Uber co-founder Travis Kalanick says he may demonstrate at Nvidia’s headquarters to support efforts to bring back former CEO Jensen Huang. His comments join public appeals from technology leaders and investors, although Nvidia’s board has indicated it does not plan to reinstate Huang.",
       "why": "",
       "src": "Mint",
-      "url": "https://www.livemint.com/companies/people/abhinav-agarwal-quits-amazon-after-16-years-why-industry-watchers-are-calling-him-prime-indias-architect-11795155136255.html"
+      "url": "https://www.livemint.com/companies/people/who-is-travis-kalanick-what-uber-co-founder-is-planning-after-jensen-huang-episode-at-nvidia-details-here-11795183802199.html"
     },
     {
       "cat": "Business",
-      "title": "SpiceJet eyes another turnaround with Rs 5,500 cr",
+      "title": "Tata Trusts clears Rs 250 cr plus grants",
       "summary": "",
       "why": "",
       "src": "Economic Times",
-      "url": "https://economictimes.indiatimes.com/industry/transportation/airlines-/-aviation/spicejet-reviva-story-rs-5500-crore-fundraise-financial-crisis-plan-another-chance-share-price-aviation-market-share/articleshow/136016791.cms"
+      "url": "https://economictimes.indiatimes.com/news/company/corporate-trends/tata-trusts-approves-over-rs-250-crore-in-grants-ahead-of-critical-tata-sons-board-meeting/articleshow/136033545.cms"
     },
     {
       "cat": "Business",
-      "title": "India's wheat acreage may see steepest fall in 26 years on water shortage",
-      "summary": "Weak monsoon rains have prompted farmers in key growing states to shift to less water-intensive crops such as chickpeas, raising concerns over wheat output and food inflation",
+      "title": "Tata Trusts meet 'routine', ahead of likely faceoff at Tata Sons board",
+      "summary": "Sir Dorabji Tata Trust approved philanthropic grants, including ₹50 crore for Jehangir Hospital, but kept Tata Sons' proposed listing and restructuring plans off its agenda.",
       "why": "",
       "src": "Business Standard",
-      "url": "https://www.business-standard.com/industry/agriculture/india-s-wheat-acreage-may-see-steepest-fall-in-26-years-on-water-shortage-126112000350_1.html"
+      "url": "https://www.business-standard.com/companies/news/tata-trusts-meet-routine-ahead-of-likely-faceoff-at-tata-sons-board-126112000966_1.html"
     },
     {
       "cat": "Tech",
-      "title": "Apple may be developing its own AI agent that runs your Mac",
-      "summary": "The iPhone maker appears to be building agents that can compete with the likes of Meta Muse, Instinct, Claude, and OpenAI Dots.",
+      "title": "Bending Spoons buys Mailchimp for $3.68 billion",
+      "summary": "Intuit acquired the company in 2021 for roughly $12 billion, so it looks like Bending Spoons is getting quite a bargain.",
       "why": "",
       "src": "TechCrunch",
-      "url": "https://techcrunch.com/2026/11/19/apple-may-be-developing-its-own-ai-agent-that-runs-your-mac/"
+      "url": "https://techcrunch.com/2026/11/20/bending-spoons-buys-mailchimp-for-3-68-billion/"
     },
     {
       "cat": "Tech",
-      "title": "Apple is hiring engineers to build its own AI agent",
-      "summary": "Apple is working on its own AI agent that can perform a range of tasks for you, including browsing the web, working across apps, writing code, and calling services. That's according to a job listing spotted by Bloomberg, which says Apple is looking for an engineer to lead the creation of an agentic AI assistant.",
+      "title": "Anthropic mathematician claims to have solved prestigious Millennium Prize problem with Claude",
+      "summary": "Anthropic mathematician Levent Alpöge claims he has proved the Riemann hypothesis, one of mathematics's most notoriously difficult problems, with the help of Claude, cracking a puzzle that has eluded some of the world's best mathematicians for decades.",
       "why": "",
       "src": "The Verge",
-      "url": "https://www.theverge.com/tech/1038227/apple-ai-agent-engineer-job-listing"
+      "url": "https://www.theverge.com/ai-artificial-intelligence/1010051/anthropic-riemann-hypothesis-millennium-prize-problem"
     },
     {
       "cat": "Tech",
-      "title": "Amazon fights the Delivery Protection Act with homepage banner, in-app pop-up",
-      "summary": "Amazon now uses its shopping platform for political purposes.",
+      "title": "Valve says it might have to raise the price of supply-limited Steam Machines",
+      "summary": "\"We don't yet know the number we are able to make, and at what price...\"",
       "why": "",
       "src": "Ars Technica",
-      "url": "https://arstechnica.com/tech-policy/2026/11/amazon-takes-its-fight-against-nyc-delivery-bill-to-shoppers-with-in-app-pop-up/"
+      "url": "https://arstechnica.com/gaming/2026/11/valve-says-it-might-have-to-raise-the-price-of-supply-limited-steam-machines/"
     },
     {
       "cat": "Tech",
-      "title": "Anthropic’s 7 founders cashed out nearly $2B in record-breaking IPO",
-      "summary": "At the upgraded $83/share IPO price, Anthropic's seven founders each pocketed $280 million, while the company nabbed nearly $105 billion.",
+      "title": "A transcription firm used by police, prosecutors and tech giants exposed customer data online",
+      "summary": "Exclusive: A simple security lapse exposed transcriptions of police interviews and bodycam footage on a cloud server without a password.",
       "why": "",
       "src": "TechCrunch",
-      "url": "https://techcrunch.com/2026/11/19/anthropics-7-founders-cashed-out-nearly-2b-in-record-breaking-ipo/"
+      "url": "https://techcrunch.com/2026/11/20/a-transcription-firm-used-by-police-prosecutors-and-tech-giants-exposed-customer-data-online/"
     },
     {
       "cat": "Tech",
-      "title": "A brief history of Nvidia’s recent stock fluctuations",
-      "summary": "\"We've got this,\" Colette Kress, interim CEO of Nvidia, said Tuesday night as she closed out the embattled chip company's third quarter earnings call.",
+      "title": "Boys Noize turns to the club (and an obscure Italian synth) for inspiration on 7LLVSION",
+      "summary": "If you're wondering how Alex Ridha's (aka Boys Noize) collaboration with Nine Inch Nails influenced his new record 7LLVSION, the answer is simple: It didn't.",
       "why": "",
       "src": "The Verge",
-      "url": "https://www.theverge.com/ai-artificial-intelligence/1038063/nvidia-stock-market-price-earnings"
+      "url": "https://www.theverge.com/entertainment/1038444/boys-noize-7llvsion-interview"
     },
     {
       "cat": "Tech",
-      "title": "MAHA PAC spent more on steak, luxury club than candidates, report shows",
-      "summary": "Expert called MAHA's spending \"pretty unusual\" for a PAC.",
+      "title": "US will soon announce root cause behind FAA nationwide ground stop",
+      "summary": "Former FAA insider on reducing the risks of upgrading a decades-old network.",
       "why": "",
       "src": "Ars Technica",
-      "url": "https://arstechnica.com/health/2026/11/maha-pac-spent-more-on-steak-luxury-club-than-candidates-report-shows/"
+      "url": "https://arstechnica.com/gadgets/2026/11/how-faa-can-modernize-us-national-airspace-system-without-emergency-ground-stops/"
     }
   ]
 }
