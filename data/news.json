@@ -1,22 +1,46 @@
 {
-  "date": "2026-11-22",
-  "generated": "2026-11-22T21:59:02+05:30",
+  "date": "2026-11-23",
+  "generated": "2026-11-23T13:26:52+05:30",
   "items": [
     {
       "cat": "International",
-      "title": "Explosion on Russian ship at Libya port caused by suspected drone attack, officials say",
-      "summary": "Libya's eastern government says it is working with Russia to investigate the incident.",
+      "title": "Longest-ever UN climate talks end with no deal as deep divisions exposed",
+      "summary": "The prime minister of Australia, which co-hosted COP31, attributed the failure to \"difficult geopolitical times\".",
       "why": "",
       "src": "BBC News",
-      "url": "https://www.bbc.co.uk/news/articles/cr894gjz0j0yo?at_medium=RSS&at_campaign=rss"
+      "url": "https://www.bbc.co.uk/news/articles/cqwy06zrd26lo?at_medium=RSS&at_campaign=rss"
     },
     {
       "cat": "International",
-      "title": "Canada’s PM appears next to Trump impersonator at press dinner",
-      "summary": "A Donald Trump impersonator took to the stage alongside Mark Carney at Canada’s annual Parliamentary Press Gallery.",
+      "title": "MotoGP maestro Marquez makes history with eighth premier-class world title",
+      "summary": "His eighth success in the premier class of motorcycling pulled Marc Marquez level with Italian great Giacomo Agostini.",
       "why": "",
       "src": "Al Jazeera",
-      "url": "https://www.aljazeera.com/video/newsfeed/2026/11/22/canadas-pm-appears-next-to-trump-impersonator-at-press-dinner?traffic_source=rss"
+      "url": "https://www.aljazeera.com/sports/2026/11/23/marc-marquez-motogp-world-title-eighth-premier-class-motorcyling-portugal-gp?traffic_source=rss"
+    },
+    {
+      "cat": "International",
+      "title": "Russian warship sinks in Benghazi after suspected Ukrainian drone attack",
+      "summary": "No one has claimed responsibility for the strike on the vessel, which had docked on its way back to Russia A Russian warship docked in the Libyan port city of Benghazi was struck in the early hours of Sunday in a suspected Ukrainian sea drone attack, causing a dramatic night-time explosion and the sinking of the...",
+      "why": "",
+      "src": "The Guardian",
+      "url": "https://www.theguardian.com/world/2026/nov/22/blast-russian-ship-suspected-drone-attack-benghazi-libya"
+    },
+    {
+      "cat": "International",
+      "title": "What's next after no deal at COP31 climate talks?",
+      "summary": "The talks have been the longest-running in the summit's history, with negotiations breaking down two days after they had been due to end.",
+      "why": "",
+      "src": "BBC News",
+      "url": "https://www.bbc.co.uk/news/videos/cr1ewge81q4qo?at_medium=RSS&at_campaign=rss"
+    },
+    {
+      "cat": "International",
+      "title": "India-Pakistan cricket fans want ‘dirty politics’ kept out of beloved sport",
+      "summary": "Cricket's die-hard fans say players are being forced to take part in acts of aggression for the benefit of politicians.",
+      "why": "",
+      "src": "Al Jazeera",
+      "url": "https://www.aljazeera.com/sports/2026/11/23/india-pakistan-cricket-fans-want-dirty-politics-kept-out-of-beloved-sport?traffic_source=rss"
     },
     {
       "cat": "International",
@@ -27,140 +51,116 @@
       "url": "https://www.theguardian.com/news/2026/nov/22/bank-of-england-directors-illegally-profited-enslavement-cuba"
     },
     {
-      "cat": "International",
-      "title": "South Korea education minister resigns over exam cheating scandal",
-      "summary": "Choi Kyo-jin admits last-minute measures to stop AI-assisted cheating during the college entrance exam caused chaos.",
-      "why": "",
-      "src": "BBC News",
-      "url": "https://www.bbc.co.uk/news/articles/cw3dgk29d37no?at_medium=RSS&at_campaign=rss"
-    },
-    {
-      "cat": "International",
-      "title": "Can we build a more ethical AI future?",
-      "summary": "Marc Lamont Hill speaks with tech entrepreneur Anil Dash about AI's risks and the fight for ethical technology.",
-      "why": "",
-      "src": "Al Jazeera",
-      "url": "https://www.aljazeera.com/video/upfront/2026/11/22/can-we-build-a-more-ethical-ai-future?traffic_source=rss"
-    },
-    {
-      "cat": "International",
-      "title": "Haitians excited but uneasy as El Salvador troops fight gangs",
-      "summary": "Foreign combatants in Port-au-Prince welcomed by many after years of gang control but some fear offensive could exacerbate volatile situation A bullet-peppered mural of the Haitian striker Emmanuel Sanon covers the facade of Port-au-Prince’s main football ground. But more than two years have passed since any sports...",
-      "why": "",
-      "src": "The Guardian",
-      "url": "https://www.theguardian.com/world/2026/nov/21/excitement-unease-haiti-el-salvador-troops-gangs-war-bukele"
-    },
-    {
       "cat": "Indian",
-      "title": "Traffic management, not enforcement, will be our priority: Bengaluru Traffic Commissioner",
-      "summary": "Hemant M.",
+      "title": "Supreme Court asks petitioner to move Allahabad High Court over ‘demolition’ of 100-year-old mosque at Saharanpur",
+      "summary": "Declining to directly examine the allegations, the Supreme Court asked the petitioner to approach the jurisdictional High Court, saying that every alleged violation of a Supreme Court judgment cannot be brought directly before the apex court",
       "why": "",
       "src": "The Hindu",
-      "url": "https://www.thehindu.com/news/cities/bangalore/traffic-management-not-enforcement-will-be-our-priority-bengaluru-traffic-commissioner/article71731255.ece"
+      "url": "https://www.thehindu.com/news/national/supreme-court-asks-petitioner-to-move-allahabad-high-court-over-demolition-of-100-year-old-mosque-at-saharanpur/article71733843.ece"
     },
     {
       "cat": "Indian",
-      "title": "'Destroyed credibility of polls': Congress alleges gaps in voting data across 200 seats in Lok Sabha polls",
+      "title": "Gangajal from Triveni, Rudraksh and Chandan from Pashupatinath: PM Modi, Nepal PM exchange gifts",
       "summary": "",
       "why": "",
       "src": "Times of India",
-      "url": "https://timesofindia.indiatimes.com/india/destroyed-credibility-of-polls-congress-alleges-gaps-in-voting-data-across-200-seats-in-lok-sabha-polls/articleshow/136078582.cms"
+      "url": "https://timesofindia.indiatimes.com/india/gangajal-from-triveni-rudraksh-and-chandan-from-pashupatinath-pm-modi-nepal-pm-exchange-gifts/articleshow/136093299.cms"
     },
     {
       "cat": "Indian",
-      "title": "Congress will return to power in Telangana for second term with 90 seats and one crore votes: Revanth Reddy",
-      "summary": "",
+      "title": "Earthmover at Amarnath Yatra stopover Sheshnag lake draws outrage from parties and locals",
+      "summary": "Demands are growing to stop such heavy machines in the ecologically fragile region",
       "why": "",
       "src": "The Hindu",
-      "url": "https://www.thehindu.com/news/national/telangana/congress-will-return-to-power-in-telangana-for-second-term-with-90-seats-and-one-crore-votes-revanth-reddy/article71732106.ece"
+      "url": "https://www.thehindu.com/news/national/jammu-and-kashmir/earthmover-at-amarnath-yatra-stopover-sheshnag-lake-draws-outrage-from-parties-and-locals/article71733818.ece"
     },
     {
       "cat": "Indian",
-      "title": "'Boycott him, get him treated': Cong's Ajay Rai slams Dhirendra Shastri over Lord Krishna remark",
+      "title": "Half a course, full consequences: How India is losing its antibiotics",
       "summary": "",
       "why": "",
       "src": "Times of India",
-      "url": "https://timesofindia.indiatimes.com/india/boycott-him-get-him-treated-congs-ajay-rai-slams-dhirendra-shastri-over-lord-krishna-remark/articleshow/136077752.cms"
+      "url": "https://timesofindia.indiatimes.com/india/half-a-course-full-consequences-how-india-is-losing-its-antibiotics/articleshow/136057353.cms"
     },
     {
       "cat": "Indian",
-      "title": "Bandi Sanjay inaugurates solar power system at Karimnagar gurudwara, lauds Sikh community",
-      "summary": "",
+      "title": "TMC MLA Sabina Yeasmin appears before NIA in connection with ‘attacks’ on judicial officers",
+      "summary": "The NIA has been probing the alleged attacks on judicial officers and a judge's vehicle during violence in the Kaliachak and Mothabari areas on April 1",
       "why": "",
       "src": "The Hindu",
-      "url": "https://www.thehindu.com/news/national/telangana/bandi-sanjay-inaugurates-solar-power-system-at-karimnagar-gurudwara-lauds-sikh-community/article71731861.ece"
+      "url": "https://www.thehindu.com/news/national/west-bengal/tmc-mla-sabina-yeasmin-appears-before-nia-in-connection-with-attacks-on-judicial-officers/article71733840.ece"
     },
     {
       "cat": "Indian",
-      "title": "Former England football captain David Beckham praises Madhya Pradesh teen who stopped her marriage",
+      "title": "Sachin Pilot calls possible BJP-Akali Dal reunion ‘pure opportunism’, declares ‘AAP govt’s term is over’",
       "summary": "",
       "why": "",
       "src": "Times of India",
-      "url": "https://timesofindia.indiatimes.com/india/former-england-football-captain-david-beckham-praises-madhya-pradesh-teen-who-stopped-her-child-marriage/articleshow/136077587.cms"
+      "url": "https://timesofindia.indiatimes.com/india/sachin-pilot-calls-possible-bjp-akali-dal-reunion-pure-opportunism-declares-aap-govts-term-is-over/articleshow/136091736.cms"
     },
     {
       "cat": "Business",
-      "title": "Who is Prerna Jha? Former Zee5 executive returns to Jio Studios as AVP – Marketing; what did she say?",
-      "summary": "Jio Studios has appointed Prerna Jha as Associate Vice President of Marketing, bringing her back for a second stint. After nearly two years leading digital solutions at Jakarta-based Whisper World, Jha returns with experience in film marketing, streaming, media and consumer research.",
+      "title": "‘Stringent quality controls with 90 tests’: Bisleri clarifies after FSSAI action over ‘unsafe’ packaged drinking water",
+      "summary": "FSSAI sanctioned prosecution against Bisleri after testing a packaged water sample and finding bromate levels above the prescribed limit; a referral lab also detected PAHs. Bisleri says subsequent testing found bromate within limits, disputes the findings and maintains its water is safe.",
       "why": "",
       "src": "Mint",
-      "url": "https://www.livemint.com/companies/people/who-is-prerna-jha-former-zee5-executive-returns-to-jio-studios-as-avp-marketing-what-did-she-say-11795360074422.html"
+      "url": "https://www.livemint.com/companies/news/stringent-quality-controls-with-90-tests-bisleri-clarifies-after-fssai-action-over-unsafe-packaged-drinking-water-11795419136379.html"
     },
     {
       "cat": "Business",
-      "title": "'Petrol, diesel prices rose 7% in India vs 70% globally'",
+      "title": "ET Wealth | Your portfolio needs more focus than SIP",
       "summary": "",
       "why": "",
       "src": "Economic Times",
-      "url": "https://economictimes.indiatimes.com/industry/energy/oil-gas/petrol-diesel-prices-rose-7-in-india-vs-50-70-globally-over-four-years-hardeep-puri/articleshow/136075385.cms"
+      "url": "https://economictimes.indiatimes.com/wealth/invest/worried-about-your-next-sip-why-your-existing-portfolio-needs-more-attention-than-your-next-instalment/articleshow/136033608.cms"
     },
     {
       "cat": "Business",
-      "title": "FarEye helps reduce e-commerce major Flipkart logistics expenses by 6%",
-      "summary": "This has enabled Flipkart Wholesale to improve fleet productivity without compromising delivery efficiency, reducing vehicle idle time by 10 per cent, Far Eye said in a statement",
+      "title": "Bulls take a breather! Sensex dives 1,000 pts intraday; a short-term blip?",
+      "summary": "Analysts said that Indian equity markets are likely to remain volatile, with weak global cues weighing on sentiment after a sharp technology-led sell-off in the US reignited concerns over AI valuation",
       "why": "",
       "src": "Business Standard",
-      "url": "https://www.business-standard.com/companies/news/fareye-helps-reduce-e-commerce-major-flipkart-logistics-expenses-by-6-126112200607_1.html"
+      "url": "https://www.business-standard.com/markets/news/bulls-take-a-breather-sensex-dives-1-000-pts-intraday-a-short-term-blip-126112300436_1.html"
     },
     {
       "cat": "Business",
-      "title": "JK Urbanscapes plans six hotels beyond metros to tap rising demand",
-      "summary": "India’s hospitality opportunity is becoming increasingly diverse, with growth extending beyond traditional hotel markets and formats. As business, leisure and experience-led travel evolve, developers and operators are taking a more market-led approach to identifying opportunities.",
+      "title": "Who is Bhaskar Bhat and why was the Tata veteran fined ₹3 lakhs by Marico for ‘insider trading’?",
+      "summary": "Marico fined Independent Director Bhaskar Bhat ₹3 lakh after his spouse bought 200 shares during a prohibited trading period. The Audit Committee deemed the breach inadvertent, and the penalty was remitted to SEBI’s Investor Protection and Education Fund.",
       "why": "",
       "src": "Mint",
-      "url": "https://www.livemint.com/companies/news/jk-urbanscapes-plans-six-hotels-beyond-metros-to-tap-rising-demand-hospitality-real-estate-11795328598109.html"
+      "url": "https://www.livemint.com/companies/people/who-is-bhaskar-bhat-and-why-was-the-tata-veteran-fined-rs-3-lakhs-by-marico-for-insider-trading-11795411886803.html"
     },
     {
       "cat": "Business",
-      "title": "COP31's climate deal hits a wall; India flags equity gap",
+      "title": "Make-in-India gaming dream remains unfinished quest",
       "summary": "",
       "why": "",
       "src": "Economic Times",
-      "url": "https://economictimes.indiatimes.com/news/india/india-flags-equity-concerns-at-cop31-says-climate-pact-dilutes-developed-nations-responsibility/articleshow/136078678.cms"
+      "url": "https://economictimes.indiatimes.com/industry/media/entertainment/india-gaming-industry-gta-6-pubg-pokemon-why-indian-game-developers-struggle-to-build-global-hits-gta-vi-to-pubg-make-in-india-gaming-dream-remains-biggest-unfinished-quest/articleshow/135964811.cms"
     },
     {
       "cat": "Business",
-      "title": "Tata Steel board clears ₹28K cr sale of two businesses to APL Apollo Tubes",
-      "summary": "Tata Steel will sell its tubes and pipes business for up to ₹11,700 crore and its entire stake in Tata Steel Colors for ₹16,300 crore to APL Apollo Tubes.",
+      "title": "India's new GDP series brings demand, supply estimates closer: RBI DG Gupta",
+      "summary": "RBI Deputy Governor Poonam Gupta says the revised GDP series has narrowed discrepancies between demand and supply estimates, while changes to CPI measurement will improve monetary policy decisions",
       "why": "",
       "src": "Business Standard",
-      "url": "https://www.business-standard.com/companies/news/tata-steel-board-clears-28k-cr-sale-of-two-businesses-to-apl-apollo-tubes-126112200721_1.html"
+      "url": "https://www.business-standard.com/economy/news/new-gdp-series-demand-supply-estimates-align-rbi-poonam-gupta-126112300390_1.html"
     },
     {
       "cat": "Tech",
-      "title": "Can a TV be too large? An investigation",
-      "summary": "Can a TV be too large? This writer's recent upgrade to a 65-inch OLED came with some unexpected challenges.",
+      "title": "How Notable Capital, GIC, and Baillie Gifford bet big on Anthropic before its IPO",
+      "summary": "Three significant backers share what gave them conviction to bet billions on Anthropic.",
       "why": "",
       "src": "TechCrunch",
-      "url": "https://techcrunch.com/2026/11/22/can-a-tv-be-too-large-an-investigation/"
+      "url": "https://techcrunch.com/2026/11/22/how-notable-capital-gic-and-baillie-gifford-bet-big-on-anthropic-before-its-ipo/"
     },
     {
       "cat": "Tech",
-      "title": "Protesters storm Meta offices in India",
-      "summary": "Members of the opposition Congress party protested outside Meta's offices in Delhi on Friday and appear to have entered the building in a video shared by CNN. Members of the party's youth wing are demanding the company restore accounts of party leaders and warned of more protests to come.",
+      "title": "Kodak’s next collectible is a tiny digital photo frame that doubles as a tracker",
+      "summary": "After expanding its Charmera collection with a Millennium Edition featuring Y2K-inspired designs earlier this year, Reto's follow-up to its tiny Kodak camera is an equally small digital photo frame you can use to display your shots.",
       "why": "",
       "src": "The Verge",
-      "url": "https://www.theverge.com/tech/1039732/protesters-storm-meta-offices-in-india"
+      "url": "https://www.theverge.com/tech/1038650/kodak-slidetag-keychain-photo-display-tracker-find-my-hub-google-apple-e-ink"
     },
     {
       "cat": "Tech",
@@ -172,19 +172,19 @@
     },
     {
       "cat": "Tech",
-      "title": "Signal restricts mobile screenshots as it confronts ‘existential threat’ of AI surveillance",
-      "summary": "Signal is limiting users' ability to take screenshots in both its Android and iOS apps.",
+      "title": "‘You Can See Everything’ has made more than $100M worldwide",
+      "summary": "The new Elizabeth Holmes documentary is just beginning to roll out internationally.",
       "why": "",
       "src": "TechCrunch",
-      "url": "https://techcrunch.com/2026/11/21/signal-restricts-mobile-screenshots-as-it-confronts-existential-threat-of-ai-surveillance/"
+      "url": "https://techcrunch.com/2026/11/22/you-can-see-everything-has-made-more-than-100m-worldwide/"
     },
     {
       "cat": "Tech",
-      "title": "Nintendo’s Switch 2 console is $50 off for Black Friday",
-      "summary": "Those hoping to save some cash on a Nintendo Switch 2 can do so starting today, November 22nd, through Saturday, December 5th, giving you plenty of time to think about it after Cyber Monday has passed.",
+      "title": "We haven’t seen the last of the major tech outages",
+      "summary": "Over the last week or so, we have seen a nationwide FAA ground stop, a multi-day Outlook outage that brought entire companies to a standstill, and a banking outage at JPMorgan Chase. But the consensus is that there are more to come.",
       "why": "",
       "src": "The Verge",
-      "url": "https://www.theverge.com/gadgets/1038181/nintendo-switch-2-black-friday-deal-mario-kart-world-bundle-2026-sale"
+      "url": "https://www.theverge.com/tech/1039851/major-tech-outages"
     },
     {
       "cat": "Tech",
