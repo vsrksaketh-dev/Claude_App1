@@ -1,7 +1,23 @@
 {
   "date": "2026-11-25",
-  "generated": "2026-11-25T01:05:52+05:30",
+  "generated": "2026-11-25T14:25:57+05:30",
   "items": [
+    {
+      "cat": "International",
+      "title": "Russia's own figures show almost 500,000 deaths in war in Ukraine",
+      "summary": "Leaked data reveal how the full-scale invasion of Ukraine has fundamentally changed mortality patterns in Russia.",
+      "why": "",
+      "src": "BBC News",
+      "url": "https://www.bbc.co.uk/news/articles/cmx27g533zwyo?at_medium=RSS&at_campaign=rss"
+    },
+    {
+      "cat": "International",
+      "title": "Saudi-led coalition intercepts Houthi attacks after Hodeidah strike",
+      "summary": "The escalation comes after the Yemeni rebel group threatened to attack the kingdom's Red Sea ports in retaliation.",
+      "why": "",
+      "src": "Al Jazeera",
+      "url": "https://www.aljazeera.com/news/2026/11/25/saudi-led-coalition-intercepts-houthi-attacks-after-hodeidah-strike?traffic_source=rss"
+    },
     {
       "cat": "International",
       "title": "US attorney general dodges questions about Nvidia investigation",
@@ -12,187 +28,171 @@
     },
     {
       "cat": "International",
-      "title": "Israel’s Ben-Gvir accused of seeking ‘religious war’ over mosque raids",
-      "summary": "Israeli police have confiscated mosque loudspeakers as far-right lawmakers push legislation to restrict call to prayer.",
+      "title": "Countries that thrive on global cooperation must help sustain it",
+      "summary": "Prosperous small states like Qatar should combine their diplomatic and economic resources to advance global stability.",
       "why": "",
       "src": "Al Jazeera",
-      "url": "https://www.aljazeera.com/news/2026/11/24/israels-ben-gvir-accused-of-seeking-religious-war-over-mosque-raids?traffic_source=rss"
+      "url": "https://www.aljazeera.com/opinions/2026/11/25/countries-that-thrive-on-global-cooperation-must-help-sustain-it?traffic_source=rss"
     },
     {
       "cat": "International",
-      "title": "What Jensen Huang's return teaches China's Xi about Trump",
-      "summary": "Huang being back at the helm of Nvidia is no guarantee of relief for Beijing.",
+      "title": "Huawei found guilty of stealing US trade secrets but acquitted of racketeering",
+      "summary": "The verdict follows a months-long trial in New York.",
       "why": "",
       "src": "BBC News",
-      "url": "https://www.bbc.co.uk/news/articles/c63rgpy50x98o?at_medium=RSS&at_campaign=rss"
+      "url": "https://www.bbc.co.uk/news/articles/cmy49ngydqzpo?at_medium=RSS&at_campaign=rss"
     },
     {
       "cat": "International",
-      "title": "Global landmine casualties hit a five-year high, driven by Myanmar, Syria",
-      "summary": "Landmine monitor found 84 percent of deaths caused by landmines were in Southeast Asia.",
+      "title": "Is Russia really aiming for a new European security architecture?",
+      "summary": "Moscow is piling on new demands in talks with Ukraine, either as a negotiating strategy or as a diversion.",
       "why": "",
       "src": "Al Jazeera",
-      "url": "https://www.aljazeera.com/news/2026/11/24/global-landmine-casualties-hit-a-five-year-high-driven-by-myanmar-syria?traffic_source=rss"
-    },
-    {
-      "cat": "International",
-      "title": "Nato chief vows defence against space threat after Russian nuclear satellite reports",
-      "summary": "German media said Russia planned to launch a satellite with a nuclear warhead into space in coming weeks.",
-      "why": "",
-      "src": "BBC News",
-      "url": "https://www.bbc.co.uk/news/articles/c9x2er1ry2mzo?at_medium=RSS&at_campaign=rss"
-    },
-    {
-      "cat": "International",
-      "title": "Senior Hamas security official killed in Israeli drone strikes",
-      "summary": "A senior Hamas security official has been killed in a series of Israeli strikes across Gaza",
-      "why": "",
-      "src": "Al Jazeera",
-      "url": "https://www.aljazeera.com/video/newsfeed/2026/11/24/senior-hamas-security-official-killed-in-israeli-drone-strikes?traffic_source=rss"
+      "url": "https://www.aljazeera.com/opinions/2026/11/25/is-russia-really-aiming-for-a-new-european-security-architecture?traffic_source=rss"
     },
     {
       "cat": "Indian",
-      "title": "Thousands participate at Maha Deepam festival in Tiruvannamalai temple",
+      "title": "Telangana HRC takes suo-motu cognizance of three workers’ deaths at Bachupally apartment; seeks detailed report",
+      "summary": "The workers died reportedly after inhaling poisonous gases while cleaning a septic tank. Telangana HRC sought details from Medchal district administration on ex-gratia and other assistance extended or proposed to the bereaved families.",
+      "why": "",
+      "src": "The Hindu",
+      "url": "https://www.thehindu.com/news/cities/Hyderabad/telangana-hrc-takes-suo-motu-cognizance-of-three-workers-deaths-seeks-detailed-report-from-maud-secretary/article71741562.ece"
+    },
+    {
+      "cat": "Indian",
+      "title": "Rahul Gandhi assets case: SC quashes Allahabad HC orders seeking CBI, ED inquiry",
       "summary": "",
       "why": "",
-      "src": "The Hindu",
-      "url": "https://www.thehindu.com/news/national/tamil-nadu/thousands-participate-at-maha-deepam-festival-in-tiruvannamalai-temple/article71738825.ece"
-    },
-    {
-      "cat": "Indian",
-      "title": "BSF constable dies by suicide in Arnia",
-      "summary": "In a tragic incident, Deva Nand Majhi, a young BSF constable stationed in Jammu and Kashmir, reportedly took his own life at a security camp. The shocking event unfolded in the Arnia border region late Monday night when he allegedly utilized his service weapon.",
-      "why": "",
       "src": "Times of India",
-      "url": "https://timesofindia.indiatimes.com/india/bsf-constable-dies-by-suicide-in-arnia/articleshow/136141172.cms"
+      "url": "https://timesofindia.indiatimes.com/india/rahul-gandhi-assets-case-sc-quashes-allahabad-hc-orders-seeking-cbi-ed-inquiry/articleshow/136153125.cms"
     },
     {
       "cat": "Indian",
-      "title": "Kerala High Court denies pre-arrest bail to former BLM Housing Society president",
-      "summary": "The case diary clearly portrays the serious nature of the allegations and the premeditated criminal act on his part, says court",
+      "title": "‘Saam, daam, dand, bhed’: Congress’ swipe at Modi Govt over delimitation issue",
+      "summary": "The Congress had earlier claimed that the continued suspense over the Parliament session suggested that either the \"PM-HM jodi\" is being trapped by its own bluff and bluster or something \"truly sinister\" is in the works",
       "why": "",
       "src": "The Hindu",
-      "url": "https://www.thehindu.com/news/national/kerala/kerala-high-court-denies-pre-arrest-bail-to-former-blm-housing-society-president/article71739580.ece"
+      "url": "https://www.thehindu.com/news/national/saam-daam-dand-bhed-congress-swipe-at-modi-govt-over-delimitation-issue/article71741621.ece"
     },
     {
       "cat": "Indian",
-      "title": "Cops stop Mehbooba‘s Sheshnag trek amid BRO construction row",
-      "summary": "Concerns are mounting among political leaders, notably PDP chief Mehbooba Mufti, regarding the construction activities near Sheshnag Lake. Environmental advocates and Congress members underscore the area's ecological sensitivity.",
-      "why": "",
-      "src": "Times of India",
-      "url": "https://timesofindia.indiatimes.com/india/cops-stop-mehboobas-sheshnag-trek-amid-bro-construction-row/articleshow/136140531.cms"
-    },
-    {
-      "cat": "Indian",
-      "title": "HMDA to get treated waste water from Coca Cola to sustain greenery on the ORR",
+      "title": "Kannur murder: 3 BJP-RSS workers get life term for killing CPM leader in 2016",
       "summary": "",
       "why": "",
-      "src": "The Hindu",
-      "url": "https://www.thehindu.com/news/national/telangana/hmda-to-get-treated-waste-water-from-coca-cola-to-sustain-greenery-on-the-orr/article71739485.ece"
+      "src": "Times of India",
+      "url": "https://timesofindia.indiatimes.com/india/kannur-murder-3-bjp-rss-workers-get-life-term-for-killing-cpm-leader-in-2016/articleshow/136151776.cms"
     },
     {
       "cat": "Indian",
-      "title": "Rijiju heaps praise on J&K Waqf Board led by BJP man",
-      "summary": "Union minister Kiren Rijiju praised the Jammu & Kashmir Waqf Board for its remarkable contributions across various sectors, particularly citing the development projects at the Hazratbal and Baba Reshi shrines. Rijiju remarked that this waqf board serves as a role model for similar entities nationwide.",
+      "title": "Space for pedestrians, other road users in Hyderabad by 2050, promises HUMTA",
+      "summary": "It identified 120 locations for skywalks, FoBs and other pedestrian infrastructure.",
+      "why": "",
+      "src": "The Hindu",
+      "url": "https://www.thehindu.com/news/cities/Hyderabad/space-for-pedestrians-other-road-users-in-hyderabad-by-2050-promises-humta/article71741392.ece"
+    },
+    {
+      "cat": "Indian",
+      "title": "SC cancels Cong MLA Vinay Kulkarni's bail in Yogesh Godar murder case, directs to surrender in two weeks",
+      "summary": "",
       "why": "",
       "src": "Times of India",
-      "url": "https://timesofindia.indiatimes.com/india/rijiju-heaps-praise-on-jk-waqf-board-led-by-bjp-man/articleshow/136140534.cms"
+      "url": "https://timesofindia.indiatimes.com/india/sc-cancels-cong-mla-vinay-kulkarnis-bail-in-yogesh-godar-murder-case-directs-to-surrender-in-two-weeks/articleshow/136151180.cms"
     },
     {
       "cat": "Business",
-      "title": "HPE shares tumble as shrinking AI margins overshadow upbeat forecast",
-      "summary": "HPE-STOCKS:HPE shares tumble as shrinking AI margins overshadow upbeat forecast",
+      "title": "Flipkart CEO Kalyan Krishnamurthy to step down next month; Walmart begins search for successor",
+      "summary": "Flipkart CEO Kalyan Krishnamurthy will step down on December 4, with Balaji Thiagarajan taking interim charge. The exit comes amid delays to the company's IPO plans and growing questions over its future strategy.",
       "why": "",
       "src": "Mint",
-      "url": "https://www.livemint.com/companies/hpe-shares-tumble-as-shrinking-ai-margins-overshadow-upbeat-forecast-11795546294323.html"
+      "url": "https://www.livemint.com/companies/people/flipkart-ceo-kalyan-krishnamurthy-to-step-down-next-month-walmart-begins-search-for-successor-11795593915821.html"
     },
     {
       "cat": "Business",
-      "title": "India’s rupee has become an accidental carry star",
+      "title": "Trump to put more tariffs on India, China & others",
       "summary": "",
       "why": "",
       "src": "Economic Times",
-      "url": "https://economictimes.indiatimes.com/markets/stocks/news/indias-rupee-has-become-an-accidental-carry-star/articleshow/136117132.cms"
+      "url": "https://economictimes.indiatimes.com/news/economy/foreign-trade/us-set-to-raise-tariffs-on-india-china-and-dozens-of-other-economies-over-industrial-subsidies-wsj/articleshow/136132577.cms"
     },
     {
       "cat": "Business",
-      "title": "US planning to hike tariffs on India, 15 other countries: Report",
-      "summary": "The proposed move follows a US investigation into alleged subsidies and excess industrial capacity in 16 economies, including India, China and other major trading partners.",
+      "title": "TVS Motor plans to invest ₹2,000 crore in Tamil Nadu, create 1,000 jobs",
+      "summary": "The two-and three-wheeler maker has entered into a non-binding memorandum of understanding with the Government of Tamil Nadu",
       "why": "",
       "src": "Business Standard",
-      "url": "https://www.business-standard.com/world-news/us-planning-to-hike-tariffs-against-india-15-other-countries-report-126112401230_1.html"
+      "url": "https://www.business-standard.com/companies/news/tvs-motor-plans-to-invest-2-000-crore-in-tamil-nadu-create-1-000-jobs-126112500502_1.html"
     },
     {
       "cat": "Business",
-      "title": "Sanofi’s $41 Billion Insmed Deal Shows Cost of a Patent Cliff",
-      "summary": "Sanofi SA’s $41 billion purchase of Insmed Inc. shows the high cost of waiting to plug the gaps in Big Pharma’s drug pipeline.",
+      "title": "Tata Steel working on tweaking APL Apollo Tubes deal amid questions of fairness: Report",
+      "summary": "Tata Steel is reportedly considering changes to its proposed APL Apollo Tubes deal to address concerns from minority shareholders, potentially by reducing debt costs and restructuring APL Apollo’s debt. The transactions, subject to approvals, are expected to close in FY2027.",
       "why": "",
       "src": "Mint",
-      "url": "https://www.livemint.com/companies/sanofis-41-billion-insmed-deal-shows-cost-of-a-patent-cliff-11795545425011.html"
+      "url": "https://www.livemint.com/companies/news/tata-steel-working-on-tweaking-apl-apollo-tubes-deal-amid-questions-of-fairness-report-11795592277062.html"
     },
     {
       "cat": "Business",
-      "title": "A Himachal man's art of distrust turns into $44-bn win",
+      "title": "Tejas Mk-1A: What’s new in India’s fighter jet?",
       "summary": "",
       "why": "",
       "src": "Economic Times",
-      "url": "https://economictimes.indiatimes.com/nri/latest-updates/zscaler-buyout-deal-crowdstrike-to-buy-jay-chaudhrys-cloud-security-company-a-himachal-mans-art-of-trusting-nobody-becomes-a-44-billion-success-story-merger-and-acquisition-latest-news-cyber-security-anti-virus/articleshow/136118418.cms"
+      "url": "https://economictimes.indiatimes.com/news/defence/tejas-mk-1a-whats-new-in-indias-indigenous-fighter-jet-why-has-the-iaf-waited-so-long/articleshow/136149479.cms"
     },
     {
       "cat": "Business",
-      "title": "Aluminium body seeks import duty hike, says ₹4 trillion pipeline at risk",
-      "summary": "AAI has sought higher import duties and quality controls on scrap to protect the aluminium sector's proposed ₹4 lakh crore investment pipeline.",
+      "title": "Amazon's India exports cross $27 billion, exporter base grows 20%",
+      "summary": "The milestone marks progress towards Amazon's goal of enabling $80 billion in cumulative e-commerce exports from India by 2030",
       "why": "",
       "src": "Business Standard",
-      "url": "https://www.business-standard.com/companies/news/aluminium-body-seeks-import-duty-hike-says-4-trillion-pipeline-at-risk-126112400814_1.html"
+      "url": "https://www.business-standard.com/companies/news/amazon-s-india-exports-cross-27-billion-exporter-base-grows-20-126112500351_1.html"
     },
     {
       "cat": "Tech",
-      "title": "Anthropic shares fall below IPO price, a worrying sign for AI startups",
-      "summary": "Anthropic’s post-IPO slump could put pressure on AI startup valuations.",
+      "title": "Yale’s Sonnenfeld: Nvidia is a ‘detriment’ to US industrial might — not a champion",
+      "summary": "Yale's Jeffrey Sonnenfeld warns that what the market cheered Monday, Jensen Huang's White House–backed return as Nvidia's CEO and board member, could prove a giant mistake, exposing the directors to \"historic\" personal liability from a growing pile of lawsuits and raising the question of whether the country is...",
       "why": "",
       "src": "TechCrunch",
-      "url": "https://techcrunch.com/2026/11/24/anthropic-shares-fall-below-ipo-price-a-worrying-sign-for-ai-startups/"
+      "url": "https://techcrunch.com/2026/11/24/yales-sonnenfeld-nvidia-is-a-detriment-to-u-s-industrial-might-not-a-champion/"
     },
     {
       "cat": "Tech",
-      "title": "Amazon is knocking almost $50 off six months of Apple TV",
-      "summary": "Streaming deals aren’t as plentiful as they used to be, but they’re still around if you know where to look. One that caught our eye is an offer for Apple TV for those with an Amazon account in the US.",
+      "title": "US financial crimes bureau discloses ‘cybersecurity incident’",
+      "summary": "The Financial Crimes Enforcement Network (FinCEN) disclosed on Tuesday that it's investigating a \"cybersecurity incident.\" The bureau, which is part of the Treasury Department, said it's looking into an \"incident that resulted in unauthorized access to a limited subset of its systems.\" It hasn't offered any...",
       "why": "",
       "src": "The Verge",
-      "url": "https://www.theverge.com/gadgets/1040046/apple-tv-subscription-streaming-sale-deal-black-friday"
+      "url": "https://www.theverge.com/policy/1041957/fincen-treasury-cybersecurity-incident"
     },
     {
       "cat": "Tech",
-      "title": "Amazon drone crashes on garage after delivering shampoo, draws FAA probe",
-      "summary": "Amazon says Prime Air drones made “hundreds of thousands” of deliveries in 2026.",
+      "title": "Half of NASA's aging Mars fleet knocked offline by technical issues",
+      "summary": "Perseverance is having trouble transmitting to Earth. Odyssey is rapidly burning through its waning fuel supply.",
       "why": "",
       "src": "Ars Technica",
-      "url": "https://arstechnica.com/gadgets/2026/11/faa-opens-probe-after-amazon-delivery-drone-clips-cable-crashes-into-garage/"
+      "url": "https://arstechnica.com/space/2026/11/half-of-nasas-aging-mars-fleet-knocked-offline-by-technical-issues/"
     },
     {
       "cat": "Tech",
-      "title": "UK warns AI-driven cyberattacks are exposing years of weak security",
-      "summary": "The British cyber agency says that \"building strong foundations has never mattered more\" as AI hacking tools rely on exploiting simple security flaws.",
+      "title": "Trump reportedly says pardoning Jensen Huang is ‘an option’",
+      "summary": "Huang faces ongoing questions about his relationship with Alice Huang, an executive with alleged ties to Chinese intelligence who previously worked for a company that has been accused of illegally diverting Nvidia chips to China.",
       "why": "",
       "src": "TechCrunch",
-      "url": "https://techcrunch.com/2026/11/24/uk-warns-ai-driven-cyberattacks-are-exposing-years-of-weak-security/"
+      "url": "https://techcrunch.com/2026/11/24/trump-reportedly-says-pardoning-jensen-huang-is-an-option-but-that-he-doesnt-think-it-will-be-necessary/"
     },
     {
       "cat": "Tech",
-      "title": "Now Firefox can select which sites use its VPN, and clear your browsing history with one click",
-      "summary": "Mozilla released Firefox 161 on Tuesday with a new setting you can use to choose which pages automatically open with the browser's VPN active.",
+      "title": "The Verge’s 2026 gift guide for dads",
+      "summary": "Gone are the days when you could just buy your father a random tie or some leather-clad alcohol vessel or a shaving kit. Dads want - nay, deserve - something memorable.",
       "why": "",
       "src": "The Verge",
-      "url": "https://www.theverge.com/tech/1041474/firefox-161-vpn-rules-fire-button"
+      "url": "https://www.theverge.com/gadgets/1024777/best-gifts-for-dad-2026"
     },
     {
       "cat": "Tech",
-      "title": "Amazon discovers Falcon 9 and Ariane 6 can deliver when nobody else can",
-      "summary": "Amazon has hundreds of satellites in storage waiting for rides to space.",
+      "title": "Microsoft's historic cloud outage exposed an engineering “fog of war”",
+      "summary": "Internal memos reveal a “Code Red” overhaul and ambitious one-hour recovery goals.",
       "why": "",
       "src": "Ars Technica",
-      "url": "https://arstechnica.com/space/2026/11/amazon-surges-launches-with-rival-spacex-after-ula-fails-to-deliver/"
+      "url": "https://arstechnica.com/gadgets/2026/11/microsofts-historic-cloud-outage-exposed-an-engineering-fog-of-war/"
     }
   ]
 }
