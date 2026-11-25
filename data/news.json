@@ -1,10 +1,26 @@
 {
-  "date": "2026-11-25",
-  "generated": "2026-11-25T14:25:57+05:30",
+  "date": "2026-11-26",
+  "generated": "2026-11-26T00:13:13+05:30",
   "items": [
     {
       "cat": "International",
-      "title": "Russia's own figures show almost 500,000 deaths in war in Ukraine",
+      "title": "US announces new tariffs on host of countries including China",
+      "summary": "The new levies would hit many of America's biggest trading partners, including China and the EU.",
+      "why": "",
+      "src": "BBC News",
+      "url": "https://www.bbc.co.uk/news/articles/c893r9ke5p97o?at_medium=RSS&at_campaign=rss"
+    },
+    {
+      "cat": "International",
+      "title": "Nigeria’s Tinubu pledges to bring peace to rebellion-hit border region",
+      "summary": "Tinubu is under pressure to convince voters that military operations in the country's northeast will deliver security.",
+      "why": "",
+      "src": "Al Jazeera",
+      "url": "https://www.aljazeera.com/news/2026/11/25/nigerias-tinubu-pledges-to-bring-peace-to-insurgency-hit-northeast-region?traffic_source=rss"
+    },
+    {
+      "cat": "International",
+      "title": "Russia's own figures show it has lost nearly 500,000 people in Ukraine war",
       "summary": "Leaked data reveal how the full-scale invasion of Ukraine has fundamentally changed mortality patterns in Russia.",
       "why": "",
       "src": "BBC News",
@@ -12,187 +28,171 @@
     },
     {
       "cat": "International",
-      "title": "Saudi-led coalition intercepts Houthi attacks after Hodeidah strike",
-      "summary": "The escalation comes after the Yemeni rebel group threatened to attack the kingdom's Red Sea ports in retaliation.",
+      "title": "Ecuador and US review joint military operations, official says",
+      "summary": "Joint military efforts have been paused as the US investigates a lethal operation carried out by Ecuador.",
       "why": "",
       "src": "Al Jazeera",
-      "url": "https://www.aljazeera.com/news/2026/11/25/saudi-led-coalition-intercepts-houthi-attacks-after-hodeidah-strike?traffic_source=rss"
+      "url": "https://www.aljazeera.com/news/2026/11/25/ecuador-and-us-review-joint-military-operations-official-says?traffic_source=rss"
     },
     {
       "cat": "International",
-      "title": "US attorney general dodges questions about Nvidia investigation",
-      "summary": "Nvidia's share price have fallen 7% as lawmakers demand answers about President Donald Trump's involvement in Huang's reinstatement.",
+      "title": "My family were killed in Ukraine. My mum blamed Zelensky's troops - the truth is complicated",
+      "summary": "BBC journalist Anastasiya Gribanova investigates who killed her father and grandparents in the war.",
       "why": "",
       "src": "BBC News",
-      "url": "https://www.bbc.co.uk/news/articles/crpdw1qx7jgxo?at_medium=RSS&at_campaign=rss"
+      "url": "https://www.bbc.co.uk/news/articles/cw24e17v9e51o?at_medium=RSS&at_campaign=rss"
     },
     {
       "cat": "International",
-      "title": "Countries that thrive on global cooperation must help sustain it",
-      "summary": "Prosperous small states like Qatar should combine their diplomatic and economic resources to advance global stability.",
+      "title": "Iraq’s top court rules government can take over Kurdish borders, oil fields",
+      "summary": "The ruling comes a day after Kurdish authorities accused Baghdad of an 'assault' on the region's constitutional rights.",
       "why": "",
       "src": "Al Jazeera",
-      "url": "https://www.aljazeera.com/opinions/2026/11/25/countries-that-thrive-on-global-cooperation-must-help-sustain-it?traffic_source=rss"
-    },
-    {
-      "cat": "International",
-      "title": "Huawei found guilty of stealing US trade secrets but acquitted of racketeering",
-      "summary": "The verdict follows a months-long trial in New York.",
-      "why": "",
-      "src": "BBC News",
-      "url": "https://www.bbc.co.uk/news/articles/cmy49ngydqzpo?at_medium=RSS&at_campaign=rss"
-    },
-    {
-      "cat": "International",
-      "title": "Is Russia really aiming for a new European security architecture?",
-      "summary": "Moscow is piling on new demands in talks with Ukraine, either as a negotiating strategy or as a diversion.",
-      "why": "",
-      "src": "Al Jazeera",
-      "url": "https://www.aljazeera.com/opinions/2026/11/25/is-russia-really-aiming-for-a-new-european-security-architecture?traffic_source=rss"
+      "url": "https://www.aljazeera.com/news/2026/11/25/iraqs-top-court-rules-government-can-take-over-kurdish-borders-oil-fields?traffic_source=rss"
     },
     {
       "cat": "Indian",
-      "title": "Telangana HRC takes suo-motu cognizance of three workers’ deaths at Bachupally apartment; seeks detailed report",
-      "summary": "The workers died reportedly after inhaling poisonous gases while cleaning a septic tank. Telangana HRC sought details from Medchal district administration on ex-gratia and other assistance extended or proposed to the bereaved families.",
+      "title": "Higher Education Minister gives away certificates to 700 graduands in New College Convocation",
+      "summary": "",
       "why": "",
       "src": "The Hindu",
-      "url": "https://www.thehindu.com/news/cities/Hyderabad/telangana-hrc-takes-suo-motu-cognizance-of-three-workers-deaths-seeks-detailed-report-from-maud-secretary/article71741562.ece"
+      "url": "https://www.thehindu.com/news/national/tamil-nadu/higher-education-minister-gives-away-certificates-to-700-graduands-in-new-college-convocation/article71743655.ece"
     },
     {
       "cat": "Indian",
-      "title": "Rahul Gandhi assets case: SC quashes Allahabad HC orders seeking CBI, ED inquiry",
+      "title": "Cheeni Kum: Poor monsoon hits sugar crop, gross output may not meet domestic need",
+      "summary": "India's sugar production for the 2026-27 season is expected to decrease by 15%, primarily due to weather issues. Maharashtra and Karnataka will contribute significantly to the decline following inadequate rainfall.",
+      "why": "",
+      "src": "Times of India",
+      "url": "https://timesofindia.indiatimes.com/india/cheeni-kum-poor-monsoon-hits-sugar-crop-gross-output-may-not-meet-domestic-need/articleshow/136170316.cms"
+    },
+    {
+      "cat": "Indian",
+      "title": "IIMBAA to bring 500 alumni, 115 CXOs and 21 management institutions together for sports fest in Bengaluru",
+      "summary": "A two-day inter-institutional alumni sports festival will see participation from several premier institutions, including alumni communities from IIM, ISB and XLRI",
+      "why": "",
+      "src": "The Hindu",
+      "url": "https://www.thehindu.com/news/national/karnataka/iimbaa-to-bring-500-alumni-115-cxos-and-21-management-institutions-together-for-sports-fest-in-bengaluru/article71743734.ece"
+    },
+    {
+      "cat": "Indian",
+      "title": "Ex-Jagan confidant looks to target Hindu right space with new party in Andhra",
       "summary": "",
       "why": "",
       "src": "Times of India",
-      "url": "https://timesofindia.indiatimes.com/india/rahul-gandhi-assets-case-sc-quashes-allahabad-hc-orders-seeking-cbi-ed-inquiry/articleshow/136153125.cms"
+      "url": "https://timesofindia.indiatimes.com/india/ex-jagan-confidant-looks-to-target-hindu-right-space-with-new-party-in-andhra/articleshow/136170322.cms"
     },
     {
       "cat": "Indian",
-      "title": "‘Saam, daam, dand, bhed’: Congress’ swipe at Modi Govt over delimitation issue",
-      "summary": "The Congress had earlier claimed that the continued suspense over the Parliament session suggested that either the \"PM-HM jodi\" is being trapped by its own bluff and bluster or something \"truly sinister\" is in the works",
-      "why": "",
-      "src": "The Hindu",
-      "url": "https://www.thehindu.com/news/national/saam-daam-dand-bhed-congress-swipe-at-modi-govt-over-delimitation-issue/article71741621.ece"
-    },
-    {
-      "cat": "Indian",
-      "title": "Kannur murder: 3 BJP-RSS workers get life term for killing CPM leader in 2016",
+      "title": "Three held for killing 22-year-old in D.J. Halli over motorcycle dispute",
       "summary": "",
       "why": "",
-      "src": "Times of India",
-      "url": "https://timesofindia.indiatimes.com/india/kannur-murder-3-bjp-rss-workers-get-life-term-for-killing-cpm-leader-in-2016/articleshow/136151776.cms"
-    },
-    {
-      "cat": "Indian",
-      "title": "Space for pedestrians, other road users in Hyderabad by 2050, promises HUMTA",
-      "summary": "It identified 120 locations for skywalks, FoBs and other pedestrian infrastructure.",
-      "why": "",
       "src": "The Hindu",
-      "url": "https://www.thehindu.com/news/cities/Hyderabad/space-for-pedestrians-other-road-users-in-hyderabad-by-2050-promises-humta/article71741392.ece"
+      "url": "https://www.thehindu.com/news/national/karnataka/three-held-for-killing-22-year-old-in-dj-halli-over-motorcycle-dispute/article71743569.ece"
     },
     {
       "cat": "Indian",
-      "title": "SC cancels Cong MLA Vinay Kulkarni's bail in Yogesh Godar murder case, directs to surrender in two weeks",
-      "summary": "",
+      "title": "Government’s big manufacturing push: Rs 11,000 crore for infrastructure equipment, six new urea plants",
+      "summary": "The Indian government approved a new scheme to promote domestic manufacturing of construction and infrastructure equipment. This scheme will incentivize the production of advanced machinery over eight years, reducing import dependence.",
       "why": "",
       "src": "Times of India",
-      "url": "https://timesofindia.indiatimes.com/india/sc-cancels-cong-mla-vinay-kulkarnis-bail-in-yogesh-godar-murder-case-directs-to-surrender-in-two-weeks/articleshow/136151180.cms"
+      "url": "https://timesofindia.indiatimes.com/india/governments-big-manufacturing-push-rs-11000-crore-for-infrastructure-equipment-six-new-urea-plants/articleshow/136170162.cms"
     },
     {
       "cat": "Business",
-      "title": "Flipkart CEO Kalyan Krishnamurthy to step down next month; Walmart begins search for successor",
-      "summary": "Flipkart CEO Kalyan Krishnamurthy will step down on December 4, with Balaji Thiagarajan taking interim charge. The exit comes amid delays to the company's IPO plans and growing questions over its future strategy.",
+      "title": "IPO on agenda: Tata Sons board to discuss listing plan at Monday's meeting",
+      "summary": "Tata Sons’ board agenda now includes an IPO plan, with a draft prospectus due within 90 days of shareholder approval and listing within the following 90 days.",
       "why": "",
       "src": "Mint",
-      "url": "https://www.livemint.com/companies/people/flipkart-ceo-kalyan-krishnamurthy-to-step-down-next-month-walmart-begins-search-for-successor-11795593915821.html"
+      "url": "https://www.livemint.com/companies/news/tata-sons-listing-board-meeting-agenda-noel-tata-trusts-11795623321841.html"
     },
     {
       "cat": "Business",
-      "title": "Trump to put more tariffs on India, China & others",
+      "title": "Air India seeks new revenue beyond passenger seats",
       "summary": "",
       "why": "",
       "src": "Economic Times",
-      "url": "https://economictimes.indiatimes.com/news/economy/foreign-trade/us-set-to-raise-tariffs-on-india-china-and-dozens-of-other-economies-over-industrial-subsidies-wsj/articleshow/136132577.cms"
+      "url": "https://economictimes.indiatimes.com/industry/transportation/airlines-/-aviation/air-india-mulls-dedicated-freighter-business-to-tap-cargo-market-opportunities/articleshow/136163094.cms"
     },
     {
       "cat": "Business",
-      "title": "TVS Motor plans to invest ₹2,000 crore in Tamil Nadu, create 1,000 jobs",
-      "summary": "The two-and three-wheeler maker has entered into a non-binding memorandum of understanding with the Government of Tamil Nadu",
+      "title": "US proposes up to 25% tariff on India, offers 17% upon trade deal",
+      "summary": "Second-steepest tariff among those facing Section 301 probe",
       "why": "",
       "src": "Business Standard",
-      "url": "https://www.business-standard.com/companies/news/tvs-motor-plans-to-invest-2-000-crore-in-tamil-nadu-create-1-000-jobs-126112500502_1.html"
+      "url": "https://www.business-standard.com/economy/news/us-proposes-up-to-25-tariff-on-india-offers-17-upon-trade-deal-126112501255_1.html"
     },
     {
       "cat": "Business",
-      "title": "Tata Steel working on tweaking APL Apollo Tubes deal amid questions of fairness: Report",
-      "summary": "Tata Steel is reportedly considering changes to its proposed APL Apollo Tubes deal to address concerns from minority shareholders, potentially by reducing debt costs and restructuring APL Apollo’s debt. The transactions, subject to approvals, are expected to close in FY2027.",
+      "title": "Why Huawei convicted in US? How its Iran business triggered 7-yr legal battle - what it means for China’s tech goals",
+      "summary": "Huawei and three subsidiaries have been convicted in the US of 10 criminal counts, including bank fraud, money laundering and sanctions violations. A jury found the Chinese telecom giant misled banks over its Iran business.",
       "why": "",
       "src": "Mint",
-      "url": "https://www.livemint.com/companies/news/tata-steel-working-on-tweaking-apl-apollo-tubes-deal-amid-questions-of-fairness-report-11795592277062.html"
+      "url": "https://www.livemint.com/companies/why-huawei-convicted-in-us-how-its-iran-business-triggered-7-yr-legal-battle-what-it-means-for-china-s-tech-goals-11795627748235.html"
     },
     {
       "cat": "Business",
-      "title": "Tejas Mk-1A: What’s new in India’s fighter jet?",
+      "title": "Trump's 25% tariff axe comes swinging down on India",
       "summary": "",
       "why": "",
       "src": "Economic Times",
-      "url": "https://economictimes.indiatimes.com/news/defence/tejas-mk-1a-whats-new-in-indias-indigenous-fighter-jet-why-has-the-iaf-waited-so-long/articleshow/136149479.cms"
+      "url": "https://economictimes.indiatimes.com/news/economy/foreign-trade/us-targets-india-six-other-economies-with-proposed-tariffs-of-up-to-25-in-fresh-trade-offensive-report/articleshow/136163453.cms"
     },
     {
       "cat": "Business",
-      "title": "Amazon's India exports cross $27 billion, exporter base grows 20%",
-      "summary": "The milestone marks progress towards Amazon's goal of enabling $80 billion in cumulative e-commerce exports from India by 2030",
+      "title": "Section 301 probe: India rejects US claim of structural excess capacity",
+      "summary": "India said trade-related concerns should be addressed through bilateral trade negotiations after the US proposed tariffs of up to 25 per cent on Indian goods",
       "why": "",
       "src": "Business Standard",
-      "url": "https://www.business-standard.com/companies/news/amazon-s-india-exports-cross-27-billion-exporter-base-grows-20-126112500351_1.html"
+      "url": "https://www.business-standard.com/economy/news/section-301-probe-india-rejects-us-claim-of-structural-excess-capacity-126112501293_1.html"
     },
     {
       "cat": "Tech",
-      "title": "Yale’s Sonnenfeld: Nvidia is a ‘detriment’ to US industrial might — not a champion",
-      "summary": "Yale's Jeffrey Sonnenfeld warns that what the market cheered Monday, Jensen Huang's White House–backed return as Nvidia's CEO and board member, could prove a giant mistake, exposing the directors to \"historic\" personal liability from a growing pile of lawsuits and raising the question of whether the country is...",
+      "title": "Want to buy your kid an AI toy this Christmas? Not in New York",
+      "summary": "New York has banned AI chatbot toys for five years as new research from Common Sense Media reveals troubling safety failures, including exposure to inappropriate content and risks to emotional development.",
       "why": "",
       "src": "TechCrunch",
-      "url": "https://techcrunch.com/2026/11/24/yales-sonnenfeld-nvidia-is-a-detriment-to-u-s-industrial-might-not-a-champion/"
+      "url": "https://techcrunch.com/2026/11/25/want-to-buy-your-kid-an-ai-toy-this-christmas-not-in-new-york/"
     },
     {
       "cat": "Tech",
-      "title": "US financial crimes bureau discloses ‘cybersecurity incident’",
-      "summary": "The Financial Crimes Enforcement Network (FinCEN) disclosed on Tuesday that it's investigating a \"cybersecurity incident.\" The bureau, which is part of the Treasury Department, said it's looking into an \"incident that resulted in unauthorized access to a limited subset of its systems.\" It hasn't offered any...",
+      "title": "The Fairphone 6 Plus is modular, repairable, and $100 off right now",
+      "summary": "Unlike most smartphones, the Fairphone 6 Plus is designed for home repair, with easily replaceable parts that could help extend its lifespan well into the future.",
       "why": "",
       "src": "The Verge",
-      "url": "https://www.theverge.com/policy/1041957/fincen-treasury-cybersecurity-incident"
+      "url": "https://www.theverge.com/gadgets/1041460/fairphone-6-plus-repairable-phone-black-friday-2026-deal-sale"
     },
     {
       "cat": "Tech",
-      "title": "Half of NASA's aging Mars fleet knocked offline by technical issues",
-      "summary": "Perseverance is having trouble transmitting to Earth. Odyssey is rapidly burning through its waning fuel supply.",
+      "title": "Backblaze explains why it's sharing customer information with advertisers",
+      "summary": "Backblaze tells Ars it won't share users' backup, storage files with advertisers.",
       "why": "",
       "src": "Ars Technica",
-      "url": "https://arstechnica.com/space/2026/11/half-of-nasas-aging-mars-fleet-knocked-offline-by-technical-issues/"
+      "url": "https://arstechnica.com/information-technology/2026/11/backblaze-explains-why-its-sharing-customer-information-with-advertisers/"
     },
     {
       "cat": "Tech",
-      "title": "Trump reportedly says pardoning Jensen Huang is ‘an option’",
-      "summary": "Huang faces ongoing questions about his relationship with Alice Huang, an executive with alleged ties to Chinese intelligence who previously worked for a company that has been accused of illegally diverting Nvidia chips to China.",
+      "title": "DOJ accuses former cyber executive of defrauding ransomware victims by secretly paying hackers",
+      "summary": "S. prosecutors accused the former executive of defrauding victims of ransomware by paying the hackers, charging victims more, and pocketing the difference.",
       "why": "",
       "src": "TechCrunch",
-      "url": "https://techcrunch.com/2026/11/24/trump-reportedly-says-pardoning-jensen-huang-is-an-option-but-that-he-doesnt-think-it-will-be-necessary/"
+      "url": "https://techcrunch.com/2026/11/25/doj-accuses-former-cyber-executive-of-defrauding-ransomware-victims-by-secretly-paying-hackers/"
     },
     {
       "cat": "Tech",
-      "title": "The Verge’s 2026 gift guide for dads",
-      "summary": "Gone are the days when you could just buy your father a random tie or some leather-clad alcohol vessel or a shaving kit. Dads want - nay, deserve - something memorable.",
+      "title": "The loneliest peptide party in New York",
+      "summary": "This is Optimizer, a weekly newsletter sent from Verge senior reviewer Victoria Song that dissects and discusses the latest gizmos and potions that swear they're going to change your life. Opt in for Optimizer here.",
       "why": "",
       "src": "The Verge",
-      "url": "https://www.theverge.com/gadgets/1024777/best-gifts-for-dad-2026"
+      "url": "https://www.theverge.com/column/1041761/optimizer-peptide-parties-afterglow"
     },
     {
       "cat": "Tech",
-      "title": "Microsoft's historic cloud outage exposed an engineering “fog of war”",
-      "summary": "Internal memos reveal a “Code Red” overhaul and ambitious one-hour recovery goals.",
+      "title": "The FCC has authorized SpaceX to deploy 1 million satellites",
+      "summary": "This constellation would increase the number of satellites in orbit by roughly 50-fold.",
       "why": "",
       "src": "Ars Technica",
-      "url": "https://arstechnica.com/gadgets/2026/11/microsofts-historic-cloud-outage-exposed-an-engineering-fog-of-war/"
+      "url": "https://arstechnica.com/space/2026/11/the-fcc-has-authorized-spacex-to-deploy-1-million-satellites/"
     }
   ]
 }
